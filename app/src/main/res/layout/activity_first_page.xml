@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeRefresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.gobble.gobble_up.FirstPage">
+
+
+
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressbar"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="3"
+        >
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+
+            >
+    <android.support.v4.view.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/slide" />
+
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:textColor="#ffffff"
+            android:background="#00000000"
+            android:text="Categories"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            />
+
+        </RelativeLayout>
+
+    <GridView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:numColumns="2"
+        android:id="@+id/gridView"
+        android:layout_weight="2"/>
+
+
+
+    </LinearLayout>
+    </RelativeLayout>
+
