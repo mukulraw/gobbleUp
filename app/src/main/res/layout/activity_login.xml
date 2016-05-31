@@ -33,7 +33,7 @@
         android:id="@+id/line1"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/activity_vertical_margin"
+        android:layout_margin="10dp"
         android:orientation="vertical">
 
         <Button
@@ -41,12 +41,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Sign in with Facebook"
-            android:layout_marginEnd="10dp"
             android:gravity="center"
-            android:layout_marginStart="10dp"
             android:textColor="@color/white"
-            android:background="@color/colorPrimary"
-            android:layout_marginLeft="10dp" />
+            android:layout_marginBottom="10dp"
+            android:background="#3b5998"
+             />
+
+
+
         <Button
             android:id="@+id/bt_google1"
             android:layout_width="fill_parent"
@@ -54,8 +56,11 @@
             android:text="Sign in with Google +"
             android:gravity="center"
             android:background="@color/red"
+            android:layout_marginBottom="10dp"
             android:textColor="@color/white"
-            android:layout_margin="10dp" />
+            />
+
+
 
         <EditText
             android:id="@+id/et_Email"

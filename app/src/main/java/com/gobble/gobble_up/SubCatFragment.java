@@ -26,6 +26,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 
@@ -129,11 +131,17 @@ public class SubCatFragment extends Fragment {
             Log.d("Sub category fragment" , url);
 
             try {
-                HttpClient client = new DefaultHttpClient();
-                HttpGet get = new HttpGet(url);
-                HttpResponse response = client.execute(get);
-                HttpEntity entity = response.getEntity();
-                is = entity.getContent();
+                //HttpClient client = new DefaultHttpClient();
+                //HttpGet get = new HttpGet(url);
+                //HttpResponse response = client.execute(get);
+                //HttpEntity entity = response.getEntity();
+                //is = entity.getContent();
+                URL u = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection)u.openConnection();
+                if(connection.getResponseCode()==200)
+                {
+                    is = connection.getInputStream();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

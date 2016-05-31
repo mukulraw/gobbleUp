@@ -27,11 +27,22 @@ public class GetStartActivity extends AppCompatActivity {
         SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), 4);
         slider.setAdapter(mSectionsPagerAdapter);
 
+
+
+
         start = (Button)findViewById(R.id.bt_getstart);
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Bundle b = getIntent().getExtras();
+
+                String url = b.getString("url");
+                String n = b.getString("name");
+
                 Intent i = new Intent(GetStartActivity.this , FirstPage.class);
+                i.putExtra("url" , url);
+                i.putExtra("name" , n);
                 startActivity(i);
             }
         });

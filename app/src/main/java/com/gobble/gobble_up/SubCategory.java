@@ -2,6 +2,7 @@ package com.gobble.gobble_up;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -32,6 +33,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.InterruptedIOException;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -180,11 +182,17 @@ public class SubCategory extends AppCompatActivity {
             Log.d("asdasdasd" , url);
 
             try {
-                HttpClient client = new DefaultHttpClient();
-                HttpGet get = new HttpGet(url);
-                HttpResponse response = client.execute(get);
-                HttpEntity entity = response.getEntity();
-                is = entity.getContent();
+                //HttpClient client = new DefaultHttpClient();
+                //HttpGet get = new HttpGet(url);
+                //HttpResponse response = client.execute(get);
+                //HttpEntity entity = response.getEntity();
+                //is = entity.getContent();
+                URL u = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection)u.openConnection();
+                if(connection.getResponseCode()==200)
+                {
+                    is = connection.getInputStream();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -252,7 +260,7 @@ public class SubCategory extends AppCompatActivity {
             {
                 String n = list1.get(i).getName();
                 Log.d("asdasdasd" , n);
-                tab.addTab(tab.newTab().setTag(n));
+                tab.addTab(tab.newTab().setText(n));
             }
 
             adapter1 = new FragStatePagerAdapter(getSupportFragmentManager() , list1 , tab.getTabCount());
@@ -277,6 +285,7 @@ public class SubCategory extends AppCompatActivity {
 
 //            adapter.setGridData(list1);
             //list.clear();
+            tab.setVisibility(View.VISIBLE);
             mProgressBar.setVisibility(View.GONE);
 
         }

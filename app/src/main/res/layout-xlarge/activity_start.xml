@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context="com.gobble.gobble_up.StartActivity">
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:scaleType="centerCrop"
+        android:layout_height="match_parent"
+        android:src="@drawable/image1"
+        />
+
+
+    <ImageView
+        android:layout_width="164dp"
+        android:layout_height="164dp"
+        android:src="@drawable/header"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/circle_image_view"
+        android:layout_centerVertical="true"
+
+
+        />
+
+</RelativeLayout>

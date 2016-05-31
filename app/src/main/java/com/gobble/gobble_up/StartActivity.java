@@ -28,4 +28,7 @@ public class StartActivity extends AppCompatActivity {
         }, 2000);
 
     }
+
+
+
 }

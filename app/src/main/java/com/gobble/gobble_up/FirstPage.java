@@ -2,20 +2,28 @@ package com.gobble.gobble_up;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
@@ -32,8 +40,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FirstPage extends AppCompatActivity {
 
@@ -43,14 +55,51 @@ public class FirstPage extends AppCompatActivity {
     ArrayList<categoryBean> list;
     private GridView gridView;
     ViewPager slide;
+    CircleImageView profile;
+    TextView head_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_first_page);
-
+        setContentView(R.layout.category_page);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         mProgressBar = (ProgressBar)findViewById(R.id.progressbar);
         gridView = (GridView)findViewById(R.id.gridView);
+
+
+
+
+
+
+
+
+
+        Bundle b = getIntent().getExtras();
+
+        String url = String.valueOf(b.get("url"));
+        String n = String.valueOf(b.get("name"));
+
+        //new loadImage(profile , url);
+
+
+        Log.d("asdasdasd" , n);
+        //head_name.setText(n);
+
+        NavigationView nav = (NavigationView)findViewById(R.id.navId);
+
+        profile = (CircleImageView)nav.findViewById(R.id.headerProfile);
+        head_name = (TextView)nav.findViewById(R.id.headertitle);
+
+        new loadImage(profile , url);
+        //head_name.setText(n);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawerLayout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
 
         slide = (ViewPager)findViewById(R.id.slide);
 
@@ -86,6 +135,52 @@ public class FirstPage extends AppCompatActivity {
 
     }
 
+    private Bitmap LoadImageFromURL(String url)
+
+    {
+        try
+        {
+            InputStream is = (InputStream) new URL(url).getContent();
+            Bitmap d = BitmapFactory.decodeStream(is);
+            return d;
+        }catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
+    }
+
+
+    public class loadImage extends AsyncTask<Void , Void , Void>
+    {
+
+        String url;
+        CircleImageView iv;
+        Bitmap d;
+
+        public loadImage(CircleImageView iv , String url)
+        {
+            this.iv = iv;
+            this.url = url;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+
+            Log.d("asdasdasd" , url);
+            d = LoadImageFromURL(url);
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
+            iv.setImageBitmap(d);
+
+        }
+    }
+
     public void refresh()
     {
         list.clear();
@@ -118,11 +213,19 @@ public class FirstPage extends AppCompatActivity {
 
 
             try {
-                HttpClient client = new DefaultHttpClient();
-                HttpGet get = new HttpGet(url);
-                HttpResponse response = client.execute(get);
-                HttpEntity entity = response.getEntity();
-                is = entity.getContent();
+               // HttpClient client = new DefaultHttpClient();
+              //  HttpGet get = new HttpGet(url);
+              //  HttpResponse response = client.execute(get);
+                //HttpEntity entity = response.getEntity();
+                //is = entity.getContent();
+
+                URL u = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection)u.openConnection();
+                if(connection.getResponseCode()==200)
+                {
+                    is = connection.getInputStream();
+                }
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
