@@ -2,13 +2,18 @@ package com.gobble.gobble_up;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.InterruptedIOException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class SubCategory extends AppCompatActivity {
@@ -37,14 +43,23 @@ public class SubCategory extends AppCompatActivity {
     private CatGridAdapter adapter;
     ArrayList<categoryBean> list1;
     private ProgressBar mProgressBar;
-
+    ImageView banner;
+    TextView ban_title;
+    TabLayout tab;
+    FragStatePagerAdapter adapter1;
+    ViewPager pager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub_category);
-        title = (TextView)findViewById(R.id.sub_cat_title);
-        grid = (GridView)findViewById(R.id.sub_cat_grid);
+        title = (TextView)findViewById(R.id.cat_title);
+
         mProgressBar = (ProgressBar)findViewById(R.id.progressbar2);
+
+
+        banner = (ImageView)findViewById(R.id.cat_iamge);
+
+        tab = (TabLayout)findViewById(R.id.cat_tabs);
 
 
         Bundle b = getIntent().getExtras();
@@ -53,15 +68,23 @@ public class SubCategory extends AppCompatActivity {
 
         title.setText((CharSequence) b.get("name"));
 
+        String u = String.valueOf(b.get("image"));
+
+        new loadImage(banner , u).execute();
+
+        pager = (ViewPager)findViewById(R.id.pagerId);
 
         list1 = new ArrayList<>();
-        adapter = new CatGridAdapter(this , R.layout.category_model , list1);
-        grid.setAdapter(adapter);
+        //adapter = new CatGridAdapter(this , R.layout.category_model , list1);
+        //grid.setAdapter(adapter);
+
+
+
 
        refresh(a);
 
 
-        grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+     /*   grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 categoryBean item = (categoryBean) parent.getItemAtPosition(position);
@@ -72,8 +95,54 @@ public class SubCategory extends AppCompatActivity {
                 startActivity(i);
             }
         });
+*/
+
+    }
+
+    private Bitmap LoadImageFromURL(String url)
+
+    {
+        try
+        {
+            InputStream is = (InputStream) new URL(url).getContent();
+            Bitmap d = BitmapFactory.decodeStream(is);
+            return d;
+        }catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
+    }
 
 
+    public class loadImage extends AsyncTask<Void , Void , Void>
+    {
+
+        String url;
+        ImageView iv;
+        Bitmap d;
+
+        public loadImage(ImageView iv , String url)
+        {
+            this.iv = iv;
+            this.url = url;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+
+            Log.d("asdasdasd" , url);
+            d = LoadImageFromURL(url);
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
+            iv.setImageBitmap(d);
+
+        }
     }
 
     public void refresh(String cat)
@@ -178,7 +247,35 @@ public class SubCategory extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-            adapter.setGridData(list1);
+
+            for(int i = 0 ; i<length ;i++)
+            {
+                String n = list1.get(i).getName();
+                Log.d("asdasdasd" , n);
+                tab.addTab(tab.newTab().setTag(n));
+            }
+
+            adapter1 = new FragStatePagerAdapter(getSupportFragmentManager() , list1 , tab.getTabCount());
+            pager.setAdapter(adapter1);
+            pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tab));
+            tab.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                @Override
+                public void onTabSelected(TabLayout.Tab tab1) {
+                    pager.setCurrentItem(tab1.getPosition());
+                }
+
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab1) {
+
+                }
+
+                @Override
+                public void onTabReselected(TabLayout.Tab tab1) {
+
+                }
+            });
+
+//            adapter.setGridData(list1);
             //list.clear();
             mProgressBar.setVisibility(View.GONE);
 

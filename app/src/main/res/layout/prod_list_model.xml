@@ -15,7 +15,7 @@
        android:id="@+id/prodImage"
        android:layout_marginStart="5dp"
        android:layout_marginTop="5dp"
-       android:scaleType="centerCrop"
+       android:scaleType="centerInside"
        android:layout_marginLeft="5dp" />
 
     <RelativeLayout

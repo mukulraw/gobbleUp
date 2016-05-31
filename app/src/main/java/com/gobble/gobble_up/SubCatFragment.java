@@ -1,28 +1,22 @@
 package com.gobble.gobble_up;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ProgressBar;
-import android.widget.Toast;
+import android.widget.ListView;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,67 +27,81 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.List;
 
-public class FirstPage extends AppCompatActivity {
 
-    private String GET_CATEGORY = "http://nationproducts.in/global/api/categories";
-    private ProgressBar mProgressBar;
-    private CatGridAdapter adapter;
-    ArrayList<categoryBean> list;
-    private GridView gridView;
-    ViewPager slide;
+public class SubCatFragment extends Fragment {
+
+    private String PROD_BY_CAT = "http://nationproducts.in/global/api/products/id/";
+    ArrayList<ProductBean> list1;
+    private ProdAdapter adapter;
+
+    int page;
+    String id;
+    String name;
+
+    public static SubCatFragment newInstance(int page , String id) {
+        Bundle args = new Bundle();
+        args.putInt("page", page);
+        args.putString("id" , id);
+        SubCatFragment fragment = new SubCatFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_first_page);
+        this.page = getArguments().getInt("page");
+        this.id = getArguments().getString("id");
+        this.name = getArguments().getString("name");
+    }
 
-        mProgressBar = (ProgressBar)findViewById(R.id.progressbar);
-        gridView = (GridView)findViewById(R.id.gridView);
-
-        slide = (ViewPager)findViewById(R.id.slide);
-
-        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), 4);
-        slide.setAdapter(mSectionsPagerAdapter);
-
-        list = new ArrayList<>();
-        adapter = new CatGridAdapter(this , R.layout.category_model , list);
-        gridView.setAdapter(adapter);
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.view_pager_model, container, false);
 
 
-        refresh();
+        ListView grid = (ListView) view.findViewById(R.id.sub_cat_grid);
+        list1 = new ArrayList<>();
+        adapter = new ProdAdapter(getActivity() , R.layout.prod_list_model , list1);
+        grid.setAdapter(adapter);
 
 
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        refresh(getArguments().getString("id"));
+
+
+        grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                categoryBean item = (categoryBean) parent.getItemAtPosition(position);
 
+                ProductBean item = (ProductBean) parent.getItemAtPosition(position);
 
-                Intent i = new Intent(getBaseContext() , SubCategory.class);
-
+                Intent i = new Intent(getContext() , SingleProduct.class);
                 i.putExtra("id" , item.getId());
                 i.putExtra("name" , item.getName());
+                i.putExtra("price" , item.getPrice());
+                i.putExtra("desc" , item.getDescription());
                 i.putExtra("image" , item.getImage());
                 startActivity(i);
+
 
             }
         });
 
 
-
-
+        return view;
     }
 
-    public void refresh()
+    public void refresh(String cat)
     {
-        list.clear();
-        new connect(GET_CATEGORY).execute();
-        mProgressBar.setVisibility(View.VISIBLE);
+        list1.clear();
+        String url = PROD_BY_CAT + cat;
+        new connect(url).execute();
+        //mProgressBar.setVisibility(View.VISIBLE);
     }
-
-
 
     public class connect extends AsyncTask<Void , Void , Void>
     {
@@ -104,6 +112,7 @@ public class FirstPage extends AppCompatActivity {
 
         int length;
         String url;
+
 
         connect(String url)
         {
@@ -116,6 +125,8 @@ public class FirstPage extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... params) {
 
+
+            Log.d("Sub category fragment" , url);
 
             try {
                 HttpClient client = new DefaultHttpClient();
@@ -131,7 +142,7 @@ public class FirstPage extends AppCompatActivity {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(
                         is, "utf-8"), 8);
                 StringBuilder sb = new StringBuilder();
-                String line = null;
+                String line;
                 while ((line = reader.readLine()) != null) {
                     sb.append(line).append("\n");
                 }
@@ -149,7 +160,7 @@ public class FirstPage extends AppCompatActivity {
             }catch (NullPointerException e)
             {
                 e.printStackTrace();
-                //Toast.makeText(getBaseContext() , "failed to fetch data" , Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getBaseContext() , "failed to fetch data" , Toast.LENGTH_SHORT).show();
             }
 
 
@@ -159,24 +170,21 @@ public class FirstPage extends AppCompatActivity {
             {
                 try {
                     JSONObject obj = array.getJSONObject(i);
-                    categoryBean bean = new categoryBean();
+                    ProductBean bean = new ProductBean();
                     bean.setId(obj.getInt("id"));
                     bean.setName(obj.getString("name"));
-
-
-
+                    bean.setPrice(obj.getString("price"));
+                    bean.setDescription(obj.getString("description"));
                     String image = obj.getString("image");
                     image = image.replaceAll(" " , "%20");
                     bean.setImage(image);
-
-
-                    list.add(bean);
+                    list1.add(bean);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }catch (NullPointerException e)
                 {
                     e.printStackTrace();
-                    //Toast.makeText(getBaseContext() , "failed to fetch data" , Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(getBaseContext() , "failed to fetch data" , Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -189,45 +197,12 @@ public class FirstPage extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-            adapter.setGridData(list);
+            adapter.setGridData(list1);
             //list.clear();
-            mProgressBar.setVisibility(View.GONE);
+            //mProgressBar.setVisibility(View.GONE);
+
         }
     }
 
-    public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
-
-        final int noOfTabs;
-
-        public SectionsPagerAdapter(FragmentManager fm , int noOfTabs) {
-            super(fm);
-            this.noOfTabs = noOfTabs;
-        }
-
-
-
-        @Override
-        public int getCount() {
-            // Show 3 total pages.
-            return noOfTabs;
-        }
-
-
-        @Override
-        public Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    return new GetStartActivity.FirstPage1();
-                case 1:
-                    return new GetStartActivity.SecondPage();
-                case 2:
-                    return new GetStartActivity.ThirdPage();
-                case 3:
-                    return new GetStartActivity.FourthPage();
-
-            }
-            return null;
-        }
-    }
 
 }
