@@ -19,6 +19,7 @@ public class GetStartActivity extends AppCompatActivity {
 
     Button start;
     ViewPager slider;
+    String url , n;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,12 +38,15 @@ public class GetStartActivity extends AppCompatActivity {
 
                 Bundle b = getIntent().getExtras();
 
-                String url = b.getString("url");
-                String n = b.getString("name");
 
                 Intent i = new Intent(GetStartActivity.this , FirstPage.class);
-                i.putExtra("url" , url);
-                i.putExtra("name" , n);
+                if(b!=null) {
+                    url = b.getString("url");
+                    n = b.getString("name");
+                    i.putExtra("url" , url);
+                    i.putExtra("name" , n);
+                }
+
                 startActivity(i);
             }
         });

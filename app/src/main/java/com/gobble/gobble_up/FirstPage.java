@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -44,6 +45,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -78,21 +80,36 @@ public class FirstPage extends AppCompatActivity {
 
         Bundle b = getIntent().getExtras();
 
-        String url = String.valueOf(b.get("url"));
-        String n = String.valueOf(b.get("name"));
 
         //new loadImage(profile , url);
 
 
-        Log.d("asdasdasd" , n);
+
         //head_name.setText(n);
 
         NavigationView nav = (NavigationView)findViewById(R.id.navId);
 
-        profile = (CircleImageView)nav.findViewById(R.id.headerProfile);
-        head_name = (TextView)nav.findViewById(R.id.headertitle);
 
-        new loadImage(profile , url);
+        View header = LayoutInflater.from(this).inflate(R.layout.nav_header , null);
+        if (nav != null) {
+            nav.addHeaderView(header);
+        }
+
+        if(b!=null) {
+            String url = String.valueOf(b.get("url"));
+            String n = String.valueOf(b.get("name"));
+            Log.d("asdasdasd" , n);
+            profile = (CircleImageView)header.findViewById(R.id.headerProfile);
+            head_name = (TextView)header.findViewById(R.id.headertitle);
+            new loadImage(profile , url).execute();
+            head_name.setText(n);
+
+
+        }
+
+
+
+        //new loadImage(profile , url);
         //head_name.setText(n);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawerLayout);

@@ -31,6 +31,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
@@ -55,9 +56,10 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
     Button sign_in , sign_up;
     //private CallbackManager callbackManager;
     //private LoginButton loginButton;
-    Button google_signin;
+    //Button google_signin;
     //Button fb_signin;
     private ProgressDialog progressDialog;
+    SignInButton google_signin;
     private GoogleApiClient mGoogleApiClient;
 
     String fb_email , fb_name , fb_id , fb_gender;
@@ -70,7 +72,7 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
         email = (EditText)findViewById(R.id.et_Email);
         password = (EditText)findViewById(R.id.et_Password);
 
-        google_signin = (Button)findViewById(R.id.bt_google1);
+        google_signin = (SignInButton) findViewById(R.id.bt_google_sign);
         //fb_signin = (Button)findViewById(R.id.bt_facebook1);
 
         forgot = (TextView)findViewById(R.id.tv_userforgotpassword);
