@@ -11,17 +11,36 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="3"
+        android:weightSum="5"
         >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="#ffffff"
+            android:layout_weight="4"
+            >
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
+            android:layout_height="match_parent"
             android:id="@+id/prodImage1"
             android:scaleType="fitCenter"
             />
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/addtolist"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginBottom="10dp"
+                android:text="add to list"
+                android:layout_marginStart="10dp"
+
+                />
+
+        </RelativeLayout>
         <ListView
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -38,7 +57,7 @@
         android:id="@+id/title_single"
         android:gravity="center"
         android:textSize="24sp"
-        android:background="@color/yellow"
+        android:background="@color/white"
 
         />
 

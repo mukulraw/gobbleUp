@@ -1,6 +1,8 @@
 package com.gobble.gobble_up;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,7 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -93,9 +97,82 @@ public class SubCatFragment extends Fragment {
             }
         });
 
+        grid.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                ProductBean item = (ProductBean) parent.getItemAtPosition(position);
+                comparebean b = (comparebean)getActivity().getApplicationContext();
+
+
+                if (b.list.size() < 4)
+                {
+
+                   b.list.add(item);
+                   // b.bitmaps.add(LoadImageFromURL(item.getImage()));
+                    Log.d("asdasdasd" , String.valueOf(b.list.size()));
+                    Toast.makeText(getActivity() , "Added to list" , Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(getActivity() , "Max. limit reached" , Toast.LENGTH_SHORT).show();
+                }
+
+
+                return false;
+            }
+        });
+
 
         return view;
     }
+
+    private Bitmap LoadImageFromURL(String url)
+
+    {
+        try
+        {
+            InputStream is = (InputStream) new URL(url).getContent();
+            Bitmap d = BitmapFactory.decodeStream(is);
+            return d;
+        }catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
+    }
+
+
+    public class loadBitmap extends AsyncTask<Void , Void , Void>
+    {
+        comparebean b = (comparebean)getActivity().getApplicationContext();
+        String url;
+        ImageView iv;
+        Bitmap d;
+
+
+        public loadBitmap(String url)
+        {
+            this.iv = iv;
+            this.url = url;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+
+            Log.d("asdasdasd" , url);
+            d = LoadImageFromURL(url);
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
+            b.bitmaps.add(d);
+
+        }
+    }
+
 
     public void refresh(String cat)
     {

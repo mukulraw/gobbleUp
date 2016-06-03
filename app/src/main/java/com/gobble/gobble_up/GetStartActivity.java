@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,10 +25,20 @@ public class GetStartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_start);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar1);
+        setSupportActionBar(toolbar);
+
+
+
+
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         slider = (ViewPager)findViewById(R.id.slider);
         SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), 4);
         slider.setAdapter(mSectionsPagerAdapter);
 
+        final comparebean be = (comparebean)this.getApplicationContext();
 
 
 
@@ -38,12 +49,18 @@ public class GetStartActivity extends AppCompatActivity {
 
                 Bundle b = getIntent().getExtras();
 
+                be.user_id = b.getString("id");
 
                 Intent i = new Intent(GetStartActivity.this , FirstPage.class);
                 if(b!=null) {
+
                     url = b.getString("url");
                     n = b.getString("name");
-                    i.putExtra("url" , url);
+                     if (url!=null)
+                     {
+                         i.putExtra("url" , url);
+
+                     }
                     i.putExtra("name" , n);
                 }
 

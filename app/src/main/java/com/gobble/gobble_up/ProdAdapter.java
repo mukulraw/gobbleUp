@@ -53,7 +53,7 @@ public class ProdAdapter extends ArrayAdapter<ProductBean>{
 
         ProductBean item = list.get(position);
         holder.titleTextView.setText(item.getName());
-        String price = "Rs: " + item.getPrice();
+        String price = "Price: " + item.getPrice();
         holder.priceTextView.setText(price);
 
 

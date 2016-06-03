@@ -41,16 +41,17 @@
                 />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:id="@+id/cat_title"
-                    android:layout_marginBottom="10dp"
-                    android:textStyle="bold"
-                    android:textAllCaps="true"
-                    android:layout_marginStart="10dp"
 
+                    android:gravity="bottom"
+                    android:paddingBottom="5dp"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:textAllCaps="true"
                     android:textColor="#ffffff"
-                    android:background="#00000000"
+                    android:background="@drawable/black_shade"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentStart="true"
                     />

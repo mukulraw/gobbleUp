@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
 
     tools:context="com.gobble.gobble_up.LoginActivity">
 
@@ -32,6 +34,8 @@
     <LinearLayout
         android:id="@+id/line1"
         android:layout_width="fill_parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_height="match_parent"
         android:layout_margin="10dp"
         android:orientation="vertical">
@@ -106,10 +110,11 @@
 
         <TextView
             android:id="@+id/tv_userforgotpassword"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Forgot password"
-            android:textStyle="bold"
+            android:text="I forgot my password"
+
+            android:textAllCaps="true"
             android:textColor="@color/black"
             android:gravity="center"
             android:layout_marginTop="10dp"
@@ -125,20 +130,20 @@
             android:text=" Sign in "
             android:textColor="@color/white"
             android:layout_gravity="center_horizontal"
-            android:background="@color/yellow"/>
+            android:background="@color/colorPrimaryDark"/>
 
 
 
 
 
-        <Button
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CREAT MY ACCOUNT"
-            android:textColor="@android:color/white"
+            android:text="CREATE MY ACCOUNT"
+            android:textColor="#000000"
             android:id="@+id/bt_creataccount"
             android:textStyle="bold"
-            android:background="@color/yellow"
+
             android:gravity="center"
             android:padding="10dp"
 

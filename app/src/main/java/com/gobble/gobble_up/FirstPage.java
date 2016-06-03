@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -49,7 +50,7 @@ import java.util.zip.Inflater;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class FirstPage extends AppCompatActivity {
+public class FirstPage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private String GET_CATEGORY = "http://nationproducts.in/global/api/categories";
     private ProgressBar mProgressBar;
@@ -59,6 +60,7 @@ public class FirstPage extends AppCompatActivity {
     ViewPager slide;
     CircleImageView profile;
     TextView head_name;
+    TextView bannerText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +71,7 @@ public class FirstPage extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         mProgressBar = (ProgressBar)findViewById(R.id.progressbar);
         gridView = (GridView)findViewById(R.id.gridView);
-
+        bannerText = (TextView)findViewById(R.id.bannerText);
 
 
 
@@ -89,6 +91,7 @@ public class FirstPage extends AppCompatActivity {
 
         NavigationView nav = (NavigationView)findViewById(R.id.navId);
 
+        nav.setNavigationItemSelectedListener(this);
 
         View header = LayoutInflater.from(this).inflate(R.layout.nav_header , null);
         if (nav != null) {
@@ -101,7 +104,11 @@ public class FirstPage extends AppCompatActivity {
             Log.d("asdasdasd" , n);
             profile = (CircleImageView)header.findViewById(R.id.headerProfile);
             head_name = (TextView)header.findViewById(R.id.headertitle);
-            new loadImage(profile , url).execute();
+            if (url!=null)
+            {
+                new loadImage(profile , url).execute();
+            }
+
             head_name.setText(n);
 
 
@@ -164,6 +171,26 @@ public class FirstPage extends AppCompatActivity {
             System.out.println(e);
             return null;
         }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        if (id == R.id.nav_gallery) {
+
+            Intent i = new Intent(getApplicationContext() , Compare.class);
+            startActivity(i);
+
+        }
+
+        if (id == R.id.nav_camera)
+        {
+            Intent i = new Intent(getApplicationContext() , MainList.class);
+            startActivity(i);
+        }
+
+        return false;
     }
 
 
@@ -312,6 +339,8 @@ public class FirstPage extends AppCompatActivity {
             adapter.setGridData(list);
             //list.clear();
             mProgressBar.setVisibility(View.GONE);
+            bannerText.setVisibility(View.VISIBLE);
+            slide.setVisibility(View.VISIBLE);
         }
     }
 

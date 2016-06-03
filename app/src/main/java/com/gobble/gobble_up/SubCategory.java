@@ -59,6 +59,8 @@ public class SubCategory extends AppCompatActivity {
         mProgressBar = (ProgressBar)findViewById(R.id.progressbar2);
 
 
+        Toast.makeText(this , "Long press on item to add to compare (Max. 4)" , Toast.LENGTH_LONG).show();
+
         banner = (ImageView)findViewById(R.id.cat_iamge);
 
         tab = (TabLayout)findViewById(R.id.cat_tabs);

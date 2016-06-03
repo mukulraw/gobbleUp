@@ -6,7 +6,10 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.content.Intent;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -15,13 +18,15 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SingleProduct extends AppCompatActivity {
+public class SingleProduct extends AppCompatActivity implements View.OnClickListener{
 
 
     ArrayList<bean> list;
     ListView lv;
     ImageView iv;
     TextView title;
+    Button add;
+    String iidd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +34,11 @@ public class SingleProduct extends AppCompatActivity {
         setContentView(R.layout.activity_single_product);
         Bundle b = getIntent().getExtras();
 
+        add = (Button)findViewById(R.id.addtolist);
         title = (TextView)findViewById(R.id.title_single);
 
+
+        iidd = String.valueOf(b.get("id"));
         String a = String.valueOf(b.get("name"));
         String image = String.valueOf(b.get("image"));
         String price = String.valueOf(b.get("price"));
@@ -48,6 +56,8 @@ public class SingleProduct extends AppCompatActivity {
         singleAdapter adapter = new singleAdapter(this , R.layout.single_product , list);
         lv.setAdapter(adapter);
 
+
+        add.setOnClickListener(this);
 
 
 
@@ -67,6 +77,20 @@ public class SingleProduct extends AppCompatActivity {
         }catch (Exception e) {
             System.out.println(e);
             return null;
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        if (v == add)
+        {
+            Intent i = new Intent(getApplicationContext() , AddtoList.class);
+
+            i.putExtra("listId" , iidd);
+
+
+            startActivity(i);
         }
     }
 

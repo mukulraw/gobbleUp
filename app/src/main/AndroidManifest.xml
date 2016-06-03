@@ -3,9 +3,10 @@
     package="com.gobble.gobble_up">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
+        android:name=".comparebean"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher1"
         android:label="@string/app_name"
@@ -19,13 +20,23 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
-        <activity android:name=".Register" />
+        <activity android:name=".Register"
+            android:windowSoftInputMode="stateHidden"
+            />
         <activity android:name=".GetStartActivity" />
         <activity android:name=".FirstPage" />
         <activity android:name=".SubCategory" />
         <activity android:name=".Products" />
-        <activity android:name=".SingleProduct"/>
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        <activity android:name=".SingleProduct" />
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <activity android:name=".Compare" />
+        <activity android:name=".MainList" />
+        <activity android:name=".SubList" />
+        <activity android:name=".AddtoList"></activity>
     </application>
 
 </manifest>

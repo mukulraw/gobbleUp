@@ -5,13 +5,53 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    android:weightSum="3"
     tools:context="com.gobble.gobble_up.GetStartActivity">
 
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar1"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        android:fitsSystemWindows="true"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        >
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@color/white"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/header"
+        android:foregroundGravity="center_horizontal"
+        android:layout_height="wrap_content"
 
 
+        />
 
+    </android.support.v7.widget.Toolbar>
+<!--
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar1"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/logo"
+        android:fitsSystemWindows="true"
+        android:layout_marginBottom="10dp"
+
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        />
+-->
+
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:orientation="vertical"
+    android:weightSum="4"
+
+    android:layout_height="match_parent">
 
 
 
@@ -27,7 +67,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
-        android:layout_weight="1">
+        android:gravity="bottom"
+        android:layout_weight="2">
 
         <TextView
             android:layout_width="wrap_content"
@@ -48,6 +89,7 @@
             android:gravity="center"
             android:textStyle="bold"
             android:textColor="@color/white"
+            android:layout_marginBottom="10dp"
             android:textSize="18dp"
             android:fontFamily="sans-serif-thin"
             android:layout_marginStart="10dp"
@@ -57,6 +99,6 @@
             />
 
     </LinearLayout>
-
+</LinearLayout>
 
 </LinearLayout>

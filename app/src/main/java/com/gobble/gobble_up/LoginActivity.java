@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.IntentService;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -50,10 +52,21 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
     private static final int RC_SIGN_IN = 9001;
 
     EditText email , password;
+
+    private SharedPreferences pref;
+    private SharedPreferences.Editor edit;
+
+    String imageUrl = null;
+    String nn = null;
+    String pp = null;
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
 
     TextView forgot;
-    Button sign_in , sign_up;
+    Button sign_in;
+    TextView sign_up;
+
+    Boolean flag = false;
+
     //private CallbackManager callbackManager;
     //private LoginButton loginButton;
     //Button google_signin;
@@ -69,6 +82,9 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        pref = getSharedPreferences("MySignin", Context.MODE_PRIVATE);
+        edit = pref.edit();
+
         email = (EditText)findViewById(R.id.et_Email);
         password = (EditText)findViewById(R.id.et_Password);
 
@@ -78,7 +94,7 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
         forgot = (TextView)findViewById(R.id.tv_userforgotpassword);
 
         sign_in = (Button)findViewById(R.id.bt_signin);
-        sign_up = (Button)findViewById(R.id.bt_creataccount);
+        sign_up = (TextView) findViewById(R.id.bt_creataccount);
 
 
 
@@ -130,9 +146,9 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
 
         int checkGooglePlayServices = GooglePlayServicesUtil
                 .isGooglePlayServicesAvailable(this);
-        Log.i("DEBUG_TAG",
-                "checkGooglePlayServicesAvailable, connectionStatusCode="
-                        + checkGooglePlayServices);
+        //Log.i("DEBUG_TAG",
+               // "checkGooglePlayServicesAvailable, connectionStatusCode="
+                       // + checkGooglePlayServices);
 
         if (GooglePlayServicesUtil.isUserRecoverableError(checkGooglePlayServices)) {
             showGooglePlayServicesAvailabilityErrorDialog(checkGooglePlayServices);
@@ -151,8 +167,8 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
                         connectionStatusCode,LoginActivity.this,
                         PLAY_SERVICES_RESOLUTION_REQUEST);
                 if (dialog == null) {
-                    Log.e("DEBUG_TAG",
-                            "couldn't get GooglePlayServicesUtil.getErrorDialog");
+                    //Log.e("DEBUG_TAG",
+                            //"couldn't get GooglePlayServicesUtil.getErrorDialog");
                     Toast.makeText(getBaseContext(),
                             "incompatible version of Google Play Services",
                             Toast.LENGTH_LONG).show();
@@ -233,19 +249,19 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
-            String url = String.valueOf(acct.getPhotoUrl());
-            String n = acct.getEmail();
+            String e = acct.getEmail();
+            nn = e;
+            //Log.d("asdsd" , e);
+            String p = acct.getEmail();
+            pp = p;
+            imageUrl = String.valueOf(acct.getPhotoUrl());
+            //Log.d("asdasdasd" , p);
 
 
+            flag = true;
 
-            Log.d("asdasdasd", String.valueOf(acct.getPhotoUrl()));
 
-            Toast.makeText(getApplicationContext() , "welcome "+n , Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(getApplicationContext() , GetStartActivity.class);
-            i.putExtra("url" , url);
-            i.putExtra("name" , n);
-            startActivity(i);
-            finish();
+           new login(e , p).execute();
 
 
         } else {
@@ -361,6 +377,7 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
         String username , password;
         String result;
         String name , email;
+        String idd;
 
         public login(String username , String password)
         {
@@ -391,6 +408,7 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
                 JSONObject obj = new JSONObject(result);
                 name = obj.getString("user_name");
                 email = obj.getString("user_email");
+                idd = obj.getString("user_id");
             } catch (JSONException e) {
                 e.printStackTrace();
             }catch (NullPointerException e)
@@ -406,15 +424,32 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
         @Override
         protected void onPostExecute(Void aVoid) {
 
-            Log.d("asdasdasd" , result);
+            //Log.d("asdasdasd" , result);
 
 
             if(name!=null && email!=null)
             {
 
 
+
+
+
+
                 Toast.makeText(getApplicationContext() , "welcome "+email , Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(getApplicationContext() , GetStartActivity.class);
+
+
+
+                if (imageUrl!=null)
+                {
+                    edit.putString("email",nn);
+                    edit.putString("pass",pp);
+                    edit.putString("image",imageUrl);
+                    edit.apply();
+                    i.putExtra("url" , imageUrl);
+                }
+                i.putExtra("id" , idd);
+                i.putExtra("name" , name);
                 startActivity(i);
                 finish();
             }

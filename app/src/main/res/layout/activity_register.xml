@@ -168,7 +168,7 @@
                         android:textColor="@color/white"
                         android:layout_alignParentLeft="true"
                         android:layout_weight=".5"
-                        android:background="@color/colorPrimary"
+                        android:background="#3b5998"
                         />
 
                     <Button
