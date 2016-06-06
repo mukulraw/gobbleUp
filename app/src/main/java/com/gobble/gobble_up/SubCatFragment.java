@@ -239,7 +239,6 @@ public class SubCatFragment extends Fragment {
                     String image = obj.getString("image");
                     image = image.replaceAll(" " , "%20");
                     bean.setImage(image);
-                    bean.setSet(false);
                     list1.add(bean);
                 } catch (JSONException e) {
                     e.printStackTrace();

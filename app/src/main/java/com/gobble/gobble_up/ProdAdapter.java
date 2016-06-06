@@ -68,13 +68,66 @@ public class ProdAdapter extends ArrayAdapter<ProductBean> {
         holder.priceTextView.setText(price);
 
 
+        comparebean b = (comparebean)getContext().getApplicationContext();
 
+        int length = b.list.size();
 
-        if (item.getSet())
+        Log.d("asdadsasdlength" , String.valueOf(length));
+        if (length >0)
         {
-            Log.d("asdasdasd" , "checked");
-            holder.switcher.setChecked(true);
+            if (length == 1)
+            {
+                if (item.getId() == b.list.get(0).getId())
+                {
+                    Log.d("asdasdasd" , "checked");
+                    holder.switcher.setChecked(true);
+                }
+            }
+            if (length == 2)
+            {
+                if (item.getId() == b.list.get(0).getId() || item.getId() == b.list.get(1).getId())
+                {
+                    holder.switcher.setChecked(true);
+                }
+            }
+
+            if (length == 3)
+            {
+                if (item.getId() == b.list.get(0).getId() || item.getId() == b.list.get(1).getId() || item.getId() == b.list.get(2).getId())
+                {
+                    holder.switcher.setChecked(true);
+                }
+            }if (length == 4)
+            {
+                if (item.getId() == b.list.get(0).getId() || item.getId() == b.list.get(1).getId() || item.getId() == b.list.get(2).getId() || item.getId() == b.list.get(3).getId())
+                {
+                    holder.switcher.setChecked(true);
+                }
+            }
+
+
+
         }
+
+
+
+
+/*
+        if (item.getSet()!=null)
+        {
+            Log.d("asdasdasd" , "entered");
+            if (item.getSet())
+            {
+                holder.switcher.setChecked(true);
+            }
+        }
+
+*/
+
+
+
+
+
 
 
         holder.switcher.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -88,7 +141,6 @@ public class ProdAdapter extends ArrayAdapter<ProductBean> {
                     {
 
                         b.list.add(item);
-                        item.setSet(true);
                         // b.bitmaps.add(LoadImageFromURL(item.getImage()));
                         Log.d("asdasdasd" , String.valueOf(b.list.size()));
                         Toast.makeText(getContext() , "Added to list" , Toast.LENGTH_SHORT).show();
@@ -104,7 +156,6 @@ public class ProdAdapter extends ArrayAdapter<ProductBean> {
                 {
                     comparebean b = (comparebean)getContext().getApplicationContext();
                     b.list.remove(item);
-                    item.setSet(false);
                     Toast.makeText(getContext() , "Item removed" ,Toast.LENGTH_SHORT ).show();
                 }
 
