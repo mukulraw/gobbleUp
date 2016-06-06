@@ -6,11 +6,18 @@ import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -37,7 +44,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class SubCategory extends AppCompatActivity {
+import de.hdodenhof.circleimageview.CircleImageView;
+
+public class SubCategory extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     TextView title;
     GridView grid;
@@ -47,19 +56,38 @@ public class SubCategory extends AppCompatActivity {
     private ProgressBar mProgressBar;
     ImageView banner;
     TextView ban_title;
+    //private CollapsingToolbarLayout collapsingToolbar;
     TabLayout tab;
+    private Toolbar toolbar;
     FragStatePagerAdapter adapter1;
     ViewPager pager;
+    CircleImageView profile;
+    TextView head_name;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sub_category);
+        //setContentView(R.layout.activity_sub_category);
+        setContentView(R.layout.sub_cat);
         title = (TextView)findViewById(R.id.cat_title);
 
         mProgressBar = (ProgressBar)findViewById(R.id.progressbar2);
+        //collapsingToolbar=(CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        toolbar= (Toolbar) findViewById(R.id.toolbar5);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        NavigationView nav = (NavigationView)findViewById(R.id.nav_drawer_sub_cat);
+        nav.setNavigationItemSelectedListener(this);
+        View header = LayoutInflater.from(this).inflate(R.layout.nav_header , null);
+        if (nav != null) {
+            nav.addHeaderView(header);
+        }
 
-        Toast.makeText(this , "Long press on item to add to compare (Max. 4)" , Toast.LENGTH_LONG).show();
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_sub_cat);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
 
         banner = (ImageView)findViewById(R.id.cat_iamge);
 
@@ -67,6 +95,20 @@ public class SubCategory extends AppCompatActivity {
 
 
         Bundle b = getIntent().getExtras();
+
+
+        String url = String.valueOf(b.get("url"));
+        String n = String.valueOf(b.get("uname"));
+
+        profile = (CircleImageView)header.findViewById(R.id.headerProfile);
+        head_name = (TextView)header.findViewById(R.id.headertitle);
+        if (url!=null)
+        {
+            new loadImage(profile , url).execute();
+        }
+
+        head_name.setText(n);
+
 
         String a = String.valueOf(b.get("id"));
 
@@ -117,6 +159,26 @@ public class SubCategory extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        if (id == R.id.nav_gallery) {
+
+            Intent i = new Intent(getApplicationContext() , Compare.class);
+            startActivity(i);
+
+        }
+
+        if (id == R.id.nav_camera)
+        {
+            Intent i = new Intent(getApplicationContext() , MainList.class);
+            startActivity(i);
+        }
+
+        return false;
+    }
+
 
     public class loadImage extends AsyncTask<Void , Void , Void>
     {
@@ -145,7 +207,7 @@ public class SubCategory extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
 
             iv.setImageBitmap(d);
-
+            title.setVisibility(View.VISIBLE);
         }
     }
 
@@ -268,6 +330,8 @@ public class SubCategory extends AppCompatActivity {
             adapter1 = new FragStatePagerAdapter(getSupportFragmentManager() , list1 , tab.getTabCount());
             pager.setAdapter(adapter1);
             pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tab));
+            tab.setTabGravity(TabLayout.GRAVITY_CENTER);
+            tab.setTabMode(TabLayout.MODE_SCROLLABLE);
             tab.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                 @Override
                 public void onTabSelected(TabLayout.Tab tab1) {

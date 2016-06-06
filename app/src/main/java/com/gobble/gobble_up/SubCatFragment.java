@@ -164,7 +164,7 @@ public class SubCatFragment extends Fragment {
         InputStream is;
         String json;
         JSONArray array;
-
+        comparebean b;
         int length;
         String url;
 
@@ -227,9 +227,11 @@ public class SubCatFragment extends Fragment {
 
 
 
+                b = (comparebean) getActivity().getApplicationContext();
+
             for (int i=0 ; i<length;i++)
             {
-                comparebean b = (comparebean)getContext().getApplicationContext();
+
                 try {
                     JSONObject obj = array.getJSONObject(i);
                     ProductBean bean = new ProductBean();

@@ -61,6 +61,7 @@ public class FirstPage extends AppCompatActivity implements NavigationView.OnNav
     CircleImageView profile;
     TextView head_name;
     TextView bannerText;
+    String url , n;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,8 +100,8 @@ public class FirstPage extends AppCompatActivity implements NavigationView.OnNav
         }
 
         if(b!=null) {
-            String url = String.valueOf(b.get("url"));
-            String n = String.valueOf(b.get("name"));
+            url = String.valueOf(b.get("url"));
+            n = String.valueOf(b.get("name"));
             Log.d("asdasdasd" , n);
             profile = (CircleImageView)header.findViewById(R.id.headerProfile);
             head_name = (TextView)header.findViewById(R.id.headertitle);
@@ -149,6 +150,12 @@ public class FirstPage extends AppCompatActivity implements NavigationView.OnNav
                 i.putExtra("id" , item.getId());
                 i.putExtra("name" , item.getName());
                 i.putExtra("image" , item.getImage());
+                if (url!=null)
+                {
+                    i.putExtra("url" , url);
+                    i.putExtra("uname" , n);
+                }
+
                 startActivity(i);
 
             }

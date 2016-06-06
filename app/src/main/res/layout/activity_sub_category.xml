@@ -50,6 +50,7 @@
                     android:paddingStart="5dp"
                     android:paddingEnd="5dp"
                     android:textAllCaps="true"
+                    android:visibility="invisible"
                     android:textColor="#ffffff"
                     android:background="@drawable/black_shade"
                     android:layout_alignParentBottom="true"
@@ -77,6 +78,7 @@
                         android:layout_width="match_parent"
                         android:visibility="gone"
                         android:layout_height="wrap_content"
+
                         android:background="@color/colorPrimaryDark"
                         android:id="@+id/cat_tabs"
                         app:tabIndicatorColor="@color/white"

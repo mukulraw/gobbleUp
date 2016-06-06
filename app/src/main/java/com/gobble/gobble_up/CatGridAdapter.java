@@ -63,7 +63,7 @@ public class CatGridAdapter extends ArrayAdapter<categoryBean> {
         //holder.imageView.setImageDrawable(LoadImageFromURL(item.getImage()));
 
 
-        new loadImage(holder.imageView , item.getImage()).execute();
+        new loadImage(holder.imageView , item.getImage() , holder.titleTextView).execute();
 
 
         return row;
@@ -98,14 +98,18 @@ public class CatGridAdapter extends ArrayAdapter<categoryBean> {
     public class loadImage extends AsyncTask<Void , Void , Void>
     {
 
+
+
+        TextView tv;
         String url;
         ImageView iv;
         Bitmap d;
 
-        public loadImage(ImageView iv , String url)
+        public loadImage(ImageView iv , String url , TextView tv)
         {
             this.iv = iv;
             this.url = url;
+            this.tv = tv;
         }
 
         @Override
@@ -122,6 +126,7 @@ public class CatGridAdapter extends ArrayAdapter<categoryBean> {
         protected void onPostExecute(Void aVoid) {
 
             iv.setImageBitmap(d);
+            tv.setVisibility(View.VISIBLE);
 
         }
     }
