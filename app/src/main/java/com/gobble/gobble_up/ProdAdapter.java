@@ -29,7 +29,7 @@ public class ProdAdapter extends ArrayAdapter<ProductBean> {
     private Context context;
     private int layoutResourceId;
     private ArrayList<ProductBean> list = new ArrayList<>();
-    ProductBean item;
+
 
     public ProdAdapter(Context context, int resource, ArrayList<ProductBean> list) {
         super(context, resource, list);
@@ -40,8 +40,8 @@ public class ProdAdapter extends ArrayAdapter<ProductBean> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        final comparebean b = (comparebean)getContext().getApplicationContext();
         View row = convertView;
         final ViewHolder holder;
         if (row == null) {
@@ -62,69 +62,25 @@ public class ProdAdapter extends ArrayAdapter<ProductBean> {
 
 
 
-        item = list.get(position);
+        final ProductBean item = list.get(position);
         holder.titleTextView.setText(item.getName());
         String price = "Price: " + item.getPrice();
         holder.priceTextView.setText(price);
 
 
-        comparebean b = (comparebean)getContext().getApplicationContext();
-
-        int length = b.list.size();
-
-        Log.d("asdadsasdlength" , String.valueOf(length));
-        if (length >0)
+        for (int i = 0 ; i<list.size() ; i++)
         {
-            if (length == 1)
+
+
+            if(item.getSet()!=null)
             {
-                if (item.getId() == b.list.get(0).getId())
-                {
-                    Log.d("asdasdasd" , "checked");
-                    holder.switcher.setChecked(true);
-                }
-            }
-            if (length == 2)
-            {
-                if (item.getId() == b.list.get(0).getId() || item.getId() == b.list.get(1).getId())
+                if (item.getSet())
                 {
                     holder.switcher.setChecked(true);
+
                 }
-            }
-
-            if (length == 3)
-            {
-                if (item.getId() == b.list.get(0).getId() || item.getId() == b.list.get(1).getId() || item.getId() == b.list.get(2).getId())
-                {
-                    holder.switcher.setChecked(true);
-                }
-            }if (length == 4)
-            {
-                if (item.getId() == b.list.get(0).getId() || item.getId() == b.list.get(1).getId() || item.getId() == b.list.get(2).getId() || item.getId() == b.list.get(3).getId())
-                {
-                    holder.switcher.setChecked(true);
-                }
-            }
-
-
-
-        }
-
-
-
-
-/*
-        if (item.getSet()!=null)
-        {
-            Log.d("asdasdasd" , "entered");
-            if (item.getSet())
-            {
-                holder.switcher.setChecked(true);
             }
         }
-
-*/
-
-
 
 
 
@@ -133,10 +89,13 @@ public class ProdAdapter extends ArrayAdapter<ProductBean> {
         holder.switcher.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+
+
                 if (isChecked)
                 {
 
-                    comparebean b = (comparebean)getContext().getApplicationContext();
+
                     if (b.list.size() < 4)
                     {
 
@@ -147,6 +106,7 @@ public class ProdAdapter extends ArrayAdapter<ProductBean> {
                     }
                     else {
                         Toast.makeText(getContext() , "Max. limit reached" , Toast.LENGTH_SHORT).show();
+
                         holder.switcher.setChecked(false);
                     }
 
@@ -154,8 +114,20 @@ public class ProdAdapter extends ArrayAdapter<ProductBean> {
                 }
                 else
                 {
-                    comparebean b = (comparebean)getContext().getApplicationContext();
-                    b.list.remove(item);
+                    int index = 0;
+                    Log.d("asdasdasd" , item.getName());
+                    int l = b.list.size();
+                    for (int i = 0 ; i<l ; i++)
+                    {
+                        if (item.getId() == b.list.get(i).getId())
+                        {
+                            index = i;
+                        }
+                    }
+
+
+                    b.list.remove(index);
+                    //b.list.remove(item);
                     Toast.makeText(getContext() , "Item removed" ,Toast.LENGTH_SHORT ).show();
                 }
 

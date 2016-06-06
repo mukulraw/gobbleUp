@@ -229,6 +229,7 @@ public class SubCatFragment extends Fragment {
 
             for (int i=0 ; i<length;i++)
             {
+                comparebean b = (comparebean)getContext().getApplicationContext();
                 try {
                     JSONObject obj = array.getJSONObject(i);
                     ProductBean bean = new ProductBean();
@@ -239,13 +240,41 @@ public class SubCatFragment extends Fragment {
                     String image = obj.getString("image");
                     image = image.replaceAll(" " , "%20");
                     bean.setImage(image);
-                    list1.add(bean);
-                } catch (JSONException e) {
+                    int l = b.list.size();
+                    if (l >0) {
+                        if (l == 1) {
+                            if (obj.getInt("id") == b.list.get(0).getId()) {
+                                Log.d("asdasdasd", "checked");
+                    bean.setSet(true);
+                            }
+                        }
+                        if (l == 2) {
+                            if (obj.getInt("id") == b.list.get(0).getId()) {
+                                bean.setSet(true);
+                            }
+
+                            if (obj.getInt("id") == b.list.get(1).getId()) {
+                                bean.setSet(true);
+                            }
+
+
+                        }
+
+                        if (l == 3) {
+                            if (obj.getInt("id") == b.list.get(0).getId() || obj.getInt("id") == b.list.get(1).getId() || obj.getInt("id") == b.list.get(2).getId()) {
+                                bean.setSet(true);
+                            }
+                        }
+                        if (l == 4) {
+                            if (obj.getInt("id") == b.list.get(0).getId() || obj.getInt("id") == b.list.get(1).getId() || obj.getInt("id") == b.list.get(2).getId() || obj.getInt("id") == b.list.get(3).getId()) {
+                                bean.setSet(true);
+                            }
+                        }
+                    }
+
+                        list1.add(bean);
+                } catch (JSONException | NullPointerException e) {
                     e.printStackTrace();
-                }catch (NullPointerException e)
-                {
-                    e.printStackTrace();
-                    // Toast.makeText(getBaseContext() , "failed to fetch data" , Toast.LENGTH_SHORT).show();
                 }
             }
 
