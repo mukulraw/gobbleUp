@@ -97,30 +97,6 @@ public class SubCatFragment extends Fragment {
             }
         });
 
-        grid.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-
-                ProductBean item = (ProductBean) parent.getItemAtPosition(position);
-                comparebean b = (comparebean)getActivity().getApplicationContext();
-
-
-                if (b.list.size() < 4)
-                {
-
-                   b.list.add(item);
-                   // b.bitmaps.add(LoadImageFromURL(item.getImage()));
-                    Log.d("asdasdasd" , String.valueOf(b.list.size()));
-                    Toast.makeText(getActivity() , "Added to list" , Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Toast.makeText(getActivity() , "Max. limit reached" , Toast.LENGTH_SHORT).show();
-                }
-
-
-                return false;
-            }
-        });
 
 
         return view;
@@ -263,6 +239,7 @@ public class SubCatFragment extends Fragment {
                     String image = obj.getString("image");
                     image = image.replaceAll(" " , "%20");
                     bean.setImage(image);
+                    bean.setSet(false);
                     list1.add(bean);
                 } catch (JSONException e) {
                     e.printStackTrace();

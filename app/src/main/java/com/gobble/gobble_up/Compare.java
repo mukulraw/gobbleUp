@@ -57,6 +57,8 @@ public class Compare extends AppCompatActivity {
 
         int count = b.list.size();
 
+
+
         Log.d("fragment" , String.valueOf(count));
 
 

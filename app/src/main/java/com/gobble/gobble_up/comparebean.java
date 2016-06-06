@@ -15,6 +15,9 @@ public class comparebean extends Application{
     ArrayList<ProductBean> list = new ArrayList<>();
     List<Bitmap> bitmaps = new ArrayList<>();
 
+
+
+
     String user_id;
 
 
