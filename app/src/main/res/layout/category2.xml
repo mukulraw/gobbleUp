@@ -2,6 +2,7 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/htab_maincontent"
     android:layout_height="match_parent">
 
@@ -66,17 +67,7 @@
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                  >
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
 
-                    android:src="@drawable/header"
-                    android:foregroundGravity="center_horizontal"
-                    android:layout_height="wrap_content"
-
-
-                    />
 
 
 
@@ -99,6 +90,7 @@
         <GridView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:nestedScrollingEnabled="true"
             android:numColumns="2"
             android:id="@+id/gridView" />
     </android.support.v4.widget.NestedScrollView>

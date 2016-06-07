@@ -1,6 +1,9 @@
 package com.gobble.gobble_up;
 
 import android.app.Activity;
+import android.app.SearchManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,15 +13,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -50,7 +56,7 @@ import java.util.zip.Inflater;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class FirstPage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class FirstPage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private String GET_CATEGORY = "http://nationproducts.in/global/api/categories";
     //private ProgressBar mProgressBar;
@@ -71,6 +77,9 @@ public class FirstPage extends AppCompatActivity implements NavigationView.OnNav
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+
+
         //mProgressBar = (ProgressBar)findViewById(R.id.progressbar);
         gridView = (GridView)findViewById(R.id.gridView);
         bannerText = (TextView)findViewById(R.id.bannerText);
@@ -167,6 +176,21 @@ public class FirstPage extends AppCompatActivity implements NavigationView.OnNav
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.category_menu , menu);
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.search_bar).getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(new ComponentName(this , SearchResultActivity.class)));
+
+
+
+        return true;
+    }
+
     private Bitmap LoadImageFromURL(String url)
 
     {
@@ -200,6 +224,8 @@ public class FirstPage extends AppCompatActivity implements NavigationView.OnNav
 
         return false;
     }
+
+
 
 
     public class loadImage extends AsyncTask<Void , Void , Void>

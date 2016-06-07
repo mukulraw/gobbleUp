@@ -7,6 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.content.Intent;
@@ -38,6 +41,15 @@ public class SingleProduct extends AppCompatActivity implements View.OnClickList
         add = (Button)findViewById(R.id.addtolist);
         title = (TextView)findViewById(R.id.title_single);
 
+        final Animation animation = new AlphaAnimation(1,0); // Change alpha from fully visible to invisible
+        animation.setDuration(200); // duration - half a second
+        animation.setInterpolator(new LinearInterpolator());
+        animation.setBackgroundColor(getResources().getColor(R.color.yellow));
+        // do not alter animation rate
+        animation.setRepeatCount(2); // Repeat animation infinitely
+        animation.setRepeatMode(Animation.REVERSE);
+
+        add.startAnimation(animation);
 
         iidd = String.valueOf(b.get("id"));
         String a = String.valueOf(b.get("name"));

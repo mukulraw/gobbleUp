@@ -12,24 +12,12 @@
         android:id="@+id/toolbar11"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/white"
+        android:background="@drawable/toolbar_background"
         android:fitsSystemWindows="true"
         app:popupTheme="@style/AppTheme.PopupOverlay"
         >
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:background="@color/white"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
-            android:src="@drawable/header"
-            android:foregroundGravity="center_horizontal"
-            android:layout_height="wrap_content"
 
-
-            />
 
     </android.support.v7.widget.Toolbar>
 

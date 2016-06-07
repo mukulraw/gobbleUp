@@ -227,7 +227,13 @@ public class SubCatFragment extends Fragment {
 
 
 
+            try {
                 b = (comparebean) getActivity().getApplicationContext();
+            }catch (NullPointerException e)
+            {
+                e.printStackTrace();
+            }
+
 
             for (int i=0 ; i<length;i++)
             {

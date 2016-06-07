@@ -30,6 +30,7 @@ public class MainList extends AppCompatActivity {
     ListView lview;
     ArrayList<addListBean> list;
     String iidd;
+
     addToListAdapter adapter;
     private String GET_ALL_LIST = "http://nationproducts.in/global/api/alllists/userId/";
     private String DELETE_LIST = "http://nationproducts.in/global/api/deletelist/listId/";
@@ -42,8 +43,12 @@ public class MainList extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar11);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        Toast.makeText(this , "Long press on list to delete it" , Toast.LENGTH_LONG).show();
+
+
+
+
 
         lview = (ListView)findViewById(R.id.main_list_listview);
         final comparebean be = (comparebean)this.getApplicationContext();
@@ -65,41 +70,7 @@ public class MainList extends AppCompatActivity {
         });
 
 
-        lview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-                addListBean item = (addListBean)parent.getItemAtPosition(position);
-                final String idd = item.getListId();
-
-                final Dialog dialog = new Dialog(MainList.this);
-                dialog.setContentView(R.layout.delete_list_dialog);
-                dialog.setCancelable(false);
-                dialog.show();
-
-                Button YES = (Button)dialog.findViewById(R.id.confirmDelete);
-                Button NO = (Button)dialog.findViewById(R.id.cancel_delete_list);
-
-                YES.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-
-                        new delete(DELETE_LIST+idd).execute();
-                        dialog.dismiss();
-                    }
-                });
-
-                NO.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-
-                return false;
-            }
-        });
     }
 
     @Override

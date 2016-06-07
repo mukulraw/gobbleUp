@@ -30,7 +30,7 @@
         android:textAllCaps="true"
         android:layout_centerVertical="false"
         android:layout_centerHorizontal="false"
-        android:textSize="17sp"
+        android:textSize="12sp"
         />
 
 

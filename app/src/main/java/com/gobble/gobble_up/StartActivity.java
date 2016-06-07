@@ -121,7 +121,7 @@ else
         @Override
         protected void onPostExecute(Void aVoid) {
 
-            Log.d("asdasdasd" , result);
+
 
 
             if(name!=null && email!=null)
