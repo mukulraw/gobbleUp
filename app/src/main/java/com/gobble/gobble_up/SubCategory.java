@@ -53,7 +53,7 @@ public class SubCategory extends AppCompatActivity implements NavigationView.OnN
     private String SUB_CATEGORY = "http://nationproducts.in/global/api/categories/id/";
     private CatGridAdapter adapter;
     ArrayList<categoryBean> list1;
-    private ProgressBar mProgressBar;
+    //private ProgressBar mProgressBar;
     ImageView banner;
     TextView ban_title;
     //private CollapsingToolbarLayout collapsingToolbar;
@@ -67,10 +67,11 @@ public class SubCategory extends AppCompatActivity implements NavigationView.OnN
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_sub_category);
-        setContentView(R.layout.sub_cat);
+        //setContentView(R.layout.sub_cat);
+        setContentView(R.layout.sub_cat_main);
         title = (TextView)findViewById(R.id.cat_title);
 
-        mProgressBar = (ProgressBar)findViewById(R.id.progressbar2);
+        //mProgressBar = (ProgressBar)findViewById(R.id.progressbar2);
         //collapsingToolbar=(CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         toolbar= (Toolbar) findViewById(R.id.toolbar5);
         setSupportActionBar(toolbar);
@@ -216,7 +217,7 @@ public class SubCategory extends AppCompatActivity implements NavigationView.OnN
         list1.clear();
         String url = SUB_CATEGORY + cat;
         new connect(url).execute();
-        mProgressBar.setVisibility(View.VISIBLE);
+        //mProgressBar.setVisibility(View.VISIBLE);
     }
 
 
@@ -352,7 +353,7 @@ public class SubCategory extends AppCompatActivity implements NavigationView.OnN
 //            adapter.setGridData(list1);
             //list.clear();
             tab.setVisibility(View.VISIBLE);
-            mProgressBar.setVisibility(View.GONE);
+            //mProgressBar.setVisibility(View.GONE);
 
         }
     }

@@ -1,6 +1,7 @@
 package com.gobble.gobble_up;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -50,6 +51,18 @@ public class MainList extends AppCompatActivity {
         iidd = be.user_id;
 
 
+
+        lview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                addListBean item = (addListBean)parent.getItemAtPosition(position);
+                String idd = item.getListId();
+
+                Intent i = new Intent(getBaseContext() , SubList.class);
+                i.putExtra("id" , idd);
+                startActivity(i);
+            }
+        });
 
 
         lview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {

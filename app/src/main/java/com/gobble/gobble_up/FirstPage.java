@@ -53,7 +53,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class FirstPage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private String GET_CATEGORY = "http://nationproducts.in/global/api/categories";
-    private ProgressBar mProgressBar;
+    //private ProgressBar mProgressBar;
     private CatGridAdapter adapter;
     ArrayList<categoryBean> list;
     private GridView gridView;
@@ -66,11 +66,12 @@ public class FirstPage extends AppCompatActivity implements NavigationView.OnNav
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.category_page);
+        //setContentView(R.layout.category_page);
+        setContentView(R.layout.category_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        mProgressBar = (ProgressBar)findViewById(R.id.progressbar);
+        //mProgressBar = (ProgressBar)findViewById(R.id.progressbar);
         gridView = (GridView)findViewById(R.id.gridView);
         bannerText = (TextView)findViewById(R.id.bannerText);
 
@@ -236,7 +237,7 @@ public class FirstPage extends AppCompatActivity implements NavigationView.OnNav
     {
         list.clear();
         new connect(GET_CATEGORY).execute();
-        mProgressBar.setVisibility(View.VISIBLE);
+//        mProgressBar.setVisibility(View.VISIBLE);
     }
 
 
@@ -345,7 +346,7 @@ public class FirstPage extends AppCompatActivity implements NavigationView.OnNav
 
             adapter.setGridData(list);
             //list.clear();
-            mProgressBar.setVisibility(View.GONE);
+           // mProgressBar.setVisibility(View.GONE);
             bannerText.setVisibility(View.VISIBLE);
             slide.setVisibility(View.VISIBLE);
         }

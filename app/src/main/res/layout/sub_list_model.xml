@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="100dp">
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:id="@+id/sublistImage"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:scaleType="centerInside" />
+
+    <RelativeLayout
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="3dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/subListName"
+            android:textSize="14sp"
+            android:gravity="start"
+            android:textColor="#000000"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/subListPrice"
+            android:textStyle="italic"
+            android:layout_alignParentStart="true"
+            android:gravity="start"
+            android:paddingBottom="5dp"
+            android:layout_marginBottom="0dp"
+            android:layout_alignParentBottom="true"
+            android:textColor="#000000"
+
+            />
+
+
+
+
+
+    </RelativeLayout>
+
+</LinearLayout>

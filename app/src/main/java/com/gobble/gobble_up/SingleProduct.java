@@ -31,7 +31,8 @@ public class SingleProduct extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_single_product);
+        //setContentView(R.layout.activity_single_product);
+        setContentView(R.layout.single_prod_main);
         Bundle b = getIntent().getExtras();
 
         add = (Button)findViewById(R.id.addtolist);
