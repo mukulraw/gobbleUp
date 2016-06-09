@@ -442,9 +442,7 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
 
                 if (imageUrl!=null)
                 {
-                    edit.putString("email",nn);
-                    edit.putString("pass",pp);
-                    edit.putString("image",imageUrl);
+                    edit.putBoolean("google",true);
                     edit.apply();
                     i.putExtra("url" , imageUrl);
                 }

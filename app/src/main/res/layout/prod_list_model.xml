@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
-    android:layout_marginBottom="5dp"
-    android:layout_marginStart="5dp"
-    android:background="#ffffff"
-    android:layout_marginEnd="5dp"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="100dp">
+    card_view:cardUseCompatPadding="true"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    card_view:cardCornerRadius="3dp"
+    android:layout_height="match_parent">
 
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:layout_margin="5dp"
+    android:orientation="horizontal"
+    >
 
    <ImageView
        android:layout_width="150dp"
@@ -29,8 +32,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/prodName"
-        android:textSize="24sp"
-        android:textStyle="bold"
+        android:textSize="16sp"
+        android:textAllCaps="true"
+        android:textStyle="normal"
         android:gravity="start"
         android:textColor="#000000"
         />
@@ -55,11 +59,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:focusable="false"
-            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="true"
             android:id="@+id/switcher"
             />
 
 
     </RelativeLayout>
-
 </LinearLayout>
+</android.support.v7.widget.CardView>

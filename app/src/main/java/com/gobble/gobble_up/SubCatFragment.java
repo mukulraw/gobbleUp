@@ -7,6 +7,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
@@ -39,11 +42,13 @@ public class SubCatFragment extends Fragment {
 
     private String PROD_BY_CAT = "http://nationproducts.in/global/api/products/id/";
     ArrayList<ProductBean> list1;
-    private ProdAdapter adapter;
-
+    private ProdAdapter2 adapter;
+    private GridLayoutManager lLayout;
+    RecyclerView grid;
     int page;
     String id;
     String name;
+    RelativeLayout bar;
 
     public static SubCatFragment newInstance(int page , String id) {
         Bundle args = new Bundle();
@@ -55,29 +60,50 @@ public class SubCatFragment extends Fragment {
     }
 
 
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.page = getArguments().getInt("page");
         this.id = getArguments().getString("id");
         this.name = getArguments().getString("name");
+
+
+
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.view_pager_model, container, false);
+        lLayout = new GridLayoutManager(view.getContext() , 1);
+        grid = (RecyclerView) view.findViewById(R.id.sub_cat_grid);
+
+        comparebean b = (comparebean)getActivity().getApplicationContext();
+
+        bar = (RelativeLayout)getActivity().findViewById(R.id.bottombar);
+
+        if (b.comparecount>0)
+        {
+            bar.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            bar.setVisibility(View.INVISIBLE);
+        }
 
 
-        ListView grid = (ListView) view.findViewById(R.id.sub_cat_grid);
+
+        grid.setHasFixedSize(true);
+        grid.setLayoutManager(lLayout);
         list1 = new ArrayList<>();
-        adapter = new ProdAdapter(getActivity() , R.layout.prod_list_model , list1);
-        grid.setAdapter(adapter);
+
 
 
 
         refresh(getArguments().getString("id"));
-
+/*
 
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -97,7 +123,7 @@ public class SubCatFragment extends Fragment {
             }
         });
 
-
+*/
 
         return view;
     }
@@ -295,7 +321,13 @@ public class SubCatFragment extends Fragment {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-            adapter.setGridData(list1);
+           // adapter.setGridData(list1);
+
+
+
+            adapter = new ProdAdapter2(getContext() ,  list1 , (RelativeLayout)getActivity().findViewById(R.id.bottombar));
+            //adapter.setGridData(list1);
+            grid.setAdapter(adapter);
             //list.clear();
             //mProgressBar.setVisibility(View.GONE);
 

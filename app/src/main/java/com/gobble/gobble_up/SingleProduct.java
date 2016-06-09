@@ -1,14 +1,18 @@
 package com.gobble.gobble_up;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -25,9 +29,10 @@ public class SingleProduct extends AppCompatActivity implements View.OnClickList
 
 
     ArrayList<bean> list;
-    ListView lv;
+    RecyclerView lv;
     ImageView iv;
     TextView title;
+    private GridLayoutManager lLayout;
     Button add;
     String iidd;
 
@@ -41,15 +46,8 @@ public class SingleProduct extends AppCompatActivity implements View.OnClickList
         add = (Button)findViewById(R.id.addtolist);
         title = (TextView)findViewById(R.id.title_single);
 
-        final Animation animation = new AlphaAnimation(1,0); // Change alpha from fully visible to invisible
-        animation.setDuration(200); // duration - half a second
-        animation.setInterpolator(new LinearInterpolator());
-        animation.setBackgroundColor(getResources().getColor(R.color.yellow));
-        // do not alter animation rate
-        animation.setRepeatCount(2); // Repeat animation infinitely
-        animation.setRepeatMode(Animation.REVERSE);
 
-        add.startAnimation(animation);
+        lLayout = new GridLayoutManager(this , 1);
 
         iidd = String.valueOf(b.get("id"));
         String a = String.valueOf(b.get("name"));
@@ -58,7 +56,7 @@ public class SingleProduct extends AppCompatActivity implements View.OnClickList
         String desc = String.valueOf(b.get("desc"));
         title.setText(a);
         iv = (ImageView)findViewById(R.id.prodImage1);
-        lv = (ListView)findViewById(R.id.prodList1);
+        lv = (RecyclerView) findViewById(R.id.prodList1);
         new loadImage(iv , image).execute();
 
 
@@ -66,7 +64,9 @@ public class SingleProduct extends AppCompatActivity implements View.OnClickList
         list.add(new bean("price" , price));
         list.add(new bean("description" , desc));
 
-        singleAdapter adapter = new singleAdapter(this , R.layout.single_product , list);
+        singleAdapter2 adapter = new singleAdapter2(this ,list);
+        lv.setHasFixedSize(true);
+        lv.setLayoutManager(lLayout);
         lv.setAdapter(adapter);
 
 
@@ -103,10 +103,33 @@ public class SingleProduct extends AppCompatActivity implements View.OnClickList
             i.putExtra("listId" , iidd);
 
 
-            startActivity(i);
+            startActivityForResult(i , 1);
         }
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1)
+        {
+
+            if (resultCode == RESULT_OK)
+            {
+
+                final Animation animation = new AlphaAnimation(1,0); // Change alpha from fully visible to invisible
+                animation.setDuration(200); // duration - half a second
+                animation.setInterpolator(new LinearInterpolator());
+                animation.setBackgroundColor(getResources().getColor(R.color.yellow));
+                // do not alter animation rate
+                animation.setRepeatCount(2); // Repeat animation infinitely
+                animation.setRepeatMode(Animation.REVERSE);
+
+                add.startAnimation(animation);
+            }
+
+        }
+    }
 
     public class loadImage extends AsyncTask<Void , Void , Void>
     {
@@ -133,7 +156,8 @@ public class SingleProduct extends AppCompatActivity implements View.OnClickList
 
         @Override
         protected void onPostExecute(Void aVoid) {
-
+            Animation animation = AnimationUtils.loadAnimation(getApplicationContext() , R.anim.fade);
+            iv.startAnimation(animation);
             iv.setImageBitmap(d);
 
         }

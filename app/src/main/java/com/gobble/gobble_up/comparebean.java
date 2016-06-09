@@ -15,6 +15,10 @@ public class comparebean extends Application{
     ArrayList<ProductBean> list = new ArrayList<>();
     List<Bitmap> bitmaps = new ArrayList<>();
 
+    String url = null;
+    String n = null;
+
+    int comparecount = 0;
 
 
 

@@ -5,9 +5,12 @@ import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -20,6 +23,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -33,6 +38,16 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.plus.Plus;
+import com.viewpagerindicator.CirclePageIndicator;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -56,33 +71,47 @@ import java.util.zip.Inflater;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class FirstPage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class FirstPage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private String GET_CATEGORY = "http://nationproducts.in/global/api/categories";
     //private ProgressBar mProgressBar;
     private CatGridAdapter adapter;
     ArrayList<categoryBean> list;
-    private GridView gridView;
+    private RecyclerView grid;
     ViewPager slide;
     CircleImageView profile;
     TextView head_name;
     TextView bannerText;
     String url , n;
+    private SharedPreferences pref;
+    CirclePageIndicator indi;
+    private SharedPreferences.Editor edit;
+    GoogleApiClient mGoogleApiClient;
+    private GridLayoutManager lLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.category_page);
         setContentView(R.layout.category_main);
+        //setContentView(R.layout.category3);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        lLayout = new GridLayoutManager(this , 2);
+
+        indi = (CirclePageIndicator)findViewById(R.id.circle2);
+
+        buildGoogleApiClient();
 
 
         //mProgressBar = (ProgressBar)findViewById(R.id.progressbar);
-        gridView = (GridView)findViewById(R.id.gridView);
+        grid = (RecyclerView) findViewById(R.id.gridView);
         bannerText = (TextView)findViewById(R.id.bannerText);
+
+        grid.setHasFixedSize(true);
+        grid.setLayoutManager(lLayout);
 
 
 
@@ -112,6 +141,12 @@ public class FirstPage extends AppCompatActivity implements NavigationView.OnNav
         if(b!=null) {
             url = String.valueOf(b.get("url"));
             n = String.valueOf(b.get("name"));
+
+            comparebean be = (comparebean)this.getApplicationContext();
+
+            be.url = url;
+            be.n = n;
+
             Log.d("asdasdasd" , n);
             profile = (CircleImageView)header.findViewById(R.id.headerProfile);
             head_name = (TextView)header.findViewById(R.id.headertitle);
@@ -124,6 +159,7 @@ public class FirstPage extends AppCompatActivity implements NavigationView.OnNav
 
 
         }
+
 
 
 
@@ -141,35 +177,18 @@ public class FirstPage extends AppCompatActivity implements NavigationView.OnNav
         SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), 4);
         slide.setAdapter(mSectionsPagerAdapter);
 
+        
+
+        indi.setViewPager(slide);
+
         list = new ArrayList<>();
-        adapter = new CatGridAdapter(this , R.layout.category_model , list);
-        gridView.setAdapter(adapter);
+
 
 
         refresh();
 
 
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                categoryBean item = (categoryBean) parent.getItemAtPosition(position);
 
-
-                Intent i = new Intent(getBaseContext() , SubCategory.class);
-
-                i.putExtra("id" , item.getId());
-                i.putExtra("name" , item.getName());
-                i.putExtra("image" , item.getImage());
-                if (url!=null)
-                {
-                    i.putExtra("url" , url);
-                    i.putExtra("uname" , n);
-                }
-
-                startActivity(i);
-
-            }
-        });
 
 
 
@@ -179,17 +198,23 @@ public class FirstPage extends AppCompatActivity implements NavigationView.OnNav
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.category_menu , menu);
-        SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.search_bar).getActionView();
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(new ComponentName(this , SearchResultActivity.class)));
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.search_bar);
+        {
 
+            Intent i = new Intent(getApplicationContext() , SearchResultActivity.class);
+            startActivity(i);
+            overridePendingTransition(0,0);
+        }
 
 
         return true;
     }
+
+
 
     private Bitmap LoadImageFromURL(String url)
 
@@ -203,6 +228,12 @@ public class FirstPage extends AppCompatActivity implements NavigationView.OnNav
             System.out.println(e);
             return null;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //mGoogleApiClient.connect();
     }
 
     @Override
@@ -222,10 +253,87 @@ public class FirstPage extends AppCompatActivity implements NavigationView.OnNav
             startActivity(i);
         }
 
-        return false;
+        if(id == R.id.nav_log_out)
+        {
+            Log.d("asdasdasd" , "log out clicked" );
+            if (mGoogleApiClient.isConnected())
+            {
+                signOut();
+            }
+
+
+
+        }
+            return false;
+    }
+
+    private synchronized void buildGoogleApiClient() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API,gso).enableAutoManage(this,this)
+                .addApi(LocationServices.API).build();
+    }
+
+    private void signOut() {
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(Status status) {
+
+
+                        if (status.isSuccess())
+                        {
+                            pref = getSharedPreferences("MySignin", Context.MODE_PRIVATE);
+                            edit = pref.edit();
+
+                            edit.remove("google");
+                            edit.apply();
+                            Intent i = new Intent(getApplicationContext() , LoginActivity.class);
+                            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(i);
+                            overridePendingTransition(0,0);
+                            finish();
+
+                        }
+
+
+                    }
+                });
     }
 
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
 
 
     public class loadImage extends AsyncTask<Void , Void , Void>
@@ -370,7 +478,10 @@ public class FirstPage extends AppCompatActivity implements NavigationView.OnNav
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-            adapter.setGridData(list);
+            adapter = new CatGridAdapter(getBaseContext(),list);
+            grid.setAdapter(adapter);
+
+            //adapter.setGridData(list);
             //list.clear();
            // mProgressBar.setVisibility(View.GONE);
             bannerText.setVisibility(View.VISIBLE);

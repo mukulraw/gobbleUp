@@ -1,7 +1,9 @@
 package com.gobble.gobble_up;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -15,12 +17,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.viewpagerindicator.CirclePageIndicator;
+
 public class GetStartActivity extends AppCompatActivity {
 
 
     Button start;
     ViewPager slider;
     String url , n;
+    CirclePageIndicator indi;
+    private SharedPreferences pref;
+    private SharedPreferences.Editor edit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +36,11 @@ public class GetStartActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar1);
         setSupportActionBar(toolbar);
 
+        indi = (CirclePageIndicator)findViewById(R.id.circle);
 
+
+        pref = getSharedPreferences("MySignin", Context.MODE_PRIVATE);
+        edit = pref.edit();
 
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -38,7 +49,36 @@ public class GetStartActivity extends AppCompatActivity {
         SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), 4);
         slider.setAdapter(mSectionsPagerAdapter);
 
+
+
+        indi.setViewPager(slider);
         final comparebean be = (comparebean)this.getApplicationContext();
+
+        Boolean bool = pref.getBoolean("get" , false);
+        if (bool)
+        {
+            Bundle b = getIntent().getExtras();
+
+            be.user_id = b.getString("id");
+
+            Intent i = new Intent(GetStartActivity.this , FirstPage.class);
+            if(b!=null) {
+
+                url = b.getString("url");
+                n = b.getString("name");
+                if (url!=null)
+                {
+                    i.putExtra("url" , url);
+
+                }
+                i.putExtra("name" , n);
+            }
+
+            startActivity(i);
+            finish();
+        }
+
+
 
 
 
@@ -64,7 +104,10 @@ public class GetStartActivity extends AppCompatActivity {
                     i.putExtra("name" , n);
                 }
 
+                edit.putBoolean("get" , true);
+                edit.apply();
                 startActivity(i);
+                finish();
             }
         });
 

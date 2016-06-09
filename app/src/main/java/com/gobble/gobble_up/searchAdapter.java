@@ -1,6 +1,7 @@
 package com.gobble.gobble_up;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +14,14 @@ import java.util.ArrayList;
 /**
  * Created by hi on 07-06-2016.
  */
-public class searchAdapter extends ArrayAdapter<searchAdapter> {
+public class searchAdapter extends ArrayAdapter<searchBean> {
 
     private Context context;
     private int layoutResourceId;
     private ArrayList<searchBean> list = new ArrayList<>();
 
     public searchAdapter(Context context, int resource , ArrayList<searchBean> list) {
-        super(context,resource);
+        super(context,resource , list);
         this.context = context;
         this.layoutResourceId = resource;
         this.list = list;
@@ -50,6 +51,7 @@ public class searchAdapter extends ArrayAdapter<searchAdapter> {
         searchBean item = list.get(position);
         holder.searchName.setText(item.getName());
 
+        Log.d("adapter" , item.getName());
 
         return row;
     }

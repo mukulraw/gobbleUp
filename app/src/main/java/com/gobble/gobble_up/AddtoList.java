@@ -1,5 +1,6 @@
 package com.gobble.gobble_up;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -41,6 +42,7 @@ public class AddtoList extends AppCompatActivity {
 
     String iidd;
     String prodId;
+    Boolean flag = false;
 
     private String CREATE_LIST = "http://nationproducts.in/global/api/createlist";
     private String GET_ALL_LIST = "http://nationproducts.in/global/api/alllists/userId/";
@@ -132,6 +134,10 @@ public class AddtoList extends AppCompatActivity {
                     public void onClick(View v) {
 
                         new addToList(idd , prodId , "1").execute();
+                        Intent resultIntent = getIntent();
+                        resultIntent.putExtra("result","result");
+                        setResult(RESULT_OK , resultIntent);
+                        finish();
                         dialog.dismiss();
                     }
                 });
@@ -164,6 +170,8 @@ public class AddtoList extends AppCompatActivity {
         refresh();
     }
 
+
+
     public class login extends AsyncTask<Void , Void , Void>
     {
 
@@ -177,6 +185,7 @@ public class AddtoList extends AppCompatActivity {
             this.userId = username;
             this.listName = password;
         }
+
 
 
 

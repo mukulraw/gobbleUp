@@ -31,9 +31,6 @@
         <activity android:name=".GetStartActivity" />
         <activity android:name=".FirstPage">
 
-            <meta-data
-                android:name="android.app.default_searchable"
-                android:value=".SearchResultActivity" />
 
         </activity>
         <activity android:name=".SubCategory" />
@@ -48,22 +45,7 @@
         <activity android:name=".MainList" />
         <activity android:name=".SubList" />
         <activity android:name=".AddtoList" />
-        <activity android:name=".SearchResultActivity"
-            android:launchMode="singleTop"
-            >
-
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-
-
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/search_config" />
-
-
-        </activity>
+        <activity android:name=".SearchResultActivity" />
     </application>
 
 </manifest>
