@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -225,13 +228,27 @@ public class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewH
 
 
             ProductBean item = (ProductBean) list.get(getPosition());
-            Intent i = new Intent(context , SingleProduct.class);
-            i.putExtra("id" , item.getId());
-            i.putExtra("name" , item.getName());
-            i.putExtra("price" , item.getPrice());
-            i.putExtra("desc" , item.getDescription());
-            i.putExtra("image" , item.getImage());
-            context.startActivity(i);
+
+            SingleProductFragment frag3 = new SingleProductFragment();
+            Bundle b = new Bundle();
+
+            b.putString("id" , String.valueOf(item.getId()));
+            b.putString("name" , item.getName());
+            b.putString("price" , item.getPrice());
+            b.putString("desc" , item.getDescription());
+            b.putString("image" , item.getImage());
+
+
+
+            frag3.setArguments(b);
+            FragmentManager fm = ((MainActivity)context).getSupportFragmentManager();
+
+            FragmentTransaction ft = fm.beginTransaction();
+
+            ft.replace(R.id.layoutToReplace , frag3);
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+            ft.addToBackStack(null);
+            ft.commit();
 
 
 
