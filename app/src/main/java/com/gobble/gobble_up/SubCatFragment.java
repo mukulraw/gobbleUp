@@ -86,11 +86,11 @@ public class SubCatFragment extends Fragment {
 
         if (b.comparecount>0)
         {
-            bar.setVisibility(View.VISIBLE);
+            //bar.setVisibility(View.VISIBLE);
         }
         else
         {
-            bar.setVisibility(View.INVISIBLE);
+            //bar.setVisibility(View.INVISIBLE);
         }
 
 

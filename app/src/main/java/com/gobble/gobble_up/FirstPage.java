@@ -32,6 +32,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -48,6 +49,7 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.plus.Plus;
 import com.viewpagerindicator.CirclePageIndicator;
+
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -69,6 +71,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.Inflater;
 
+import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FirstPage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -177,7 +180,7 @@ public class FirstPage extends AppCompatActivity implements NavigationView.OnNav
         SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), 4);
         slide.setAdapter(mSectionsPagerAdapter);
 
-        
+
 
         indi.setViewPager(slide);
 
@@ -264,7 +267,7 @@ public class FirstPage extends AppCompatActivity implements NavigationView.OnNav
 
 
         }
-            return false;
+        return false;
     }
 
     private synchronized void buildGoogleApiClient() {
@@ -399,9 +402,9 @@ public class FirstPage extends AppCompatActivity implements NavigationView.OnNav
 
 
             try {
-               // HttpClient client = new DefaultHttpClient();
-              //  HttpGet get = new HttpGet(url);
-              //  HttpResponse response = client.execute(get);
+                // HttpClient client = new DefaultHttpClient();
+                //  HttpGet get = new HttpGet(url);
+                //  HttpResponse response = client.execute(get);
                 //HttpEntity entity = response.getEntity();
                 //is = entity.getContent();
 
@@ -483,7 +486,7 @@ public class FirstPage extends AppCompatActivity implements NavigationView.OnNav
 
             //adapter.setGridData(list);
             //list.clear();
-           // mProgressBar.setVisibility(View.GONE);
+            // mProgressBar.setVisibility(View.GONE);
             bannerText.setVisibility(View.VISIBLE);
             slide.setVisibility(View.VISIBLE);
         }

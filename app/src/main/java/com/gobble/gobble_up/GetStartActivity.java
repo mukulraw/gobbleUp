@@ -61,7 +61,7 @@ public class GetStartActivity extends AppCompatActivity {
 
             be.user_id = b.getString("id");
 
-            Intent i = new Intent(GetStartActivity.this , FirstPage.class);
+            Intent i = new Intent(GetStartActivity.this , MainActivity.class);
             if(b!=null) {
 
                 url = b.getString("url");
@@ -91,7 +91,7 @@ public class GetStartActivity extends AppCompatActivity {
 
                 be.user_id = b.getString("id");
 
-                Intent i = new Intent(GetStartActivity.this , FirstPage.class);
+                Intent i = new Intent(GetStartActivity.this , MainActivity.class);
                 if(b!=null) {
 
                     url = b.getString("url");

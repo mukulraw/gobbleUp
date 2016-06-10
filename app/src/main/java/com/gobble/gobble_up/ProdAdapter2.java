@@ -103,7 +103,7 @@ public class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewH
                         b.list.add(item);
                         b.comparecount++;
 
-                        bar.setVisibility(View.VISIBLE);
+                        //bar.setVisibility(View.VISIBLE);
                         // b.bitmaps.add(LoadImageFromURL(item.getImage()));
                         Log.d("asdasdasd" , String.valueOf(b.list.size()));
                         Toast.makeText(context , "Added to Compare" , Toast.LENGTH_SHORT).show();
@@ -125,7 +125,7 @@ public class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewH
                     if (l == 1)
                     {
 
-                            bar.setVisibility(View.INVISIBLE);
+                            //bar.setVisibility(View.INVISIBLE);
 
 
                     }
@@ -225,7 +225,6 @@ public class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewH
 
 
             ProductBean item = (ProductBean) list.get(getPosition());
-
             Intent i = new Intent(context , SingleProduct.class);
             i.putExtra("id" , item.getId());
             i.putExtra("name" , item.getName());

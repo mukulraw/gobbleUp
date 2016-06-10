@@ -7,8 +7,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -148,14 +152,27 @@ public class CatGridAdapter extends RecyclerView.Adapter<CatGridAdapter.RecycleV
 
             categoryBean item = (categoryBean) list.get(getPosition());
 
-            Intent i = new Intent(context , SubCategory.class);
 
-            i.putExtra("id" , item.getId());
-            i.putExtra("name" , item.getName());
-            i.putExtra("image" , item.getImage());
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            Bundle bundle = new Bundle();
+            bundle.putString("id" , String.valueOf(item.getId()));
+            bundle.putString("name" , item.getName());
+            bundle.putString("image" , item.getImage());
 
-            context.startActivity(i);
+            SubCategoryFragment frag2 = new SubCategoryFragment();
+            frag2.setArguments(bundle);
+
+
+            FragmentManager fm = ((MainActivity)context).getSupportFragmentManager();
+
+            FragmentTransaction ft = fm.beginTransaction();
+
+            CategoryFragment frag1 = new CategoryFragment();
+            //ft.remove(frag1);
+            //ft.add(R.id.fragmentMain , frag2);
+            ft.replace(R.id.layoutToReplace , frag2);
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+            ft.addToBackStack(null);
+            ft.commit();
 
 
 

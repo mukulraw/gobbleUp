@@ -48,28 +48,6 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentStart="true"
                 />
-
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar5"
-                android:layout_width="match_parent"
-                android:layout_height="53dp"
-                android:background="@drawable/toolbar_background"
-                android:gravity="top"
-                android:layout_marginBottom="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:minHeight="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                >
-
-            </android.support.v7.widget.Toolbar>
-
-
-
-
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
