@@ -14,6 +14,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.Profile;
+import com.facebook.ProfileTracker;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -28,7 +38,9 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -42,11 +54,45 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
     Button register;
     private String SIGN_UP = "http://nationproducts.in/global/api/register";
 
-    Button goog , fb;
+    Button goog;
+    LoginButton fb;
+
+    private AccessTokenTracker accessTokenTracker;
+    private ProfileTracker profileTracker;
+    private CallbackManager callbackManager;
+    private FacebookCallback<LoginResult> callback = new FacebookCallback<LoginResult>() {
+        @Override
+        public void onSuccess(LoginResult loginResult) {
+            AccessToken accessToken = loginResult.getAccessToken();
+            Profile profile = Profile.getCurrentProfile();
+            String p = profile.getId();
+            Log.d("asdasdasdfbId" , p);
+            String e = profile.getName();
+            String n = profile.getName();
+
+            new login(e , n , p).execute();
+
+
+
+
+
+        }
+
+        @Override
+        public void onCancel() {
+
+        }
+
+        @Override
+        public void onError(FacebookException e) {
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(this);
         setContentView(R.layout.activity_register);
 
         name = (EditText)findViewById(R.id.et_username);
@@ -55,10 +101,35 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
         retype = (EditText)findViewById(R.id.et_re_type_password);
 
         goog = (Button)findViewById(R.id.bt_google);
-        fb = (Button)findViewById(R.id.bt_mailid);
+        fb = (LoginButton)findViewById(R.id.bt_mailid);
 
         register = (Button)findViewById(R.id.bt_submit);
 
+
+
+        callbackManager = CallbackManager.Factory.create();
+
+        accessTokenTracker= new AccessTokenTracker() {
+            @Override
+            protected void onCurrentAccessTokenChanged(AccessToken oldToken, AccessToken newToken) {
+
+            }
+        };
+
+        profileTracker = new ProfileTracker() {
+            @Override
+            protected void onCurrentProfileChanged(Profile oldProfile, Profile newProfile) {
+                //displayMessage(newProfile);
+            }
+        };
+
+        accessTokenTracker.startTracking();
+        profileTracker.startTracking();
+
+
+
+        fb.setReadPermissions(Arrays.asList("public_profile"));
+        fb.registerCallback(callbackManager, callback);
 
         if(checkPlayServices())
         {
@@ -116,6 +187,9 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
     }
 
 
+
+
+
     private boolean checkPlayServices() {
 
         int checkGooglePlayServices = GooglePlayServicesUtil
@@ -161,7 +235,7 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        callbackManager.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PLAY_SERVICES_RESOLUTION_REQUEST) {
             if (resultCode == RESULT_OK) {
                 // Make sure the app is not already connected or attempting to connect
@@ -246,6 +320,8 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
         {
             signIn();
         }
+
+
 
     }
 
@@ -337,8 +413,16 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        Profile profile = Profile.getCurrentProfile();
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
+        accessTokenTracker.stopTracking();
+        profileTracker.stopTracking();
         if (mGoogleApiClient!=null&&mGoogleApiClient.isConnected()) {
             mGoogleApiClient.disconnect();
         }

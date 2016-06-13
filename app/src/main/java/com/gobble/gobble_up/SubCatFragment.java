@@ -325,7 +325,14 @@ public class SubCatFragment extends Fragment {
 
 
 
-            adapter = new ProdAdapter2(getContext() ,  list1 , (RelativeLayout)getActivity().findViewById(R.id.bottombar));
+            try
+            {
+                adapter = new ProdAdapter2(getContext() ,  list1 , (RelativeLayout)((MainActivity)getContext()).findViewById(R.id.bottombar));
+            }catch (NullPointerException e)
+            {
+                e.printStackTrace();
+            }
+
             //adapter.setGridData(list1);
             grid.setAdapter(adapter);
             //list.clear();

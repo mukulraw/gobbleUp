@@ -24,6 +24,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
 
 
@@ -141,6 +144,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+
+    public void onCompare(View view)
+    {
+        Intent i = new Intent(getApplicationContext() , Compare.class);
+        startActivity(i);
+    }
+
+
+    public void onList(View view)
+    {
+        Intent i = new Intent(getApplicationContext() , MainList.class);
+        startActivity(i);
+    }
+
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 
@@ -160,11 +177,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if(id == R.id.nav_log_out)
         {
+            pref = getSharedPreferences("MySignin", Context.MODE_PRIVATE);
+            edit = pref.edit();
+
             Log.d("asdasdasd" , "log out clicked" );
-            if (mGoogleApiClient.isConnected())
+            if (pref.getBoolean("goog" , false))
             {
-                signOut();
+                if (mGoogleApiClient.isConnected())
+                {
+                    signOut();
+                }
             }
+            else if (pref.getBoolean("fb" , false))
+            {
+                LoginManager.getInstance().logOut();
+
+
+                edit.remove("fb");
+                edit.apply();
+                Intent i = new Intent(getApplicationContext() , LoginActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+                overridePendingTransition(0,0);
+                finish();
+            }
+
+
 
 
 

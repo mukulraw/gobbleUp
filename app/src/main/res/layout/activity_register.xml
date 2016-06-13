@@ -157,11 +157,10 @@
                     android:layout_weight="2"
                     android:orientation="horizontal">
 
-                    <Button
+                    <com.facebook.login.widget.LoginButton
                         android:id="@+id/bt_mailid"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-
                         android:textSize="10dp"
                         android:text="Sign in with Facebook"
                         android:layout_margin="2.5dp"

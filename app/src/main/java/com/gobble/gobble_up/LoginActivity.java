@@ -20,11 +20,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.Profile;
+import com.facebook.ProfileTracker;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -43,6 +47,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.facebook.FacebookSdk;
@@ -65,21 +70,73 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
     Button sign_in;
     TextView sign_up;
 
-    Boolean flag = false;
+    Boolean goog_flag = false;
+    Boolean fb_flag = false;
 
     //private CallbackManager callbackManager;
     //private LoginButton loginButton;
     //Button google_signin;
-    //Button fb_signin;
+    LoginButton fb_signin;
     private ProgressDialog progressDialog;
     SignInButton google_signin;
     private GoogleApiClient mGoogleApiClient;
 
     String fb_email , fb_name , fb_id , fb_gender;
 
+    private AccessTokenTracker accessTokenTracker;
+    private ProfileTracker profileTracker;
+    private CallbackManager callbackManager;
+    private FacebookCallback<LoginResult> callback = new FacebookCallback<LoginResult>() {
+        @Override
+        public void onSuccess(LoginResult loginResult) {
+            AccessToken accessToken = loginResult.getAccessToken();
+            Profile profile = Profile.getCurrentProfile();
+            String p = profile.getId();
+            String e = profile.getName();
+            imageUrl = String.valueOf(profile.getProfilePictureUri(70,70));
+            fb_flag = true;
+            new login(e , p).execute();
+
+
+
+
+
+        }
+
+        @Override
+        public void onCancel() {
+
+        }
+
+        @Override
+        public void onError(FacebookException e) {
+
+        }
+    };
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(this);
+        callbackManager = CallbackManager.Factory.create();
+
+        accessTokenTracker= new AccessTokenTracker() {
+            @Override
+            protected void onCurrentAccessTokenChanged(AccessToken oldToken, AccessToken newToken) {
+
+            }
+        };
+
+        profileTracker = new ProfileTracker() {
+            @Override
+            protected void onCurrentProfileChanged(Profile oldProfile, Profile newProfile) {
+                //displayMessage(newProfile);
+            }
+        };
+
+        accessTokenTracker.startTracking();
+        profileTracker.startTracking();
         setContentView(R.layout.activity_login);
 
         pref = getSharedPreferences("MySignin", Context.MODE_PRIVATE);
@@ -89,7 +146,7 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
         password = (EditText)findViewById(R.id.et_Password);
 
         google_signin = (SignInButton) findViewById(R.id.bt_google_sign);
-        //fb_signin = (Button)findViewById(R.id.bt_facebook1);
+        fb_signin = (LoginButton) findViewById(R.id.bt_facebook1);
 
         forgot = (TextView)findViewById(R.id.tv_userforgotpassword);
 
@@ -99,7 +156,9 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
 
 
 
-        //fb_signin.setOnClickListener(this);
+
+        fb_signin.setReadPermissions(Arrays.asList("public_profile"));
+        fb_signin.registerCallback(callbackManager, callback);
 
 
         if(checkPlayServices())
@@ -222,7 +281,7 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        callbackManager.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PLAY_SERVICES_RESOLUTION_REQUEST) {
             if (resultCode == RESULT_OK) {
                 // Make sure the app is not already connected or attempting to connect
@@ -258,7 +317,7 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
             //Log.d("asdasdasd" , p);
 
 
-            flag = true;
+            goog_flag = true;
 
 
            new login(e , p).execute();
@@ -440,12 +499,21 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
 
 
 
-                if (imageUrl!=null)
+
+                if (goog_flag)
                 {
                     edit.putBoolean("google",true);
                     edit.apply();
                     i.putExtra("url" , imageUrl);
                 }
+
+                if (fb_flag)
+                {
+                    edit.putBoolean("fb" , true);
+                    edit.apply();
+                    i.putExtra("url" , imageUrl);
+                }
+
                 i.putExtra("id" , idd);
                 i.putExtra("name" , name);
                 startActivity(i);

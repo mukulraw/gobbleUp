@@ -12,33 +12,54 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".StartActivity">
+        <activity android:name=".StartActivity"
+            android:screenOrientation="portrait"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".LoginActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name="com.facebook.FacebookActivity"
+            android:configChanges=
+                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:label="@string/app_name" />
         <activity
             android:name=".Register"
-            android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".GetStartActivity" />
-        <activity android:name=".FirstPage"></activity>
-        <activity android:name=".SubCategory" />
-        <activity android:name=".Products" />
-        <activity android:name=".SingleProduct" />
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".GetStartActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".FirstPage"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SubCategory"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Products"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SingleProduct"
+            android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name=".Compare" />
-        <activity android:name=".MainList" />
-        <activity android:name=".SubList" />
-        <activity android:name=".AddtoList" />
-        <activity android:name=".SearchResultActivity" />
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".Compare"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".MainList"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SubList"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".AddtoList"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SearchResultActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

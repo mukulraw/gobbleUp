@@ -41,14 +41,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class SubCategoryFragment extends Fragment {
     TextView title;
-    GridView grid;
     private String SUB_CATEGORY = "http://nationproducts.in/global/api/categories/id/";
-    private CatGridAdapter adapter;
     ArrayList<categoryBean> list1;
     //private ProgressBar mProgressBar;
     ImageView banner;
     TabLayout tab;
-    TextView ban_title;
     FragStatePagerAdapter adapter1;
     ViewPager pager;
 
@@ -121,7 +118,12 @@ public class SubCategoryFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            Animation animation = AnimationUtils.loadAnimation(getContext() , R.anim.fade);
+            Animation animation = null;
+            if (getContext()!=null)
+            {
+                animation = AnimationUtils.loadAnimation(getContext() , R.anim.fade);
+            }
+
             iv.startAnimation(animation);
             iv.setImageBitmap(d);
             title.setVisibility(View.VISIBLE);

@@ -18,8 +18,10 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.io.InputStream;
@@ -108,6 +110,10 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+
+
+
+
         if (requestCode == 1)
         {
 
@@ -123,6 +129,17 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
                 animation.setRepeatMode(Animation.REVERSE);
 
                 add.startAnimation(animation);
+
+                RelativeLayout bar = (RelativeLayout)((MainActivity)getContext()).findViewById(R.id.bottombar);
+                if (bar.getVisibility() == View.INVISIBLE)
+                {
+                    TranslateAnimation animate = new TranslateAnimation(0,0,bar.getHeight(),0);
+                    animate.setDuration(500);
+                    animate.setFillAfter(true);
+                    bar.startAnimation(animate);
+                    bar.setVisibility(View.VISIBLE);
+                }
+
             }
 
         }
@@ -154,7 +171,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            Animation animation = AnimationUtils.loadAnimation(getContext() , R.anim.fade);
+            Animation animation = AnimationUtils.loadAnimation(getActivity().getApplicationContext() , R.anim.fade);
             iv.startAnimation(animation);
             iv.setImageBitmap(d);
 

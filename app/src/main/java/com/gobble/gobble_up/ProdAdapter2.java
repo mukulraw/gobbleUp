@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -106,7 +108,21 @@ public class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewH
                         b.list.add(item);
                         b.comparecount++;
 
-                        //bar.setVisibility(View.VISIBLE);
+                        if (bar.getVisibility() == View.INVISIBLE)
+                        {
+                            TranslateAnimation animate = new TranslateAnimation(0,0,bar.getHeight(),0);
+                            animate.setDuration(500);
+                            animate.setFillAfter(true);
+                            bar.startAnimation(animate);
+                            bar.setVisibility(View.VISIBLE);
+                        }
+
+
+
+                        TextView comp = (TextView)((MainActivity)context).findViewById(R.id.barcompare);
+                        comp.setText("Compare " + String.valueOf(b.list.size()));
+
+                        //bar.animate().alpha(1.0f);
                         // b.bitmaps.add(LoadImageFromURL(item.getImage()));
                         Log.d("asdasdasd" , String.valueOf(b.list.size()));
                         Toast.makeText(context , "Added to Compare" , Toast.LENGTH_SHORT).show();
@@ -127,8 +143,14 @@ public class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewH
 
                     if (l == 1)
                     {
-
-                            //bar.setVisibility(View.INVISIBLE);
+                        if (bar.getVisibility() == View.VISIBLE)
+                        {
+                            TranslateAnimation animate = new TranslateAnimation(0,0,0,bar.getHeight());
+                            animate.setDuration(500);
+                            animate.setFillAfter(true);
+                            bar.startAnimation(animate);
+                            bar.setVisibility(View.INVISIBLE);
+                        }
 
 
                     }
@@ -144,6 +166,8 @@ public class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewH
 
                     b.list.remove(index);
                     b.comparecount--;
+                    TextView comp = (TextView)((MainActivity)context).findViewById(R.id.barcompare);
+                    comp.setText("Compare " + String.valueOf(b.list.size()));
                     //b.list.remove(item);
                     Toast.makeText(context , "Item removed" ,Toast.LENGTH_SHORT ).show();
                 }

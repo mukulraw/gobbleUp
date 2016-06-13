@@ -15,6 +15,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.Profile;
+import com.facebook.ProfileTracker;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -30,6 +40,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -46,10 +57,50 @@ public class StartActivity extends AppCompatActivity implements GoogleApiClient.
     String nn = null;
     String pp = null;
     private GoogleApiClient mGoogleApiClient;
+    private AccessTokenTracker accessTokenTracker;
+    private ProfileTracker profileTracker;
+    private CallbackManager mCallbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(this);
+        mCallbackManager = CallbackManager.Factory.create();
+
+        LoginManager.getInstance().registerCallback(mCallbackManager,
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        AccessToken accessToken = loginResult.getAccessToken();
+                        Profile profile = Profile.getCurrentProfile();
+                        String e = profile.getName();
+                        nn = e;
+                        //Log.d("asdsd" , e);
+                        String p = profile.getId();
+                        pp = p;
+                        imageUrl = String.valueOf(profile.getProfilePictureUri(60,60));
+                        //Log.d("asdasdasd" , p);
+
+
+
+
+
+                        new login(e , p).execute();
+
+
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        Toast.makeText(StartActivity.this, "Login Cancel", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onError(FacebookException exception) {
+                        Toast.makeText(StartActivity.this, exception.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+
         setContentView(R.layout.activity_start);
 
         pref = getSharedPreferences("MySignin", Context.MODE_PRIVATE);
@@ -71,6 +122,15 @@ public class StartActivity extends AppCompatActivity implements GoogleApiClient.
 
 
             }
+
+        }
+
+        else if (pref.getBoolean("fb" , false))
+        {
+
+
+            LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
+
 
         }
         else
@@ -96,7 +156,9 @@ public class StartActivity extends AppCompatActivity implements GoogleApiClient.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        if(mCallbackManager.onActivityResult(requestCode, resultCode, data)) {
+            return;
+        }
         if (requestCode == PLAY_SERVICES_RESOLUTION_REQUEST) {
             if (resultCode == RESULT_OK) {
                 // Make sure the app is not already connected or attempting to connect

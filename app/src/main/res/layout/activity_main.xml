@@ -30,7 +30,50 @@
 
     <include
         layout="@layout/toolbar"
+        app:layout_scrollFlags="scroll|enterAlways"
         />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:id="@+id/bottombar"
+            android:animateLayoutChanges="true"
+            android:background="#73000000"
+            android:layout_alignParentBottom="true"
+            android:visibility="invisible"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Compare"
+                android:layout_marginBottom="5dp"
+                android:paddingStart="10dp"
+                android:paddingBottom="10dp"
+                android:textColor="#ffffff"
+                android:onClick="onCompare"
+                android:layout_marginStart="5dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:id="@+id/barcompare"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="list"
+                android:layout_marginBottom="5dp"
+                android:paddingEnd="15dp"
+                android:textColor="#ffffff"
+                android:paddingBottom="10dp"
+                android:onClick="onList"
+                android:layout_marginStart="5dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:id="@+id/barlist"
+                />
+        </RelativeLayout>
+
+
 
     </RelativeLayout>
 
