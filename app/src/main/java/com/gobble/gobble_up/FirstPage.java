@@ -150,7 +150,7 @@ public class FirstPage extends AppCompatActivity implements NavigationView.OnNav
             be.url = url;
             be.n = n;
 
-            Log.d("asdasdasd" , n);
+            //Log.d("asdasdasd" , n);
             profile = (CircleImageView)header.findViewById(R.id.headerProfile);
             head_name = (TextView)header.findViewById(R.id.headertitle);
             if (url!=null)
@@ -258,7 +258,7 @@ public class FirstPage extends AppCompatActivity implements NavigationView.OnNav
 
         if(id == R.id.nav_log_out)
         {
-            Log.d("asdasdasd" , "log out clicked" );
+            //Log.d("asdasdasd" , "log out clicked" );
             if (mGoogleApiClient.isConnected())
             {
                 signOut();
@@ -356,7 +356,7 @@ public class FirstPage extends AppCompatActivity implements NavigationView.OnNav
         protected Void doInBackground(Void... params) {
 
 
-            Log.d("asdasdasd" , url);
+            //Log.d("asdasdasd" , url);
             d = LoadImageFromURL(url);
 
             return null;
@@ -430,14 +430,16 @@ public class FirstPage extends AppCompatActivity implements NavigationView.OnNav
                 is.close();
                 json = sb.toString();
             } catch (Exception e) {
-                Log.e("Buffer Error", "Error converting result " + e.toString());
+                e.printStackTrace();
+                //Log.e("Buffer Error", "Error converting result " + e.toString());
             }
 
             try {
                 array = new JSONArray(json);
                 length = array.length();
             } catch (JSONException e) {
-                Log.e("JSON Parser", "Error parsing data " + e.toString());
+                e.printStackTrace();
+                //Log.e("JSON Parser", "Error parsing data " + e.toString());
             }catch (NullPointerException e)
             {
                 e.printStackTrace();

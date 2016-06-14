@@ -6,7 +6,7 @@ package com.gobble.gobble_up;
 public class ProductBean {
     int id;
     String image , name , price , description;
-    Boolean set;
+    Boolean set = false;
 
     public void setSet(Boolean set) {
         this.set = set;

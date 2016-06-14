@@ -58,36 +58,9 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
     LoginButton fb;
 
     private AccessTokenTracker accessTokenTracker;
-    private ProfileTracker profileTracker;
+    //private ProfileTracker profileTracker;
     private CallbackManager callbackManager;
-    private FacebookCallback<LoginResult> callback = new FacebookCallback<LoginResult>() {
-        @Override
-        public void onSuccess(LoginResult loginResult) {
-            AccessToken accessToken = loginResult.getAccessToken();
-            Profile profile = Profile.getCurrentProfile();
-            String p = profile.getId();
-            Log.d("asdasdasdfbId" , p);
-            String e = profile.getName();
-            String n = profile.getName();
 
-            new login(e , n , p).execute();
-
-
-
-
-
-        }
-
-        @Override
-        public void onCancel() {
-
-        }
-
-        @Override
-        public void onError(FacebookException e) {
-
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,27 +82,60 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
 
         callbackManager = CallbackManager.Factory.create();
 
-        accessTokenTracker= new AccessTokenTracker() {
-            @Override
-            protected void onCurrentAccessTokenChanged(AccessToken oldToken, AccessToken newToken) {
 
-            }
-        };
 
-        profileTracker = new ProfileTracker() {
-            @Override
-            protected void onCurrentProfileChanged(Profile oldProfile, Profile newProfile) {
-                //displayMessage(newProfile);
-            }
-        };
-
-        accessTokenTracker.startTracking();
-        profileTracker.startTracking();
 
 
 
         fb.setReadPermissions(Arrays.asList("public_profile"));
-        fb.registerCallback(callbackManager, callback);
+        fb.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            private ProfileTracker mProfileTracker;
+
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                if(Profile.getCurrentProfile() == null) {
+                    mProfileTracker = new ProfileTracker() {
+                        @Override
+                        protected void onCurrentProfileChanged(Profile profile, Profile profile2) {
+                            // profile2 is the new profile
+                            String p = profile2.getId();
+                           //Log.d("asdasdasdfbId" , p);
+                            String e = profile2.getName();
+                            String n = profile2.getName();
+
+                            new login(e , n , p).execute();
+                            mProfileTracker.stopTracking();
+                        }
+                    };
+                    // no need to call startTracking() on mProfileTracker
+                    // because it is called by its constructor, internally.
+                }
+                else {
+                    Profile profile = Profile.getCurrentProfile();
+                    String p = profile.getId();
+                   // Log.d("asdasdasdfbId" , p);
+                    String e = profile.getName();
+                    String n = profile.getName();
+
+                    new login(e , n , p).execute();
+                }
+
+
+
+
+
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+
+            }
+        });
 
         if(checkPlayServices())
         {
@@ -194,9 +200,9 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
 
         int checkGooglePlayServices = GooglePlayServicesUtil
                 .isGooglePlayServicesAvailable(this);
-        Log.i("DEBUG_TAG",
-                "checkGooglePlayServicesAvailable, connectionStatusCode="
-                        + checkGooglePlayServices);
+       // Log.i("DEBUG_TAG",
+          //      "checkGooglePlayServicesAvailable, connectionStatusCode="
+           //             + checkGooglePlayServices);
 
         if (GooglePlayServicesUtil.isUserRecoverableError(checkGooglePlayServices)) {
             showGooglePlayServicesAvailabilityErrorDialog(checkGooglePlayServices);
@@ -216,8 +222,8 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
                         connectionStatusCode,Register.this,
                         PLAY_SERVICES_RESOLUTION_REQUEST);
                 if (dialog == null) {
-                    Log.e("DEBUG_TAG",
-                            "couldn't get GooglePlayServicesUtil.getErrorDialog");
+                   // Log.e("DEBUG_TAG",
+                       //     "couldn't get GooglePlayServicesUtil.getErrorDialog");
                     Toast.makeText(getBaseContext(),
                             "incompatible version of Google Play Services",
                             Toast.LENGTH_LONG).show();
@@ -262,10 +268,10 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
             GoogleSignInAccount acct = result.getSignInAccount();
             //String url = String.valueOf(acct.getPhotoUrl());
             String e = acct.getEmail();
-            Log.d("asdasd"  , e);
+         //   Log.d("asdasd"  , e);
             String n = acct.getDisplayName();
             String p = acct.getEmail();
-            Log.d("asdasdid" , p);
+           // Log.d("asdasdid" , p);
 
 
 
@@ -361,9 +367,9 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
                 JSONObject obj = new JSONObject(result);
                 name1 = obj.getString("user_name");
                 email1 = obj.getString("user_email");
-
-                Log.d("asdasdasd" , name1);
-                Log.d("asdasdasd" , email1);
+//
+              //  Log.d("asdasdasd" , name1);
+              //  Log.d("asdasdasd" , email1);
             } catch (JSONException e) {
                 e.printStackTrace();
             }catch (NullPointerException e)
@@ -405,8 +411,8 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
                 Toast.makeText(getApplicationContext() , "already registered" , Toast.LENGTH_SHORT).show();
             }
 
-
-            Log.d("asdasdasd" , result);
+//
+          //  Log.d("asdasdasd" , result);
 
             super.onPostExecute(aVoid);
         }
@@ -422,7 +428,6 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
     protected void onStop() {
         super.onStop();
         accessTokenTracker.stopTracking();
-        profileTracker.stopTracking();
         if (mGoogleApiClient!=null&&mGoogleApiClient.isConnected()) {
             mGoogleApiClient.disconnect();
         }

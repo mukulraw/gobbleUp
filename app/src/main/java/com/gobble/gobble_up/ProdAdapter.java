@@ -101,7 +101,7 @@ public class ProdAdapter extends ArrayAdapter<ProductBean> {
 
                         b.list.add(item);
                         // b.bitmaps.add(LoadImageFromURL(item.getImage()));
-                        Log.d("asdasdasd" , String.valueOf(b.list.size()));
+                        //Log.d("asdasdasd" , String.valueOf(b.list.size()));
                         Toast.makeText(getContext() , "Added to list" , Toast.LENGTH_SHORT).show();
                     }
                     else {
@@ -115,7 +115,7 @@ public class ProdAdapter extends ArrayAdapter<ProductBean> {
                 else
                 {
                     int index = 0;
-                    Log.d("asdasdasd" , item.getName());
+                    //Log.d("asdasdasd" , item.getName());
                     int l = b.list.size();
                     for (int i = 0 ; i<l ; i++)
                     {
@@ -161,7 +161,7 @@ public class ProdAdapter extends ArrayAdapter<ProductBean> {
         protected Void doInBackground(Void... params) {
 
 
-            Log.d("asdasdasd", url);
+            //Log.d("asdasdasd", url);
             d = LoadImageFromURL(url);
 
             return null;

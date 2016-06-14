@@ -189,14 +189,16 @@ public class CategoryFragment extends Fragment {
                 is.close();
                 json = sb.toString();
             } catch (Exception e) {
-                Log.e("Buffer Error", "Error converting result " + e.toString());
+                //Log.e("Buffer Error", "Error converting result " + e.toString());
+                e.printStackTrace();
             }
 
             try {
                 array = new JSONArray(json);
                 length = array.length();
             } catch (JSONException e) {
-                Log.e("JSON Parser", "Error parsing data " + e.toString());
+                e.printStackTrace();
+                //Log.e("JSON Parser", "Error parsing data " + e.toString());
             }catch (NullPointerException e)
             {
                 e.printStackTrace();

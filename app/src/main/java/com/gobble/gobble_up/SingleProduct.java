@@ -148,7 +148,7 @@ public class SingleProduct extends AppCompatActivity implements View.OnClickList
         protected Void doInBackground(Void... params) {
 
 
-            Log.d("asdasdasd" , url);
+         //   Log.d("asdasdasd" , url);
             d = LoadImageFromURL(url);
 
             return null;

@@ -84,7 +84,7 @@ public class SubListAdapter extends ArrayAdapter<subListBean> {
         protected Void doInBackground(Void... params) {
 
 
-            Log.d("asdasdasd" , url);
+           // Log.d("asdasdasd" , url);
             d = LoadImageFromURL(url);
 
             return null;

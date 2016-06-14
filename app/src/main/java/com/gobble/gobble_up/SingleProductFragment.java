@@ -163,7 +163,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
         protected Void doInBackground(Void... params) {
 
 
-            Log.d("asdasdasd" , url);
+          //  Log.d("asdasdasd" , url);
             d = LoadImageFromURL(url);
 
             return null;
@@ -171,9 +171,16 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            Animation animation = AnimationUtils.loadAnimation(getActivity().getApplicationContext() , R.anim.fade);
-            iv.startAnimation(animation);
-            iv.setImageBitmap(d);
+            try
+            {
+                Animation animation = AnimationUtils.loadAnimation(getActivity().getApplicationContext() , R.anim.fade);
+                iv.startAnimation(animation);
+                iv.setImageBitmap(d);
+            }catch (NullPointerException e)
+            {
+                e.printStackTrace();
+            }
+
 
         }
     }

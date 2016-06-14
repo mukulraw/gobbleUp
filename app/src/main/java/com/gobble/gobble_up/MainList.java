@@ -147,21 +147,17 @@ public class MainList extends AppCompatActivity {
                 is.close();
                 json = sb.toString();
             } catch (Exception e) {
-                Log.e("Buffer Error", "Error converting result " + e.toString());
+                e.printStackTrace();
+                //Log.e("Buffer Error", "Error converting result " + e.toString());
             }
 
             try {
                 array = new JSONArray(json);
                 length = array.length();
-            } catch (JSONException e) {
-                Log.e("JSON Parser", "Error parsing data " + e.toString());
-            }catch (NullPointerException e)
-            {
+            } catch (JSONException | NullPointerException e) {
                 e.printStackTrace();
-                //Toast.makeText(getBaseContext() , "failed to fetch data" , Toast.LENGTH_SHORT).show();
+                //Log.e("JSON Parser", "Error parsing data " + e.toString());
             }
-
-
 
 
             for (int i=0 ; i<length;i++)
@@ -234,7 +230,7 @@ public class MainList extends AppCompatActivity {
                 //is = entity.getContent();
 
                 URL u = new URL(url);
-                Log.d("asdasdasdurl" , url);
+                //Log.d("asdasdasdurl" , url);
                 HttpURLConnection connection = (HttpURLConnection)u.openConnection();
                 if(connection.getResponseCode()==200)
                 {
@@ -255,16 +251,18 @@ public class MainList extends AppCompatActivity {
                 }
                 is.close();
                 json = sb.toString();
-                Log.d("asdasdasddelete" , json);
+                //Log.d("asdasdasddelete" , json);
             } catch (Exception e) {
-                Log.e("Buffer Error", "Error converting result " + e.toString());
+                e.printStackTrace();
+                //Log.e("Buffer Error", "Error converting result " + e.toString());
             }
 
             try {
                 array = new JSONArray(json);
                 length = array.length();
             } catch (JSONException e) {
-                Log.e("JSON Parser", "Error parsing data " + e.toString());
+                e.printStackTrace();
+                //Log.e("JSON Parser", "Error parsing data " + e.toString());
             }catch (NullPointerException e)
             {
                 e.printStackTrace();

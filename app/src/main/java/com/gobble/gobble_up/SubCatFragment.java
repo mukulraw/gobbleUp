@@ -20,6 +20,11 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -65,6 +70,9 @@ public class SubCatFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
         this.page = getArguments().getInt("page");
         this.id = getArguments().getString("id");
         this.name = getArguments().getString("name");
@@ -161,7 +169,7 @@ public class SubCatFragment extends Fragment {
         protected Void doInBackground(Void... params) {
 
 
-            Log.d("asdasdasd" , url);
+           // Log.d("asdasdasd" , url);
             d = LoadImageFromURL(url);
 
             return null;
@@ -207,7 +215,7 @@ public class SubCatFragment extends Fragment {
         protected Void doInBackground(Void... params) {
 
 
-            Log.d("Sub category fragment" , url);
+           // Log.d("Sub category fragment" , url);
 
             try {
                 //HttpClient client = new DefaultHttpClient();
@@ -236,14 +244,16 @@ public class SubCatFragment extends Fragment {
                 is.close();
                 json = sb.toString();
             } catch (Exception e) {
-                Log.e("Buffer Error", "Error converting result " + e.toString());
+                e.printStackTrace();
+               // Log.e("Buffer Error", "Error converting result " + e.toString());
             }
 
             try {
                 array = new JSONArray(json);
                 length = array.length();
             } catch (JSONException e) {
-                Log.e("JSON Parser", "Error parsing data " + e.toString());
+                e.printStackTrace();
+               // Log.e("JSON Parser", "Error parsing data " + e.toString());
             }catch (NullPointerException e)
             {
                 e.printStackTrace();
@@ -278,7 +288,7 @@ public class SubCatFragment extends Fragment {
                     if (l >0) {
                         if (l == 1) {
                             if (obj.getInt("id") == b.list.get(0).getId()) {
-                                Log.d("asdasdasd", "checked");
+                              //  Log.d("asdasdasd", "checked");
                     bean.setSet(true);
                             }
                         }

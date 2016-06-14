@@ -51,7 +51,7 @@ public class searchAdapter extends ArrayAdapter<searchBean> {
         searchBean item = list.get(position);
         holder.searchName.setText(item.getName());
 
-        Log.d("adapter" , item.getName());
+      //  Log.d("adapter" , item.getName());
 
         return row;
     }

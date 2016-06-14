@@ -37,5 +37,6 @@ dependencies {
     compile ('cn.trinea.android.view.autoscrollviewpager:android-auto-scroll-view-pager:1.1.2') {
         exclude module: 'support-v4'
     }
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 }
 apply plugin: 'com.google.gms.google-services'

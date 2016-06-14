@@ -110,7 +110,7 @@ public class SubCategoryFragment extends Fragment {
         protected Void doInBackground(Void... params) {
 
 
-            Log.d("asdasdasd" , url);
+           // Log.d("asdasdasd" , url);
             d = LoadImageFromURL(url);
 
             return null;
@@ -163,7 +163,7 @@ public class SubCategoryFragment extends Fragment {
         protected Void doInBackground(Void... params) {
 
 
-            Log.d("asdasdasd" , url);
+            //Log.d("asdasdasd" , url);
 
             try {
                 //HttpClient client = new DefaultHttpClient();
@@ -192,14 +192,16 @@ public class SubCategoryFragment extends Fragment {
                 is.close();
                 json = sb.toString();
             } catch (Exception e) {
-                Log.e("Buffer Error", "Error converting result " + e.toString());
+                e.printStackTrace();
+              //  Log.e("Buffer Error", "Error converting result " + e.toString());
             }
 
             try {
                 array = new JSONArray(json);
                 length = array.length();
             } catch (JSONException e) {
-                Log.e("JSON Parser", "Error parsing data " + e.toString());
+                e.printStackTrace();
+              //  Log.e("JSON Parser", "Error parsing data " + e.toString());
             }catch (NullPointerException e)
             {
                 e.printStackTrace();
@@ -243,12 +245,19 @@ public class SubCategoryFragment extends Fragment {
             for(int i = 0 ; i<length ;i++)
             {
                 String n = list1.get(i).getName();
-                Log.d("asdasdasd" , n);
+              //  Log.d("asdasdasd" , n);
                 tab.addTab(tab.newTab().setText(n));
             }
 
             adapter1 = new FragStatePagerAdapter(getChildFragmentManager() , list1 , tab.getTabCount());
-            pager.setAdapter(adapter1);
+            try
+            {
+                pager.setAdapter(adapter1);
+            }catch (NullPointerException e)
+            {
+                e.printStackTrace();
+            }
+
             pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tab));
             tab.setTabGravity(TabLayout.GRAVITY_CENTER);
             tab.setTabMode(TabLayout.MODE_SCROLLABLE);

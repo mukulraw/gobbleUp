@@ -23,6 +23,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -78,8 +81,20 @@ public class CatGridAdapter extends RecyclerView.Adapter<CatGridAdapter.RecycleV
 
 
 
+        DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)
+                .cacheOnDisc(true).resetViewBeforeLoading(true).build();
 
-        new loadImage(holder.imageView , item.getImage() , holder.titleTextView).execute();
+
+        ImageLoader imageLoader = ImageLoader.getInstance();
+
+
+
+        imageLoader.displayImage(item.getImage() , holder.imageView , options);
+        Animation animation = AnimationUtils.loadAnimation(context , R.anim.fade);
+        holder.imageView.startAnimation(animation);
+
+        holder.titleTextView.setVisibility(View.VISIBLE);
+        //new loadImage(holder.imageView , item.getImage() , holder.titleTextView).execute();
     }
 
 
@@ -113,7 +128,7 @@ public class CatGridAdapter extends RecyclerView.Adapter<CatGridAdapter.RecycleV
         protected Void doInBackground(Void... params) {
 
 
-            Log.d("asdasdasd" , url);
+            //Log.d("asdasdasd" , url);
             d = LoadImageFromURL(url);
 
             return null;

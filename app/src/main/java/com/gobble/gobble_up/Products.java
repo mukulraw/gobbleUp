@@ -117,7 +117,7 @@ public class Products extends AppCompatActivity {
         protected Void doInBackground(Void... params) {
 
 
-            Log.d("asdasdasd" , url);
+         //   Log.d("asdasdasd" , url);
 
             try {
                 HttpClient client = new DefaultHttpClient();
@@ -140,21 +140,17 @@ public class Products extends AppCompatActivity {
                 is.close();
                 json = sb.toString();
             } catch (Exception e) {
-                Log.e("Buffer Error", "Error converting result " + e.toString());
+                e.printStackTrace();
+              //  Log.e("Buffer Error", "Error converting result " + e.toString());
             }
 
             try {
                 array = new JSONArray(json);
                 length = array.length();
-            } catch (JSONException e) {
-                Log.e("JSON Parser", "Error parsing data " + e.toString());
-            }catch (NullPointerException e)
-            {
+            } catch (JSONException | NullPointerException e) {
                 e.printStackTrace();
-               // Toast.makeText(getBaseContext() , "failed to fetch data" , Toast.LENGTH_SHORT).show();
+               // Log.e("JSON Parser", "Error parsing data " + e.toString());
             }
-
-
 
 
             for (int i=0 ; i<length;i++)

@@ -219,7 +219,7 @@ public class SubCategory extends AppCompatActivity implements NavigationView.OnN
 
         if(id == R.id.nav_log_out)
         {
-            Log.d("asdasdasd" , "log out clicked" );
+            //Log.d("asdasdasd" , "log out clicked" );
             if (mGoogleApiClient.isConnected())
             {
                 signOut();
@@ -316,7 +316,7 @@ public class SubCategory extends AppCompatActivity implements NavigationView.OnN
         protected Void doInBackground(Void... params) {
 
 
-            Log.d("asdasdasd" , url);
+          //  Log.d("asdasdasd" , url);
             d = LoadImageFromURL(url);
 
             return null;
@@ -364,7 +364,7 @@ public class SubCategory extends AppCompatActivity implements NavigationView.OnN
         protected Void doInBackground(Void... params) {
 
 
-            Log.d("asdasdasd" , url);
+           // Log.d("asdasdasd" , url);
 
             try {
                 //HttpClient client = new DefaultHttpClient();
@@ -393,14 +393,16 @@ public class SubCategory extends AppCompatActivity implements NavigationView.OnN
                 is.close();
                 json = sb.toString();
             } catch (Exception e) {
-                Log.e("Buffer Error", "Error converting result " + e.toString());
+                e.printStackTrace();
+             //   Log.e("Buffer Error", "Error converting result " + e.toString());
             }
 
             try {
                 array = new JSONArray(json);
                 length = array.length();
             } catch (JSONException e) {
-                Log.e("JSON Parser", "Error parsing data " + e.toString());
+                e.printStackTrace();
+               // Log.e("JSON Parser", "Error parsing data " + e.toString());
             }catch (NullPointerException e)
             {
                 e.printStackTrace();
@@ -444,7 +446,7 @@ public class SubCategory extends AppCompatActivity implements NavigationView.OnN
             for(int i = 0 ; i<length ;i++)
             {
                 String n = list1.get(i).getName();
-                Log.d("asdasdasd" , n);
+              //  Log.d("asdasdasd" , n);
                 tab.addTab(tab.newTab().setText(n));
             }
 

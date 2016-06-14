@@ -84,35 +84,9 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
     String fb_email , fb_name , fb_id , fb_gender;
 
     private AccessTokenTracker accessTokenTracker;
-    private ProfileTracker profileTracker;
+    //private ProfileTracker profileTracker;
     private CallbackManager callbackManager;
-    private FacebookCallback<LoginResult> callback = new FacebookCallback<LoginResult>() {
-        @Override
-        public void onSuccess(LoginResult loginResult) {
-            AccessToken accessToken = loginResult.getAccessToken();
-            Profile profile = Profile.getCurrentProfile();
-            String p = profile.getId();
-            String e = profile.getName();
-            imageUrl = String.valueOf(profile.getProfilePictureUri(70,70));
-            fb_flag = true;
-            new login(e , p).execute();
 
-
-
-
-
-        }
-
-        @Override
-        public void onCancel() {
-
-        }
-
-        @Override
-        public void onError(FacebookException e) {
-
-        }
-    };
 
 
     @Override
@@ -121,6 +95,14 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
         FacebookSdk.sdkInitialize(this);
         callbackManager = CallbackManager.Factory.create();
 
+      /*
+        profileTracker = new ProfileTracker() {
+            @Override
+            protected void onCurrentProfileChanged(Profile oldProfile, Profile newProfile) {
+
+            }
+        };
+        profileTracker.startTracking();
         accessTokenTracker= new AccessTokenTracker() {
             @Override
             protected void onCurrentAccessTokenChanged(AccessToken oldToken, AccessToken newToken) {
@@ -128,15 +110,10 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
             }
         };
 
-        profileTracker = new ProfileTracker() {
-            @Override
-            protected void onCurrentProfileChanged(Profile oldProfile, Profile newProfile) {
-                //displayMessage(newProfile);
-            }
-        };
+*/
 
-        accessTokenTracker.startTracking();
-        profileTracker.startTracking();
+        //accessTokenTracker.startTracking();
+
         setContentView(R.layout.activity_login);
 
         pref = getSharedPreferences("MySignin", Context.MODE_PRIVATE);
@@ -158,7 +135,53 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
 
 
         fb_signin.setReadPermissions(Arrays.asList("public_profile"));
-        fb_signin.registerCallback(callbackManager, callback);
+        fb_signin.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            private ProfileTracker mProfileTracker;
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+
+                if(Profile.getCurrentProfile() == null) {
+                    mProfileTracker = new ProfileTracker() {
+                        @Override
+                        protected void onCurrentProfileChanged(Profile profile, Profile profile2) {
+                            // profile2 is the new profile
+                            //Log.v("facebook - profile1", profile2.getFirstName());
+                            String p = profile2.getId();
+                            String e = profile2.getName();
+                            imageUrl = String.valueOf(profile2.getProfilePictureUri(70,70));
+                            fb_flag = true;
+                            new login(e , p).execute();
+                            mProfileTracker.stopTracking();
+                        }
+                    };
+                    // no need to call startTracking() on mProfileTracker
+                    // because it is called by its constructor, internally.
+                }
+                else {
+                    Profile profile = Profile.getCurrentProfile();
+                    //Log.v("facebook - profile2", profile.getFirstName());
+                    String p = profile.getId();
+                    String e = profile.getName();
+                    imageUrl = String.valueOf(profile.getProfilePictureUri(70,70));
+                    fb_flag = true;
+                    new login(e , p).execute();
+                }
+
+
+
+
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+
+            }
+        });
 
 
         if(checkPlayServices())
@@ -376,58 +399,7 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
     }
 
 
-    private FacebookCallback<LoginResult> mCallBack = new FacebookCallback<LoginResult>() {
-        @Override
-        public void onSuccess(LoginResult loginResult) {
 
-            progressDialog.dismiss();
-
-            // App code
-            GraphRequest request = GraphRequest.newMeRequest(
-                    loginResult.getAccessToken(),
-                    new GraphRequest.GraphJSONObjectCallback() {
-                        @Override
-                        public void onCompleted(
-                                JSONObject object,
-                                GraphResponse response) {
-
-                            Log.e("response: ", response + "");
-                            try {
-
-                                fb_id = object.getString("id").toString();
-                                fb_email = object.getString("email").toString();
-                                fb_name = object.getString("name").toString();
-                                fb_gender = object.getString("gender").toString();
-
-
-                            }catch (Exception e){
-                                e.printStackTrace();
-                            }
-                            Toast.makeText(LoginActivity.this,"welcome "+fb_name,Toast.LENGTH_LONG).show();
-                            Intent intent=new Intent(LoginActivity.this,GetStartActivity.class);
-                            startActivity(intent);
-                            finish();
-
-                        }
-
-                    });
-
-            Bundle parameters = new Bundle();
-            parameters.putString("fields", "id,name,email,gender, birthday");
-            request.setParameters(parameters);
-            request.executeAsync();
-        }
-
-        @Override
-        public void onCancel() {
-            progressDialog.dismiss();
-        }
-
-        @Override
-        public void onError(FacebookException e) {
-            progressDialog.dismiss();
-        }
-    };
 
 
     public class login extends AsyncTask<Void , Void , Void>

@@ -57,7 +57,7 @@ public class SearchResultActivity extends AppCompatActivity implements TextWatch
         //lv = (ListView) findViewById(R.id.search_list);
 
 
-        Log.d("asdasdasd", "entered search");
+       // Log.d("asdasdasd", "entered search");
 
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -201,16 +201,18 @@ public class SearchResultActivity extends AppCompatActivity implements TextWatch
                     }
                     is.close();
                     json = sb.toString();
-                    Log.d("asdasdad", json);
+                  //  Log.d("asdasdad", json);
                 } catch (Exception e) {
-                    Log.e("Buffer Error", "Error converting result " + e.toString());
+                    e.printStackTrace();
+                  //  Log.e("Buffer Error", "Error converting result " + e.toString());
                 }
 
                 try {
                     array = new JSONArray(json);
                     length = array.length();
                 } catch (JSONException e) {
-                    Log.e("JSON Parser", "Error parsing data " + e.toString());
+                    e.printStackTrace();
+                    //Log.e("JSON Parser", "Error parsing data " + e.toString());
                 } catch (NullPointerException e) {
                     e.printStackTrace();
                     //Toast.makeText(getBaseContext() , "failed to fetch data" , Toast.LENGTH_SHORT).show();
@@ -228,9 +230,9 @@ public class SearchResultActivity extends AppCompatActivity implements TextWatch
                         bean.setId(obj.getString("id"));
                         bean.setNutrition(obj.getString("nutration"));
                         bean.setSubCatId(obj.getString("sub_cat_id"));
-                        Log.d("asdasdasd", obj.getString("name"));
+                      //  Log.d("asdasdasd", obj.getString("name"));
                         original.add(bean);
-                        Log.d("asdasdasd", "added");
+                      //  Log.d("asdasdasd", "added");
                     } catch (JSONException | NullPointerException e) {
                         e.printStackTrace();
                     }

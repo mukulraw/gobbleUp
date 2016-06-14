@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             be.url = url;
             be.n = n;
 
-            Log.d("asdasdasd" , n);
+            //Log.d("asdasdasd" , n);
             profile = (CircleImageView)header.findViewById(R.id.headerProfile);
             head_name = (TextView)header.findViewById(R.id.headertitle);
             if (url!=null)
@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             pref = getSharedPreferences("MySignin", Context.MODE_PRIVATE);
             edit = pref.edit();
 
-            Log.d("asdasdasd" , "log out clicked" );
+            //Log.d("asdasdasd" , "log out clicked" );
             if (pref.getBoolean("goog" , false))
             {
                 if (mGoogleApiClient.isConnected())
@@ -296,7 +296,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         protected Void doInBackground(Void... params) {
 
 
-            Log.d("asdasdasd" , url);
+            //Log.d("asdasdasd" , url);
             d = LoadImageFromURL(url);
 
             return null;
