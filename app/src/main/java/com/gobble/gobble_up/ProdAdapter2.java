@@ -296,19 +296,16 @@ public class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewH
         @Override
         public void onClick(View v) {
 
-
             ProductBean item = (ProductBean) list.get(getPosition());
 
             SingleProductFragment frag3 = new SingleProductFragment();
             Bundle b = new Bundle();
 
             b.putString("id" , String.valueOf(item.getId()));
-            b.putString("name" , item.getName());
-            b.putString("price" , item.getPrice());
-            b.putString("desc" , item.getDescription());
+            //b.putString("name" , item.getName());
+            //b.putString("price" , item.getPrice());
+            //b.putString("desc" , item.getDescription());
             b.putString("image" , item.getImage());
-
-
 
             frag3.setArguments(b);
             FragmentManager fm = ((MainActivity)context).getSupportFragmentManager();
@@ -319,10 +316,6 @@ public class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewH
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
             ft.addToBackStack(null);
             ft.commit();
-
-
-
-
         }
 
 

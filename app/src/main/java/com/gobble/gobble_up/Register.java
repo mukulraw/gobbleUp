@@ -22,6 +22,7 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -405,10 +406,14 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
                 startActivity(i);
 
 
+                LoginManager.getInstance().logOut();
+
+
             }
             else
             {
                 Toast.makeText(getApplicationContext() , "already registered" , Toast.LENGTH_SHORT).show();
+                LoginManager.getInstance().logOut();
             }
 
 //
@@ -427,7 +432,7 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
     @Override
     protected void onStop() {
         super.onStop();
-        accessTokenTracker.stopTracking();
+
         if (mGoogleApiClient!=null&&mGoogleApiClient.isConnected()) {
             mGoogleApiClient.disconnect();
         }

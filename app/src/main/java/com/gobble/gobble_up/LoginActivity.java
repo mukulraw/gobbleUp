@@ -46,13 +46,14 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import com.facebook.FacebookSdk;
 
-public class LoginActivity extends FragmentActivity implements GoogleApiClient.ConnectionCallbacks , GoogleApiClient.OnConnectionFailedListener  , View.OnClickListener{
+public class LoginActivity extends FragmentActivity implements GoogleApiClient.ConnectionCallbacks , GoogleApiClient.OnConnectionFailedListener  , View.OnClickListener {
     private String LOG_IN = "http://nationproducts.in/global/api/login";
     private static final int RC_SIGN_IN = 9001;
 
@@ -124,6 +125,8 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
 
         google_signin = (SignInButton) findViewById(R.id.bt_google_sign);
         fb_signin = (LoginButton) findViewById(R.id.bt_facebook1);
+        fb_signin.setHeight(40);
+
 
         forgot = (TextView)findViewById(R.id.tv_userforgotpassword);
 

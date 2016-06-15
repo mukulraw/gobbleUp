@@ -181,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             edit = pref.edit();
 
             //Log.d("asdasdasd" , "log out clicked" );
-            if (pref.getBoolean("goog" , false))
+            if (pref.getBoolean("google" , false))
             {
                 if (mGoogleApiClient.isConnected())
                 {
@@ -202,6 +202,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 finish();
             }
 
+            else
+            {
+                Intent i = new Intent(getApplicationContext() , LoginActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+                overridePendingTransition(0,0);
+                finish();
+            }
 
 
 

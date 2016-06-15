@@ -1,15 +1,16 @@
 package com.gobble.gobble_up;
 
 import android.app.Application;
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by hi on 02-06-2016.
- */
-public class comparebean extends Application{
+
+public class comparebean extends MultiDexApplication {
     ArrayList<ProductBean> list = new ArrayList<>();
     List<Bitmap> bitmaps = new ArrayList<>();
     String url = null;
@@ -18,7 +19,9 @@ public class comparebean extends Application{
     String user_id;
 
 
-
-
-
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
 }

@@ -317,6 +317,8 @@ public class Compare extends AppCompatActivity {
         bean3.setFirst(b.list.get(fir).getPrice());
         bean3.setSecond(b.list.get(sec).getPrice());
 
+
+
         list1.add(bean3);
 
 

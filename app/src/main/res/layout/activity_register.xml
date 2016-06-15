@@ -161,6 +161,8 @@
                         android:id="@+id/bt_mailid"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:paddingBottom="19dp"
+                        android:paddingTop="19dp"
                         android:textSize="10dp"
                         android:text="Sign in with Facebook"
                         android:layout_margin="2.5dp"
@@ -175,7 +177,7 @@
                         android:layout_width="0dp"
                         android:layout_margin="2.5dp"
                         android:textSize="10dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="50dp"
 
                         android:text="Sign in with Google+"
                         android:background="@color/red"
