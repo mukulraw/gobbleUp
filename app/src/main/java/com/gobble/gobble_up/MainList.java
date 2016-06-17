@@ -31,7 +31,7 @@ public class MainList extends AppCompatActivity {
     ArrayList<addListBean> list;
     String iidd;
 
-    addToListAdapter adapter;
+    MainListAdapter adapter;
     private String GET_ALL_LIST = "http://nationproducts.in/global/api/alllists/userId/";
     private String DELETE_LIST = "http://nationproducts.in/global/api/deletelist/listId/";
     @Override
@@ -51,6 +51,9 @@ public class MainList extends AppCompatActivity {
 
 
         lview = (ListView)findViewById(R.id.main_list_listview);
+        if (lview != null) {
+            lview.setDividerHeight(0);
+        }
         final comparebean be = (comparebean)this.getApplicationContext();
 
         iidd = be.user_id;
@@ -78,7 +81,7 @@ public class MainList extends AppCompatActivity {
         super.onResume();
         list = new ArrayList<>();
 
-        adapter = new addToListAdapter(this , R.layout.add_list_model , list);
+        adapter = new MainListAdapter(this , R.layout.add_list_model , list);
         lview.setAdapter(adapter);
 
 

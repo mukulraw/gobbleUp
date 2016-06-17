@@ -27,7 +27,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -168,7 +170,10 @@ public class CategoryFragment extends Fragment {
                 //is = entity.getContent();
 
                 URL u = new URL(url);
+
+
                 HttpURLConnection connection = (HttpURLConnection)u.openConnection();
+
                 if(connection.getResponseCode()==200)
                 {
                     is = connection.getInputStream();
@@ -176,6 +181,21 @@ public class CategoryFragment extends Fragment {
 
             } catch (IOException e) {
                 e.printStackTrace();
+                URL u = null;
+                try {
+                    u = new URL(url);
+
+                    HttpURLConnection connection = (HttpURLConnection)u.openConnection();
+
+                    if(connection.getResponseCode()==200)
+                    {
+                        is = connection.getInputStream();
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+
+
             }
 
             try {

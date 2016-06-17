@@ -59,6 +59,10 @@ public class AddtoList extends AppCompatActivity {
         addinList = (Button)findViewById(R.id.create_new_list);
         addToListListview = (ListView)findViewById(R.id.add_to_list_listview);
 
+        if (addToListListview != null) {
+            addToListListview.setDividerHeight(0);
+        }
+
         prodId = String.valueOf(b.get("listId"));
 
         final comparebean be = (comparebean)this.getApplicationContext();

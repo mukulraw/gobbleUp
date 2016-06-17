@@ -8,6 +8,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.HttpHostConnectException;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
 
@@ -42,10 +43,23 @@ public class RegisterUserClass {
             HttpClient client = new DefaultHttpClient();
             HttpPost post = new HttpPost(requestURL);
             post.setEntity(new UrlEncodedFormEntity(data));
-            HttpResponse httpResponse = client.execute(post);
-            HttpEntity entity = httpResponse.getEntity();
 
-            is = entity.getContent();
+try
+{
+    HttpResponse httpResponse = client.execute(post);
+    HttpEntity entity = httpResponse.getEntity();
+
+    is = entity.getContent();
+
+}catch (HttpHostConnectException e)
+{
+
+    HttpResponse httpResponse = client.execute(post);
+    HttpEntity entity = httpResponse.getEntity();
+
+    is = entity.getContent();
+}
+
 
 
 

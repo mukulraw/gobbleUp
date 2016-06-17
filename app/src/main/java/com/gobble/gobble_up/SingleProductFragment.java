@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
@@ -61,12 +62,14 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
     ImageView iv;
     TextView title;
     private GridLayoutManager lLayout;
-    Button add;
+    Button add , compare;
     String iidd;
     List<String> nutrition;
     PieChart pieChart;
     private String GET_PRODUCT = "http://nationproducts.in/global/api/product/id/";
     BarChart barChart;
+
+    RelativeLayout bar;
 
     TextView sliderName , sliderBelowText , calories , fat , carbs , protein , sodium , potassium , fiber , sugar , vita , vitc , calcium , iron;
 
@@ -85,6 +88,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
         pieChart = (PieChart)view.findViewById(R.id.pie);
         pieChart.setUsePercentValues(true);
 
+        compare = (Button)view.findViewById(R.id.addtocompare);
         barChart = (BarChart)view.findViewById(R.id.bar_chart);
 
 
@@ -115,10 +119,25 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
         View bottom = (View)view.findViewById(R.id.bottom_sheet);
 
+bar = (RelativeLayout)((MainActivity)getContext()).findViewById(R.id.bottombar);
+
 
         mBottomSheetBehavior = BottomSheetBehavior.from(bottom);
         mBottomSheetBehavior.setPeekHeight(90);
         mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
+
+
+        //TextView openSlider = (TextView)view.findViewById(R.id.open_slider);
+
+
+
+      //  openSlider.setOnClickListener(new View.OnClickListener() {
+       //     @Override
+    //        public void onClick(View v) {
+      //          mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+    //        }
+   //     });
 
 
         lLayout = new GridLayoutManager(getContext() , 1);
@@ -126,7 +145,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
         iidd = getArguments().getString("id");
 
 
-
+        final comparebean b = (comparebean)getContext().getApplicationContext();
 
         //title.setText(a);
         iv = (ImageView)view.findViewById(R.id.prodImage1);
@@ -141,6 +160,85 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
        // list.add(new bean("price" , price));
        // list.add(new bean("description" , desc));
+
+
+        for (int i = 0 ; i<b.list.size() ; i++)
+        {
+
+
+
+            if (b.list.get(i).getId() == Integer.parseInt(iidd))
+            {
+                compare.setBackground(getResources().getDrawable(R.drawable.dark));
+
+            }
+
+        }
+
+        compare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                int flag = 0;
+                for (int i = 0 ; i<b.list.size() ; i++)
+                {
+                    if (b.list.get(i).getId() == Integer.parseInt(iidd))
+                    {
+                       flag = 1;
+                    }
+                }
+
+                if (flag == 1)
+                {
+                    Toast.makeText(getContext() , "Already added to compare" , Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    ProductBean item = new ProductBean();
+                    if (b.list.size() < 4)
+                    {
+                        item.setId(Integer.parseInt(iidd));
+                        b.list.add(item);
+                        b.comparecount++;
+                        item.setSet(true);
+                        compare.setBackground(getResources().getDrawable(R.drawable.dark));
+                        //Toast.makeText(getContext() , "Added to compare" , Toast.LENGTH_SHORT).show();
+
+                        if (bar.getVisibility() == View.GONE)
+                        {
+                            TranslateAnimation animate = new TranslateAnimation(0,0,bar.getHeight(),0);
+                            animate.setDuration(500);
+                            animate.setFillAfter(true);
+                            bar.startAnimation(animate);
+                            bar.setVisibility(View.VISIBLE);
+                        }
+
+
+
+                        TextView comp = (TextView)((MainActivity)getContext()).findViewById(R.id.barcompare);
+                        comp.setText("Compare " + String.valueOf(b.list.size()));
+
+                        //bar.animate().alpha(1.0f);
+                        // b.bitmaps.add(LoadImageFromURL(item.getImage()));
+                        //Log.d("asdasdasd" , String.valueOf(b.list.size()));
+                        Toast.makeText(getContext() , "Added to Compare" , Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(getContext() , "Max. limit reached" , Toast.LENGTH_SHORT).show();
+
+                    }
+
+
+
+
+
+
+
+
+                }
+            }
+        });
+
 
 
 
@@ -205,7 +303,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
                 add.startAnimation(animation);
 
                 RelativeLayout bar = (RelativeLayout)((MainActivity)getContext()).findViewById(R.id.bottombar);
-                if (bar.getVisibility() == View.INVISIBLE)
+                if (bar.getVisibility() == View.GONE)
                 {
                     TranslateAnimation animate = new TranslateAnimation(0,0,bar.getHeight(),0);
                     animate.setDuration(500);
@@ -334,7 +432,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
             try {
                 object = mainArray.getJSONObject(0);
-            } catch (JSONException e) {
+            } catch (JSONException | NullPointerException e) {
                 e.printStackTrace();
             }
 
@@ -343,7 +441,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
                 prie = object.getString("price");
                 nae = object.getString("name");
                 desc = object.getString("description");
-            } catch (JSONException e) {
+            } catch (JSONException | NullPointerException e) {
                 e.printStackTrace();
             }
 

@@ -120,7 +120,7 @@ public class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewH
                         b.comparecount++;
                         item.setSet(true);
 
-                        if (bar.getVisibility() == View.INVISIBLE)
+                        if (bar.getVisibility() == View.GONE)
                         {
                             TranslateAnimation animate = new TranslateAnimation(0,0,bar.getHeight(),0);
                             animate.setDuration(500);
@@ -162,7 +162,7 @@ public class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewH
                             animate.setDuration(500);
                             animate.setFillAfter(true);
                             bar.startAnimation(animate);
-                            bar.setVisibility(View.INVISIBLE);
+                            bar.setVisibility(View.GONE);
                         }
 
 

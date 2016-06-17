@@ -186,7 +186,7 @@ public class SingleProduct extends AppCompatActivity implements View.OnClickList
                 animation.setRepeatMode(Animation.REVERSE);
 
                 add.startAnimation(animation);
-                RelativeLayout bar = (RelativeLayout)((MainActivity)getBaseContext()).findViewById(R.id.bottombar);
+                RelativeLayout bar = (RelativeLayout)((MainActivity)getApplicationContext()).findViewById(R.id.bottombar);
                 if (bar.getVisibility() == View.INVISIBLE)
                 {
                     TranslateAnimation animate = new TranslateAnimation(0,0,bar.getHeight(),0);

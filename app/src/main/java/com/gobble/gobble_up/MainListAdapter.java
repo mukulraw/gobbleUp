@@ -3,7 +3,6 @@ package com.gobble.gobble_up;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,19 +24,18 @@ import java.net.URL;
 import java.util.ArrayList;
 
 /**
- * Created by hi on 03-06-2016.
+ * Created by hi on 6/17/2016.
  */
-public class addToListAdapter extends ArrayAdapter<addListBean> {
-
+public class MainListAdapter extends ArrayAdapter<addListBean> {
     private Context context;
     private int layoutResourceId;
     private ArrayList<addListBean> list = new ArrayList<>();
     private String DELETE_LIST = "http://nationproducts.in/global/api/deletelist/listId/";
     private String GET_ALL_LIST = "http://nationproducts.in/global/api/alllists/userId/";
-addToListAdapter adapter;
+    addToListAdapter adapter;
 
 
-    public addToListAdapter(Context context, int resource , ArrayList<addListBean> list) {
+    public MainListAdapter(Context context, int resource , ArrayList<addListBean> list) {
         super(context, resource , list);
         this.context = context;
         this.layoutResourceId = resource;
@@ -100,17 +98,13 @@ addToListAdapter adapter;
 
                         new delete(DELETE_LIST+idd).execute();
                         dialog.dismiss();
-
-
-
-
-                        AddtoList l = new AddtoList();
+                        MainList l = new MainList();
                         l.list = new ArrayList<addListBean>();
                         adapter = new addToListAdapter(context , R.layout.add_list_model , list);
-                        l.addToListListview = (ListView)((AddtoList)context).findViewById(R.id.add_to_list_listview);
+                        l.lview = (ListView)((MainList)context).findViewById(R.id.main_list_listview);
 
-                        if (l.addToListListview != null) {
-                            l.addToListListview.setAdapter(adapter);
+                        if (l.lview != null) {
+                            l.lview.setAdapter(adapter);
                         }
 
                         list.clear();
@@ -275,7 +269,7 @@ addToListAdapter adapter;
                 //is = entity.getContent();
 
                 URL u = new URL(url);
-               // Log.d("asdasdasdurl" , url);
+                // Log.d("asdasdasdurl" , url);
                 HttpURLConnection connection = (HttpURLConnection)u.openConnection();
                 if(connection.getResponseCode()==200)
                 {
@@ -328,7 +322,7 @@ addToListAdapter adapter;
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-           // new MainList().refresh();
+            // new MainList().refresh();
 
 
         }

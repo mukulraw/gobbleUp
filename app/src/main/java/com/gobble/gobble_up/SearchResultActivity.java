@@ -4,6 +4,8 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
@@ -14,6 +16,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -65,13 +68,31 @@ public class SearchResultActivity extends AppCompatActivity implements TextWatch
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 searchBean item = (searchBean) parent.getItemAtPosition(position);
-                Intent i = new Intent(getApplicationContext() , SingleProduct.class);
-                i.putExtra("id" , item.getId());
-                i.putExtra("name" , item.getName());
-                i.putExtra("price" , item.getPrice());
-                //i.putExtra("desc" , item.getDescription());
-                i.putExtra("image" , item.getImage());
-                startActivity(i);
+
+
+
+
+            /*    frag3.setArguments(b);
+
+                MainActivity act = new MainActivity();
+
+                FragmentManager fm = (act).getSupportFragmentManager();
+
+                FragmentTransaction ft = fm.beginTransaction();
+
+                //LinearLayout v = (LinearLayout) findViewById(R.id.layoutToReplace);
+
+                ft.replace(R.id.layoutToReplace , frag3);
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+                ft.addToBackStack(null);
+                ft.commit();
+                finish();*/
+
+
+                Intent resultintent = getIntent();
+                resultintent.putExtra("result" , item.getId());
+                resultintent.putExtra("image" , item.getImage());
+                setResult(RESULT_OK , resultintent);
                 finish();
 
             }

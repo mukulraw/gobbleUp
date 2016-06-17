@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void onCompare(View view)
     {
-        Intent i = new Intent(getApplicationContext() , Compare.class);
+        Intent i = new Intent(getApplicationContext() , Compare2.class);
         startActivity(i);
     }
 
@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
         if (id == R.id.nav_gallery) {
 
-            Intent i = new Intent(getApplicationContext() , Compare.class);
+            Intent i = new Intent(getApplicationContext() , Compare2.class);
             startActivity(i);
 
         }
@@ -278,7 +278,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         {
 
             Intent i = new Intent(getApplicationContext() , SearchResultActivity.class);
-            startActivity(i);
+            startActivityForResult(i , 123);
             overridePendingTransition(0,0);
         }
 
@@ -286,6 +286,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 123)
+        {
+
+            if (resultCode == RESULT_OK)
+            {
+
+                Bundle bundle = data.getExtras();
+                String id = String.valueOf(bundle.get("result"));
+                FragmentManager fm = getSupportFragmentManager();
+
+                Bundle b = new Bundle();
+                b.putString("id" , id);
+                b.putString("image" , String.valueOf(bundle.get("image")));
+
+
+
+                FragmentTransaction ft = fm.beginTransaction();
+                SingleProductFragment frag = new SingleProductFragment();
+
+                frag.setArguments(b);
+
+                ft.replace(R.id.layoutToReplace , frag);
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+                ft.addToBackStack(null);
+                ft.commit();
+
+            }
+
+        }
+
+    }
 
     public class loadImage extends AsyncTask<Void , Void , Void>
     {

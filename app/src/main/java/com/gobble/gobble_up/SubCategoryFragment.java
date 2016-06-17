@@ -122,11 +122,12 @@ public class SubCategoryFragment extends Fragment {
             if (getContext()!=null)
             {
                 animation = AnimationUtils.loadAnimation(getContext() , R.anim.fade);
+                iv.startAnimation(animation);
+                iv.setImageBitmap(d);
+                title.setVisibility(View.VISIBLE);
             }
 
-            iv.startAnimation(animation);
-            iv.setImageBitmap(d);
-            title.setVisibility(View.VISIBLE);
+
         }
     }
 

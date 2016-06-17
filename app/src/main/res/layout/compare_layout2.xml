@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        layout="@layout/toolbar"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="@color/white"
+        android:paddingTop="4dp"
+        android:paddingStart="4dp"
+        android:paddingBottom="4dp"
+        android:text="Compared product list according to nutritional value"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        >
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+
+        android:layout_height="match_parent"
+        android:id="@+id/compare_layout_list"
+        />
+
+    </LinearLayout>
+
+</LinearLayout>

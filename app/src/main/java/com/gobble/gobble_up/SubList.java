@@ -1,10 +1,12 @@
 package com.gobble.gobble_up;
 
 import android.os.AsyncTask;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,12 +27,15 @@ public class SubList extends AppCompatActivity {
     ListView lv;
     SubListAdapter adapter;
     String id;
+    TextView total;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub_list);
 
+
+        total = (TextView)findViewById(R.id.total);
 
         Bundle b = getIntent().getExtras();
 
@@ -39,7 +44,9 @@ public class SubList extends AppCompatActivity {
 
 
         lv = (ListView)findViewById(R.id.sub_list);
-
+        if (lv != null) {
+            lv.setDividerHeight(0);
+        }
 
 
     }
@@ -171,6 +178,7 @@ public class SubList extends AppCompatActivity {
             super.onPostExecute(aVoid);
 
             adapter.setGridData(list);
+            total.setText("TOTAL:  "+String.valueOf(adapter.getTotal()));
             //list.clear();
             //mProgressBar.setVisibility(View.GONE);
         }

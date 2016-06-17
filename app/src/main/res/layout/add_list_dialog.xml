@@ -3,12 +3,17 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="Choose list to add"
+        />
 
-    <ImageView
+    <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/clarkumbo_2_25"
-        android:scaleType="centerCrop"
+        android:id="@+id/dialogList"
         />
 
 </LinearLayout>
