@@ -96,24 +96,7 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
         FacebookSdk.sdkInitialize(this);
         callbackManager = CallbackManager.Factory.create();
 
-      /*
-        profileTracker = new ProfileTracker() {
-            @Override
-            protected void onCurrentProfileChanged(Profile oldProfile, Profile newProfile) {
 
-            }
-        };
-        profileTracker.startTracking();
-        accessTokenTracker= new AccessTokenTracker() {
-            @Override
-            protected void onCurrentAccessTokenChanged(AccessToken oldToken, AccessToken newToken) {
-
-            }
-        };
-
-*/
-
-        //accessTokenTracker.startTracking();
 
         setContentView(R.layout.activity_login);
 

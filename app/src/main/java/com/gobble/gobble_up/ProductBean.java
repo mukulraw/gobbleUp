@@ -7,6 +7,15 @@ public class ProductBean {
     int id;
     String image , name , price , description;
     Boolean set = false;
+    Boolean setlist = false;
+
+    public void setSetlist(Boolean setlist) {
+        this.setlist = setlist;
+    }
+
+    public Boolean getSetlist() {
+        return setlist;
+    }
 
     public void setSet(Boolean set) {
         this.set = set;

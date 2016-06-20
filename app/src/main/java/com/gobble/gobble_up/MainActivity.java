@@ -22,10 +22,13 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
+import com.google.android.gms.ads.formats.NativeAd;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
@@ -46,6 +49,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private SharedPreferences pref;
     private SharedPreferences.Editor edit;
     String url , n;
+    RelativeLayout bar;
+    ImageButton compare , list;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +60,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
 
+        bar = (RelativeLayout)findViewById(R.id.bottombar);
 
+        list = (ImageButton)findViewById(R.id.imageButton3);
+
+        compare = (ImageButton)findViewById(R.id.imageButton2);
+
+
+        compare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext() , Compare2.class);
+
+                startActivity(i);
+            }
+        });
+
+
+        list.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext() , TempList.class);
+                startActivity(i);
+            }
+        });
 
         buildGoogleApiClient();
 
@@ -148,14 +177,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onCompare(View view)
     {
         Intent i = new Intent(getApplicationContext() , Compare2.class);
+
         startActivity(i);
+
     }
 
 
     public void onList(View view)
     {
         Intent i = new Intent(getApplicationContext() , MainList.class);
+
         startActivity(i);
+
     }
 
     @Override
@@ -165,14 +198,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.nav_gallery) {
 
             Intent i = new Intent(getApplicationContext() , Compare2.class);
+
             startActivity(i);
+
 
         }
 
         if (id == R.id.nav_camera)
-        {
+        {bar.setVisibility(View.GONE);
             Intent i = new Intent(getApplicationContext() , MainList.class);
+
             startActivity(i);
+
         }
 
         if(id == R.id.nav_log_out)

@@ -43,6 +43,7 @@ public class AddtoList extends AppCompatActivity {
     String iidd;
     String prodId;
     Boolean flag = false;
+    String quan;
 
     private String CREATE_LIST = "http://nationproducts.in/global/api/createlist";
     private String GET_ALL_LIST = "http://nationproducts.in/global/api/alllists/userId/";
@@ -126,18 +127,20 @@ public class AddtoList extends AppCompatActivity {
                 addListBean item = (addListBean)parent.getItemAtPosition(position);
                 final String idd = item.getListId();
                 final Dialog dialog = new Dialog(AddtoList.this);
-                dialog.setContentView(R.layout.dialog_confirm_add);
+                dialog.setContentView(R.layout.dialog_add);
                 dialog.setCancelable(false);
                 dialog.show();
 
-                Button YES = (Button)dialog.findViewById(R.id.cinfirmAdd);
-                Button NO = (Button)dialog.findViewById(R.id.cancel_adding_tolist);
+                Button YES = (Button)dialog.findViewById(R.id.dialogAdd);
+                Button NO = (Button)dialog.findViewById(R.id.dialogNo);
+
+                final EditText q = (EditText)dialog.findViewById(R.id.quantity);
 
                 YES.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
-                        new addToList(idd , prodId , "1").execute();
+                        new addToList(idd , prodId , q.getText().toString()).execute();
                         Intent resultIntent = getIntent();
                         resultIntent.putExtra("result","result");
                         setResult(RESULT_OK , resultIntent);
@@ -397,7 +400,7 @@ public class AddtoList extends AppCompatActivity {
 
             data.add(new BasicNameValuePair("listId" , lId));
             data.add(new BasicNameValuePair("productId" , pId));
-            data.add(new BasicNameValuePair("quantity" , "1"));
+            data.add(new BasicNameValuePair("quantity" , quant));
 
             RegisterUserClass ruc = new RegisterUserClass();
             result = ruc.sendPostRequest(ADD_TO_LIST , data);

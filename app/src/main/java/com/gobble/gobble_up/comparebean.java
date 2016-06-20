@@ -12,6 +12,8 @@ import java.util.List;
 
 public class comparebean extends MultiDexApplication {
     ArrayList<ProductBean> list = new ArrayList<>();
+    ArrayList<ProductBean> tempList = new ArrayList<>();
+    int tempListCount = 0;
     List<Bitmap> bitmaps = new ArrayList<>();
     String url = null;
     String n = null;

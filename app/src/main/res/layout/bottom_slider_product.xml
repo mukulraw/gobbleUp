@@ -12,6 +12,7 @@
 
         android:layout_marginBottom="10dp"
         android:layout_height="45dp"
+        android:id="@+id/clicktoexpand"
         android:text="NUTRITIONAL DETAILS"
         android:gravity="center_vertical"
         android:background="@color/yellow"

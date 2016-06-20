@@ -58,14 +58,16 @@ import java.util.List;
  */
 public class SingleProductFragment extends Fragment implements View.OnClickListener {
     ArrayList<bean> list;
-    RecyclerView lv;
+
     ImageView iv;
     TextView title;
     private GridLayoutManager lLayout;
     Button add , compare;
     String iidd;
     List<String> nutrition;
+    TextView clickToExpand;
     PieChart pieChart;
+    TextView brand , price_single , calories_single , description , allergic;
     private String GET_PRODUCT = "http://nationproducts.in/global/api/product/id/";
     BarChart barChart;
 
@@ -91,6 +93,13 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
         compare = (Button)view.findViewById(R.id.addtocompare);
         barChart = (BarChart)view.findViewById(R.id.bar_chart);
 
+        clickToExpand = (TextView)view.findViewById(R.id.clicktoexpand);
+
+        brand = (TextView)view.findViewById(R.id.brand);
+        price_single = (TextView)view.findViewById(R.id.price);
+        calories_single = (TextView)view.findViewById(R.id.calories_single);
+        description = (TextView)view.findViewById(R.id.description);
+        allergic = (TextView)view.findViewById(R.id.allergic_to);
 
 
         //pieChart.setDrawHoleEnabled(true);
@@ -117,16 +126,23 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
         calcium = (TextView)view.findViewById(R.id.calcium);
         iron = (TextView)view.findViewById(R.id.iron);
 
-        View bottom = (View)view.findViewById(R.id.bottom_sheet);
+
 
 bar = (RelativeLayout)((MainActivity)getContext()).findViewById(R.id.bottombar);
 
-
+        View bottom = (View)view.findViewById(R.id.bottom_sheet);
         mBottomSheetBehavior = BottomSheetBehavior.from(bottom);
         mBottomSheetBehavior.setPeekHeight(90);
         mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
 
 
+
+        clickToExpand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            }
+        });
 
         //TextView openSlider = (TextView)view.findViewById(R.id.open_slider);
 
@@ -149,7 +165,7 @@ bar = (RelativeLayout)((MainActivity)getContext()).findViewById(R.id.bottombar);
 
         //title.setText(a);
         iv = (ImageView)view.findViewById(R.id.prodImage1);
-        lv = (RecyclerView)view. findViewById(R.id.prodList1);
+
 
         new loadImage(iv , getArguments().getString("image")).execute();
 
@@ -215,8 +231,8 @@ bar = (RelativeLayout)((MainActivity)getContext()).findViewById(R.id.bottombar);
 
 
 
-                        TextView comp = (TextView)((MainActivity)getContext()).findViewById(R.id.barcompare);
-                        comp.setText("Compare " + String.valueOf(b.list.size()));
+                        TextView comp = (TextView)((MainActivity)getContext()).findViewById(R.id.textView4);
+                        comp.setText(String.valueOf(b.list.size()));
 
                         //bar.animate().alpha(1.0f);
                         // b.bitmaps.add(LoadImageFromURL(item.getImage()));
@@ -496,10 +512,16 @@ bar = (RelativeLayout)((MainActivity)getContext()).findViewById(R.id.bottombar);
             list.add(new bean("price" , prie));
             list.add(new bean("description" , desc));
 
-            singleAdapter2 adapter = new singleAdapter2(getContext() ,list);
-            lv.setHasFixedSize(true);
-            lv.setLayoutManager(lLayout);
-            lv.setAdapter(adapter);
+
+
+
+            calories_single.setText(nutrition.get(0));
+            brand.setText("brand");
+            description.setText(desc);
+            price_single.setText(prie);
+            allergic.setText("allergic");
+
+
 
             sliderName.setText(nae);
             sliderBelowText.setText("There are "+ nutrition.get(0)+ " in a 100g serving of "+ nae+".\n"+"Calorie breakdown: "+nutrition.get(1)+" fat, "+nutrition.get(2)+" carbs, "+nutrition.get(3)+" protein.");

@@ -96,8 +96,40 @@ public class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewH
 
                 }
 
+            if (item.getSetlist())
+            {
+                holder.addlist.setVisibility(View.GONE);
+            }
+
         }
 
+
+
+
+
+        holder.addlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                b.tempList.add(item);
+                b.comparecount++;
+                item.setSetlist(true);
+                if (bar.getVisibility() == View.GONE)
+                {
+                    TranslateAnimation animate = new TranslateAnimation(0,0,bar.getHeight(),0);
+                    animate.setDuration(500);
+                    animate.setFillAfter(true);
+                    bar.startAnimation(animate);
+                    bar.setVisibility(View.VISIBLE);
+                }
+                TextView comp = (TextView)((MainActivity)context).findViewById(R.id.textView5);
+                comp.setText(String.valueOf(b.tempList.size()));
+                Toast.makeText(context , "Added to List" , Toast.LENGTH_SHORT).show();
+
+                holder.addlist.setVisibility(View.GONE);
+
+            }
+        });
 
 
 
@@ -131,8 +163,8 @@ public class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewH
 
 
 
-                        TextView comp = (TextView)((MainActivity)context).findViewById(R.id.barcompare);
-                        comp.setText("Compare " + String.valueOf(b.list.size()));
+                        TextView comp = (TextView)((MainActivity)context).findViewById(R.id.textView4);
+                        comp.setText(String.valueOf(b.list.size()));
 
                         //bar.animate().alpha(1.0f);
                         // b.bitmaps.add(LoadImageFromURL(item.getImage()));
@@ -156,14 +188,21 @@ public class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewH
 
                     if (l == 1)
                     {
-                        if (bar.getVisibility() == View.VISIBLE)
+                        TextView comp1 = (TextView)((MainActivity)context).findViewById(R.id.textView5);
+
+                        if (comp1.getText().equals("0"))
                         {
-                            TranslateAnimation animate = new TranslateAnimation(0,0,0,bar.getHeight());
-                            animate.setDuration(500);
-                            animate.setFillAfter(true);
-                            bar.startAnimation(animate);
-                            bar.setVisibility(View.GONE);
+                            if (bar.getVisibility() == View.VISIBLE)
+                            {
+                                TranslateAnimation animate = new TranslateAnimation(0,0,0,bar.getHeight());
+                                animate.setDuration(500);
+                                animate.setFillAfter(true);
+                                bar.startAnimation(animate);
+                                bar.setVisibility(View.GONE);
+                            }
                         }
+
+
 
 
                     }
@@ -180,8 +219,8 @@ public class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewH
                     b.list.remove(index);
                     item.setSet(false);
                     b.comparecount--;
-                    TextView comp = (TextView)((MainActivity)context).findViewById(R.id.barcompare);
-                    comp.setText("Compare " + String.valueOf(b.list.size()));
+                    TextView comp = (TextView)((MainActivity)context).findViewById(R.id.textView4);
+                    comp.setText(String.valueOf(b.list.size()));
                     //b.list.remove(item);
                     Toast.makeText(context , "Item removed" ,Toast.LENGTH_SHORT ).show();
                 }
@@ -270,6 +309,7 @@ public class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewH
         TextView titleTextView;
         TextView priceTextView;
         ImageView imageView;
+        TextView addlist;
         Switch switcher;
 
 
@@ -280,7 +320,7 @@ public class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewH
             priceTextView = (TextView) itemView.findViewById(R.id.prodPrice);
             imageView = (ImageView)itemView.findViewById(R.id.prodImage);
             switcher = (Switch) itemView.findViewById(R.id.switcher);
-
+            addlist = (TextView)itemView.findViewById(R.id.addlist);
 
 
         }

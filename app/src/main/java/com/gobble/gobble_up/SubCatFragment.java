@@ -86,7 +86,7 @@ public class SubCatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.view_pager_model, container, false);
         lLayout = new GridLayoutManager(view.getContext() , 1);
-        grid = (RecyclerView) view.findViewById(R.id.sub_cat_grid);
+
 
         comparebean b = (comparebean)getActivity().getApplicationContext();
 
@@ -101,7 +101,7 @@ public class SubCatFragment extends Fragment {
             //bar.setVisibility(View.INVISIBLE);
         }
 
-
+        grid = (RecyclerView)view.findViewById(R.id.sub_cat_grid);
 
         grid.setHasFixedSize(true);
         grid.setLayoutManager(lLayout);
@@ -315,6 +315,20 @@ public class SubCatFragment extends Fragment {
                             }
                         }
                     }
+
+                    int l2 = b.tempList.size();
+                    if (l2 >0) {
+
+                        for (int j = 0 ; j<l2 ; j++)
+                        {
+                            if (obj.getInt("id") == b.tempList.get(j).getId())
+                            {
+                                bean.setSetlist(true);
+                            }
+                        }
+
+                    }
+
 
                         list1.add(bean);
                 } catch (JSONException | NullPointerException e) {
