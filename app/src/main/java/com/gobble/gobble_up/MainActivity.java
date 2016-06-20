@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private SharedPreferences.Editor edit;
     String url , n;
     RelativeLayout bar;
+    TextView countt;
     ImageButton compare , list;
 
 
@@ -63,6 +64,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bar = (RelativeLayout)findViewById(R.id.bottombar);
 
         list = (ImageButton)findViewById(R.id.imageButton3);
+
+        countt = (TextView)findViewById(R.id.textView5);
 
         compare = (ImageButton)findViewById(R.id.imageButton2);
 
@@ -188,6 +191,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent i = new Intent(getApplicationContext() , MainList.class);
 
         startActivity(i);
+
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
+        comparebean be = (comparebean)this.getApplicationContext();
+        countt.setText(be.tempList.size());
+
 
     }
 

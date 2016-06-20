@@ -200,7 +200,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="@drawable/list_black"
+        android:background="@drawable/list_really_black"
         android:layout_gravity="center_horizontal"
         android:id="@+id/compare_model_add"
         android:text="ADD"

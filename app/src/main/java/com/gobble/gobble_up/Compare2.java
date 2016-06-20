@@ -116,7 +116,7 @@ public class Compare2 extends AppCompatActivity {
         JSONObject object;
         String prie , desc , nae , ima;
         JSONArray mainArray , nutArray;
-        String faat , pro , carb;
+        String faat , pro , carb , idd;
 
 
 
@@ -189,6 +189,7 @@ public class Compare2 extends AppCompatActivity {
                 nae = object.getString("name");
                 desc = object.getString("description");
                 ima = object.getString("image");
+                idd = object.getString("id");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -246,6 +247,7 @@ public class Compare2 extends AppCompatActivity {
 
             comparelistBean bean = new comparelistBean();
             bean.setImage(ima);
+            bean.setId(idd);
             bean.setPrice(prie);
             bean.setName(nae);
             bean.setCalories(nutrition.get(0));

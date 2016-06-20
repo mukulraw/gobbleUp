@@ -128,6 +128,10 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
 
 
+
+
+
+
 bar = (RelativeLayout)((MainActivity)getContext()).findViewById(R.id.bottombar);
 
         View bottom = (View)view.findViewById(R.id.bottom_sheet);
@@ -161,11 +165,23 @@ bar = (RelativeLayout)((MainActivity)getContext()).findViewById(R.id.bottombar);
         iidd = getArguments().getString("id");
 
 
+
+
+
         final comparebean b = (comparebean)getContext().getApplicationContext();
 
         //title.setText(a);
         iv = (ImageView)view.findViewById(R.id.prodImage1);
 
+
+        for (int k = 0 ; k<b.tempList.size() ; k++)
+        {
+            if (Integer.parseInt(iidd) == b.tempList.get(k).getId())
+            {
+                add.setText("ADDED");
+                add.setBackground(getResources().getDrawable(R.drawable.dark));
+            }
+        }
 
         new loadImage(iv , getArguments().getString("image")).execute();
 
@@ -283,42 +299,20 @@ bar = (RelativeLayout)((MainActivity)getContext()).findViewById(R.id.bottombar);
 
     @Override
     public void onClick(View v) {
+        comparebean b = (comparebean)getActivity().getApplicationContext();
         if (v == add)
         {
-            Intent i = new Intent(getContext() , AddtoList.class);
-
-            i.putExtra("listId" , iidd);
 
 
-            startActivityForResult(i , 1);
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-
-
-
-
-        if (requestCode == 1)
-        {
-
-            if (resultCode == Activity.RESULT_OK)
+            if (!add.getText().equals("ADDED"))
             {
-
-                final Animation animation = new AlphaAnimation(1,0); // Change alpha from fully visible to invisible
-                animation.setDuration(200); // duration - half a second
-                animation.setInterpolator(new LinearInterpolator());
-                animation.setBackgroundColor(getResources().getColor(R.color.yellow));
-                // do not alter animation rate
-                animation.setRepeatCount(2); // Repeat animation infinitely
-                animation.setRepeatMode(Animation.REVERSE);
-
-                add.startAnimation(animation);
-
-                RelativeLayout bar = (RelativeLayout)((MainActivity)getContext()).findViewById(R.id.bottombar);
+                ProductBean item = new ProductBean();
+                item.setId(Integer.parseInt(iidd));
+                item.setSetlist(true);
+                b.tempList.add(item);
+                b.comparecount++;
+                add.setText("ADDED");
+                add.setBackground(getResources().getDrawable(R.drawable.dark));
                 if (bar.getVisibility() == View.GONE)
                 {
                     TranslateAnimation animate = new TranslateAnimation(0,0,bar.getHeight(),0);
@@ -327,12 +321,13 @@ bar = (RelativeLayout)((MainActivity)getContext()).findViewById(R.id.bottombar);
                     bar.startAnimation(animate);
                     bar.setVisibility(View.VISIBLE);
                 }
-
+                TextView comp = (TextView)((MainActivity)getActivity()).findViewById(R.id.textView5);
+                comp.setText(String.valueOf(b.tempList.size()));
             }
 
         }
-
     }
+
 
     public class loadImage extends AsyncTask<Void , Void , Void>
     {
@@ -520,7 +515,6 @@ bar = (RelativeLayout)((MainActivity)getContext()).findViewById(R.id.bottombar);
             description.setText(desc);
             price_single.setText(prie);
             allergic.setText("allergic");
-
 
 
             sliderName.setText(nae);

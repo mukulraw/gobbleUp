@@ -85,23 +85,26 @@ public class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewH
         holder.priceTextView.setText(price);
 
 
-        for (int i = 0 ; i<list.size() ; i++)
+        for (int i = 0 ; i<list.size() ; i++) {
+
+
+            if (item.getSet()) {
+                holder.switcher.setChecked(true);
+
+            }
+        }
+
+
+        for (int i = 0 ; i<b.tempList.size() ; i++)
         {
-
-
-
-                if (item.getSet())
-                {
-                    holder.switcher.setChecked(true);
-
-                }
-
-            if (item.getSetlist())
+            if (item.getId() == b.tempList.get(i).getId())
             {
                 holder.addlist.setVisibility(View.GONE);
             }
-
         }
+
+
+
 
 
 

@@ -97,22 +97,38 @@ public class compareAdapter extends RecyclerView.Adapter<compareAdapter.RecycleV
             holder.iron.setText(Html.fromHtml("<b><i>Iron:   </i></b>"+item.getIron()));
 
 
+        final comparebean b = (comparebean)context.getApplicationContext();
+        for (int i = 0 ; i<b.tempList.size() ; i++)
+        {
+            if (Integer.parseInt(item.getId()) == b.tempList.get(i).getId())
+            {
+                holder.add.setBackground(context.getResources().getDrawable(R.drawable.list_yellow));
+            }
+        }
+
+
         holder.add.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
 
 
 
+                    ProductBean item1 = new ProductBean();
+                    item1.setId(Integer.parseInt(item.getId()));
+                    item1.setSetlist(true);
+                    b.tempList.add(item1);
+                    b.comparecount++;
+
+                holder.add.setVisibility(View.GONE);
 
 
-                Intent i = new Intent(context , AddtoList.class);
-
-                i.putExtra("listId" , item.getId());
-
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
 
-                context.startActivity(i);
+
+
+
+
 
 
 
