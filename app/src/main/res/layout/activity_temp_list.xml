@@ -48,7 +48,6 @@
         android:layout_height="wrap_content"
         android:text="SAVE MY LIST"
         android:drawableEnd="@drawable/right"
-        android:drawableTint="@color/white"
         android:gravity="center"
         android:id="@+id/saveList"
         android:background="@color/black"

@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,15 +82,15 @@ public class CatGridAdapter extends RecyclerView.Adapter<CatGridAdapter.RecycleV
 
 
 
-        DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)
-                .cacheOnDisc(true).resetViewBeforeLoading(true).build();
+        DisplayImageOptions options = new DisplayImageOptions.Builder().resetViewBeforeLoading(true).build();
 
 
         ImageLoader imageLoader = ImageLoader.getInstance();
 
 
 
-        imageLoader.displayImage(item.getImage() , holder.imageView , options);
+
+        imageLoader.displayImage(item.getImage() , holder.imageView );
         Animation animation = AnimationUtils.loadAnimation(context , R.anim.fade);
         holder.imageView.startAnimation(animation);
 
