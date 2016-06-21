@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -112,15 +113,34 @@ public class compareAdapter extends RecyclerView.Adapter<compareAdapter.RecycleV
             @Override
             public void onClick(View v) {
 
+                int flag = 0;
 
 
+                for (int i = 0 ; i<b.tempList.size() ; i++)
+                {
+                    if (Integer.parseInt(item.getId()) == b.tempList.get(i).getId())
+                    {
+                        flag++;
+                    }
+                }
+
+
+                if (flag <1)
+                {
                     ProductBean item1 = new ProductBean();
                     item1.setId(Integer.parseInt(item.getId()));
                     item1.setSetlist(true);
                     b.tempList.add(item1);
                     b.comparecount++;
 
-                holder.add.setVisibility(View.GONE);
+                    holder.add.setBackground(context.getResources().getDrawable(R.drawable.list_yellow));
+                }
+                else
+                {
+                    Toast.makeText(context , "Already in list" , Toast.LENGTH_SHORT).show();
+                }
+
+                }
 
 
 
@@ -134,7 +154,9 @@ public class compareAdapter extends RecyclerView.Adapter<compareAdapter.RecycleV
 
 
 
-            }
+
+
+
         });
 
 

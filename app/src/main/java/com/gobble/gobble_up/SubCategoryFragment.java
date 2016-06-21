@@ -140,6 +140,17 @@ public class SubCategoryFragment extends Fragment {
     }
 
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        comparebean compareb = (comparebean)getActivity().getApplicationContext();
+        TextView tv = (TextView)getActivity().findViewById(R.id.textView5);
+        tv.setText(String.valueOf(compareb.tempList.size()));
+
+
+    }
+
     public class connect extends AsyncTask<Void , Void , Void>
     {
 

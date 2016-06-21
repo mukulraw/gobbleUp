@@ -17,6 +17,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
@@ -79,63 +82,98 @@ public class SubListAdapter extends ArrayAdapter<subListBean> {
         final subListBean item = list.get(position);
 
 
-        new loadImage(holder.sublistImage , item.getImage());
-        holder.subListPrice.setText("Price: "+ item.getPrice());
-        holder.sublistName.setText("Name: "+ item.getName());
+        DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)
+                .cacheOnDisc(false).resetViewBeforeLoading(true).build();
 
 
-
-        holder.delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final subListBean item = list.get(position);
-                lid = item.getListId();
-                pid = item.getProductId();
-
-
-                final Dialog dialog = new Dialog(getContext());
-                dialog.setContentView(R.layout.delete_list_dialog);
-                dialog.setCancelable(false);
-                dialog.show();
-
-                Button YES = (Button)dialog.findViewById(R.id.confirmDelete);
-                Button NO = (Button)dialog.findViewById(R.id.cancel_delete_list);
-
-                YES.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+        ImageLoader imageLoader = ImageLoader.getInstance();
 
 
 
 
-                        new delete(DELETE_LIST).execute();
-                        dialog.dismiss();
 
 
 
-                        SubList l = new SubList();
-                        l.list = new ArrayList<subListBean>();
-                        adapter = new SubListAdapter(context , R.layout.add_list_model , list);
-                        l.lv = (ListView)((SubList)context).findViewById(R.id.sub_list);
+        try
+        {
+            holder.delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final subListBean item = list.get(position);
+                    lid = item.getListId();
+                    pid = item.getProductId();
 
-                        if (l.lv != null) {
-                            l.lv.setAdapter(adapter);
+
+                    final Dialog dialog = new Dialog(getContext());
+                    dialog.setContentView(R.layout.delete_list_dialog);
+                    dialog.setCancelable(false);
+                    dialog.show();
+
+                    Button YES = (Button)dialog.findViewById(R.id.confirmDelete);
+                    Button NO = (Button)dialog.findViewById(R.id.cancel_delete_list);
+
+                    YES.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+
+
+
+                            new delete(DELETE_LIST).execute();
+                            dialog.dismiss();
+
+
+
+                            SubList l = new SubList();
+                            l.list = new ArrayList<subListBean>();
+                            adapter = new SubListAdapter(context , R.layout.add_list_model , list);
+                            l.lv = (ListView)((SubList)context).findViewById(R.id.sub_list);
+
+                            if (l.lv != null) {
+                                l.lv.setAdapter(adapter);
+                            }
+
+                            list.clear();
+                            new connect(GET_LIST_ITEMS + lid).execute();
                         }
+                    });
 
-                        list.clear();
-                        new connect(GET_LIST_ITEMS + lid).execute();
-                    }
-                });
+                    NO.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
 
-                NO.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
+                }
+            });
 
-            }
-        });
+        }catch (NullPointerException e)
+        {
+            e.printStackTrace();
+        }
+
+
+
+       // try
+        //{
+
+
+
+
+                  //imageLoader.displayImage(item.getImage() , holder.sublistImage , options);
+
+
+
+                  // new loadImage(holder.sublistImage , item.getImage());
+                  holder.subListPrice.setText("Price: "+ item.getPrice());
+                  holder.sublistName.setText("Name: "+ item.getName());
+
+
+       // }catch (NullPointerException e)
+       // {
+       //     e.printStackTrace();
+      //  }
 
         return row;
     }

@@ -18,6 +18,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
@@ -33,6 +34,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -105,12 +107,12 @@ public class SubCatFragment extends Fragment {
 
         grid.setHasFixedSize(true);
         grid.setLayoutManager(lLayout);
-        list1 = new ArrayList<>();
 
 
 
 
-        refresh(getArguments().getString("id"));
+
+       // refresh(getArguments().getString("id"));
 /*
 
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -185,11 +187,31 @@ public class SubCatFragment extends Fragment {
 
 
     public void refresh(String cat)
-    {
+    { list1 = new ArrayList<>();
         list1.clear();
         String url = PROD_BY_CAT + cat;
         new connect(url).execute();
         //mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        refresh(getArguments().getString("id"));
+
+
+        TextView t1 = (TextView)((MainActivity)getContext()).findViewById(R.id.textView5);
+        TextView t2 = (TextView)((MainActivity)getContext()).findViewById(R.id.textView4);
+
+        RelativeLayout bar = (RelativeLayout)((MainActivity)getContext()).findViewById(R.id.bottombar);
+
+        if (t1.getText().toString().equals("0")  &&  t2.getText().toString().equals("0"))
+        {
+            bar.setVisibility(View.GONE);
+        }
+
+
     }
 
     public class connect extends AsyncTask<Void , Void , Void>

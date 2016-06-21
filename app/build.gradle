@@ -2,8 +2,13 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    buildToolsVersion '24'
     useLibrary 'org.apache.http.legacy'
+
+    dexOptions {
+        javaMaxHeapSize "2g"
+    }
+
 
     defaultConfig {
         applicationId "com.gobble.gobble_up"

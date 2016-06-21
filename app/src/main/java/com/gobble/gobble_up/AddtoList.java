@@ -55,7 +55,7 @@ public class AddtoList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addto_list);
 
-        Bundle b = getIntent().getExtras();
+
 
         addinList = (Button)findViewById(R.id.create_new_list);
         addToListListview = (ListView)findViewById(R.id.add_to_list_listview);
@@ -64,7 +64,7 @@ public class AddtoList extends AppCompatActivity {
             addToListListview.setDividerHeight(0);
         }
 
-        prodId = String.valueOf(b.get("listId"));
+
 
         final comparebean be = (comparebean)this.getApplicationContext();
 
@@ -122,9 +122,11 @@ public class AddtoList extends AppCompatActivity {
 
         addToListListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(final AdapterView<?> parent, View view, int position, long id) {
 
-                addListBean item = (addListBean)parent.getItemAtPosition(position);
+                final comparebean b = (comparebean)getBaseContext().getApplicationContext();
+
+                final addListBean item = (addListBean)parent.getItemAtPosition(position);
                 final String idd = item.getListId();
                 final Dialog dialog = new Dialog(AddtoList.this);
                 dialog.setContentView(R.layout.dialog_add);
@@ -134,18 +136,27 @@ public class AddtoList extends AppCompatActivity {
                 Button YES = (Button)dialog.findViewById(R.id.dialogAdd);
                 Button NO = (Button)dialog.findViewById(R.id.dialogNo);
 
-                final EditText q = (EditText)dialog.findViewById(R.id.quantity);
+
 
                 YES.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
-                        new addToList(idd , prodId , q.getText().toString()).execute();
+                        for (int i = 0 ; i<b.tempList.size() ; i++)
+                        {
+                            new addToList(item.getListId() , String.valueOf(b.tempList.get(i).getId()) , "1").execute();
+                        }
+
+
+
                         Intent resultIntent = getIntent();
                         resultIntent.putExtra("result","result");
                         setResult(RESULT_OK , resultIntent);
                         finish();
                         dialog.dismiss();
+
+
+
                     }
                 });
 

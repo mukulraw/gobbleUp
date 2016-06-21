@@ -1,5 +1,6 @@
 package com.gobble.gobble_up;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,6 +8,10 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,21 +32,28 @@ public class TempList extends AppCompatActivity {
     private String GET_PRODUCT = "http://nationproducts.in/global/api/product/id/";
     List<comparelistBean> list;
     LinearLayoutManager layoutManager;
+    TextView saveList;
+    ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_temp_list);
         listview = (RecyclerView)findViewById(R.id.temp_list);
 
+        saveList = (TextView)findViewById(R.id.saveList);
 
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
+        progressBar = (ProgressBar)findViewById(R.id.baarr);
 
         //lLayout = new GridLayoutManager(this , 1);
 
         comparebean b = (comparebean)this.getApplicationContext();
 
 
+
+        listview.setVisibility(View.GONE);
+        saveList.setVisibility(View.GONE);
 
         list = new ArrayList<>();
 
@@ -56,7 +68,54 @@ public class TempList extends AppCompatActivity {
             new connect(GET_PRODUCT+id).execute();
         }
 
+
+        listview.setVisibility(View.VISIBLE);
+        saveList.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
+
+        saveList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+
+                Intent i = new Intent(getBaseContext() , AddtoList.class);
+                startActivityForResult(i , 1111);
+
+
+            }
+        });
+
+
+
+
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+        comparebean b = (comparebean)this.getApplicationContext();
+
+        if (requestCode == 1111)
+        {
+            if (resultCode == RESULT_OK)
+            {
+                Toast.makeText(getBaseContext() , "Added to list" , Toast.LENGTH_SHORT).show();
+                b.tempList.clear();
+                b.tempListCount = 0;
+                list.clear();
+                tempAdapter adapter = new tempAdapter(getApplicationContext() , list);
+
+                listview.setAdapter(adapter);
+                listview.setLayoutManager(layoutManager);
+
+            }
+        }
+
+    }
+
     public class connect extends AsyncTask<Void , Void , Void>
     {
 
