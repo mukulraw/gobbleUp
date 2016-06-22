@@ -200,8 +200,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onResume();
 
 
-        comparebean be = (comparebean)this.getApplicationContext();
-        countt.setText(be.tempList.size());
+
 
 
 

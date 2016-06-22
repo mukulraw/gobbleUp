@@ -9,10 +9,15 @@
 
     </style>
 
-    <style name="AppTheme.NoActionBar">
+    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.DayNight">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="vpiCirclePageIndicatorStyle">@style/CustomCirclePageIndicator</item>
 
     </style>
 
@@ -23,7 +28,17 @@
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="color">@color/black</item>
     </style>
+    <style name="StyledIndicators" parent="@android:style/Theme.Light">
+        <item name="vpiCirclePageIndicatorStyle">@style/CustomCirclePageIndicator</item>
+    </style>
 
+    <style name="CustomCirclePageIndicator">
+        <item name="fillColor">#ffffff</item>
+        <item name="strokeColor">#f2e8e8</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="radius">3dp</item>
+        <item name="centered">true</item>
+    </style>
 
 
 </resources>

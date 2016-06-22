@@ -53,27 +53,22 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by hi on 10-06-2016.
- */
+
 public class SingleProductFragment extends Fragment implements View.OnClickListener {
     ArrayList<bean> list;
 
     ImageView iv;
-    TextView title;
-    private GridLayoutManager lLayout;
-    Button add , compare;
-    String iidd;
-    List<String> nutrition;
-    TextView clickToExpand;
-    PieChart pieChart;
-    TextView brand , price_single , calories_single , description , allergic;
-    private String GET_PRODUCT = "http://nationproducts.in/global/api/product/id/";
-    BarChart barChart;
+    private TextView title;
+    private Button add , compare;
+    private String iidd;
+    private List<String> nutrition;
+    private PieChart pieChart;
+    private TextView brand , price_single , calories_single , description , allergic;
+    private BarChart barChart;
 
-    RelativeLayout bar;
+    private RelativeLayout bar;
 
-    TextView sliderName , sliderBelowText , calories , fat , carbs , protein , sodium , potassium , fiber , sugar , vita , vitc , calcium , iron;
+    private TextView sliderName , sliderBelowText , calories , fat , carbs , protein , sodium , potassium , fiber , sugar , vita , vitc , calcium , iron;
 
     private BottomSheetBehavior mBottomSheetBehavior;
 
@@ -93,7 +88,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
         compare = (Button)view.findViewById(R.id.addtocompare);
         barChart = (BarChart)view.findViewById(R.id.bar_chart);
 
-        clickToExpand = (TextView)view.findViewById(R.id.clicktoexpand);
+        TextView clickToExpand = (TextView) view.findViewById(R.id.clicktoexpand);
 
         brand = (TextView)view.findViewById(R.id.brand);
         price_single = (TextView)view.findViewById(R.id.price);
@@ -136,7 +131,6 @@ bar = (RelativeLayout)((MainActivity)getContext()).findViewById(R.id.bottombar);
 
         View bottom = (View)view.findViewById(R.id.bottom_sheet);
         mBottomSheetBehavior = BottomSheetBehavior.from(bottom);
-        mBottomSheetBehavior.setPeekHeight(90);
         mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
 
 
@@ -160,7 +154,7 @@ bar = (RelativeLayout)((MainActivity)getContext()).findViewById(R.id.bottombar);
    //     });
 
 
-        lLayout = new GridLayoutManager(getContext() , 1);
+        GridLayoutManager lLayout = new GridLayoutManager(getContext(), 1);
 
         iidd = getArguments().getString("id");
 
@@ -188,7 +182,8 @@ bar = (RelativeLayout)((MainActivity)getContext()).findViewById(R.id.bottombar);
 
         list = new ArrayList<>();
 
-        new connect(GET_PRODUCT+iidd).execute();
+        String GET_PRODUCT = "http://nationproducts.in/global/api/product/id/";
+        new connect(GET_PRODUCT +iidd).execute();
 
        // list.add(new bean("price" , price));
        // list.add(new bean("description" , desc));
@@ -248,7 +243,9 @@ bar = (RelativeLayout)((MainActivity)getContext()).findViewById(R.id.bottombar);
 
 
                         TextView comp = (TextView)((MainActivity)getContext()).findViewById(R.id.textView4);
-                        comp.setText(String.valueOf(b.list.size()));
+                        if (comp != null) {
+                            comp.setText(String.valueOf(b.list.size()));
+                        }
 
                         //bar.animate().alpha(1.0f);
                         // b.bitmaps.add(LoadImageFromURL(item.getImage()));
@@ -289,8 +286,7 @@ bar = (RelativeLayout)((MainActivity)getContext()).findViewById(R.id.bottombar);
         try
         {
             InputStream is = (InputStream) new URL(url).getContent();
-            Bitmap d = BitmapFactory.decodeStream(is);
-            return d;
+            return BitmapFactory.decodeStream(is);
         }catch (Exception e) {
             System.out.println(e);
             return null;
@@ -322,7 +318,9 @@ bar = (RelativeLayout)((MainActivity)getContext()).findViewById(R.id.bottombar);
                     bar.setVisibility(View.VISIBLE);
                 }
                 TextView comp = (TextView)((MainActivity)getActivity()).findViewById(R.id.textView5);
-                comp.setText(String.valueOf(b.tempList.size()));
+                if (comp != null) {
+                    comp.setText(String.valueOf(b.tempList.size()));
+                }
             }
 
         }

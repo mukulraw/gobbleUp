@@ -98,8 +98,8 @@ public class FirstPage extends AppCompatActivity implements NavigationView.OnNav
         //setContentView(R.layout.category_page);
         setContentView(R.layout.category_main);
         //setContentView(R.layout.category3);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         lLayout = new GridLayoutManager(this , 2);
@@ -170,10 +170,10 @@ public class FirstPage extends AppCompatActivity implements NavigationView.OnNav
         //head_name.setText(n);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawerLayout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+       // ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        //        this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+       // drawer.setDrawerListener(toggle);
+      //  toggle.syncState();
 
         slide = (ViewPager)findViewById(R.id.slide);
 

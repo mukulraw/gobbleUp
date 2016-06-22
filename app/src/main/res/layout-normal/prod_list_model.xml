@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    card_view:cardUseCompatPadding="true"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    card_view:cardCornerRadius="3dp"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
+        >
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:id="@+id/prodImage"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:scaleType="centerInside"
+            android:layout_marginLeft="10dp" />
+
+        <RelativeLayout
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/prodName"
+                android:textSize="14sp"
+                android:textAllCaps="true"
+                android:textStyle="normal"
+                android:gravity="start"
+                android:textColor="#000000"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/prodPrice"
+                android:textStyle="italic"
+                android:textSize="12sp"
+                android:layout_below="@+id/prodName"
+                android:layout_alignParentStart="true"
+                android:gravity="start"
+                android:paddingBottom="5dp"
+                android:layout_marginBottom="0dp"
+                android:layout_alignParentBottom="false"
+                android:textColor="#000000"
+
+                />
+
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="?android:attr/ratingBarStyleSmall"
+                android:rating="3.5"
+                android:layout_below="@+id/prodPrice"
+                />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/switcher"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="5dp"
+                android:paddingBottom="5dp"
+                android:paddingEnd="5dp"
+                android:textAllCaps="true"
+                android:textSize="10sp"
+                android:gravity="center"
+                android:text="Add to compare"
+                />
+
+
+
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:textSize="10sp"
+                android:id="@+id/addlist"
+                android:drawableEnd="@drawable/plus"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true"
+                android:drawableTint="@color/colorPrimaryDark"
+                android:paddingEnd="10dp"
+                android:layout_toStartOf="@+id/plus"
+                android:layout_above="@+id/switcher"
+                android:layout_alignParentEnd="true"
+                android:text="ADD TO LIST"
+                />
+
+
+
+
+
+
+
+
+
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:layout_marginBottom="5dp"
+                android:id="@+id/switcher"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true" />
+
+
+        </RelativeLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>

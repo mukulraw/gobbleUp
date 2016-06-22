@@ -76,15 +76,14 @@
             app:tabTextColor="@color/white"
             />
 
-        <android.support.v4.view.ViewPager
-            android:layout_width="match_parent"
-            android:layout_below="@+id/cat_tabs"
-            android:layout_height="match_parent"
-            android:id="@+id/pagerId"
+            <android.support.v4.view.ViewPager
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/pagerId"
 
 
-            />
-
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true" />
 
 
         </RelativeLayout>
