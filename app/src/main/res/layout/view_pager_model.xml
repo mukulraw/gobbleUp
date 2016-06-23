@@ -8,6 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/sub_cat_grid"
+        android:paddingBottom="45dp"
+        android:clipToPadding="false"
         />
 
 </LinearLayout>

@@ -22,8 +22,8 @@
         android:layout_height="wrap_content">
 
         <Button
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
             android:focusable="false"
@@ -37,6 +37,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         android:layout_marginTop="10dp"
         android:text="New Text"
         android:id="@+id/addlistlistName" />
@@ -44,6 +46,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:text="Id"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:id="@+id/addlistlistId"
@@ -53,7 +57,7 @@
         android:layout_width="match_parent"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-
+        android:layout_marginTop="20dp"
         android:layout_height="wrap_content">
 
     <TextView
@@ -72,9 +76,22 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:id="@+id/addlistTotalItem"
-            android:layout_alignParentEnd="true"
+            android:layout_centerHorizontal="true"
             />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="edit"
+            android:textColor="#f9d0d0"
+            android:layout_marginTop="10dp"
+            android:focusable="false"
+            android:clickable="true"
+            android:id="@+id/edit"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_alignParentEnd="true"
+            />
 
 
     </RelativeLayout>

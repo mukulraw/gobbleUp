@@ -2,15 +2,21 @@ package com.gobble.gobble_up;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,6 +28,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  * Created by hi on 6/17/2016.
@@ -32,6 +40,7 @@ public class MainListAdapter extends ArrayAdapter<addListBean> {
     private ArrayList<addListBean> list = new ArrayList<>();
     private String DELETE_LIST = "http://nationproducts.in/global/api/deletelist/listId/";
     private String GET_ALL_LIST = "http://nationproducts.in/global/api/alllists/userId/";
+    private String UPDATE_LIST_NAME = "http://nationproducts.in/global/api/updatelistname";
     addToListAdapter adapter;
 
 
@@ -61,6 +70,7 @@ public class MainListAdapter extends ArrayAdapter<addListBean> {
             holder.listtidd = (TextView)row.findViewById(R.id.addlistlistId);
             holder.listttotal = (TextView)row.findViewById(R.id.addlistTotalItem);
             holder.delete = (Button)row.findViewById(R.id.deleteList);
+            holder.edit = (TextView)row.findViewById(R.id.edit);
 
             row.setTag(holder);
         } else {
@@ -71,6 +81,59 @@ public class MainListAdapter extends ArrayAdapter<addListBean> {
         holder.listtCreatedTime.setText("Date: "+item.getCreatedTime());
         holder.listttotal.setText("Total: "+item.getTotalItem());
         holder.listtidd.setText("Id: "+item.getListId());
+
+
+
+
+        holder.edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                addListBean item = (addListBean)list.get(position);
+                final String idd = item.getListId();
+
+                final Dialog dialog1 = new Dialog(getContext());
+                dialog1.setContentView(R.layout.edit_dialog);
+                dialog1.setCancelable(false);
+                dialog1.show();
+
+
+                final EditText updatename = (EditText)dialog1.findViewById(R.id.new_name);
+                Button update = (Button)dialog1.findViewById(R.id.dialogipdate);
+
+                update.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final comparebean be = (comparebean)context.getApplicationContext();
+
+                        String iidd = be.user_id;
+
+
+                        String name = updatename.getText().toString();
+
+                        new login(name , iidd).execute();
+                        dialog1.dismiss();
+
+                        MainList l = new MainList();
+                        l.list = new ArrayList<addListBean>();
+                        adapter = new addToListAdapter(context , R.layout.add_list_model , list);
+                        l.lview = (ListView)((MainList)context).findViewById(R.id.main_list_listview);
+
+                        if (l.lview != null) {
+                            l.lview.setAdapter(adapter);
+                        }
+
+                        list.clear();
+                        new connect(GET_ALL_LIST + iidd).execute();
+                    }
+                });
+
+
+
+
+            }
+        });
+
 
 
         holder.delete.setOnClickListener(new View.OnClickListener() {
@@ -126,6 +189,80 @@ public class MainListAdapter extends ArrayAdapter<addListBean> {
 
 
     }
+
+
+    public class login extends AsyncTask<Void , Void , Void>
+    {
+
+        String username , password;
+        String result;
+        String name , email;
+        String idd;
+
+        public login(String username , String password)
+        {
+            this.username = username;
+            this.password = password;
+        }
+
+
+
+
+
+
+
+
+
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            List<NameValuePair> data = new ArrayList<>();
+
+            data.add(new BasicNameValuePair("listName" , username));
+            data.add(new BasicNameValuePair("listId" , password));
+
+            RegisterUserClass ruc = new RegisterUserClass();
+            result = ruc.sendPostRequest(UPDATE_LIST_NAME , data);
+
+            Log.d("asdasdasd" , result);
+
+            //try {
+              //  JSONObject obj = new JSONObject(result);
+                //name = obj.getString("user_name");
+                //email = obj.getString("user_email");
+                //idd = obj.getString("user_id");
+          //  } catch (JSONException e) {
+         //       e.printStackTrace();
+         ////   }catch (NullPointerException e)
+          //  {
+         //       e.printStackTrace();
+                // Toast.makeText(getBaseContext() , "failed to fetch data" , Toast.LENGTH_SHORT).show();
+         //   }
+
+            return null;
+        }
+
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            super.onPostExecute(aVoid);
+        }
+    }
+
 
     public class connect extends AsyncTask<Void , Void , Void>
     {
@@ -231,7 +368,7 @@ public class MainListAdapter extends ArrayAdapter<addListBean> {
         }
     }
     static class ViewHolder {
-        TextView listtName;
+        TextView listtName , edit;
         TextView listtCreatedTime , listttotal , listtidd;
         Button delete;
     }

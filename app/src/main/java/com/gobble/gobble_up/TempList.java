@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -34,6 +35,7 @@ public class TempList extends AppCompatActivity {
     LinearLayoutManager layoutManager;
     TextView saveList;
     ProgressBar progressBar;
+    tempAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,25 +50,15 @@ public class TempList extends AppCompatActivity {
 
         //lLayout = new GridLayoutManager(this , 1);
 
-        comparebean b = (comparebean)this.getApplicationContext();
+        final comparebean b = (comparebean)this.getApplicationContext();
 
 
+        refresh();
 
         listview.setVisibility(View.GONE);
         saveList.setVisibility(View.GONE);
 
-        list = new ArrayList<>();
 
-        int length = b.tempList.size();
-        for (int i = 0 ; i<length ; i++)
-        {
-            String id = String.valueOf(b.tempList.get(i).getId());
-            Log.d("asdasdasd" , id);
-
-
-
-            new connect(GET_PRODUCT+id).execute();
-        }
 
 
         listview.setVisibility(View.VISIBLE);
@@ -89,6 +81,52 @@ public class TempList extends AppCompatActivity {
 
 
 
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+
+
+
+                b.tempList.remove(viewHolder.getAdapterPosition());
+                //adapter.notifyDataSetChanged();
+                refresh();
+                adapter = new tempAdapter(getApplicationContext() , list);
+                listview.setAdapter(adapter);
+
+
+
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+
+        itemTouchHelper.attachToRecyclerView(listview);
+
+
+    }
+
+
+    public void refresh()
+    {final comparebean b = (comparebean)this.getApplicationContext();
+        list = new ArrayList<>();
+
+        list.clear();
+
+        int length = b.tempList.size();
+        for (int i = 0 ; i<length ; i++)
+        {
+            String id = String.valueOf(b.tempList.get(i).getId());
+            Log.d("asdasdasd" , id);
+
+
+
+            new connect(GET_PRODUCT+id).execute();
+        }
     }
 
     @Override
@@ -275,7 +313,7 @@ public class TempList extends AppCompatActivity {
 
             list.add(bean);
 
-            tempAdapter adapter = new tempAdapter(getApplicationContext() , list);
+             adapter = new tempAdapter(getApplicationContext() , list);
 
             listview.setAdapter(adapter);
             listview.setLayoutManager(layoutManager);

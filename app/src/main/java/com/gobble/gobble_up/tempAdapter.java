@@ -3,6 +3,7 @@ package com.gobble.gobble_up;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,9 +71,6 @@ public class tempAdapter extends RecyclerView.Adapter<tempAdapter.RecycleViewHol
 
         holder.price.setText("Price: "+item.getPrice());
         holder.name.setText(item.getName());
-
-
-
 
 
 
