@@ -116,7 +116,7 @@ public class MainListAdapter extends ArrayAdapter<addListBean> {
 
                         MainList l = new MainList();
                         l.list = new ArrayList<addListBean>();
-                        adapter = new addToListAdapter(context , R.layout.add_list_model , list);
+                        adapter = new addToListAdapter(context , R.layout.main_list_model , list);
                         l.lview = (ListView)((MainList)context).findViewById(R.id.main_list_listview);
 
                         if (l.lview != null) {
@@ -163,7 +163,7 @@ public class MainListAdapter extends ArrayAdapter<addListBean> {
                         dialog.dismiss();
                         MainList l = new MainList();
                         l.list = new ArrayList<addListBean>();
-                        adapter = new addToListAdapter(context , R.layout.add_list_model , list);
+                        adapter = new addToListAdapter(context , R.layout.main_list_model , list);
                         l.lview = (ListView)((MainList)context).findViewById(R.id.main_list_listview);
 
                         if (l.lview != null) {

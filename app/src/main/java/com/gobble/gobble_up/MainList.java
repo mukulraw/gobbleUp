@@ -81,7 +81,7 @@ public class MainList extends AppCompatActivity {
         super.onResume();
         list = new ArrayList<>();
 
-        adapter = new MainListAdapter(this , R.layout.add_list_model , list);
+        adapter = new MainListAdapter(this , R.layout.main_list_model , list);
         lview.setAdapter(adapter);
 
 

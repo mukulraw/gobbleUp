@@ -29,6 +29,7 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -39,6 +40,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationServices;
 
 import org.apache.http.NameValuePair;
@@ -71,8 +74,8 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
     Button sign_in;
     TextView sign_up;
 
-    Boolean goog_flag = false;
-    Boolean fb_flag = false;
+    private Boolean goog_flag = false;
+    private Boolean fb_flag = false;
 
     //private CallbackManager callbackManager;
     //private LoginButton loginButton;
@@ -479,10 +482,53 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
             }
             else
             {
+
+                if (goog_flag)
+                {
+                    if (mGoogleApiClient.isConnected())
+                    {
+                        signOut();
+                    }
+                }
+
+                if (fb_flag)
+                {
+                    LoginManager.getInstance().logOut();
+                }
+
+
                 Toast.makeText(getApplicationContext() , "Invalid Email Id or Password" , Toast.LENGTH_SHORT).show();
             }
 
             super.onPostExecute(aVoid);
         }
     }
+
+    private void signOut() {
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(Status status) {
+
+
+                        if (status.isSuccess())
+                        {
+                            //pref = getSharedPreferences("MySignin", Context.MODE_PRIVATE);
+                            //edit = pref.edit();
+
+                            //edit.remove("google");
+                            //edit.apply();
+                            //Intent i = new Intent(getApplicationContext() , LoginActivity.class);
+                            //i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                            //startActivity(i);
+                            //overridePendingTransition(0,0);
+                           // finish();
+
+                        }
+
+
+                    }
+                });
+    }
+
 }

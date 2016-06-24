@@ -112,6 +112,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:paddingBottom="5dp"
+                        android:paddingStart="5dp"
                         android:paddingTop="5dp"
                         android:text="BRAND"
                         />
@@ -125,6 +126,7 @@
                         android:layout_width="0dp"
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
+                        android:paddingStart="5dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:id="@+id/brand"
@@ -150,6 +152,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:paddingStart="5dp"
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
                         android:layout_gravity="center_vertical"
@@ -165,7 +168,7 @@
 
                     <RelativeLayout
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         >
 
@@ -188,6 +191,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+
                         android:text="2 Reviews"
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
@@ -212,6 +216,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:paddingBottom="5dp"
+                        android:paddingStart="5dp"
                         android:paddingTop="5dp"
                         android:text="PRICE"
                         />
@@ -226,6 +231,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:id="@+id/price"
+                        android:paddingStart="5dp"
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
                         />
@@ -249,6 +255,7 @@
                         android:layout_weight="1"
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
+                        android:paddingStart="5dp"
                         android:text="CALORIES"
                         />
 
@@ -263,6 +270,7 @@
                         android:layout_weight="2"
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
+                        android:paddingStart="5dp"
                         android:id="@+id/calories_single"
                         />
 
@@ -285,6 +293,7 @@
                         android:layout_weight="1"
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
+                        android:paddingStart="5dp"
                         android:text="DESCRIPTION"
                         />
 
@@ -300,6 +309,7 @@
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
                         android:id="@+id/description"
+                        android:paddingStart="5dp"
                         />
 
                 </LinearLayout>
@@ -319,6 +329,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:paddingStart="5dp"
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
                         android:text="ALLERGIC TO"
@@ -335,6 +346,7 @@
                         android:layout_weight="2"
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
+                        android:paddingStart="5dp"
                         android:id="@+id/allergic_to"
                         />
 
@@ -347,6 +359,7 @@
                     android:text="NUTRITIONAL DETAILS"
                     android:gravity="center_vertical"
                     android:background="@color/yellow"
+                    android:paddingStart="5dp"
                     android:textSize="24sp"
                     android:textStyle="bold"
                     />
@@ -386,6 +399,7 @@
 
                 android:layout_marginBottom="10dp"
                 android:layout_height="45dp"
+                android:paddingStart="5dp"
                 android:text="NUTRITIONAL DETAILS"
                 android:gravity="center_vertical"
                 android:background="@color/yellow"
@@ -451,6 +465,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Calories"
+                        android:paddingStart="5dp"
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
                         />
@@ -465,6 +480,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:paddingStart="5dp"
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
                         android:id="@+id/calories"
@@ -489,6 +505,7 @@
                         android:layout_weight="1"
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
+                        android:paddingStart="5dp"
                         android:text="Total Fat"
                         />
 
@@ -503,6 +520,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:paddingBottom="5dp"
+                        android:paddingStart="5dp"
                         android:paddingTop="5dp"
                         android:id="@+id/fat"
                         />
@@ -524,6 +542,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:paddingStart="5dp"
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
                         android:text="Carbohydrate"
@@ -541,6 +560,7 @@
                         android:layout_weight="1"
                         android:id="@+id/carbs"
                         android:paddingBottom="5dp"
+                        android:paddingStart="5dp"
                         android:paddingTop="5dp"
                         />
 
@@ -562,6 +582,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Protein"
+                        android:paddingStart="5dp"
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
                         />
@@ -578,6 +599,7 @@
                         android:layout_weight="1"
                         android:id="@+id/protein"
                         android:paddingBottom="5dp"
+                        android:paddingStart="5dp"
                         android:paddingTop="5dp"
                         />
 
@@ -598,6 +620,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:paddingStart="5dp"
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
                         android:text="Sodium"
@@ -613,6 +636,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:paddingStart="5dp"
                         android:id="@+id/sodium"
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
@@ -634,6 +658,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:paddingStart="5dp"
                         android:text="Potassium"
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
@@ -650,6 +675,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:paddingBottom="5dp"
+                        android:paddingStart="5dp"
                         android:paddingTop="5dp"
                         android:id="@+id/potassium"
                         />
@@ -672,6 +698,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:paddingBottom="5dp"
+                        android:paddingStart="5dp"
                         android:paddingTop="5dp"
                         android:text="Fiber"
                         />
@@ -686,6 +713,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:paddingStart="5dp"
                         android:id="@+id/fiber"
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
@@ -708,6 +736,7 @@
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
                         android:layout_height="wrap_content"
+                        android:paddingStart="5dp"
                         android:layout_weight="1"
                         android:text="Sugar"
                         />
@@ -721,6 +750,7 @@
                     <TextView
                         android:layout_width="0dp"
                         android:paddingBottom="5dp"
+                        android:paddingStart="5dp"
                         android:paddingTop="5dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -745,6 +775,7 @@
                         android:layout_weight="1"
                         android:text="Vitamin A"
                         android:paddingBottom="5dp"
+                        android:paddingStart="5dp"
                         android:paddingTop="5dp"
                         />
 
@@ -759,6 +790,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:id="@+id/vita"
+                        android:paddingStart="5dp"
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
                         />
@@ -779,6 +811,7 @@
                     <TextView
                         android:layout_width="0dp"
                         android:paddingBottom="5dp"
+                        android:paddingStart="5dp"
                         android:paddingTop="5dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -796,6 +829,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:id="@+id/vitc"
+                        android:paddingStart="5dp"
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
                         />
@@ -819,6 +853,7 @@
                         android:layout_weight="1"
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
+                        android:paddingStart="5dp"
                         android:text="Calcium"
                         />
 
@@ -833,6 +868,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:paddingBottom="5dp"
+                        android:paddingStart="5dp"
                         android:paddingTop="5dp"
                         android:id="@+id/calcium"
                         />
@@ -857,6 +893,7 @@
                         android:layout_weight="1"
                         android:text="Iron"
                         android:paddingBottom="5dp"
+                        android:paddingStart="5dp"
                         android:paddingTop="5dp"
                         />
 
@@ -871,6 +908,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:paddingBottom="5dp"
+                        android:paddingStart="5dp"
                         android:paddingTop="5dp"
                         android:id="@+id/iron"
                         />
