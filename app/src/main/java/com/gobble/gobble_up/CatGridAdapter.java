@@ -82,7 +82,7 @@ public class CatGridAdapter extends RecyclerView.Adapter<CatGridAdapter.RecycleV
 
 
 
-        DisplayImageOptions options = new DisplayImageOptions.Builder().resetViewBeforeLoading(true).build();
+        DisplayImageOptions options = new DisplayImageOptions.Builder().resetViewBeforeLoading(false).cacheOnDisk(true).cacheInMemory(true).build();
 
 
         ImageLoader imageLoader = ImageLoader.getInstance();
@@ -90,7 +90,7 @@ public class CatGridAdapter extends RecyclerView.Adapter<CatGridAdapter.RecycleV
 
 
 
-        imageLoader.displayImage(item.getImage() , holder.imageView );
+        imageLoader.displayImage(item.getImage() , holder.imageView  , options);
         Animation animation = AnimationUtils.loadAnimation(context , R.anim.fade);
         holder.imageView.startAnimation(animation);
 

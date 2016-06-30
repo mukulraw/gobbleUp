@@ -49,7 +49,7 @@ public class tempAdapter extends RecyclerView.Adapter<tempAdapter.RecycleViewHol
         final comparelistBean item = list.get(position);
         holder.setIsRecyclable(false);
         DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)
-                .cacheOnDisc(false).resetViewBeforeLoading(true).build();
+                .cacheOnDisc(true).resetViewBeforeLoading(false).build();
 
 
         //  if (item.getPrice() == null)

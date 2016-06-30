@@ -247,11 +247,15 @@ public class SubList extends AppCompatActivity {
 
 
         DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)
-                .cacheOnDisc(false).resetViewBeforeLoading(true).build();
+                .cacheOnDisc(false).resetViewBeforeLoading(false).build();
 
 
         ImageLoader imageLoader = ImageLoader.getInstance();
 
+
+        Log.d("asdasdasd" , item.getImage());
+
+        imageLoader.displayImage(item.getImage() , holder.sublistImage , options);
 
 
 

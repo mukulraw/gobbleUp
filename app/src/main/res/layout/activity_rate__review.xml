@@ -9,6 +9,7 @@
     tools:context="com.gobble.gobble_up.Rate_Review">
 
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="horizontal"
@@ -41,7 +42,7 @@
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:hint="your review here"
         android:gravity="center"
         android:id="@+id/comment"
@@ -54,6 +55,20 @@
         android:text="rate"
         android:layout_margin="10dp"
         android:id="@+id/submit_rate"
+        />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="All Reviews"
+        android:gravity="center"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/allcomments"
         />
 
 

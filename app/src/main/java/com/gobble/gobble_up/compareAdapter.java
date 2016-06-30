@@ -61,7 +61,7 @@ public class compareAdapter extends RecyclerView.Adapter<compareAdapter.RecycleV
         final comparelistBean item = list.get(position);
         holder.setIsRecyclable(false);
         DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)
-                .cacheOnDisc(false).resetViewBeforeLoading(true).build();
+                .cacheOnDisc(true).resetViewBeforeLoading(false).build();
 
 
       //  if (item.getPrice() == null)

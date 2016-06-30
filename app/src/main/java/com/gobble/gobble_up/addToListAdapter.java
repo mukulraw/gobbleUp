@@ -34,7 +34,7 @@ public class addToListAdapter extends ArrayAdapter<addListBean> {
     private ArrayList<addListBean> list = new ArrayList<>();
     private String DELETE_LIST = "http://nationproducts.in/global/api/deletelist/listId/";
     private String GET_ALL_LIST = "http://nationproducts.in/global/api/alllists/userId/";
-addToListAdapter adapter;
+    addToListAdapter adapter;
 
 
     public addToListAdapter(Context context, int resource , ArrayList<addListBean> list) {

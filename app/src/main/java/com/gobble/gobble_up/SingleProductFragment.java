@@ -41,6 +41,8 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -188,7 +190,15 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
         }
 
 
-        new loadImage(iv , getArguments().getString("image")).execute();
+      //  new loadImage(iv , getArguments().getString("image")).execute();
+
+        DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)
+                .cacheOnDisc(true).resetViewBeforeLoading(false).build();
+
+
+        ImageLoader imageLoader = ImageLoader.getInstance();
+
+        imageLoader.displayImage(getArguments().getString("image") , iv , options);
 
 
         list = new ArrayList<>();

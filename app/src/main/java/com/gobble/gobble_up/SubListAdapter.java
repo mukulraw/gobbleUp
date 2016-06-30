@@ -57,7 +57,6 @@ public class SubListAdapter extends ArrayAdapter<subListBean> {
 
     public void setGridData(ArrayList<subListBean> mGridData) {
         this.list = mGridData;
-        notifyDataSetChanged();
     }
 
 
@@ -83,12 +82,15 @@ public class SubListAdapter extends ArrayAdapter<subListBean> {
 
 
         DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)
-                .cacheOnDisc(false).resetViewBeforeLoading(true).build();
+                .cacheOnDisc(true).resetViewBeforeLoading(false).build();
 
 
         ImageLoader imageLoader = ImageLoader.getInstance();
 
 
+        Log.d("asdasdasd" , item.getImage());
+
+        imageLoader.displayImage(item.getImage() , holder.sublistImage , options);
 
 
 

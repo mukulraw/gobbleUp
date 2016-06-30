@@ -21,6 +21,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -67,7 +69,19 @@ public class SubCategoryFragment extends Fragment {
 
         String u = getArguments().getString("image");
 
-        new loadImage(banner , u).execute();
+        //new loadImage(banner , u).execute();
+
+
+
+        DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)
+                .cacheOnDisc(true).resetViewBeforeLoading(false).build();
+
+
+        ImageLoader imageLoader = ImageLoader.getInstance();
+
+
+        imageLoader.displayImage(u , banner , options);
+
 
         pager = (ViewPager)view.findViewById(R.id.pagerId);
 

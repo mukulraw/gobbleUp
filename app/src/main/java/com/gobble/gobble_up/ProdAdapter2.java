@@ -58,7 +58,6 @@ public class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewH
 
     public void setGridData(ArrayList<ProductBean> list)
     {
-
         this.list = list;
     }
 
@@ -244,7 +243,7 @@ public class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewH
         });
 
         DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)
-                .cacheOnDisc(false).resetViewBeforeLoading(true).build();
+                .cacheOnDisc(true).resetViewBeforeLoading(false).build();
 
 
         ImageLoader imageLoader = ImageLoader.getInstance();

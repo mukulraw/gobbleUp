@@ -88,7 +88,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Marketing Lines\nfor demo use"
+            android:text="Welcome"
             android:id="@+id/textView3"
             android:textSize="5.3mm"
             android:layout_gravity="center_horizontal"

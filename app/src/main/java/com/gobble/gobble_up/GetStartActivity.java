@@ -1,9 +1,12 @@
 package com.gobble.gobble_up;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -16,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.viewpagerindicator.CirclePageIndicator;
 
@@ -24,6 +28,7 @@ public class GetStartActivity extends AppCompatActivity {
 
     Button start;
     ViewPager slider;
+    final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
     String url , n;
     CirclePageIndicator indi;
     private SharedPreferences pref;
@@ -32,6 +37,26 @@ public class GetStartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_start);
+
+
+
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            int hasLocationPermission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            if(hasLocationPermission!= PackageManager.PERMISSION_GRANTED)
+            {
+                //request permission
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE} , REQUEST_CODE_ASK_PERMISSIONS);
+            }
+
+        }
+
+
+
+
+
+
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar1);
         setSupportActionBar(toolbar);
@@ -110,6 +135,34 @@ public class GetStartActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        switch (requestCode)
+        {
+            case REQUEST_CODE_ASK_PERMISSIONS:
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                {
+
+
+                }
+                else
+                {
+
+                    Toast.makeText(this , "Permission denied" , Toast.LENGTH_SHORT).show();
+
+                    finish();
+                }
+
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+
 
     }
 

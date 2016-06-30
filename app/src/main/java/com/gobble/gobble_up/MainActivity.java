@@ -70,6 +70,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         View botto = coordinatorLayout.findViewById(R.id.bottombar);
 
         bar = BottomSheetBehavior.from(botto);
+
+
        // bar.setState(BottomSheetBehavior.STATE_COLLAPSED);
 
         list = (ImageButton)findViewById(R.id.imageButton3);

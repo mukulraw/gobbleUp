@@ -8,7 +8,7 @@
             android:title="List" />
         <item
             android:id="@+id/nav_gallery"
-            android:icon="@drawable/list_yellow"
+            android:icon="@drawable/ompar32"
             android:title="Compare List" />
 
     </group>
