@@ -60,6 +60,7 @@
                 android:layout_height="wrap_content"
                 style="?android:attr/ratingBarStyleSmall"
                 android:rating="3.5"
+                android:id="@+id/single_rate"
                 android:layout_below="@+id/prodPrice"
                 />
 

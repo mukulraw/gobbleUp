@@ -175,12 +175,13 @@
                         <RatingBar
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:numStars="5"
                             android:layout_centerHorizontal="true"
                             android:layout_centerVertical="true"
+                            android:focusable="true"
+
                             style="?android:attr/ratingBarStyleSmall"
                             android:rating="3.5"
-                            android:id="@+id/rating"
+
                             />
 
                     </RelativeLayout>
@@ -191,8 +192,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-
-                        android:text="2 Reviews"
+                        android:id="@+id/rating"
+                        android:text="Rate"
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
                         android:paddingStart="20dp"

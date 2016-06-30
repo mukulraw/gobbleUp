@@ -186,7 +186,7 @@ public class CatGridAdapter extends RecyclerView.Adapter<CatGridAdapter.RecycleV
             //ft.remove(frag1);
             //ft.add(R.id.fragmentMain , frag2);
             ft.replace(R.id.layoutToReplace , frag2);
-            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+            //ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
             ft.addToBackStack(null);
             ft.commit();
 

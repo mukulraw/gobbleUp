@@ -16,14 +16,14 @@
 
 
     <ImageView
-        android:layout_width="464dp"
-        android:layout_height="464dp"
+        android:layout_width="264dp"
+        android:layout_height="264dp"
         android:src="@drawable/header"
         android:background="@drawable/circle_image_view"
 
 
+        android:id="@+id/imageView"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/imageView" />
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

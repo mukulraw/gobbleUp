@@ -8,6 +8,8 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -25,6 +27,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
@@ -49,8 +52,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private SharedPreferences pref;
     private SharedPreferences.Editor edit;
     String url , n;
-    RelativeLayout bar;
-    TextView countt , countsa;
+    public BottomSheetBehavior bar;
+    public TextView countt , countsa;
     ImageButton compare , list;
 
 
@@ -60,8 +63,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
 
+        CoordinatorLayout coordinatorLayout = (CoordinatorLayout)this.findViewById(R.id.coordinate);
 
-        bar = (RelativeLayout)findViewById(R.id.bottombar);
+
+
+        View botto = coordinatorLayout.findViewById(R.id.bottombar);
+
+        bar = BottomSheetBehavior.from(botto);
+       // bar.setState(BottomSheetBehavior.STATE_COLLAPSED);
 
         list = (ImageButton)findViewById(R.id.imageButton3);
 
@@ -84,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext() , TempList.class);
-                startActivity(i);
+                startActivityForResult(i , 112);
             }
         });
 
@@ -190,21 +199,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     {
         Intent i = new Intent(getApplicationContext() , MainList.class);
 
-        startActivity(i);
+        startActivityForResult(i , 112);
 
     }
 
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-
-
-
-
-
-    }
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -220,7 +219,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         if (id == R.id.nav_camera)
-        {bar.setVisibility(View.GONE);
+        {
+
+
             Intent i = new Intent(getApplicationContext() , MainList.class);
 
             startActivity(i);
@@ -371,6 +372,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
 
         }
+        if (requestCode == 112)
+        { comparebean be = (comparebean)this.getApplicationContext();
+
+
+            countt.setText(String.valueOf(be.tempList.size()));
+
+
+            if (be.tempList.size() == 0  &&  be.list.size() == 0)
+            {
+
+                bar.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            }
+        }
+
 
     }
 

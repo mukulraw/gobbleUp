@@ -16,8 +16,8 @@
 
 
     <ImageView
-        android:layout_width="464dp"
-        android:layout_height="464dp"
+        android:layout_width="164dp"
+        android:layout_height="164dp"
         android:src="@drawable/header"
         android:background="@drawable/circle_image_view"
 

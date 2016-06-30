@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
@@ -42,11 +43,11 @@ public class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewH
     //private final LayoutInflater mInflater;
     private ArrayList<ProductBean> list = new ArrayList<>();
 
-    RelativeLayout bar;
+    BottomSheetBehavior bar;
 
 
 
-    public ProdAdapter2(Context context , ArrayList<ProductBean> list , RelativeLayout bar)
+    public ProdAdapter2(Context context , ArrayList<ProductBean> list , BottomSheetBehavior bar)
     {
         //mInflater = LayoutInflater.from(context);
         this.context = context;
@@ -54,6 +55,12 @@ public class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewH
         this.bar = bar;
     }
 
+
+    public void setGridData(ArrayList<ProductBean> list)
+    {
+
+        this.list = list;
+    }
 
     @Override
     public ProdAdapter2.RecycleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -117,13 +124,14 @@ public class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewH
                 b.tempList.add(item);
                 b.comparecount++;
                 item.setSetlist(true);
-                if (bar.getVisibility() == View.GONE)
+                if (bar.getState() == BottomSheetBehavior.STATE_COLLAPSED)
                 {
-                    TranslateAnimation animate = new TranslateAnimation(0,0,bar.getHeight(),0);
-                    animate.setDuration(500);
-                    animate.setFillAfter(true);
-                    bar.startAnimation(animate);
-                    bar.setVisibility(View.VISIBLE);
+                    //TranslateAnimation animate = new TranslateAnimation(0,0,bar.getHeight(),0);
+                    //animate.setDuration(500);
+                    //animate.setFillAfter(true);
+                    //bar.startAnimation(animate);
+                    //bar.setVisibility(View.VISIBLE);
+                    bar.setState(BottomSheetBehavior.STATE_EXPANDED);
                 }
                 TextView comp = (TextView)((MainActivity)context).findViewById(R.id.textView5);
                 comp.setText(String.valueOf(b.tempList.size()));
@@ -155,13 +163,15 @@ public class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewH
                         b.comparecount++;
                         item.setSet(true);
 
-                        if (bar.getVisibility() == View.GONE)
+                        if (bar.getState() == BottomSheetBehavior.STATE_COLLAPSED)
                         {
-                            TranslateAnimation animate = new TranslateAnimation(0,0,bar.getHeight(),0);
-                            animate.setDuration(500);
-                            animate.setFillAfter(true);
-                            bar.startAnimation(animate);
-                            bar.setVisibility(View.VISIBLE);
+                            //TranslateAnimation animate = new TranslateAnimation(0,0,bar.getHeight(),0);
+                            //animate.setDuration(500);
+                            //animate.setFillAfter(true);
+                            //bar.startAnimation(animate);
+                            //b//ar.setVisibility(View.VISIBLE);
+                            bar.setState(BottomSheetBehavior.STATE_EXPANDED);
+
                         }
 
 
@@ -195,13 +205,15 @@ public class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewH
 
                         if (comp1.getText().equals("0"))
                         {
-                            if (bar.getVisibility() == View.VISIBLE)
+                            if (bar.getState() == BottomSheetBehavior.STATE_EXPANDED)
                             {
-                                TranslateAnimation animate = new TranslateAnimation(0,0,0,bar.getHeight());
-                                animate.setDuration(500);
-                                animate.setFillAfter(true);
-                                bar.startAnimation(animate);
-                                bar.setVisibility(View.GONE);
+                               // TranslateAnimation animate = new TranslateAnimation(0,0,0,bar.getHeight());
+                                //animate.setDuration(500);
+                                //animate.setFillAfter(true);
+                                //bar.startAnimation(animate);
+                                //bar.setVisibility(View.GONE);
+                                bar.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
                             }
                         }
 

@@ -2,6 +2,8 @@ package com.gobble.gobble_up;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -63,7 +65,6 @@ public class TempList extends AppCompatActivity {
 
         listview.setVisibility(View.VISIBLE);
         saveList.setVisibility(View.VISIBLE);
-        progressBar.setVisibility(View.GONE);
 
         saveList.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,6 +101,9 @@ public class TempList extends AppCompatActivity {
 
 
 
+
+
+
             }
         };
 
@@ -116,8 +120,12 @@ public class TempList extends AppCompatActivity {
         list = new ArrayList<>();
 
         list.clear();
-
+        progressBar.setVisibility(View.VISIBLE);
         int length = b.tempList.size();
+        if (length == 0)
+        {
+            progressBar.setVisibility(View.GONE);
+        }
         for (int i = 0 ; i<length ; i++)
         {
             String id = String.valueOf(b.tempList.get(i).getId());
@@ -125,7 +133,15 @@ public class TempList extends AppCompatActivity {
 
 
 
-            new connect(GET_PRODUCT+id).execute();
+            if (i<(length-1))
+            {
+                new connect(GET_PRODUCT+id).execute();
+            }
+            else
+            {
+                new connect2(GET_PRODUCT+id).execute();
+            }
+
         }
     }
 
@@ -148,6 +164,7 @@ public class TempList extends AppCompatActivity {
 
                 listview.setAdapter(adapter);
                 listview.setLayoutManager(layoutManager);
+
 
             }
         }
@@ -313,7 +330,177 @@ public class TempList extends AppCompatActivity {
 
             list.add(bean);
 
-             adapter = new tempAdapter(getApplicationContext() , list);
+
+
+
+
+        }
+    }
+
+
+    public class connect2 extends AsyncTask<Void , Void , Void>
+    {
+
+        List<String> nutrition = new ArrayList<>();
+
+
+
+        InputStream is;
+        String json;
+        JSONObject object;
+        String prie , desc , nae , ima;
+        JSONArray mainArray , nutArray;
+        String faat , pro , carb;
+
+
+
+        int length;
+        String url;
+
+        connect2(String url)
+        {
+            this.url = url;
+        }
+
+
+
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+
+            try {
+                // HttpClient client = new DefaultHttpClient();
+                //  HttpGet get = new HttpGet(url);
+                //  HttpResponse response = client.execute(get);
+                //HttpEntity entity = response.getEntity();
+                //is = entity.getContent();
+
+                URL u = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection)u.openConnection();
+                if(connection.getResponseCode()==200)
+                {
+                    is = connection.getInputStream();
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(
+                        is, "utf-8"), 8);
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line).append("\n");
+                }
+                is.close();
+                json = sb.toString();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //Log.e("Buffer Error", "Error converting result " + e.toString());
+            }
+
+            try {
+                mainArray = new JSONArray(json);
+                //length = array.length();
+            } catch (JSONException | NullPointerException e) {
+                e.printStackTrace();
+                //Log.e("JSON Parser", "Error parsing data " + e.toString());
+            }
+
+
+            try {
+                object = mainArray.getJSONObject(0);
+            } catch (JSONException | NullPointerException e) {
+                e.printStackTrace();
+            }
+
+
+            try {
+                prie = object.getString("price");
+                nae = object.getString("name");
+                desc = object.getString("description");
+                ima = object.getString("image");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+            try {
+                nutArray = object.getJSONArray("nutration");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            length = nutArray.length();
+
+            for (int i=0 ; i<length;i++)
+            {
+                try {
+                    JSONObject obj = nutArray.getJSONObject(i);
+
+                    if (obj.getString("unit").equals("per"))
+                    {
+                        nutrition.add(obj.getString("value") + "%");
+                    }
+
+                    else
+                    {
+                        nutrition.add(obj.getString("value") +  obj.getString("unit"));
+                    }
+
+
+
+                } catch (JSONException | NullPointerException e) {
+                    e.printStackTrace();
+                }
+            }
+            try {
+                faat = nutArray.getJSONObject(1).getString("value");
+                pro = nutArray.getJSONObject(3).getString("value");
+                carb = nutArray.getJSONObject(2).getString("value");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+
+
+
+
+
+
+            comparelistBean bean = new comparelistBean();
+            bean.setImage(ima);
+            bean.setPrice(prie);
+            bean.setName(nae);
+            bean.setCalories(nutrition.get(0));
+            bean.setFat(nutrition.get(1));
+            bean.setCarbs(nutrition.get(2));
+            bean.setProtein(nutrition.get(3));
+            bean.setSodium(nutrition.get(4));
+            bean.setPotassium(nutrition.get(5));
+            bean.setFiber(nutrition.get(6));
+            bean.setSugar(nutrition.get(7));
+            bean.setVita(nutrition.get(8));
+            bean.setVitc(nutrition.get(9));
+            bean.setCalcium(nutrition.get(10));
+            bean.setIron(nutrition.get(11));
+
+            list.add(bean);
+
+            progressBar.setVisibility(View.GONE);
+
+            adapter = new tempAdapter(getApplicationContext() , list);
 
             listview.setAdapter(adapter);
             listview.setLayoutManager(layoutManager);

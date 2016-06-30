@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -55,7 +57,7 @@ public class SubCatFragment extends Fragment {
     int page;
     String id;
     String name;
-    RelativeLayout bar;
+    //RelativeLayout bar;
 
     public static SubCatFragment newInstance(int page , String id) {
         Bundle args = new Bundle();
@@ -92,7 +94,7 @@ public class SubCatFragment extends Fragment {
 
         comparebean b = (comparebean)getActivity().getApplicationContext();
 
-        bar = (RelativeLayout)getActivity().findViewById(R.id.bottombar);
+        //bar = (RelativeLayout)getActivity().findViewById(R.id.bottombar);
 
         if (b.comparecount>0)
         {
@@ -201,16 +203,18 @@ public class SubCatFragment extends Fragment {
         refresh(getArguments().getString("id"));
 
 
-        TextView t1 = (TextView)((MainActivity)getContext()).findViewById(R.id.textView5);
+      /*  TextView t1 = (TextView)((MainActivity)getContext()).findViewById(R.id.textView5);
         TextView t2 = (TextView)((MainActivity)getContext()).findViewById(R.id.textView4);
 
-        RelativeLayout bar = (RelativeLayout)((MainActivity)getContext()).findViewById(R.id.bottombar);
+        View bar = (View)((MainActivity)getContext()).findViewById(R.id.bottombar);
+
+        BottomSheetBehavior bott = BottomSheetBehavior.from(bar);
 
         if (t1.getText().toString().equals("0")  &&  t2.getText().toString().equals("0"))
         {
-            bar.setVisibility(View.GONE);
+            bott.setState(BottomSheetBehavior.STATE_COLLAPSED);
         }
-
+*/
 
     }
 
@@ -373,7 +377,10 @@ public class SubCatFragment extends Fragment {
 
             try
             {
-                adapter = new ProdAdapter2(getContext() ,  list1 , (RelativeLayout)((MainActivity)getContext()).findViewById(R.id.bottombar));
+                CoordinatorLayout coordinatorLayout = (CoordinatorLayout)((MainActivity)getContext()).findViewById(R.id.coordinate);
+                View view = coordinatorLayout.findViewById(R.id.bottombar);
+                BottomSheetBehavior bot = BottomSheetBehavior.from(view);
+                adapter = new ProdAdapter2(getContext() ,  list1 , bot);
             }catch (NullPointerException e)
             {
                 e.printStackTrace();

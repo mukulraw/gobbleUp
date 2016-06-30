@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +24,7 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -65,8 +67,10 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
     private PieChart pieChart;
     private TextView brand , price_single , calories_single , description , allergic;
     private BarChart barChart;
+    String pId;
 
-    private RelativeLayout bar;
+    TextView rate;
+    private BottomSheetBehavior bar;
 
     private TextView sliderName , sliderBelowText , calories , fat , carbs , protein , sodium , potassium , fiber , sugar , vita , vitc , calcium , iron;
 
@@ -89,6 +93,8 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
         barChart = (BarChart)view.findViewById(R.id.bar_chart);
 
         TextView clickToExpand = (TextView) view.findViewById(R.id.clicktoexpand);
+
+
 
         brand = (TextView)view.findViewById(R.id.brand);
         price_single = (TextView)view.findViewById(R.id.price);
@@ -122,12 +128,14 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
         iron = (TextView)view.findViewById(R.id.iron);
 
 
+        rate = (TextView)view.findViewById(R.id.rating);
 
 
+        CoordinatorLayout coordinatorLayout = (CoordinatorLayout)((MainActivity)getContext()).findViewById(R.id.coordinate);
 
+   View view1 = coordinatorLayout.findViewById(R.id.bottombar);
 
-
-bar = (RelativeLayout)((MainActivity)getContext()).findViewById(R.id.bottombar);
+        bar = BottomSheetBehavior.from(view1);
 
         View bottom = (View)view.findViewById(R.id.bottom_sheet);
         mBottomSheetBehavior = BottomSheetBehavior.from(bottom);
@@ -167,7 +175,8 @@ bar = (RelativeLayout)((MainActivity)getContext()).findViewById(R.id.bottombar);
         //title.setText(a);
         iv = (ImageView)view.findViewById(R.id.prodImage1);
 
-
+        add.setText("ADD TO LIST");
+        add.setBackground(getResources().getDrawable(R.drawable.grey));
         for (int k = 0 ; k<b.tempList.size() ; k++)
         {
             if (Integer.parseInt(iidd) == b.tempList.get(k).getId())
@@ -175,7 +184,9 @@ bar = (RelativeLayout)((MainActivity)getContext()).findViewById(R.id.bottombar);
                 add.setText("ADDED");
                 add.setBackground(getResources().getDrawable(R.drawable.dark));
             }
+
         }
+
 
         new loadImage(iv , getArguments().getString("image")).execute();
 
@@ -231,13 +242,15 @@ bar = (RelativeLayout)((MainActivity)getContext()).findViewById(R.id.bottombar);
                         compare.setBackground(getResources().getDrawable(R.drawable.dark));
                         //Toast.makeText(getContext() , "Added to compare" , Toast.LENGTH_SHORT).show();
 
-                        if (bar.getVisibility() == View.GONE)
+                        if (bar.getState() == BottomSheetBehavior.STATE_COLLAPSED)
                         {
-                            TranslateAnimation animate = new TranslateAnimation(0,0,bar.getHeight(),0);
-                            animate.setDuration(500);
-                            animate.setFillAfter(true);
-                            bar.startAnimation(animate);
-                            bar.setVisibility(View.VISIBLE);
+                           // TranslateAnimation animate = new TranslateAnimation(0,0,bar.getHeight(),0);
+                           // animate.setDuration(500);
+                           // animate.setFillAfter(true);
+                           // bar.startAnimation(animate);
+                            //bar.setVisibility(View.VISIBLE);
+                            bar.setState(BottomSheetBehavior.STATE_EXPANDED);
+
                         }
 
 
@@ -277,7 +290,47 @@ bar = (RelativeLayout)((MainActivity)getContext()).findViewById(R.id.bottombar);
 
 
 
+
+        rate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent i = new Intent(getContext() , Rate_Review.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("iidd" , pId);
+                i.putExtras(bundle);
+                startActivity(i);
+
+            }
+        });
+
+
+
         return view;
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        final comparebean b = (comparebean)getContext().getApplicationContext();
+
+        add.setText("ADD TO LIST");
+        add.setBackground(getResources().getDrawable(R.drawable.grey));
+
+        for (int k = 0 ; k<b.tempList.size() ; k++)
+        {
+            if (Integer.parseInt(iidd) == b.tempList.get(k).getId())
+            {
+                add.setText("ADDED");
+                add.setBackground(getResources().getDrawable(R.drawable.dark));
+            }
+
+        }
+
+
+
+
     }
 
     private Bitmap LoadImageFromURL(String url)
@@ -309,13 +362,15 @@ bar = (RelativeLayout)((MainActivity)getContext()).findViewById(R.id.bottombar);
                 b.comparecount++;
                 add.setText("ADDED");
                 add.setBackground(getResources().getDrawable(R.drawable.dark));
-                if (bar.getVisibility() == View.GONE)
+                if (bar.getState() == BottomSheetBehavior.STATE_COLLAPSED)
                 {
-                    TranslateAnimation animate = new TranslateAnimation(0,0,bar.getHeight(),0);
-                    animate.setDuration(500);
-                    animate.setFillAfter(true);
-                    bar.startAnimation(animate);
-                    bar.setVisibility(View.VISIBLE);
+                  //  TranslateAnimation animate = new TranslateAnimation(0,0,bar.getHeight(),0);
+                   // animate.setDuration(500);
+                   // animate.setFillAfter(true);
+                   // bar.startAnimation(animate);
+                   // bar.setVisibility(View.VISIBLE);
+
+                    bar.setState(BottomSheetBehavior.STATE_EXPANDED);
                 }
                 TextView comp = (TextView)((MainActivity)getActivity()).findViewById(R.id.textView5);
                 if (comp != null) {
@@ -449,6 +504,7 @@ bar = (RelativeLayout)((MainActivity)getContext()).findViewById(R.id.bottombar);
             try {
                 prie = object.getString("price");
                 nae = object.getString("name");
+                pId = object.getString("id");
                 desc = object.getString("description");
             } catch (JSONException | NullPointerException e) {
                 e.printStackTrace();

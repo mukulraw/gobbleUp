@@ -176,7 +176,9 @@
                             android:layout_centerHorizontal="true"
                             style="?android:attr/ratingBarStyleSmall"
                             android:rating="3.5"
-                            android:id="@+id/rating"
+
+                            android:focusable="true"
+
                             />
 
                     </RelativeLayout>
@@ -188,7 +190,8 @@
                         android:layout_height="wrap_content"
                         android:textSize="22sp"
                         android:layout_weight="1"
-                        android:text="2 Reviews"
+                        android:id="@+id/rating"
+                        android:text="Rate"
                         android:paddingStart="20dp"
                         />
 

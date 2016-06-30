@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingStart="10dp"
+            android:text="Rate this product  "
+            />
+
+        <RatingBar
+            android:layout_width="match_parent"
+            android:rating="3.7"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Write a review"
+        android:paddingStart="10dp"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:hint="your review here"
+        android:gravity="center"
+        />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ALL REVIEWS"
+        android:gravity="center"
+        />
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        card_view:cardUseCompatPadding="true"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        card_view:cardCornerRadius="3dp"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="16dp"
+            android:orientation="vertical"
+            >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NAME"
+            />
+
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="?android:attr/ratingBarStyleSmall"
+                android:rating="3.7"
+
+                />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="asdasdjj ajdpois9f  asdef jp asoapogf[a[ga hadiheriohg asdg oIHOI DGH IHoighjSOD  SFijOFOI hoif ioFDIO osdih gioheroigsdjf SDJF KjweiofjSLKDFJ IW efoijISDFJLKWE FIHs8fdHFKLDSHF Ilkhdf HS LDKFH heoh[EWHFIWHf skldfkldhowerhgurhoiheioiwetiofitofoihs siodfoihgjaDGHOWIEHOIAHSDGIOHAWEIHGIPADGHALKDG IA GAHS GI AHGIA GAISDHGIAH G'IHSDIGHighj'pgipio"
+
+                />
+
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView> <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+    card_view:cardUseCompatPadding="true"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    card_view:cardCornerRadius="3dp"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="16dp"
+            android:orientation="vertical"
+            >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NAME"
+            />
+
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="?android:attr/ratingBarStyleSmall"
+                android:rating="3.7"
+
+                />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="asdasdjj ajdpois9f  asdef jp asoapogf[a[ga hadiheriohg asdg oIHOI DGH IHoighjSOD  SFijOFOI hoif ioFDIO osdih gioheroigsdjf SDJF KjweiofjSLKDFJ IW efoijISDFJLKWE FIHs8fdHFKLDSHF Ilkhdf HS LDKFH heoh[EWHFIWHf skldfkldhowerhgurhoiheioiwetiofitofoihs siodfoihgjaDGHOWIEHOIAHSDGIOHAWEIHGIPADGHALKDG IA GAHS GI AHGIA GAISDHGIAH G'IHSDIGHighj'pgipio"
+
+                />
+
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+
+
+
+</LinearLayout>
