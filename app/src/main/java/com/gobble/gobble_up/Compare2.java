@@ -8,9 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -52,6 +54,8 @@ public class Compare2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.compare_layout2);
 
+        Toast.makeText(this , "Swipe up to remove item" , Toast.LENGTH_LONG).show();
+
         listview = (RecyclerView)findViewById(R.id.compare_layout_list);
 
 
@@ -63,12 +67,63 @@ public class Compare2 extends AppCompatActivity {
 
         lLayout = new GridLayoutManager(this , 1);
 
+
+
+        refresh();
+
+        final comparebean b = (comparebean)this.getApplicationContext();
+
+
+
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.UP ) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+
+
+
+                b.list.remove(viewHolder.getAdapterPosition());
+                //adapter.notifyDataSetChanged();
+                refresh();
+
+
+
+
+
+
+
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+
+        itemTouchHelper.attachToRecyclerView(listview);
+
+
+
+
+
+       // new connect(GET_PRODUCT+"11").execute();
+
+        //compareAdapter adapter = new compareAdapter(this , list);
+
+        //listview.setAdapter(adapter);
+        //listview.setLayoutManager(lLayout);
+    }
+
+
+    void refresh()
+    {
+
         comparebean b = (comparebean)this.getApplicationContext();
-
-
 
         list = new ArrayList<>();
 
+        listview.setVisibility(View.GONE);
 
         bar.setVisibility(View.VISIBLE);
 
@@ -121,13 +176,8 @@ public class Compare2 extends AppCompatActivity {
 
         }
 
-       // new connect(GET_PRODUCT+"11").execute();
-
-        //compareAdapter adapter = new compareAdapter(this , list);
-
-        //listview.setAdapter(adapter);
-        //listview.setLayoutManager(lLayout);
     }
+
 
     public class connect extends AsyncTask<Void , Void , Void>
     {
@@ -463,6 +513,8 @@ public class Compare2 extends AppCompatActivity {
             list.add(bean);
 
             bar.setVisibility(View.GONE);
+
+            listview.setVisibility(View.VISIBLE);
 
             compareAdapter adapter = new compareAdapter(getApplicationContext() , list);
 

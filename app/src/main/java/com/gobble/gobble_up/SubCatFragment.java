@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,6 +57,7 @@ public class SubCatFragment extends Fragment {
     RecyclerView grid;
     int page;
     String id;
+    ProgressBar bar;
     String name;
     //RelativeLayout bar;
 
@@ -91,6 +93,7 @@ public class SubCatFragment extends Fragment {
         View view = inflater.inflate(R.layout.view_pager_model, container, false);
         lLayout = new GridLayoutManager(view.getContext() , 1);
 
+        bar = (ProgressBar)view.findViewById(R.id.progress_sub_cat_list);
 
         comparebean b = (comparebean)getActivity().getApplicationContext();
 
@@ -140,52 +143,9 @@ public class SubCatFragment extends Fragment {
         return view;
     }
 
-    private Bitmap LoadImageFromURL(String url)
-
-    {
-        try
-        {
-            InputStream is = (InputStream) new URL(url).getContent();
-            Bitmap d = BitmapFactory.decodeStream(is);
-            return d;
-        }catch (Exception e) {
-            System.out.println(e);
-            return null;
-        }
-    }
 
 
-    public class loadBitmap extends AsyncTask<Void , Void , Void>
-    {
-        comparebean b = (comparebean)getActivity().getApplicationContext();
-        String url;
-        ImageView iv;
-        Bitmap d;
 
-
-        public loadBitmap(String url)
-        {
-            this.iv = iv;
-            this.url = url;
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-
-
-           // Log.d("asdasdasd" , url);
-            d = LoadImageFromURL(url);
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-
-            b.bitmaps.add(d);
-
-        }
-    }
 
 
     public void refresh(String cat)
@@ -200,21 +160,13 @@ public class SubCatFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+        grid.setVisibility(View.GONE);
+        bar.setVisibility(View.VISIBLE);
+
         refresh(getArguments().getString("id"));
 
 
-      /*  TextView t1 = (TextView)((MainActivity)getContext()).findViewById(R.id.textView5);
-        TextView t2 = (TextView)((MainActivity)getContext()).findViewById(R.id.textView4);
 
-        View bar = (View)((MainActivity)getContext()).findViewById(R.id.bottombar);
-
-        BottomSheetBehavior bott = BottomSheetBehavior.from(bar);
-
-        if (t1.getText().toString().equals("0")  &&  t2.getText().toString().equals("0"))
-        {
-            bott.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        }
-*/
 
     }
 
@@ -388,6 +340,13 @@ public class SubCatFragment extends Fragment {
 
             //adapter.setGridData(list1);
             grid.setAdapter(adapter);
+
+            bar.setVisibility(View.GONE);
+
+            grid.setVisibility(View.VISIBLE);
+
+
+
             //list.clear();
             //mProgressBar.setVisibility(View.GONE);
 

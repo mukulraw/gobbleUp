@@ -61,6 +61,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/compareProgress"
         android:layout_centerHorizontal="true"
+        style="@android:style/Widget.ProgressBar.Small"
         android:layout_centerVertical="true"
         android:visibility="gone"
         />

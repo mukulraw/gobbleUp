@@ -130,17 +130,16 @@ public class MainList extends AppCompatActivity {
 
 
 
-    class MainListAdapter extends ArrayAdapter<addListBean> {
+    private class MainListAdapter extends ArrayAdapter<addListBean> {
         private Context context;
         private int layoutResourceId;
         private ArrayList<addListBean> list = new ArrayList<>();
         private String DELETE_LIST = "http://nationproducts.in/global/api/deletelist/listId/";
         private String GET_ALL_LIST = "http://nationproducts.in/global/api/alllists/userId/";
         private String UPDATE_LIST_NAME = "http://nationproducts.in/global/api/updatelistname";
-        addToListAdapter adapter;
 
 
-        public MainListAdapter(Context context, int resource , ArrayList<addListBean> list) {
+        MainListAdapter(Context context, int resource, ArrayList<addListBean> list) {
             super(context, resource , list);
             this.context = context;
             this.layoutResourceId = resource;
@@ -271,7 +270,7 @@ public class MainList extends AppCompatActivity {
 
             return row;
         }
-        public class login extends AsyncTask<Void , Void , Void>
+        class login extends AsyncTask<Void , Void , Void>
         {
 
             String username , password;
@@ -324,115 +323,13 @@ public class MainList extends AppCompatActivity {
         }
 
 
-        public class connect extends AsyncTask<Void , Void , Void>
-        {
 
-            InputStream is;
-            String json;
-            JSONArray array;
-
-
-
-
-            int length;
-            String url;
-
-            connect(String url)
-            {
-                this.url = url;
-            }
-
-
-
-
-            @Override
-            protected Void doInBackground(Void... params) {
-
-
-                try {
-                    // HttpClient client = new DefaultHttpClient();
-                    //  HttpGet get = new HttpGet(url);
-                    //  HttpResponse response = client.execute(get);
-                    //HttpEntity entity = response.getEntity();
-                    //is = entity.getContent();
-
-                    URL u = new URL(url);
-                    HttpURLConnection connection = (HttpURLConnection)u.openConnection();
-                    if(connection.getResponseCode()==200)
-                    {
-                        is = connection.getInputStream();
-                    }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                try {
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(
-                            is, "utf-8"), 8);
-                    StringBuilder sb = new StringBuilder();
-                    String line = null;
-                    while ((line = reader.readLine()) != null) {
-                        sb.append(line).append("\n");
-                    }
-                    is.close();
-                    json = sb.toString();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    //Log.e("Buffer Error", "Error converting result " + e.toString());
-                }
-
-                try {
-                    array = new JSONArray(json);
-                    length = array.length();
-                } catch (JSONException | NullPointerException e) {
-                    e.printStackTrace();
-                    //Log.e("JSON Parser", "Error parsing data " + e.toString());
-                }
-
-
-                for (int i=0 ; i<length;i++)
-                {
-                    try {
-                        JSONObject obj = array.getJSONObject(i);
-                        addListBean bean = new addListBean();
-                        bean.setListName(obj.getString("listName"));
-                        bean.setListId(obj.getString("listId"));
-                        bean.setCreatedTime(obj.getString("createdTime"));
-                        bean.setTotalItem(obj.getString("totalItem"));
-
-
-
-
-
-
-
-                        list.add(bean);
-                    } catch (JSONException | NullPointerException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-
-
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-
-                adapter.setGridData(list);
-                //list.clear();
-                //mProgressBar.setVisibility(View.GONE);
-            }
-        }
         class ViewHolder {
             TextView listtName , edit;
             TextView listtCreatedTime , listttotal , listtidd;
             Button delete;
         }
-        public class delete extends AsyncTask<Void , Void , Void>
+        class delete extends AsyncTask<Void , Void , Void>
         {
 
             InputStream is;
@@ -496,20 +393,10 @@ public class MainList extends AppCompatActivity {
                 try {
                     array = new JSONArray(json);
                     length = array.length();
-                } catch (JSONException e) {
+                } catch (JSONException | NullPointerException e) {
                     e.printStackTrace();
                     //Log.e("JSON Parser", "Error parsing data " + e.toString());
-                }catch (NullPointerException e)
-                {
-                    e.printStackTrace();
-                    //Toast.makeText(getBaseContext() , "failed to fetch data" , Toast.LENGTH_SHORT).show();
                 }
-
-
-
-
-
-
 
 
                 return null;
@@ -717,20 +604,10 @@ public class MainList extends AppCompatActivity {
             try {
                 array = new JSONArray(json);
                 length = array.length();
-            } catch (JSONException e) {
+            } catch (JSONException | NullPointerException e) {
                 e.printStackTrace();
                 //Log.e("JSON Parser", "Error parsing data " + e.toString());
-            }catch (NullPointerException e)
-            {
-                e.printStackTrace();
-                //Toast.makeText(getBaseContext() , "failed to fetch data" , Toast.LENGTH_SHORT).show();
             }
-
-
-
-
-
-
 
 
             return null;

@@ -71,7 +71,7 @@ public class addToListAdapter extends ArrayAdapter<addListBean> {
         addListBean item = list.get(position);
         holder.listtName.setText("Name: "+item.getListName());
         holder.listtCreatedTime.setText("Date: "+item.getCreatedTime());
-        holder.listttotal.setText("Total: "+item.getTotalItem());
+        holder.listttotal.setText(item.getTotalItem()+"items");
         holder.listtidd.setText("Id: "+item.getListId());
 
 

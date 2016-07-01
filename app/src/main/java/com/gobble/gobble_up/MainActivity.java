@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext() , Compare2.class);
 
-                startActivity(i);
+                startActivityForResult(i , 12);
             }
         });
 
@@ -381,6 +381,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             countt.setText(String.valueOf(be.tempList.size()));
 
 
+
+            if (be.tempList.size() == 0  &&  be.list.size() == 0)
+            {
+
+                bar.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            }
+        }
+
+        if (requestCode == 12)
+        {
+            comparebean be = (comparebean)this.getApplicationContext();
+            countsa.setText(String.valueOf(be.list.size()));
             if (be.tempList.size() == 0  &&  be.list.size() == 0)
             {
 

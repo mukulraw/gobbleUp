@@ -42,6 +42,7 @@ public class TempList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_temp_list);
+        Toast.makeText(this , "Swipe to remove item" , Toast.LENGTH_LONG).show();
         listview = (RecyclerView)findViewById(R.id.temp_list);
 
         saveList = (TextView)findViewById(R.id.saveList);
@@ -110,6 +111,13 @@ public class TempList extends AppCompatActivity {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
 
         itemTouchHelper.attachToRecyclerView(listview);
+
+
+
+
+
+
+
 
 
     }

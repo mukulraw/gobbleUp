@@ -134,7 +134,7 @@ public class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewH
                 }
                 TextView comp = (TextView)((MainActivity)context).findViewById(R.id.textView5);
                 comp.setText(String.valueOf(b.tempList.size()));
-                Toast.makeText(context , "Added to List" , Toast.LENGTH_SHORT).show();
+
 
                 holder.addlist.setVisibility(View.GONE);
 
@@ -181,7 +181,7 @@ public class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewH
                         //bar.animate().alpha(1.0f);
                         // b.bitmaps.add(LoadImageFromURL(item.getImage()));
                         //Log.d("asdasdasd" , String.valueOf(b.list.size()));
-                        Toast.makeText(context , "Added to Compare" , Toast.LENGTH_SHORT).show();
+
                     }
                     else {
                         Toast.makeText(context , "Max. limit reached" , Toast.LENGTH_SHORT).show();
@@ -236,7 +236,7 @@ public class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewH
                     TextView comp = (TextView)((MainActivity)context).findViewById(R.id.textView4);
                     comp.setText(String.valueOf(b.list.size()));
                     //b.list.remove(item);
-                    Toast.makeText(context , "Item removed" ,Toast.LENGTH_SHORT ).show();
+
                 }
 
             }
