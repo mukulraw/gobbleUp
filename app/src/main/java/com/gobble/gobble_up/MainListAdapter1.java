@@ -34,7 +34,7 @@ import java.util.StringTokenizer;
 /**
  * Created by hi on 6/17/2016.
  */
-public class MainListAdapter extends ArrayAdapter<addListBean> {
+public class MainListAdapter1 extends ArrayAdapter<addListBean> {
     private Context context;
     private int layoutResourceId;
     private ArrayList<addListBean> list = new ArrayList<>();
@@ -44,7 +44,7 @@ public class MainListAdapter extends ArrayAdapter<addListBean> {
     addToListAdapter adapter;
 
 
-    public MainListAdapter(Context context, int resource , ArrayList<addListBean> list) {
+    public MainListAdapter1(Context context, int resource , ArrayList<addListBean> list) {
         super(context, resource , list);
         this.context = context;
         this.layoutResourceId = resource;
@@ -76,7 +76,7 @@ public class MainListAdapter extends ArrayAdapter<addListBean> {
         } else {
             holder = (ViewHolder) row.getTag();
         }
-        addListBean item = list.get(position);
+        final addListBean item = list.get(position);
         holder.listtName.setText("Name: "+item.getListName());
         holder.listtCreatedTime.setText("Date: "+item.getCreatedTime());
         holder.listttotal.setText("Total: "+item.getTotalItem());
@@ -89,7 +89,7 @@ public class MainListAdapter extends ArrayAdapter<addListBean> {
             @Override
             public void onClick(View view) {
 
-                addListBean item = (addListBean)list.get(position);
+                //final addListBean item = (addListBean)list.get(position);
                 final String idd = item.getListId();
 
                 final Dialog dialog1 = new Dialog(getContext());
@@ -106,7 +106,7 @@ public class MainListAdapter extends ArrayAdapter<addListBean> {
                     public void onClick(View view) {
                         final comparebean be = (comparebean)context.getApplicationContext();
 
-                        String iidd = be.user_id;
+                        String iidd = item.getListId();
 
 
                         String name = updatename.getText().toString();
@@ -218,8 +218,10 @@ public class MainListAdapter extends ArrayAdapter<addListBean> {
         protected Void doInBackground(Void... params) {
             List<NameValuePair> data = new ArrayList<>();
 
-            data.add(new BasicNameValuePair("listName" , username));
+
+            Log.d("asdasdasd" , password);
             data.add(new BasicNameValuePair("listId" , password));
+            data.add(new BasicNameValuePair("listName" , username));
 
             RegisterUserClass ruc = new RegisterUserClass();
             result = ruc.sendPostRequest(UPDATE_LIST_NAME , data);

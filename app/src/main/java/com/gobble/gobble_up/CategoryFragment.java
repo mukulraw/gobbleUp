@@ -3,6 +3,7 @@ package com.gobble.gobble_up;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -15,8 +16,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.trncic.library.DottedProgressBar;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import org.json.JSONArray;
@@ -43,8 +46,10 @@ public class CategoryFragment extends Fragment {
     ArrayList<categoryBean> list;
     private RecyclerView grid;
     ViewPager slide;
+    ProgressBar progressBar;
     TextView bannerText;
     CirclePageIndicator indi;
+    AppBarLayout appBarLayout;
     private GridLayoutManager lLayout;
 
     @Nullable
@@ -59,8 +64,10 @@ public class CategoryFragment extends Fragment {
         grid = (RecyclerView) view.findViewById(R.id.gridView);
         bannerText = (TextView)view.findViewById(R.id.bannerText);
 
+        appBarLayout = (AppBarLayout)view.findViewById(R.id.htab_appbar);
 
 
+        progressBar = (ProgressBar)view.findViewById(R.id.progress);
         slide = (ViewPager)view.findViewById(R.id.slide);
 
         grid.setHasFixedSize(true);
@@ -74,6 +81,7 @@ public class CategoryFragment extends Fragment {
 
 
 
+        progressBar.setVisibility(View.VISIBLE);
 
         refresh();
 
@@ -268,8 +276,11 @@ public class CategoryFragment extends Fragment {
             //adapter.setGridData(list);
             //list.clear();
             // mProgressBar.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
             bannerText.setVisibility(View.VISIBLE);
             slide.setVisibility(View.VISIBLE);
+            indi.setVisibility(View.VISIBLE);
+            appBarLayout.setVisibility(View.VISIBLE);
         }
     }
 

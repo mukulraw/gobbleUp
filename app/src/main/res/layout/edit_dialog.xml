@@ -1,22 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+android:orientation="vertical"
+    android:background="#A0ffffff"
+
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:background="#D9FFA000"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:id="@+id/cancel_edit_dialog"
+        android:layout_margin="5dp"
+        android:background="@drawable/cross"
+        android:backgroundTint="@color/white"
+        />
+
+
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+
         android:text="Enter new list name"
-        android:layout_marginBottom="10dp"
+        android:textColor="@color/white"
         android:gravity="center"
         />
 
-
+</LinearLayout>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="New name"
         android:layout_marginStart="10dp"
+
         android:layout_marginEnd="10dp"
         android:id="@+id/new_name"
         />
@@ -37,7 +63,9 @@
             android:id="@+id/dialogipdate"
             android:layout_marginBottom="10dp"
             android:layout_marginEnd="10dp"
+            android:background="@drawable/dilaog_button_background"
             android:text="UPDATE"
+
             android:layout_alignParentEnd="true"
             />
 

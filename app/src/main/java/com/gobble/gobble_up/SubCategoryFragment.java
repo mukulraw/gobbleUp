@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -18,6 +19,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -49,7 +51,9 @@ public class SubCategoryFragment extends Fragment {
     ImageView banner;
     TabLayout tab;
     FragStatePagerAdapter adapter1;
+    AppBarLayout bar;
     ViewPager pager;
+    ProgressBar progressBar;
 
     @Nullable
     @Override
@@ -62,6 +66,7 @@ public class SubCategoryFragment extends Fragment {
         //Bundle b = getIntent().getExtras();
 
 
+        bar = (AppBarLayout)view.findViewById(R.id.htab_appbar1);
 
         String a = getArguments().getString("id");
 
@@ -71,6 +76,7 @@ public class SubCategoryFragment extends Fragment {
 
         //new loadImage(banner , u).execute();
 
+        progressBar = (ProgressBar)view.findViewById(R.id.progress_sub_cat);
 
 
         DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)
@@ -82,6 +88,8 @@ public class SubCategoryFragment extends Fragment {
 
         imageLoader.displayImage(u , banner , options);
 
+
+        progressBar.setVisibility(View.VISIBLE);
 
         pager = (ViewPager)view.findViewById(R.id.pagerId);
 
@@ -138,7 +146,7 @@ public class SubCategoryFragment extends Fragment {
                 animation = AnimationUtils.loadAnimation(getContext() , R.anim.fade);
                 iv.startAnimation(animation);
                 iv.setImageBitmap(d);
-                title.setVisibility(View.VISIBLE);
+
             }
 
 
@@ -306,7 +314,12 @@ public class SubCategoryFragment extends Fragment {
 
 //            adapter.setGridData(list1);
             //list.clear();
+
+            progressBar.setVisibility(View.GONE);
             tab.setVisibility(View.VISIBLE);
+            title.setVisibility(View.VISIBLE);
+            banner.setVisibility(View.VISIBLE);
+            bar.setVisibility(View.VISIBLE);
             //mProgressBar.setVisibility(View.GONE);
 
         }
