@@ -35,10 +35,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.zip.Inflater;
 
-/**
- * Created by hi on 08-06-2016.
- */
-public class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
+
+class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
     private Context context;
     //private final LayoutInflater mInflater;
     private ArrayList<ProductBean> list = new ArrayList<>();
@@ -47,7 +45,7 @@ public class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewH
 
 
 
-    public ProdAdapter2(Context context , ArrayList<ProductBean> list , BottomSheetBehavior bar)
+    ProdAdapter2(Context context, ArrayList<ProductBean> list, BottomSheetBehavior bar)
     {
         //mInflater = LayoutInflater.from(context);
         this.context = context;
@@ -65,9 +63,7 @@ public class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewH
     public ProdAdapter2.RecycleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.prod_list_model, null);
 
-        RecycleViewHolder viewHolder = new RecycleViewHolder(layoutView);
-
-        return viewHolder;
+        return new RecycleViewHolder(layoutView);
     }
 
 
@@ -327,7 +323,7 @@ public class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewH
         Switch switcher;
 
 
-        public RecycleViewHolder(View itemView) {
+        RecycleViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
             titleTextView = (TextView)itemView.findViewById(R.id.prodName);

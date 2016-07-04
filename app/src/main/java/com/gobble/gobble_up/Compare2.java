@@ -351,7 +351,7 @@ public class Compare2 extends AppCompatActivity {
     }
 
 
-    public class connect2 extends AsyncTask<Void , Void , Void>
+    private class connect2 extends AsyncTask<Void , Void , Void>
     {
 
         List<String> nutrition = new ArrayList<>();

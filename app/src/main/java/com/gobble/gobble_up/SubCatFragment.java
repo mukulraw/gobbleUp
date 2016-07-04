@@ -53,7 +53,6 @@ public class SubCatFragment extends Fragment {
     private String PROD_BY_CAT = "http://nationproducts.in/global/api/products/id/";
     ArrayList<ProductBean> list1;
     private ProdAdapter2 adapter;
-    private GridLayoutManager lLayout;
     RecyclerView grid;
     int page;
     String id;
@@ -91,7 +90,7 @@ public class SubCatFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.view_pager_model, container, false);
-        lLayout = new GridLayoutManager(view.getContext() , 1);
+        GridLayoutManager lLayout = new GridLayoutManager(view.getContext(), 1);
 
         bar = (ProgressBar)view.findViewById(R.id.progress_sub_cat_list);
 
@@ -149,7 +148,7 @@ public class SubCatFragment extends Fragment {
 
 
     public void refresh(String cat)
-    { list1 = new ArrayList<>();
+    { //list1 = new ArrayList<>();
         list1.clear();
         String url = PROD_BY_CAT + cat;
         new connect(url).execute();
@@ -323,7 +322,7 @@ public class SubCatFragment extends Fragment {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-           // adapter.setGridData(list1);
+            adapter.setGridData(list1);
 
 
 

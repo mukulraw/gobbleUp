@@ -4,7 +4,7 @@
     card_view:cardUseCompatPadding="true"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     card_view:cardCornerRadius="3dp"
-    android:layout_height="100dp">
+    android:layout_height="125dp">
 
 
     <LinearLayout
@@ -14,7 +14,7 @@
 
     <ImageView
         android:layout_width="100dp"
-        android:layout_height="match_parent"
+        android:layout_height="100dp"
         android:id="@+id/sublistImage"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
@@ -24,14 +24,15 @@
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
         android:layout_marginTop="3dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/subListName"
             android:textSize="14sp"
             android:gravity="start"
+            android:text="asd"
             android:textColor="#000000"
             />
 
@@ -42,6 +43,7 @@
             android:textStyle="italic"
             android:layout_alignParentStart="true"
             android:gravity="start"
+            android:text="asd"
             android:paddingBottom="5dp"
             android:layout_marginBottom="0dp"
             android:layout_alignParentBottom="true"

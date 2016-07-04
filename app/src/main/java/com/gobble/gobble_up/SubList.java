@@ -8,6 +8,8 @@ import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,10 +43,11 @@ public class SubList extends AppCompatActivity {
 
     ArrayList<subListBean> list;
     private String GET_LIST_ITEMS = "http://nationproducts.in/global/api/listitems/listId/";
-    ListView lv;
+    RecyclerView lv;
     SubListAdapter adapter;
     String id;
     TextView total;
+    private GridLayoutManager lLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,12 +61,17 @@ public class SubList extends AppCompatActivity {
 
         id = String.valueOf(b.get("id"));
 
+        lLayout = new GridLayoutManager(this , 1);
+
+        lv = (RecyclerView) findViewById(R.id.sub_list);
+        list = new ArrayList<>();
 
 
-        lv = (ListView)findViewById(R.id.sub_list);
-        if (lv != null) {
-            lv.setDividerHeight(0);
-        }
+
+        refresh();
+
+
+
 
 
     }
@@ -73,13 +81,6 @@ public class SubList extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        list = new ArrayList<>();
-
-        adapter = new SubListAdapter(this , R.layout.sub_list_model , list);
-        lv.setAdapter(adapter);
-
-
-        refresh();
 
     }
 
@@ -88,6 +89,7 @@ public class SubList extends AppCompatActivity {
 
         list.clear();
         new connect(GET_LIST_ITEMS + id).execute();
+
         //mProgressBar.setVisibility(View.VISIBLE);
     }
 
@@ -193,8 +195,11 @@ public class SubList extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-
-            adapter.setGridData(list);
+            adapter = new SubListAdapter(getApplicationContext() , list);
+            lv.setAdapter(adapter);
+            lv.setHasFixedSize(true);
+            lv.setLayoutManager(lLayout);
+            //adapter.setGridData(list);
             total.setText("TOTAL:  "+String.valueOf(adapter.getTotal()));
             //list.clear();
             //mProgressBar.setVisibility(View.GONE);
@@ -202,9 +207,8 @@ public class SubList extends AppCompatActivity {
     }
 
 
-    public class SubListAdapter extends ArrayAdapter<subListBean> {
+    private class SubListAdapter extends RecyclerView.Adapter<SubListAdapter.RecyclerViewHolder> {
     private Context context;
-    private int layoutResourceId;
     private ArrayList<subListBean> list1 = new ArrayList<>();
     private String DELETE_LIST = "http://nationproducts.in/global/api/removefromlist";
     private String GET_LIST_ITEMS = "http://nationproducts.in/global/api/listitems/listId/";
@@ -212,85 +216,95 @@ public class SubList extends AppCompatActivity {
     //SubListAdapter adapter;
 
 
-    public SubListAdapter(Context context, int resource , ArrayList<subListBean> list) {
-        super(context, resource , list);
+
+        class RecyclerViewHolder extends RecyclerView.ViewHolder{
+            ImageView sublistImage;
+            TextView sublistName , subListPrice;
+            ImageButton delete;
+
+            RecyclerViewHolder(View itemView) {
+                super(itemView);
+
+                sublistImage = (ImageView)itemView.findViewById(R.id.sublistImage);
+                sublistName = (TextView) itemView.findViewById(R.id.subListName);
+                subListPrice = (TextView)itemView.findViewById(R.id.subListPrice);
+                delete = (ImageButton)itemView.findViewById(R.id.sub_list_delete);
+
+            }
+        }
+
+
+
+    SubListAdapter(Context context, ArrayList<subListBean> list) {
         this.context = context;
-        this.layoutResourceId = resource;
         this.list1 = list;
     }
 
     public void setGridData(ArrayList<subListBean> mGridData) {
         this.list1 = mGridData;
-        notifyDataSetChanged();
     }
 
-
-    @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-
-        View row = convertView;
-        ViewHolder holder;
-        if (row == null) {
-            //LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-            LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            row = inflater.inflate(layoutResourceId, parent, false);
-            holder = new ViewHolder();
-            holder.sublistImage = (ImageView) row.findViewById(R.id.sublistImage);
-            holder.sublistName = (TextView) row.findViewById(R.id.subListName);
-            holder.subListPrice = (TextView)row.findViewById(R.id.subListPrice);
-            holder.delete = (ImageButton)row.findViewById(R.id.sub_list_delete);
-            row.setTag(holder);
-        } else {
-            holder = (ViewHolder) row.getTag();
+        @Override
+        public SubListAdapter.RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.sub_list_model, null);
+            return new RecyclerViewHolder(layoutView);
         }
-        final subListBean item = list.get(position);
+
+        @Override
+        public void onBindViewHolder(final RecyclerViewHolder holder, final int pos) {
+            final subListBean item = list.get(holder.getAdapterPosition());
 
 
-        DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)
-                .cacheOnDisc(false).resetViewBeforeLoading(false).build();
+            holder.setIsRecyclable(false);
 
 
-        ImageLoader imageLoader = ImageLoader.getInstance();
+            DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)
+                    .cacheOnDisc(true).resetViewBeforeLoading(false).build();
 
 
-        Log.d("asdasdasd" , item.getImage());
-
-        imageLoader.displayImage(item.getImage() , holder.sublistImage , options);
+            ImageLoader imageLoader = ImageLoader.getInstance();
 
 
+            Log.d("asdasdasd" , item.getImage());
 
-
-
-
-        try
-        {
-            holder.delete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    final subListBean item = list.get(position);
-                    lid = item.getListId();
-                    pid = item.getProductId();
-
-
-                    final Dialog dialog = new Dialog(getContext());
-                    dialog.setContentView(R.layout.delete_list_dialog);
-                    dialog.setCancelable(false);
-                    dialog.show();
-
-                    Button YES = (Button)dialog.findViewById(R.id.confirmDelete);
-                    Button NO = (Button)dialog.findViewById(R.id.cancel_delete_list);
-
-                    YES.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
+            imageLoader.displayImage(item.getImage() , holder.sublistImage , options);
 
 
 
+            holder.sublistName.setText(item.getName());
+            holder.subListPrice.setText(item.getPrice());
 
-                            new delete(DELETE_LIST).execute();
-                            dialog.dismiss();
 
-                            refresh();
+
+            try
+            {
+                holder.delete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final subListBean item = list1.get(holder.getAdapterPosition());
+                        lid = item.getListId();
+                        pid = item.getProductId();
+
+
+                        final Dialog dialog = new Dialog(SubList.this);
+                        dialog.setContentView(R.layout.delete_list_dialog);
+                        dialog.setCancelable(false);
+                        dialog.show();
+
+                        Button YES = (Button)dialog.findViewById(R.id.confirmDelete);
+                        Button NO = (Button)dialog.findViewById(R.id.cancel_delete_list);
+
+                        YES.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+
+
+
+                                new delete(DELETE_LIST).execute();
+                                dialog.dismiss();
+
+                                refresh();
 
 
                        /*     SubList l = new SubList();
@@ -304,55 +318,41 @@ public class SubList extends AppCompatActivity {
 
                             list.clear();
                             new connect(GET_LIST_ITEMS + lid).execute();*/
-                        }
-                    });
+                            }
+                        });
 
-                    NO.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dialog.dismiss();
-                        }
-                    });
+                        NO.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
 
-                }
-            });
+                    }
+                });
 
-        }catch (NullPointerException e)
-        {
-            e.printStackTrace();
+            }catch (NullPointerException e)
+            {
+                e.printStackTrace();
+            }
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return list.size();
         }
 
 
 
-       // try
-        //{
 
-
-
-
-                  //imageLoader.displayImage(item.getImage() , holder.sublistImage , options);
-
-
-
-                  // new loadImage(holder.sublistImage , item.getImage());
-                  holder.subListPrice.setText("Price: "+ item.getPrice());
-                  holder.sublistName.setText("Name: "+ item.getName());
-
-
-       // }catch (NullPointerException e)
-       // {
-       //     e.printStackTrace();
-      //  }
-
-        return row;
-    }
 
     public float getTotal()
     {
         float sum = 0;
-        for (int i = 0 ; i<getCount() ; i++)
+        for (int i = 0 ; i<getItemCount() ; i++)
         {
-            subListBean item = list.get(i);
+            subListBean item = list1.get(i);
             float temp = Float.parseFloat(item.getPrice());
             sum = sum+temp;
 
@@ -361,114 +361,7 @@ public class SubList extends AppCompatActivity {
         return sum;
     }
 
-    public class connect extends AsyncTask<Void , Void , Void>
-    {
 
-        InputStream is;
-        String json;
-        JSONArray array;
-
-
-
-
-        int length;
-        String url;
-
-        connect(String url)
-        {
-            this.url = url;
-        }
-
-
-
-
-        @Override
-        protected Void doInBackground(Void... params) {
-
-
-            try {
-                // HttpClient client = new DefaultHttpClient();
-                //  HttpGet get = new HttpGet(url);
-                //  HttpResponse response = client.execute(get);
-                //HttpEntity entity = response.getEntity();
-                //is = entity.getContent();
-
-                URL u = new URL(url);
-                HttpURLConnection connection = (HttpURLConnection)u.openConnection();
-                if(connection.getResponseCode()==200)
-                {
-                    is = connection.getInputStream();
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            try {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(
-                        is, "utf-8"), 8);
-                StringBuilder sb = new StringBuilder();
-                String line = null;
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line).append("\n");
-                }
-                is.close();
-                json = sb.toString();
-            } catch (Exception e) {
-                e.printStackTrace();
-                // Log.e("Buffer Error", "Error converting result " + e.toString());
-            }
-
-            try {
-                array = new JSONArray(json);
-                length = array.length();
-            } catch (JSONException e) {
-                e.printStackTrace();
-                //Log.e("JSON Parser", "Error parsing data " + e.toString());
-            }catch (NullPointerException e)
-            {
-                e.printStackTrace();
-                //Toast.makeText(getBaseContext() , "failed to fetch data" , Toast.LENGTH_SHORT).show();
-            }
-
-
-
-
-            for (int i=0 ; i<length;i++)
-            {
-                try {
-                    JSONObject obj = array.getJSONObject(i);
-                    subListBean bean = new subListBean();
-                    bean.setName(obj.getString("name"));
-                    bean.setListId(obj.getString("listId"));
-                    bean.setImage(obj.getString("image"));
-                    bean.setQuantity(obj.getString("quantity"));
-                    bean.setPrice(obj.getString("price"));
-                    bean.setProductId(obj.getString("productId"));
-                    list.add(bean);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }catch (NullPointerException e)
-                {
-                    e.printStackTrace();
-                    //Toast.makeText(getBaseContext() , "failed to fetch data" , Toast.LENGTH_SHORT).show();
-                }
-            }
-
-
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-
-            adapter.setGridData(list);
-            //list.clear();
-            //mProgressBar.setVisibility(View.GONE);
-        }
-    }
 
     class delete extends AsyncTask<Void , Void , Void>
     {
@@ -525,56 +418,11 @@ public class SubList extends AppCompatActivity {
         }
     }
 
-    public class loadImage extends AsyncTask<Void , Void , Void>
-    {
-
-        String url;
-        ImageView iv;
-        Bitmap d;
-
-        public loadImage(ImageView iv , String url)
-        {
-            this.iv = iv;
-            this.url = url;
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
 
 
-           // Log.d("asdasdasd" , url);
-            d = LoadImageFromURL(url);
 
-            return null;
-        }
 
-        @Override
-        protected void onPostExecute(Void aVoid) {
 
-            iv.setImageBitmap(d);
-
-        }
-    }
-
-    class ViewHolder {
-        ImageView sublistImage;
-        TextView sublistName , subListPrice;
-        ImageButton delete;
-    }
-
-    private Bitmap LoadImageFromURL(String url)
-
-    {
-        try
-        {
-            InputStream is = (InputStream) new URL(url).getContent();
-            Bitmap d = BitmapFactory.decodeStream(is);
-            return d;
-        }catch (Exception e) {
-            System.out.println(e);
-            return null;
-        }
-    }
 
 }
 
