@@ -148,7 +148,7 @@ public class SubCatFragment extends Fragment {
 
 
     public void refresh(String cat)
-    { //list1 = new ArrayList<>();
+    { list1 = new ArrayList<>();
         list1.clear();
         String url = PROD_BY_CAT + cat;
         new connect(url).execute();
@@ -322,7 +322,7 @@ public class SubCatFragment extends Fragment {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-            adapter.setGridData(list1);
+           // adapter.setGridData(list1);
 
 
 
