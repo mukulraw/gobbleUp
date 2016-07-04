@@ -1,21 +1,26 @@
 package com.gobble.gobble_up;
 
-import android.content.Intent;
+
+import android.app.Dialog;
 import android.os.AsyncTask;
-import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.CoordinatorLayout;
+
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DialogTitle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.login.LoginManager;
+
+import com.google.android.gms.plus.model.people.Person;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -35,19 +40,17 @@ import java.util.List;
 public class Rate_Review extends AppCompatActivity {
 
     private String pId;
-    private RatingBar rate;
     private EditText comment;
-    private Button submitRate;
-    private GridLayoutManager lLayout;
-    private String COMMENT = "http://nationproducts.in/global/api/productreview";
-    private String GET_REVIEWS = "http://nationproducts.in/global/api/productreviews/id/";
     ArrayList<RateBean> list;
     RateAdapter adapter;
 
     private float rater;
+    TextView rateCount;
     private String commenter;
+    RatingBar rate;
     private String iidd;
-    RecyclerView getRatings;
+    FloatingActionButton fab;
+    private RecyclerView getRatings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,14 +58,17 @@ public class Rate_Review extends AppCompatActivity {
         setContentView(R.layout.activity_rate__review);
         pId = getIntent().getExtras().getString("iidd");
 
-        rate = (RatingBar)findViewById(R.id.rate);
-        comment = (EditText) findViewById(R.id.comment);
-        submitRate = (Button)findViewById(R.id.submit_rate);
+       // rate = (RatingBar) findViewById(R.id.rate);
+        //comment = (EditText) findViewById(R.id.comment);
+        //Button submitRate = (Button) findViewById(R.id.submit_rate);
 
         getRatings = (RecyclerView)findViewById(R.id.allcomments);
 
-        lLayout = new GridLayoutManager(this, 1);
+       // rateCount = (TextView)findViewById(R.id.ratecount);
 
+        GridLayoutManager lLayout = new GridLayoutManager(this, 1);
+
+        fab = (FloatingActionButton)findViewById(R.id.fab);
 
         getRatings.setHasFixedSize(true);
         getRatings.setLayoutManager(lLayout);
@@ -70,9 +76,7 @@ public class Rate_Review extends AppCompatActivity {
 
 
         list = new ArrayList<>();
-        list.clear();
-        String url = GET_REVIEWS+pId;
-        new connect(url).execute();
+       refresh();
 
 
 
@@ -81,24 +85,99 @@ public class Rate_Review extends AppCompatActivity {
 
           iidd = be.user_id;
 
-        rate.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                rater = ratingBar.getRating();
+            public void onClick(View view) {
+
+                final Dialog dialog = new Dialog(Rate_Review.this);
+                dialog.setContentView(R.layout.comment_dialog);
+                dialog.setCancelable(false);
+                dialog.show();
+                ImageButton tick = (ImageButton)dialog.findViewById(R.id.comment_dialog_right);
+                ImageButton cross = (ImageButton)dialog.findViewById(R.id.comment_dialog_close);
+                final EditText comment = (EditText)dialog.findViewById(R.id.dialog_comment);
+                RatingBar raterr = (RatingBar)dialog.findViewById(R.id.comment_dialog_rating);
+                final TextView count = (TextView)dialog.findViewById(R.id.comment_dialog_count);
+
+                cross.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+
+                raterr.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                    @Override
+                    public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                        rater = ratingBar.getRating();
+                        count.setText(String.valueOf(ratingBar.getRating()));
+                    }
+                });
+
+                tick.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        commenter = comment.getText().toString();
+                        if (rater>0)
+                        {
+                            new login().execute();
+                            refresh();
+                            dialog.dismiss();
+
+                        }
+                        else
+                        {
+                            Toast.makeText(getBaseContext() , "Please add a rating" , Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
             }
         });
 
 
-        submitRate.setOnClickListener(new View.OnClickListener() {
+/*        rate.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                rater = ratingBar.getRating();
+                rateCount.setText(Float.toString(ratingBar.getRating()));
+            }
+        });
+*/
+
+        /*submitRate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 commenter = comment.getText().toString();
-                new login().execute();
+
+
+
+
+                if (rater>0)
+                {
+                    new login().execute();
+                }
+                else
+                {
+                    Toast.makeText(getBaseContext() , "Please add a rating" , Toast.LENGTH_SHORT).show();
+                }
+
+
             }
         });
+        */
 
 
+    }
+
+    void refresh()
+    {
+        list.clear();
+        String GET_REVIEWS = "http://nationproducts.in/global/api/productreviews/id/";
+        String url = GET_REVIEWS +pId;
+        new connect(url).execute();
     }
 
     private class login extends AsyncTask<Void , Void , Void>
@@ -129,22 +208,12 @@ public class Rate_Review extends AppCompatActivity {
             data.add(new BasicNameValuePair("review" , commenter));
 
             RegisterUserClass ruc = new RegisterUserClass();
-            result = ruc.sendPostRequest(COMMENT , data);
+            String COMMENT = "http://nationproducts.in/global/api/productreview";
+            result = ruc.sendPostRequest(COMMENT, data);
 
             Log.d("asdasdasd" , result);
 
-        //    try {
-        //        JSONObject obj = new JSONObject(result);
-       //         name = obj.getString("user_name");
-       //         email = obj.getString("user_email");
-       //         idd = obj.getString("user_id");
-       //     } catch (JSONException e) {
-      // //         e.printStackTrace();
-      //      }catch (NullPointerException e)
-      //      {
-       //         e.printStackTrace();
-                // Toast.makeText(getBaseContext() , "failed to fetch data" , Toast.LENGTH_SHORT).show();
-       //     }
+
 
             return null;
         }
@@ -153,6 +222,14 @@ public class Rate_Review extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+
+
+
+
+
+
+
+
         }
     }
 
@@ -216,19 +293,10 @@ public class Rate_Review extends AppCompatActivity {
             try {
                 array = new JSONArray(json);
                 length = array.length();
-            } catch (JSONException e) {
+            } catch (JSONException | NullPointerException e) {
                 e.printStackTrace();
                 // Log.e("JSON Parser", "Error parsing data " + e.toString());
-            }catch (NullPointerException e)
-            {
-                e.printStackTrace();
-                // Toast.makeText(getBaseContext() , "failed to fetch data" , Toast.LENGTH_SHORT).show();
             }
-
-
-
-
-
 
 
             for (int i=0 ; i<length;i++)

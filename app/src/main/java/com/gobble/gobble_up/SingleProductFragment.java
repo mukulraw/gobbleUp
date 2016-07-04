@@ -24,8 +24,10 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,6 +59,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 
 public class SingleProductFragment extends Fragment implements View.OnClickListener {
     ArrayList<bean> list;
@@ -65,11 +69,16 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
     private TextView title;
     private Button add , compare;
     private String iidd;
+    RatingBar ratrr;
     private List<String> nutrition;
     private PieChart pieChart;
     private TextView brand , price_single , calories_single , description , allergic;
+    private String GET_REVIEWS = "http://nationproducts.in/global/api/productreviews/id/";
     private BarChart barChart;
     String pId;
+    ProgressBar barr;
+
+    ScrollView scroller;
 
     TextView rate;
     private BottomSheetBehavior bar;
@@ -77,6 +86,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
     private TextView sliderName , sliderBelowText , calories , fat , carbs , protein , sodium , potassium , fiber , sugar , vita , vitc , calcium , iron;
 
     private BottomSheetBehavior mBottomSheetBehavior;
+    float rat = 0;
 
     @Nullable
     @Override
@@ -91,11 +101,16 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
         pieChart = (PieChart)view.findViewById(R.id.pie);
         pieChart.setUsePercentValues(true);
 
+        ratrr = (RatingBar)view.findViewById(R.id.ratrrr);
+
+        barr = (ProgressBar)view.findViewById(R.id.bbaarr);
+
         compare = (Button)view.findViewById(R.id.addtocompare);
         barChart = (BarChart)view.findViewById(R.id.bar_chart);
 
         TextView clickToExpand = (TextView) view.findViewById(R.id.clicktoexpand);
 
+        scroller = (ScrollView)view.findViewById(R.id.scroller);
 
 
         brand = (TextView)view.findViewById(R.id.brand);
@@ -192,6 +207,8 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
       //  new loadImage(iv , getArguments().getString("image")).execute();
 
+        barr.setVisibility(View.VISIBLE);
+
         DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)
                 .cacheOnDisc(true).resetViewBeforeLoading(false).build();
 
@@ -204,24 +221,19 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
         list = new ArrayList<>();
 
         String GET_PRODUCT = "http://nationproducts.in/global/api/product/id/";
+
+
+
         new connect(GET_PRODUCT +iidd).execute();
+
+
+
 
        // list.add(new bean("price" , price));
        // list.add(new bean("description" , desc));
 
 
-        for (int i = 0 ; i<b.list.size() ; i++)
-        {
 
-
-
-            if (b.list.get(i).getId() == Integer.parseInt(iidd))
-            {
-                compare.setBackground(getResources().getDrawable(R.drawable.dark));
-
-            }
-
-        }
 
         compare.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -273,7 +285,6 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
                         //bar.animate().alpha(1.0f);
                         // b.bitmaps.add(LoadImageFromURL(item.getImage()));
                         //Log.d("asdasdasd" , String.valueOf(b.list.size()));
-                        Toast.makeText(getContext() , "Added to Compare" , Toast.LENGTH_SHORT).show();
                     }
                     else {
                         Toast.makeText(getContext() , "Max. limit reached" , Toast.LENGTH_SHORT).show();
@@ -337,6 +348,26 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
             }
 
         }
+
+
+        compare.setBackground(getResources().getDrawable(R.drawable.grey));
+
+        for (int i = 0 ; i<b.list.size() ; i++)
+        {
+
+
+
+            if (b.list.get(i).getId() == Integer.parseInt(iidd))
+            {
+                compare.setBackground(getResources().getDrawable(R.drawable.dark));
+
+            }
+
+        }
+
+
+
+        new connect2(GET_REVIEWS + iidd).execute();
 
 
 
@@ -652,6 +683,130 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
         }
     }
+
+
+
+    private class connect2 extends AsyncTask<Void , Void , Void>
+    {
+
+        InputStream is;
+        String json;
+        JSONArray array;
+        comparebean b;
+        int length;
+        String url;
+
+
+        connect2(String url)
+        {
+            this.url = url;
+        }
+
+
+
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+
+            // Log.d("Sub category fragment" , url);
+
+            try {
+                //HttpClient client = new DefaultHttpClient();
+                //HttpGet get = new HttpGet(url);
+                //HttpResponse response = client.execute(get);
+                //HttpEntity entity = response.getEntity();
+                //is = entity.getContent();
+                URL u = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection)u.openConnection();
+                if(connection.getResponseCode()==200)
+                {
+                    is = connection.getInputStream();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(
+                        is, "utf-8"), 8);
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line).append("\n");
+                }
+                is.close();
+                json = sb.toString();
+            } catch (Exception e) {
+                e.printStackTrace();
+                // Log.e("Buffer Error", "Error converting result " + e.toString());
+            }
+
+            try {
+                array = new JSONArray(json);
+                length = array.length();
+            } catch (JSONException e) {
+                e.printStackTrace();
+                // Log.e("JSON Parser", "Error parsing data " + e.toString());
+            }catch (NullPointerException e)
+            {
+                e.printStackTrace();
+                // Toast.makeText(getBaseContext() , "failed to fetch data" , Toast.LENGTH_SHORT).show();
+            }
+
+
+
+
+
+
+
+            for (int i=0 ; i<length;i++)
+            {
+
+                try {
+                    JSONObject obj = array.getJSONObject(i);
+
+
+                    String r = obj.getString("rating");
+
+
+                    rat = rat + Float.parseFloat(r);
+
+
+
+
+
+                } catch (JSONException | NullPointerException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+            // adapter.setGridData(list1);
+
+
+
+            ratrr.setRating(rat/length);
+
+
+            scroller.setVisibility(View.VISIBLE);
+
+            barr.setVisibility(View.GONE);
+
+            //list.clear();
+            //mProgressBar.setVisibility(View.GONE);
+
+        }
+    }
+
 
 
 

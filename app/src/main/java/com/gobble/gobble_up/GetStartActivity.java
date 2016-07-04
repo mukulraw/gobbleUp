@@ -41,15 +41,7 @@ public class GetStartActivity extends AppCompatActivity {
 
 
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            int hasLocationPermission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            if(hasLocationPermission!= PackageManager.PERMISSION_GRANTED)
-            {
-                //request permission
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE} , REQUEST_CODE_ASK_PERMISSIONS);
-            }
 
-        }
 
 
 

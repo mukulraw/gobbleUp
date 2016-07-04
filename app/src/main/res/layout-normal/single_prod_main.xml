@@ -9,6 +9,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:paddingBottom="45dp"
+        android:id="@+id/scroller"
+        android:visibility="gone"
         android:clipToPadding="false"
         android:layout_height="match_parent">
 
@@ -47,7 +49,9 @@
                     android:paddingStart="10dp"
                     android:paddingBottom="10dp"
                     android:layout_gravity="bottom"
-                    android:textSize="24sp"
+                    android:textColor="@color/white"
+                    android:textAllCaps="true"
+                    android:textSize="16sp"
 
 
                     android:layout_alignParentTop="true"
@@ -179,6 +183,7 @@
                             android:layout_centerVertical="true"
                             android:focusable="true"
 
+                            android:id="@+id/ratrrr"
                             style="?android:attr/ratingBarStyleSmall"
                             android:rating="3.5"
 
@@ -193,6 +198,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:id="@+id/rating"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorPrimaryDark"
                         android:text="Rate"
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
@@ -359,7 +366,8 @@
                     android:id="@+id/clicktoexpand"
                     android:text="NUTRITIONAL DETAILS"
                     android:gravity="center_vertical"
-                    android:background="@color/yellow"
+                    android:textColor="@color/white"
+                    android:background="@color/colorPrimaryDark"
                     android:paddingStart="5dp"
                     android:textSize="24sp"
                     android:textStyle="bold"
@@ -403,7 +411,8 @@
                 android:paddingStart="5dp"
                 android:text="NUTRITIONAL DETAILS"
                 android:gravity="center_vertical"
-                android:background="@color/yellow"
+                android:textColor="@color/white"
+                android:background="@color/colorPrimaryDark"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 />
@@ -952,6 +961,11 @@
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
-
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/bbaarr"
+        />
 
 </android.support.design.widget.CoordinatorLayout>

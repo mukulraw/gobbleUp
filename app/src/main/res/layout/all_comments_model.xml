@@ -22,7 +22,6 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:gravity="start"
-            android:padding="5dp"
             android:id="@+id/getCommentUser"
             />
 

@@ -209,7 +209,7 @@
                 android:layout_height="wrap_content"
                 android:text="CREAT ACCOUNT"
                 android:id="@+id/bt_submit"
-                android:background="@color/yellow"
+                android:background="@color/colorPrimaryDark"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:textSize="18dp"
