@@ -66,5 +66,15 @@
         android:visibility="gone"
         />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Empty list, add items to compare"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:id="@+id/emptymessage"
+        android:visibility="gone"
+        android:layout_centerInParent="true"/>
+
 
 </RelativeLayout>

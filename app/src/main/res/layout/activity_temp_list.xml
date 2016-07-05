@@ -75,9 +75,20 @@
         style="@android:style/Widget.ProgressBar.Small"
         android:layout_centerVertical="true"
         android:id="@+id/baarr"
+        android:visibility="gone"
         />
 
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="Sorry, no items"
+        android:textStyle="bold"
+        android:id="@+id/tempEmptyMessage"
+        android:visibility="gone"
+        />
 
 
 </RelativeLayout>

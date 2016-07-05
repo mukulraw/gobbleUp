@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,6 +16,8 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
@@ -78,6 +81,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
     String pId;
     ProgressBar barr;
 
+
     ScrollView scroller;
 
     TextView rate;
@@ -87,6 +91,9 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
     private BottomSheetBehavior mBottomSheetBehavior;
     float rat = 0;
+
+
+
 
     @Nullable
     @Override
@@ -191,6 +198,17 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
         //title.setText(a);
         iv = (ImageView)view.findViewById(R.id.prodImage1);
+
+
+
+
+
+
+
+
+
+
+
 
         add.setText("ADD TO LIST");
         add.setBackground(getResources().getDrawable(R.drawable.grey));
@@ -331,9 +349,20 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
     }
 
 
+
+
+
+
+
+
+
+
     @Override
     public void onResume() {
         super.onResume();
+
+
+
         final comparebean b = (comparebean)getContext().getApplicationContext();
 
         add.setText("ADD TO LIST");
@@ -636,9 +665,12 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
 
             ArrayList<Entry> entries = new ArrayList<>();
-            entries.add(new Entry(fatt , 0));
-            entries.add(new Entry(carbb , 1));
-            entries.add(new Entry(proo , 2));
+
+                entries.add(new Entry(fatt , 0));
+                entries.add(new Entry(carbb , 1));
+                entries.add(new Entry(proo , 2));
+
+
 
             PieDataSet dataset = new PieDataSet(entries, null);
             dataset.setSliceSpace(3);
@@ -647,9 +679,14 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
             dataset.setColors(ColorTemplate.VORDIPLOM_COLORS);
 
             ArrayList<String> labels = new ArrayList<String>();
-            labels.add("Fat");
-            labels.add("Carbohydrates");
-            labels.add("Protein");
+
+                labels.add("Fat");
+                labels.add("Carbohydrates");
+                labels.add("Protein");
+
+
+
+
 
             PieData data = new PieData(labels, dataset);
             data.setValueFormatter(new PercentFormatter());
@@ -745,19 +782,10 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
             try {
                 array = new JSONArray(json);
                 length = array.length();
-            } catch (JSONException e) {
+            } catch (JSONException | NullPointerException e) {
                 e.printStackTrace();
                 // Log.e("JSON Parser", "Error parsing data " + e.toString());
-            }catch (NullPointerException e)
-            {
-                e.printStackTrace();
-                // Toast.makeText(getBaseContext() , "failed to fetch data" , Toast.LENGTH_SHORT).show();
             }
-
-
-
-
-
 
 
             for (int i=0 ; i<length;i++)
@@ -806,6 +834,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
         }
     }
+
 
 
 

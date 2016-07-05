@@ -38,13 +38,15 @@ public class TempList extends AppCompatActivity {
     TextView saveList;
     ProgressBar progressBar;
     tempAdapter adapter;
+    TextView empty;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_temp_list);
-        Toast.makeText(this , "Swipe to remove item" , Toast.LENGTH_LONG).show();
+
         listview = (RecyclerView)findViewById(R.id.temp_list);
 
+        empty = (TextView)findViewById(R.id.tempEmptyMessage);
         saveList = (TextView)findViewById(R.id.saveList);
 
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -55,6 +57,10 @@ public class TempList extends AppCompatActivity {
 
         final comparebean b = (comparebean)this.getApplicationContext();
 
+        if (b.tempList.size()>0)
+        {
+            Toast.makeText(this , "Swipe to remove item" , Toast.LENGTH_LONG).show();
+        }
 
         refresh();
 
@@ -64,8 +70,7 @@ public class TempList extends AppCompatActivity {
 
 
 
-        listview.setVisibility(View.VISIBLE);
-        saveList.setVisibility(View.VISIBLE);
+
 
         saveList.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,7 +129,10 @@ public class TempList extends AppCompatActivity {
 
 
     public void refresh()
-    {final comparebean b = (comparebean)this.getApplicationContext();
+    {
+
+
+        final comparebean b = (comparebean)this.getApplicationContext();
         list = new ArrayList<>();
 
         list.clear();
@@ -133,6 +141,9 @@ public class TempList extends AppCompatActivity {
         if (length == 0)
         {
             progressBar.setVisibility(View.GONE);
+            empty.setVisibility(View.VISIBLE);
+            saveList.setVisibility(View.GONE);
+            listview.setVisibility(View.GONE);
         }
         for (int i = 0 ; i<length ; i++)
         {
@@ -339,6 +350,7 @@ public class TempList extends AppCompatActivity {
             list.add(bean);
 
 
+            empty.setVisibility(View.GONE);
 
 
 
@@ -346,7 +358,7 @@ public class TempList extends AppCompatActivity {
     }
 
 
-    public class connect2 extends AsyncTask<Void , Void , Void>
+    private class connect2 extends AsyncTask<Void , Void , Void>
     {
 
         List<String> nutrition = new ArrayList<>();
@@ -510,6 +522,8 @@ public class TempList extends AppCompatActivity {
 
             adapter = new tempAdapter(getApplicationContext() , list);
 
+            saveList.setVisibility(View.VISIBLE);
+            listview.setVisibility(View.VISIBLE);
             listview.setAdapter(adapter);
             listview.setLayoutManager(layoutManager);
 

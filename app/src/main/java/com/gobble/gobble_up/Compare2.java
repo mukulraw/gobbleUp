@@ -12,6 +12,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.data.BarData;
@@ -48,16 +49,18 @@ public class Compare2 extends AppCompatActivity {
     GridLayoutManager lLayout;
     LinearLayoutManager layoutManager;
     ProgressBar bar;
+    TextView empty;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.compare_layout2);
 
-        Toast.makeText(this , "Swipe up to remove item" , Toast.LENGTH_LONG).show();
+
 
         listview = (RecyclerView)findViewById(R.id.compare_layout_list);
 
+        empty = (TextView)findViewById(R.id.emptymessage);
 
         bar = (ProgressBar)findViewById(R.id.compareProgress);
 
@@ -66,12 +69,16 @@ public class Compare2 extends AppCompatActivity {
 
 
         lLayout = new GridLayoutManager(this , 1);
+        final comparebean b = (comparebean)this.getApplicationContext();
 
-
+        if (b.list.size()>0)
+        {
+            Toast.makeText(getApplicationContext() , "Swipe up to remove item" , Toast.LENGTH_LONG).show();
+        }
 
         refresh();
 
-        final comparebean b = (comparebean)this.getApplicationContext();
+
 
 
 
@@ -129,52 +136,44 @@ public class Compare2 extends AppCompatActivity {
 
 
 
-     /*   comparelistBean bean = new comparelistBean();
 
-        bean.setCalories("Calories");
-        bean.setFat("Total Fat");
-        bean.setCarbs("Carbohydrates");
-        bean.setProtein("Protein");
-        bean.setSodium("Sodium");
-        bean.setPotassium("Potassium");
-        bean.setFiber("Fiber");
-        bean.setSugar("Sugar");
-        bean.setVita("Vitamin A");
-        bean.setVitc("Vitamin C");
-        bean.setCalcium("Calcium");
-        bean.setIron("Iron");
-        list.add(bean);
-
-*/
 
         int length = b.list.size();
 
         if (length == 0)
         {
             bar.setVisibility(View.GONE);
-        }
+            empty.setVisibility(View.VISIBLE);
 
-        for (int i = 0 ; i<length ; i++)
+        }
+        else
         {
-            if (length == 0)
+
+            for (int i = 0 ; i<length ; i++)
             {
-                bar.setVisibility(View.GONE);
+                if (length == 0)
+                {
+                    bar.setVisibility(View.GONE);
+                    empty.setVisibility(View.VISIBLE);
+                }
+
+                String id = String.valueOf(b.list.get(i).getId());
+                Log.d("asdasdasd" , id);
+
+
+                if (i<length-1)
+                {
+                    new connect(GET_PRODUCT+id).execute();
+                }
+                else {
+                    new connect2(GET_PRODUCT+id).execute();
+                }
+
+
             }
-
-            String id = String.valueOf(b.list.get(i).getId());
-            Log.d("asdasdasd" , id);
-
-
-            if (i<length-1)
-            {
-                new connect(GET_PRODUCT+id).execute();
-            }
-            else {
-                new connect2(GET_PRODUCT+id).execute();
-            }
-
-
         }
+
+
 
     }
 
@@ -340,7 +339,9 @@ public class Compare2 extends AppCompatActivity {
 
             list.add(bean);
 
-            compareAdapter adapter = new compareAdapter(getApplicationContext() , list);
+            //compareAdapter adapter = new compareAdapter(getApplicationContext() , list);
+
+            empty.setVisibility(View.GONE);
 
 
 
