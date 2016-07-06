@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
@@ -83,7 +84,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
             android:id="@+id/compareImage1"
-            />
+            tools:ignore="ContentDescription" />
 
         <ImageView
             android:layout_width="0dp"
@@ -93,7 +94,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:id="@+id/compareImage2"
-            />
+            tools:ignore="ContentDescription" />
 
     </LinearLayout>
 
@@ -108,7 +109,7 @@
             android:backgroundTint="@color/colorPrimary"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            />
+            tools:ignore="ContentDescription,UnusedAttribute" />
         <ImageButton
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -119,7 +120,7 @@
             android:layout_marginStart="20dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            />
+            tools:ignore="ContentDescription,UnusedAttribute" />
 
 
 

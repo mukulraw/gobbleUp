@@ -64,6 +64,7 @@
                     android:textSize="18sp"
                     android:paddingBottom="10dp"
                     android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
                     />
 
                 <com.viewpagerindicator.CirclePageIndicator

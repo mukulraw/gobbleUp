@@ -12,7 +12,7 @@
         android:scaleType="centerCrop"
         android:layout_height="match_parent"
         android:src="@drawable/bag_of_groceries"
-        />
+        tools:ignore="ContentDescription" />
 
 
     <ImageView
@@ -24,6 +24,6 @@
         android:layout_centerVertical="true"
 
 
-        />
+        tools:ignore="ContentDescription" />
 
 </RelativeLayout>

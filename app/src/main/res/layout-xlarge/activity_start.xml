@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:scaleType="centerCrop"
         android:layout_height="match_parent"
+        tools:ignore="ContentDescription"
         android:src="@drawable/bag_of_groceries"
         />
 
@@ -20,7 +21,7 @@
         android:layout_height="464dp"
         android:src="@drawable/header"
         android:background="@drawable/circle_image_view"
-
+        tools:ignore="ContentDescription"
 
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"

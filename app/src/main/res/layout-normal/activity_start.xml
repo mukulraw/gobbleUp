@@ -10,6 +10,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:scaleType="centerCrop"
+        tools:ignore="ContentDescription"
         android:layout_height="match_parent"
         android:src="@drawable/bag_of_groceries"
         />
@@ -21,7 +22,7 @@
         android:src="@drawable/header"
         android:background="@drawable/circle_image_view"
 
-
+        tools:ignore="ContentDescription"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/imageView" />

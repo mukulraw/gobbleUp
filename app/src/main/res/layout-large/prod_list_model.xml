@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     card_view:cardUseCompatPadding="true"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -20,7 +21,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:scaleType="centerInside"
-            android:layout_marginLeft="10dp" />
+            tools:ignore="ContentDescription" />
 
         <RelativeLayout
             android:layout_marginStart="5dp"
@@ -72,6 +73,7 @@
                 android:layout_marginBottom="10dp"
                 android:paddingBottom="10dp"
                 android:paddingEnd="10dp"
+                android:paddingStart="10dp"
                 android:textAllCaps="true"
                 android:textSize="12sp"
                 android:gravity="center"
@@ -95,11 +97,12 @@
                 android:focusable="true"
                 android:drawableTint="@color/colorPrimaryDark"
                 android:paddingEnd="10dp"
+                android:paddingStart="10dp"
                 android:layout_toStartOf="@+id/plus"
                 android:layout_above="@+id/switcher"
                 android:layout_alignParentEnd="true"
                 android:text="ADD TO LIST"
-                />
+                tools:ignore="UnknownIdInLayout,UnusedAttribute" />
 
 
 

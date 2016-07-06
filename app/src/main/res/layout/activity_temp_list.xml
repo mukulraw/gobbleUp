@@ -36,8 +36,9 @@
         android:textColor="@color/white"
         android:paddingTop="4dp"
         android:paddingStart="4dp"
+        android:paddingEnd="4dp"
         android:paddingBottom="4dp"
-        android:text="MY GROCERY LIST"
+        android:text="@string/my_grocery_list"
         />
 
 
@@ -57,7 +58,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="SAVE MY LIST"
+        android:text="@string/save_my_list"
         android:drawableEnd="@drawable/right"
         android:gravity="center"
         android:id="@+id/saveList"
@@ -84,7 +85,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:gravity="center"
-        android:text="Sorry, no items"
+        android:text="@string/sorry_no_items"
         android:textStyle="bold"
         android:id="@+id/tempEmptyMessage"
         android:visibility="gone"

@@ -15,19 +15,20 @@
         android:background="@drawable/header"
         android:layout_gravity="center_horizontal"
         android:layout_margin="10dp"
-        android:id="@+id/imageButton" />
+        android:id="@+id/imageButton"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sign In"
+        android:text="@string/sign_in"
         android:textStyle="bold"
         android:fontFamily="sans-serif-thin"
         android:id="@+id/textView2"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:textColor="@color/black" />
 
 
@@ -44,7 +45,7 @@
             android:id="@+id/bt_facebook1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sign in with Facebook"
+            android:text="@string/sign_in_with_facebook"
             android:paddingBottom="15dp"
             android:paddingTop="15dp"
             android:gravity="center"
@@ -87,7 +88,7 @@
             android:textColorHint="#B6B6B4"
             android:layout_marginBottom="10dp"
             android:textColor="#B6B6B4"
-            android:hint="Your Mail*"
+            android:hint="@string/your_mail"
             android:inputType="textEmailAddress"
             android:padding="15dp" />
 
@@ -101,7 +102,7 @@
             android:layout_marginBottom="10dp"
             android:layout_gravity="center"
             android:textSize="13sp"
-            android:hint="Password*"
+            android:hint="@string/password"
             android:inputType="textPassword"
             android:padding="15dp" />
 
@@ -114,13 +115,12 @@
             android:id="@+id/tv_userforgotpassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="I forgot my password"
+            android:text="@string/i_forgot_my_password"
 
             android:textAllCaps="true"
             android:textColor="@color/black"
             android:gravity="center"
             android:layout_marginTop="10dp"
-            android:layout_below="@+id/below"
             android:layout_gravity="center_horizontal"
             android:padding="10dp"/>
 
@@ -129,7 +129,7 @@
             android:id="@+id/bt_signin"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text=" Sign in "
+            android:text="@string/sign_in"
             android:textColor="@color/white"
             android:layout_gravity="center_horizontal"
             android:background="@color/colorPrimaryDark"/>
@@ -141,7 +141,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CREATE MY ACCOUNT"
+            android:text="@string/create_my_account"
             android:textColor="#000000"
             android:id="@+id/bt_creataccount"
             android:textStyle="bold"

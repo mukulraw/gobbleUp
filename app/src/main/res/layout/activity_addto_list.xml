@@ -26,7 +26,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Choose list to save"
+        android:text="@string/choose_list_to_save"
         android:gravity="start"
         android:layout_marginBottom="10dp"
         android:background="@color/colorPrimaryDark"
@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark"
         android:textColor="@color/white"
-        android:text="create new"
+        android:text="@string/create_new"
         android:id="@+id/create_new_list"
         android:layout_marginBottom="10dp"
         android:layout_gravity="center_horizontal"
@@ -73,8 +73,7 @@
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_gravity="center"
         android:visibility="gone"
         android:id="@+id/add_to_list_progress"
         />

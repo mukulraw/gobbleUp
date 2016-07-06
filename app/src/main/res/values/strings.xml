@@ -6,6 +6,33 @@
     <string name="gobble_search">Gobble search</string>
     <string name="add">ADD</string>
     <string name="_0">0</string>
+    <string name="choose_list_to_save">Choose list to save</string>
+    <string name="create_new">create new</string>
+    <string name="categories">Categories</string>
+    <string name="banner">banner</string>
+    <string name="welcome">Welcome</string>
+    <string name="get_started">GET STARTED</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_in_with_facebook">Sign in with Facebook</string>
+    <string name="your_mail">Your Mail*</string>
+    <string name="password">Password*</string>
+    <string name="i_forgot_my_password">I forgot my password</string>
+    <string name="create_my_account">CREATE MY ACCOUNT</string>
+    <string name="my_grocery_list">MY GROCERY LIST</string>
+    <string name="all_reviews">All Reviews</string>
+    <string name="create_account">Create account</string>
+    <string name="user_name">User Name*</string>
+    <string name="email_id">Email Id*</string>
+    <string name="re_type_password">Re-Type Password*</string>
+    <string name="or">OR</string>
+    <string name="sign_in_with_google">Sign in with Google+</string>
+    <string name="by_creating_an_account_you_are_agree_nto_our_term_of_use_and_privacy_policy">By creating an account you are agree\nto our Term of Use and Privacy Policy.</string>
+    <string name="creat_account">CREAT ACCOUNT</string>
+    <string name="add_to_list">add to list</string>
+    <string name="total">TOTAL</string>
+    <string name="save_my_list">SAVE MY LIST</string>
+    <string name="sorry_no_items">Sorry, no items</string>
+    <string name="choose_list_to_add">Choose list to add</string>
 
 
 </resources>

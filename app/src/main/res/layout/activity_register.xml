@@ -10,26 +10,26 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/header"
-            android:id="@+id/imageButton" />
+            android:id="@+id/imageButton"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Create account"
+            android:text="@string/create_account"
             android:layout_gravity="center_horizontal"
             android:id="@+id/textView"
             android:layout_marginTop="-5dp"
             android:fontFamily="sans-serif-thin"
-            android:textSize="37dp"
+            android:textSize="37sp"
             android:textColor="@color/black"
-            android:layout_below="@+id/imageButton"
             />
 
         <LinearLayout
@@ -38,10 +38,7 @@
             android:layout_height="match_parent"
             android:gravity="bottom"
             android:padding="@dimen/activity_vertical_margin"
-            android:orientation="vertical"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true">
+            android:orientation="vertical">
 
             <EditText
                 android:id="@+id/et_username"
@@ -52,7 +49,7 @@
                 android:textSize="13sp"
                 android:textColorHint="#B6B6B4"
                 android:textColor="#B6B6B4"
-                android:hint="User Name*"
+                android:hint="@string/user_name"
                 android:layout_margin="5dp"
                 android:inputType="text"
                 android:padding="13dp" />
@@ -66,7 +63,7 @@
                 android:textSize="13sp"
                 android:textColorHint="#B6B6B4"
                 android:textColor="#B6B6B4"
-                android:hint="Email Id*"
+                android:hint="@string/email_id"
                 android:layout_margin="5dp"
                 android:inputType="textEmailAddress"
                 android:padding="13dp" />
@@ -82,7 +79,7 @@
                 android:textSize="13sp"
                 android:textColorHint="#B6B6B4"
                 android:textColor="#B6B6B4"
-                android:hint="Password*"
+                android:hint="@string/password"
                 android:layout_margin="5dp"
                 android:inputType="textPassword"
                 android:padding="13dp" />
@@ -96,7 +93,7 @@
                 android:textSize="13sp"
                 android:textColorHint="#B6B6B4"
                 android:textColor="#B6B6B4"
-                android:hint="Re-Type Password*"
+                android:hint="@string/re_type_password"
                 android:layout_margin="5dp"
                 android:inputType="textPassword"
                 android:padding="13dp" />
@@ -115,20 +112,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/line"
-                    android:layout_below="@+id/button"
-                    android:layout_gravity="center_horizontal" />
+                    android:layout_gravity="center_horizontal"
+                    tools:ignore="ContentDescription" />
 
 
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=" OR "
+                    android:text="@string/or"
                     android:id="@+id/textView12"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     android:layout_marginTop="5dp"
                     android:textColor="@color/grey"
-                    android:layout_below="@+id/button"
                     android:layout_gravity="center_horizontal" />
 
 
@@ -136,8 +132,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/line"
-                    android:layout_below="@+id/button"
-                    android:layout_gravity="center_horizontal" />
+                    android:layout_gravity="center_horizontal"
+                    tools:ignore="ContentDescription" />
 
 
             </LinearLayout>
@@ -148,14 +144,15 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                >
+                android:baselineAligned="false">
 
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    tools:ignore="UselessParent">
 
                     <com.facebook.login.widget.LoginButton
                         android:id="@+id/bt_mailid"
@@ -163,29 +160,28 @@
                         android:layout_height="wrap_content"
                         android:paddingBottom="19dp"
                         android:paddingTop="19dp"
-                        android:textSize="10dp"
-                        android:text="Sign in with Facebook"
+                        android:textSize="10sp"
+                        android:text="@string/sign_in_with_facebook"
                         android:layout_margin="2.5dp"
+                        android:textAllCaps="true"
                         android:textColor="@color/white"
-                        android:layout_alignParentLeft="true"
-                        android:layout_weight=".5"
+                        android:layout_weight="0.5"
                         android:background="#3b5998"
-                        />
+                        tools:ignore="NestedWeights,SmallSp" />
 
                     <Button
                         android:id="@+id/bt_google"
                         android:layout_width="0dp"
                         android:layout_margin="2.5dp"
-                        android:textSize="10dp"
+                        android:textSize="10sp"
                         android:layout_height="50dp"
 
-                        android:text="Sign in with Google+"
+                        android:text="@string/sign_in_with_google"
                         android:background="@color/red"
-                        android:layout_alignParentRight="true"
                         android:layout_weight=".5"
 
                         android:textColor="@color/white"
-                        />
+                        tools:ignore="SmallSp" />
                 </LinearLayout>
 
 
@@ -196,9 +192,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="By creating an account you are agree\nto our Term of Use and Privacy Policy."
+                android:text="@string/by_creating_an_account_you_are_agree_nto_our_term_of_use_and_privacy_policy"
                 android:id="@+id/textView1"
-                android:layout_below="@+id/button"
                 android:layout_marginTop="10dp"
                 android:fontFamily="sans-serif-thin"
                 android:textColor="@color/black"
@@ -207,15 +202,14 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="CREAT ACCOUNT"
+                android:text="@string/creat_account"
                 android:id="@+id/bt_submit"
                 android:background="@color/colorPrimaryDark"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 android:layout_marginTop="5dp"
                 android:fontFamily="sans-serif-thin"
-                android:layout_below="@+id/button"
                 android:layout_gravity="center_horizontal" />
 
 

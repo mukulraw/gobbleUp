@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:paddingStart="5dp"
+        android:paddingEnd="5dp"
         android:id="@+id/compare_list_header"
         android:textStyle="bold"
         />
@@ -23,6 +24,7 @@
     <TextView
         android:layout_width="0dp"
         android:paddingStart="5dp"
+        android:paddingEnd="5dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:id="@+id/compare_item_text1"
@@ -37,6 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:paddingStart="5dp"
+        android:paddingEnd="5dp"
         android:id="@+id/compare_item_text2"
 
         />

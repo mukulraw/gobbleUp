@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal" android:layout_width="match_parent"
     card_view:cardUseCompatPadding="true"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -18,7 +19,8 @@
         android:id="@+id/sublistImage"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
-        android:scaleType="centerInside" />
+        android:scaleType="centerInside"
+        tools:ignore="ContentDescription" />
 
     <RelativeLayout
         android:layout_marginStart="5dp"
@@ -57,7 +59,8 @@
             android:id="@+id/sub_list_delete"
             android:background="@android:drawable/ic_menu_delete"
             android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            tools:ignore="ContentDescription" />
 
 
     </RelativeLayout>

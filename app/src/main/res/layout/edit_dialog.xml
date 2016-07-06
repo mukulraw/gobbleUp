@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-android:orientation="vertical"
+
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:background="#A0ffffff"
 
     android:layout_width="match_parent"
@@ -22,7 +23,7 @@ android:orientation="vertical"
         android:layout_margin="5dp"
         android:background="@drawable/cross"
         android:backgroundTint="@color/white"
-        />
+        tools:ignore="ContentDescription,UnusedAttribute" />
 
 
 
