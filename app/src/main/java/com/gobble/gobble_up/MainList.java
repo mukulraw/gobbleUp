@@ -79,6 +79,8 @@ public class MainList extends AppCompatActivity {
                 addListBean item = (addListBean)parent.getItemAtPosition(position);
                 String idd = item.getListId();
 
+                Log.d("asdasdasd" , idd);
+
                 Intent i = new Intent(getBaseContext() , SubList.class);
                 i.putExtra("id" , idd);
                 startActivity(i);
@@ -275,10 +277,10 @@ public class MainList extends AppCompatActivity {
 
             String username , password;
             String result;
-            String name , email;
-            String idd;
+            String name;
 
-            public login(String username , String password)
+
+            login(String username, String password)
             {
                 this.username = username;
                 this.password = password;

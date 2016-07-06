@@ -85,6 +85,7 @@
                         android:layout_marginBottom="20dp"
                         android:textSize="22sp"
                         android:text="add to list"
+                        android:textColor="@color/white"
                         android:layout_marginStart="20dp"
 
                         />
@@ -94,6 +95,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/addtocompare"
                         android:layout_alignParentEnd="true"
+                        android:textColor="@color/white"
                         android:textSize="22sp"
                         android:layout_alignParentBottom="true"
                         android:layout_marginBottom="20dp"

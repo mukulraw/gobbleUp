@@ -42,7 +42,6 @@ import java.util.List;
 public class SubList extends AppCompatActivity {
 
     ArrayList<subListBean> list;
-    private String GET_LIST_ITEMS = "http://nationproducts.in/global/api/listitems/listId/";
     RecyclerView lv;
     SubListAdapter adapter;
     String id;
@@ -61,6 +60,8 @@ public class SubList extends AppCompatActivity {
 
         id = String.valueOf(b.get("id"));
 
+        Log.d("asdasdasd" , id);
+
         lLayout = new GridLayoutManager(this , 1);
 
         lv = (RecyclerView) findViewById(R.id.sub_list);
@@ -77,20 +78,16 @@ public class SubList extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onResume() {
-        super.onResume();
 
-
-    }
 
     public void refresh()
     {
 
         list.clear();
+        String GET_LIST_ITEMS = "http://nationproducts.in/global/api/listitems/listId/";
         new connect(GET_LIST_ITEMS + id).execute();
 
-        //mProgressBar.setVisibility(View.VISIBLE);
+
     }
 
     public class connect extends AsyncTask<Void , Void , Void>
@@ -154,16 +151,10 @@ public class SubList extends AppCompatActivity {
             try {
                 array = new JSONArray(json);
                 length = array.length();
-            } catch (JSONException e) {
+            } catch (JSONException | NullPointerException e) {
                 e.printStackTrace();
                 //Log.e("JSON Parser", "Error parsing data " + e.toString());
-            }catch (NullPointerException e)
-            {
-                e.printStackTrace();
-                //Toast.makeText(getBaseContext() , "failed to fetch data" , Toast.LENGTH_SHORT).show();
             }
-
-
 
 
             for (int i=0 ; i<length;i++)
@@ -178,12 +169,8 @@ public class SubList extends AppCompatActivity {
                     bean.setPrice(obj.getString("price"));
                     bean.setProductId(obj.getString("productId"));
                     list.add(bean);
-                } catch (JSONException e) {
+                } catch (JSONException | NullPointerException e) {
                     e.printStackTrace();
-                }catch (NullPointerException e)
-                {
-                    e.printStackTrace();
-                    //Toast.makeText(getBaseContext() , "failed to fetch data" , Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -195,7 +182,7 @@ public class SubList extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            adapter = new SubListAdapter(getApplicationContext() , list);
+            adapter = new SubListAdapter(getBaseContext() , list);
             lv.setAdapter(adapter);
             lv.setHasFixedSize(true);
             lv.setLayoutManager(lLayout);
@@ -208,12 +195,12 @@ public class SubList extends AppCompatActivity {
 
 
     private class SubListAdapter extends RecyclerView.Adapter<SubListAdapter.RecyclerViewHolder> {
-    private Context context;
+
+        Context context;
     private ArrayList<subListBean> list1 = new ArrayList<>();
     private String DELETE_LIST = "http://nationproducts.in/global/api/removefromlist";
-    private String GET_LIST_ITEMS = "http://nationproducts.in/global/api/listitems/listId/";
+
     String lid , pid , result;
-    //SubListAdapter adapter;
 
 
 
@@ -252,7 +239,7 @@ public class SubList extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final RecyclerViewHolder holder, final int pos) {
-            final subListBean item = list.get(holder.getAdapterPosition());
+            final subListBean item = list1.get(pos);
 
 
             holder.setIsRecyclable(false);
@@ -281,7 +268,7 @@ public class SubList extends AppCompatActivity {
                 holder.delete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        final subListBean item = list1.get(holder.getAdapterPosition());
+                        final subListBean item = list1.get(pos);
                         lid = item.getListId();
                         pid = item.getProductId();
 
@@ -304,20 +291,11 @@ public class SubList extends AppCompatActivity {
                                 new delete(DELETE_LIST).execute();
                                 dialog.dismiss();
 
+                                list = new ArrayList<subListBean>();
                                 refresh();
 
 
-                       /*     SubList l = new SubList();
-                            l.list = new ArrayList<subListBean>();
-                            adapter = new SubListAdapter(context , R.layout.add_list_model , list);
-                            l.lv = (ListView)((SubList)context).findViewById(R.id.sub_list);
 
-                            if (l.lv != null) {
-                                l.lv.setAdapter(adapter);
-                            }
-
-                            list.clear();
-                            new connect(GET_LIST_ITEMS + lid).execute();*/
                             }
                         });
 
@@ -340,7 +318,7 @@ public class SubList extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            return list.size();
+            return list1.size();
         }
 
 
