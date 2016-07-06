@@ -6,7 +6,8 @@
     android:background="#A0ffffff"
 
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:ignore="Overdraw">
 
 
 <LinearLayout

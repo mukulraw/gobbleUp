@@ -1,5 +1,6 @@
 package com.gobble.gobble_up;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -20,6 +21,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -30,7 +32,15 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.zip.Inflater;
@@ -38,16 +48,16 @@ import java.util.zip.Inflater;
 
 class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
     private Context context;
-    //private final LayoutInflater mInflater;
+    private String GET_REVIEWS = "http://nationproducts.in/global/api/productreviews/id/";
     private ArrayList<ProductBean> list = new ArrayList<>();
 
     BottomSheetBehavior bar;
 
-
+    float rat = 0;
 
     ProdAdapter2(Context context, ArrayList<ProductBean> list, BottomSheetBehavior bar)
     {
-        //mInflater = LayoutInflater.from(context);
+
         this.context = context;
         this.list = list;
         this.bar = bar;
@@ -61,7 +71,7 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
 
     @Override
     public ProdAdapter2.RecycleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.prod_list_model, null);
+        @SuppressLint("InflateParams") View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.prod_list_model, null);
 
         return new RecycleViewHolder(layoutView);
     }
@@ -121,11 +131,7 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
                 item.setSetlist(true);
                 if (bar.getState() == BottomSheetBehavior.STATE_COLLAPSED)
                 {
-                    //TranslateAnimation animate = new TranslateAnimation(0,0,bar.getHeight(),0);
-                    //animate.setDuration(500);
-                    //animate.setFillAfter(true);
-                    //bar.startAnimation(animate);
-                    //bar.setVisibility(View.VISIBLE);
+
                     bar.setState(BottomSheetBehavior.STATE_EXPANDED);
                 }
                 TextView comp = (TextView)((MainActivity)context).findViewById(R.id.textView5);
@@ -137,7 +143,10 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
             }
         });
 
+        String id = String.valueOf(item.getId());
 
+        rat = 0;
+        new connect2(GET_REVIEWS+id , holder.ratingBar).execute();
 
 
         holder.switcher.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -238,6 +247,12 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
             }
         });
 
+
+
+
+
+
+
         DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)
                 .cacheOnDisc(true).resetViewBeforeLoading(false).build();
 
@@ -250,7 +265,8 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
         Animation animation = AnimationUtils.loadAnimation(context , R.anim.fade);
         holder.imageView.startAnimation(animation);
 
-            //new loadImage(holder.imageView, item.getImage()).execute();
+
+
 
 
 
@@ -259,6 +275,110 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
     }
 
 
+    private class connect2 extends AsyncTask<Void , Void , Void>
+    {
+
+        InputStream is;
+        String json;
+        JSONArray array;
+        comparebean b;
+        int length;
+        String url;
+
+        RatingBar rating;
+
+
+        connect2(String url , RatingBar rating)
+        {
+            this.url = url;
+            this.rating = rating;
+        }
+
+
+
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+
+            // Log.d("Sub category fragment" , url);
+
+            try {
+                //HttpClient client = new DefaultHttpClient();
+                //HttpGet get = new HttpGet(url);
+                //HttpResponse response = client.execute(get);
+                //HttpEntity entity = response.getEntity();
+                //is = entity.getContent();
+                URL u = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection)u.openConnection();
+                if(connection.getResponseCode()==200)
+                {
+                    is = connection.getInputStream();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(
+                        is, "utf-8"), 8);
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line).append("\n");
+                }
+                is.close();
+                json = sb.toString();
+            } catch (Exception e) {
+                e.printStackTrace();
+                // Log.e("Buffer Error", "Error converting result " + e.toString());
+            }
+
+            try {
+                array = new JSONArray(json);
+                length = array.length();
+            } catch (JSONException | NullPointerException e) {
+                e.printStackTrace();
+                // Log.e("JSON Parser", "Error parsing data " + e.toString());
+            }
+
+
+            for (int i=0 ; i<length;i++)
+            {
+
+                try {
+                    JSONObject obj = array.getJSONObject(i);
+
+
+                    String r = obj.getString("rating");
+
+
+                    rat = rat + Float.parseFloat(r);
+
+
+
+
+
+                } catch (JSONException | NullPointerException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+
+            rating.setRating(rat/length);
+
+            rat = 0;
+        }
+    }
 
     @Override
     public int getItemCount() {
@@ -268,13 +388,13 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
         return list.size();
     }
 
-    public class loadImage extends AsyncTask<Void, Void, Void> {
+    private class loadImage extends AsyncTask<Void, Void, Void> {
 
         String url;
         ImageView iv;
         Bitmap d;
 
-        public loadImage(ImageView iv, String url) {
+        loadImage(ImageView iv, String url) {
             this.iv = iv;
             this.url = url;
         }
@@ -321,6 +441,7 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
         ImageView imageView;
         TextView addlist;
         Switch switcher;
+        RatingBar ratingBar;
 
 
         RecycleViewHolder(View itemView) {
@@ -331,6 +452,7 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
             imageView = (ImageView)itemView.findViewById(R.id.prodImage);
             switcher = (Switch) itemView.findViewById(R.id.switcher);
             addlist = (TextView)itemView.findViewById(R.id.addlist);
+            ratingBar = (RatingBar)itemView.findViewById(R.id.rraatteerr);
 
 
         }

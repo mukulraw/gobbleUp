@@ -90,7 +90,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/welcome"
-            android:id="@+id/textView3"
             android:textSize="5.3mm"
             android:layout_gravity="center_horizontal"
             android:fontFamily="sans-serif-thin"

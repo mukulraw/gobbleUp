@@ -1,6 +1,7 @@
 package com.gobble.gobble_up;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -33,6 +34,7 @@ public class GetStartActivity extends AppCompatActivity {
     CirclePageIndicator indi;
     private SharedPreferences pref;
     private SharedPreferences.Editor edit;
+    @SuppressLint("CommitPrefEdits")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

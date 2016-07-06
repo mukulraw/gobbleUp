@@ -33,6 +33,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 
+@SuppressWarnings("deprecation")
 public class Compare extends AppCompatActivity {
 
     ImageView iv1 , iv2;

@@ -1,5 +1,6 @@
 package com.gobble.gobble_up;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.ComponentName;
@@ -136,7 +137,7 @@ public class FirstPage extends AppCompatActivity implements NavigationView.OnNav
 
         nav.setNavigationItemSelectedListener(this);
 
-        View header = LayoutInflater.from(this).inflate(R.layout.nav_header , null);
+        @SuppressLint("InflateParams") View header = LayoutInflater.from(this).inflate(R.layout.nav_header , null);
         if (nav != null) {
             nav.addHeaderView(header);
         }
@@ -292,7 +293,6 @@ public class FirstPage extends AppCompatActivity implements NavigationView.OnNav
                         {
                             pref = getSharedPreferences("MySignin", Context.MODE_PRIVATE);
                             edit = pref.edit();
-
                             edit.remove("google");
                             edit.apply();
                             Intent i = new Intent(getApplicationContext() , LoginActivity.class);

@@ -1,43 +1,40 @@
 package com.gobble.gobble_up;
 
-/**
- * Created by hi on 03-06-2016.
- */
-public class addListBean {
+class addListBean {
 
 
-    String listId , listName , createdTime , totalItem;
+    private String listId , listName , createdTime , totalItem;
 
 
-    public String getListId() {
+    String getListId() {
         return listId;
     }
 
-    public void setTotalItem(String totalItem) {
+    void setTotalItem(String totalItem) {
         this.totalItem = totalItem;
     }
 
-    public String getTotalItem() {
+    String getTotalItem() {
         return totalItem;
     }
 
-    public String getListName() {
+    String getListName() {
         return listName;
     }
 
-    public void setListId(String listId) {
+    void setListId(String listId) {
         this.listId = listId;
     }
 
-    public void setListName(String listName) {
+    void setListName(String listName) {
         this.listName = listName;
     }
 
-    public String getCreatedTime() {
+    String getCreatedTime() {
         return createdTime;
     }
 
-    public void setCreatedTime(String createdTime) {
+    void setCreatedTime(String createdTime) {
         this.createdTime = createdTime;
     }
 }

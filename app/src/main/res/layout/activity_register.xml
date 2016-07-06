@@ -17,7 +17,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/header"
-            android:id="@+id/imageButton"
             tools:ignore="ContentDescription" />
 
         <TextView
@@ -25,7 +24,6 @@
             android:layout_height="wrap_content"
             android:text="@string/create_account"
             android:layout_gravity="center_horizontal"
-            android:id="@+id/textView"
             android:layout_marginTop="-5dp"
             android:fontFamily="sans-serif-thin"
             android:textSize="37sp"
@@ -100,7 +98,6 @@
 
 
             <LinearLayout
-                android:id="@+id/line2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -121,7 +118,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/or"
-                    android:id="@+id/textView12"
                     android:textSize="18sp"
                     android:layout_marginTop="5dp"
                     android:textColor="@color/grey"
@@ -140,7 +136,6 @@
 
 
             <LinearLayout
-                android:id="@+id/line22"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -193,7 +188,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/by_creating_an_account_you_are_agree_nto_our_term_of_use_and_privacy_policy"
-                android:id="@+id/textView1"
                 android:layout_marginTop="10dp"
                 android:fontFamily="sans-serif-thin"
                 android:textColor="@color/black"
@@ -217,7 +211,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/lineardata"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"

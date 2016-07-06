@@ -395,6 +395,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
         }
 
 
+        rat = 0;
 
         new connect2(GET_REVIEWS + iidd).execute();
 

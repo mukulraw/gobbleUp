@@ -60,7 +60,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="?android:attr/ratingBarStyleSmall"
-                android:rating="3.5"
+
+                android:id="@+id/rraatteerr"
                 android:layout_below="@+id/prodPrice"
                 />
 
@@ -102,7 +103,7 @@
                 android:layout_above="@+id/switcher"
                 android:layout_alignParentEnd="true"
                 android:text="ADD TO LIST"
-                tools:ignore="UnknownIdInLayout,UnusedAttribute" />
+                tools:ignore="UnknownId,UnknownIdInLayout,UnusedAttribute" />
 
 
 

@@ -23,7 +23,6 @@
         android:background="@drawable/circle_image_view"
 
 
-        android:id="@+id/imageView"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 

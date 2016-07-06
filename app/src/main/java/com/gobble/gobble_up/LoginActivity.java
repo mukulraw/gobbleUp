@@ -1,5 +1,6 @@
 package com.gobble.gobble_up;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.IntentService;
@@ -71,7 +72,6 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
 
     TextView forgot;
-    Button sign_in;
     TextView sign_up;
 
     private Boolean goog_flag = false;
@@ -93,6 +93,7 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
 
 
 
+    @SuppressLint("CommitPrefEdits")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,7 +117,7 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
 
         forgot = (TextView)findViewById(R.id.tv_userforgotpassword);
 
-        sign_in = (Button)findViewById(R.id.bt_signin);
+        Button sign_in = (Button) findViewById(R.id.bt_signin);
         sign_up = (TextView) findViewById(R.id.bt_creataccount);
 
 
@@ -193,7 +194,15 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
 
                 if(cd.isConnectingToInternet())
                 {
-                    new login(mail , pass).execute();
+                    if (mail.length()>0 && pass.length()>0)
+                    { new login(mail , pass).execute();
+
+                    }
+                    else
+                    {
+                        Toast.makeText(getBaseContext() , "Invalid email or password", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
                 else
                 {

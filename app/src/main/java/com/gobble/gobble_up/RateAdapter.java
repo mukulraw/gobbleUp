@@ -1,5 +1,6 @@
 package com.gobble.gobble_up;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.provider.Telephony;
@@ -44,7 +45,7 @@ public class RateAdapter extends RecyclerView.Adapter<RateAdapter.RecycleViewHol
 
     @Override
     public RateAdapter.RecycleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.all_comments_model, null);
+        @SuppressLint("InflateParams") View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.all_comments_model, null);
 
         RateAdapter.RecycleViewHolder viewHolder = new RateAdapter.RecycleViewHolder(layoutView);
 

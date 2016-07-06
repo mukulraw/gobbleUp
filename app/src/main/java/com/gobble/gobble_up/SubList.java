@@ -1,5 +1,6 @@
 package com.gobble.gobble_up;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -42,10 +43,10 @@ import java.util.List;
 public class SubList extends AppCompatActivity {
 
     ArrayList<subListBean> list;
-    RecyclerView lv;
+    private RecyclerView lv;
     SubListAdapter adapter;
     String id;
-    TextView total;
+    private TextView total;
     private GridLayoutManager lLayout;
 
     @Override
@@ -116,11 +117,6 @@ public class SubList extends AppCompatActivity {
 
 
             try {
-                // HttpClient client = new DefaultHttpClient();
-                //  HttpGet get = new HttpGet(url);
-                //  HttpResponse response = client.execute(get);
-                //HttpEntity entity = response.getEntity();
-                //is = entity.getContent();
 
                 URL u = new URL(url);
                 HttpURLConnection connection = (HttpURLConnection)u.openConnection();
@@ -233,13 +229,13 @@ public class SubList extends AppCompatActivity {
 
         @Override
         public SubListAdapter.RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.sub_list_model, null);
+            @SuppressLint("InflateParams") View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.sub_list_model, null);
             return new RecyclerViewHolder(layoutView);
         }
 
         @Override
         public void onBindViewHolder(final RecyclerViewHolder holder, final int pos) {
-            final subListBean item = list1.get(pos);
+            final subListBean item = list1.get(holder.getAdapterPosition());
 
 
             holder.setIsRecyclable(false);
@@ -252,7 +248,6 @@ public class SubList extends AppCompatActivity {
             ImageLoader imageLoader = ImageLoader.getInstance();
 
 
-            Log.d("asdasdasd" , item.getImage());
 
             imageLoader.displayImage(item.getImage() , holder.sublistImage , options);
 
@@ -268,7 +263,6 @@ public class SubList extends AppCompatActivity {
                 holder.delete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        final subListBean item = list1.get(pos);
                         lid = item.getListId();
                         pid = item.getProductId();
 
@@ -288,11 +282,11 @@ public class SubList extends AppCompatActivity {
 
 
 
-                                new delete(DELETE_LIST).execute();
+                                new delete1(DELETE_LIST).execute();
                                 dialog.dismiss();
 
-                                list = new ArrayList<subListBean>();
-                                refresh();
+
+
 
 
 
@@ -341,7 +335,7 @@ public class SubList extends AppCompatActivity {
 
 
 
-    class delete extends AsyncTask<Void , Void , Void>
+    class delete1 extends AsyncTask<Void , Void , Void>
     {
 
         InputStream is;
@@ -354,7 +348,7 @@ public class SubList extends AppCompatActivity {
         int length;
         String url;
 
-        delete(String url)
+        delete1(String url)
         {
             this.url = url;
         }
@@ -370,14 +364,20 @@ public class SubList extends AppCompatActivity {
             List<NameValuePair> data = new ArrayList<>();
 
             data.add(new BasicNameValuePair("listId" , lid));
-            data.add(new BasicNameValuePair("productId" , pid));
+            data.add(new BasicNameValuePair("id" , pid));
+
+            Log.d("asdasdsdlistId" , lid);
+            Log.d("asdasdaProductId" , pid);
+
 
             RegisterUserClass ruc = new RegisterUserClass();
-            result = ruc.sendPostRequest(DELETE_LIST , data);
+            result = ruc.sendPostRequest(url , data);
             try {
                 JSONObject obj = new JSONObject(result);
 
-                //idd = obj.getString("listId");
+                Log.d("asdasdasd" , String.valueOf(obj));
+
+
             } catch (JSONException | NullPointerException e) {
                 e.printStackTrace();
             }
@@ -389,8 +389,8 @@ public class SubList extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-
-            // new MainList().refresh();
+            list = new ArrayList<subListBean>();
+          refresh();
 
 
         }

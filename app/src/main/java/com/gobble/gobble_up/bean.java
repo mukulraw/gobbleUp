@@ -1,10 +1,7 @@
 package com.gobble.gobble_up;
 
-/**
- * Created by hi on 30-05-2016.
- */
 public class bean {
-    String left , right;
+    private String left , right;
 
     public bean(String left , String right)
     {
@@ -12,7 +9,7 @@ public class bean {
         this.right = right;
     }
 
-    public String getLeft() {
+    String getLeft() {
         return left;
     }
 

@@ -1,5 +1,6 @@
 package com.gobble.gobble_up;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -51,7 +52,7 @@ public class compareAdapter extends RecyclerView.Adapter<compareAdapter.RecycleV
 
     @Override
     public compareAdapter.RecycleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.compare_model, null);
+        @SuppressLint("InflateParams") View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.compare_model, null);
         return new RecycleViewHolder(layoutView);
     }
 

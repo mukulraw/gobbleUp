@@ -5,7 +5,7 @@ package com.gobble.gobble_up;
  */
 public class subListBean {
 
-    String listId , productId , name , price , quantity , image;
+    private String listId , productId , name , price , quantity , image;
 
     public void setListId(String listId) {
         this.listId = listId;

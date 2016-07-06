@@ -1,7 +1,7 @@
 package com.gobble.gobble_up;
 
 
-public class categoryBean {
+class categoryBean {
 
     int id;
     String image , name;

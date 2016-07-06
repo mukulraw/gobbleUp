@@ -1,5 +1,6 @@
 package com.gobble.gobble_up;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -39,7 +40,7 @@ public class tempAdapter extends RecyclerView.Adapter<tempAdapter.RecycleViewHol
 
     @Override
     public tempAdapter.RecycleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.temp_list_model, null);
+        @SuppressLint("InflateParams") View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.temp_list_model, null);
         return new RecycleViewHolder(layoutView);
     }
 

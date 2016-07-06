@@ -116,28 +116,7 @@ public class SubCatFragment extends Fragment {
 
 
 
-       // refresh(getArguments().getString("id"));
-/*
 
-        grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                ProductBean item = (ProductBean) parent.getItemAtPosition(position);
-
-                Intent i = new Intent(getContext() , SingleProduct.class);
-                i.putExtra("id" , item.getId());
-                i.putExtra("name" , item.getName());
-                i.putExtra("price" , item.getPrice());
-                i.putExtra("desc" , item.getDescription());
-                i.putExtra("image" , item.getImage());
-                startActivity(i);
-
-
-            }
-        });
-
-*/
 
         return view;
     }
@@ -148,7 +127,10 @@ public class SubCatFragment extends Fragment {
 
 
     public void refresh(String cat)
-    { list1 = new ArrayList<>();
+    {
+
+
+        list1 = new ArrayList<>();
         list1.clear();
         String url = PROD_BY_CAT + cat;
         new connect(url).execute();

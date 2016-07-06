@@ -1,5 +1,6 @@
 package com.gobble.gobble_up;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -116,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             e.printStackTrace();
         }
 
-        View header = LayoutInflater.from(this).inflate(R.layout.nav_header , null);
+        @SuppressLint("InflateParams") View header = LayoutInflater.from(this).inflate(R.layout.nav_header , null);
         if (nav != null) {
             nav.addHeaderView(header);
         }
@@ -207,6 +208,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
+    @SuppressLint("CommitPrefEdits")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 
@@ -287,6 +289,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void signOut() {
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
                 new ResultCallback<Status>() {
+                    @SuppressLint("CommitPrefEdits")
                     @Override
                     public void onResult(Status status) {
 

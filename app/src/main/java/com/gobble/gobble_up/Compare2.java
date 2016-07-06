@@ -43,7 +43,6 @@ import java.util.List;
 public class Compare2 extends AppCompatActivity {
 
     RecyclerView listview;
-    private String GET_PRODUCT = "http://nationproducts.in/global/api/product/id/";
     List<comparelistBean> list;
 
     GridLayoutManager lLayout;
@@ -161,12 +160,13 @@ public class Compare2 extends AppCompatActivity {
                 Log.d("asdasdasd" , id);
 
 
+                String GET_PRODUCT = "http://nationproducts.in/global/api/product/id/";
                 if (i<length-1)
                 {
-                    new connect(GET_PRODUCT+id).execute();
+                    new connect(GET_PRODUCT +id).execute();
                 }
                 else {
-                    new connect2(GET_PRODUCT+id).execute();
+                    new connect2(GET_PRODUCT +id).execute();
                 }
 
 

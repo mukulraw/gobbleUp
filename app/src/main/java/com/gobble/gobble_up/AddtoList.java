@@ -1,14 +1,14 @@
 package com.gobble.gobble_up;
 
-import android.app.Activity;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AlertDialog;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -36,26 +36,20 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("ALL")
 public class AddtoList extends AppCompatActivity {
 
 
-    Button addinList;
-    ListView addToListListview;
+    private Button addinList;
+    private ListView addToListListview;
 
-    ProgressBar bar;
+    private ProgressBar bar;
 
     ArrayList<addListBean> list;
 
     addToListAdapter adapter;
 
-    String iidd;
-    String prodId;
-    Boolean flag = false;
-    String quan;
-
-    private String CREATE_LIST = "http://nationproducts.in/global/api/createlist";
-    private String GET_ALL_LIST = "http://nationproducts.in/global/api/alllists/userId/";
-    private String ADD_TO_LIST = "http://nationproducts.in/global/api/addtolist";
+    private String iidd;
 
 
     @Override
@@ -97,18 +91,10 @@ public class AddtoList extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         String nnaammee = CreateName.getText().toString();
-                        if (nnaammee!=null)
-                        {
-                            new login(be.user_id , nnaammee).execute();
-                            CreateName.setText("");
-                            dialog.dismiss();
-                            refresh();
-                        }
-                        else
-                        {
-                            Toast.makeText(getApplicationContext() , "Name cannot be empty" , Toast.LENGTH_SHORT).show();
-                        }
-
+                        new login(be.user_id , nnaammee).execute();
+                        CreateName.setText("");
+                        dialog.dismiss();
+                        refresh();
 
 
                     }
@@ -199,15 +185,15 @@ public class AddtoList extends AppCompatActivity {
 
 
 
-    public class login extends AsyncTask<Void , Void , Void>
+    private class login extends AsyncTask<Void , Void , Void>
     {
 
         String userId , listName;
         String result;
-        String name , email;
+        String name;
         String idd;
 
-        public login(String username , String password)
+        login(String username, String password)
         {
             this.userId = username;
             this.listName = password;
@@ -231,19 +217,16 @@ public class AddtoList extends AppCompatActivity {
             data.add(new BasicNameValuePair("listName" , listName));
 
             RegisterUserClass ruc = new RegisterUserClass();
-            result = ruc.sendPostRequest(CREATE_LIST , data);
-            //Log.d("asdasd" , result);
+            String CREATE_LIST = "http://nationproducts.in/global/api/createlist";
+            result = ruc.sendPostRequest(CREATE_LIST, data);
+
 
             try {
                 JSONObject obj = new JSONObject(result);
 
                 idd = obj.getString("listId");
-            } catch (JSONException e) {
+            } catch (JSONException | NullPointerException e) {
                 e.printStackTrace();
-            }catch (NullPointerException e)
-            {
-                e.printStackTrace();
-                // Toast.makeText(getBaseContext() , "failed to fetch data" , Toast.LENGTH_SHORT).show();
             }
 
             return null;
@@ -253,7 +236,7 @@ public class AddtoList extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
 
-            //Log.d("asdasdasd" , result);
+
 
 
             if (idd!=null)
@@ -273,8 +256,9 @@ public class AddtoList extends AppCompatActivity {
         bar.setVisibility(View.VISIBLE);
 
         list.clear();
+        String GET_ALL_LIST = "http://nationproducts.in/global/api/alllists/userId/";
         new connect(GET_ALL_LIST + iidd).execute();
-        //mProgressBar.setVisibility(View.VISIBLE);
+
     }
 
 
@@ -304,11 +288,7 @@ public class AddtoList extends AppCompatActivity {
 
 
             try {
-                // HttpClient client = new DefaultHttpClient();
-                //  HttpGet get = new HttpGet(url);
-                //  HttpResponse response = client.execute(get);
-                //HttpEntity entity = response.getEntity();
-                //is = entity.getContent();
+
 
                 URL u = new URL(url);
                 HttpURLConnection connection = (HttpURLConnection)u.openConnection();
@@ -325,7 +305,7 @@ public class AddtoList extends AppCompatActivity {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(
                         is, "utf-8"), 8);
                 StringBuilder sb = new StringBuilder();
-                String line = null;
+                String line;
                 while ((line = reader.readLine()) != null) {
                     sb.append(line).append("\n");
                 }
@@ -333,22 +313,16 @@ public class AddtoList extends AppCompatActivity {
                 json = sb.toString();
             } catch (Exception e) {
                 e.printStackTrace();
-                //Log.e("Buffer Error", "Error converting result " + e.toString());
+
             }
 
             try {
                 array = new JSONArray(json);
                 length = array.length();
-            } catch (JSONException e) {
+            } catch (JSONException | NullPointerException e) {
                 e.printStackTrace();
-                //Log.e("JSON Parser", "Error parsing data " + e.toString());
-            }catch (NullPointerException e)
-            {
-                e.printStackTrace();
-                //Toast.makeText(getBaseContext() , "failed to fetch data" , Toast.LENGTH_SHORT).show();
+
             }
-
-
 
 
             for (int i=0 ; i<length;i++)
@@ -368,12 +342,8 @@ public class AddtoList extends AppCompatActivity {
 
 
                     list.add(bean);
-                } catch (JSONException e) {
+                } catch (JSONException | NullPointerException e) {
                     e.printStackTrace();
-                }catch (NullPointerException e)
-                {
-                    e.printStackTrace();
-                    //Toast.makeText(getBaseContext() , "failed to fetch data" , Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -391,14 +361,13 @@ public class AddtoList extends AppCompatActivity {
             addToListListview.setVisibility(View.VISIBLE);
             bar.setVisibility(View.GONE);
 
-            //list.clear();
-            //mProgressBar.setVisibility(View.GONE);
+
         }
     }
 
 
 
-    public class addToList extends AsyncTask<Void , Void , Void>
+    private class addToList extends AsyncTask<Void , Void , Void>
     {
 
         String pId , lId , quant;
@@ -406,7 +375,7 @@ public class AddtoList extends AppCompatActivity {
 
 
 
-        public addToList(String lId , String pId , String quant)
+        addToList(String lId, String pId, String quant)
         {
             this.pId = pId;
             this.lId = lId;
@@ -431,20 +400,11 @@ public class AddtoList extends AppCompatActivity {
             data.add(new BasicNameValuePair("quantity" , quant));
 
             RegisterUserClass ruc = new RegisterUserClass();
-            result = ruc.sendPostRequest(ADD_TO_LIST , data);
-            //Log.d("asdasd" , result);
+            String ADD_TO_LIST = "http://nationproducts.in/global/api/addtolist";
+            result = ruc.sendPostRequest(ADD_TO_LIST, data);
 
-            try {
-                JSONObject obj = new JSONObject(result);
 
-                //idd = obj.getString("listId");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }catch (NullPointerException e)
-            {
-                e.printStackTrace();
-                // Toast.makeText(getBaseContext() , "failed to fetch data" , Toast.LENGTH_SHORT).show();
-            }
+
 
             return null;
         }
@@ -452,8 +412,6 @@ public class AddtoList extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-
-            //Log.d("asdasdasd" , result);
 
 
 
@@ -469,7 +427,7 @@ public class AddtoList extends AppCompatActivity {
         private int layoutResourceId;
         private ArrayList<addListBean> list = new ArrayList<>();
         private String DELETE_LIST = "http://nationproducts.in/global/api/deletelist/listId/";
-        private String GET_ALL_LIST = "http://nationproducts.in/global/api/alllists/userId/";
+
 
 
 
@@ -490,7 +448,7 @@ public class AddtoList extends AppCompatActivity {
             View row = convertView;
             ViewHolder holder;
             if (row == null) {
-                //LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+
                 LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 row = inflater.inflate(layoutResourceId, parent, false);
                 holder = new ViewHolder();
@@ -515,7 +473,7 @@ public class AddtoList extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    addListBean item = (addListBean)list.get(position);
+                    addListBean item = list.get(position);
                     final String idd = item.getListId();
 
                     final Dialog dialog = new Dialog(getContext());
@@ -530,9 +488,8 @@ public class AddtoList extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
 
-                            final comparebean be = (comparebean)context.getApplicationContext();
 
-                            String iidd = be.user_id;
+
 
                             new delete(DELETE_LIST+idd).execute();
                             dialog.dismiss();
@@ -560,115 +517,12 @@ public class AddtoList extends AppCompatActivity {
 
         }
 
-        public class connect extends AsyncTask<Void , Void , Void>
-        {
-
-            InputStream is;
-            String json;
-            JSONArray array;
-
-
-
-
-            int length;
-            String url;
-
-            connect(String url)
-            {
-                this.url = url;
-            }
-
-
-
-
-            @Override
-            protected Void doInBackground(Void... params) {
-
-
-                try {
-                    // HttpClient client = new DefaultHttpClient();
-                    //  HttpGet get = new HttpGet(url);
-                    //  HttpResponse response = client.execute(get);
-                    //HttpEntity entity = response.getEntity();
-                    //is = entity.getContent();
-
-                    URL u = new URL(url);
-                    HttpURLConnection connection = (HttpURLConnection)u.openConnection();
-                    if(connection.getResponseCode()==200)
-                    {
-                        is = connection.getInputStream();
-                    }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                try {
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(
-                            is, "utf-8"), 8);
-                    StringBuilder sb = new StringBuilder();
-                    String line = null;
-                    while ((line = reader.readLine()) != null) {
-                        sb.append(line).append("\n");
-                    }
-                    is.close();
-                    json = sb.toString();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    //Log.e("Buffer Error", "Error converting result " + e.toString());
-                }
-
-                try {
-                    array = new JSONArray(json);
-                    length = array.length();
-                } catch (JSONException | NullPointerException e) {
-                    e.printStackTrace();
-                    //Log.e("JSON Parser", "Error parsing data " + e.toString());
-                }
-
-
-                for (int i=0 ; i<length;i++)
-                {
-                    try {
-                        JSONObject obj = array.getJSONObject(i);
-                        addListBean bean = new addListBean();
-                        bean.setListName(obj.getString("listName"));
-                        bean.setListId(obj.getString("listId"));
-                        bean.setCreatedTime(obj.getString("createdTime"));
-                        bean.setTotalItem(obj.getString("totalItem"));
-
-
-
-
-
-
-
-                        list.add(bean);
-                    } catch (JSONException | NullPointerException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-
-
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-
-                adapter.setGridData(list);
-                //list.clear();
-                //mProgressBar.setVisibility(View.GONE);
-            }
-        }
         class ViewHolder {
             TextView listtName;
             TextView listtCreatedTime , listttotal , listtidd;
             Button delete;
         }
-        public class delete extends AsyncTask<Void , Void , Void>
+        class delete extends AsyncTask<Void , Void , Void>
         {
 
             InputStream is;
@@ -695,14 +549,10 @@ public class AddtoList extends AppCompatActivity {
 
 
                 try {
-                    // HttpClient client = new DefaultHttpClient();
-                    //  HttpGet get = new HttpGet(url);
-                    //  HttpResponse response = client.execute(get);
-                    //HttpEntity entity = response.getEntity();
-                    //is = entity.getContent();
+
 
                     URL u = new URL(url);
-                    // Log.d("asdasdasdurl" , url);
+
                     HttpURLConnection connection = (HttpURLConnection)u.openConnection();
                     if(connection.getResponseCode()==200)
                     {
@@ -723,29 +573,19 @@ public class AddtoList extends AppCompatActivity {
                     }
                     is.close();
                     json = sb.toString();
-                    //Log.d("asdasdasddelete" , json);
+
                 } catch (Exception e) {
                     e.printStackTrace();
-                    //Log.e("Buffer Error", "Error converting result " + e.toString());
+
                 }
 
                 try {
                     array = new JSONArray(json);
                     length = array.length();
-                } catch (JSONException e) {
+                } catch (JSONException | NullPointerException e) {
                     e.printStackTrace();
-                    //Log.e("JSON Parser", "Error parsing data " + e.toString());
-                }catch (NullPointerException e)
-                {
-                    e.printStackTrace();
-                    //Toast.makeText(getBaseContext() , "failed to fetch data" , Toast.LENGTH_SHORT).show();
+
                 }
-
-
-
-
-
-
 
 
                 return null;
@@ -755,7 +595,6 @@ public class AddtoList extends AppCompatActivity {
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
 
-                // new MainList().refresh();
 
 
             }
