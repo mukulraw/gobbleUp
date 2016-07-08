@@ -3,6 +3,7 @@ package com.gobble.gobble_up;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -39,6 +40,17 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,6 +65,8 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
     private GoogleApiClient mGoogleApiClient;
     Button register;
+    public static final int CONNECTION_TIMEOUT=10000;
+    public static final int READ_TIMEOUT=15000;
     private String SIGN_UP = "http://nationproducts.in/global/api/register";
 
     Button goog;
@@ -333,16 +347,17 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
     }
 
 
-    public class login extends AsyncTask<Void , Void , Void>
+    private class login extends AsyncTask<Void , Void , Void>
     {
 
         String result;
-
+        HttpURLConnection conn;
+        URL url = null;
         String email2 , name2 , pass2;
 
         String name1 , email1;
 
-        public login(String email , String name , String pass)
+        login(String email , String name , String pass)
         {
             this.email2 = email;
             this.name2 = name;
@@ -352,6 +367,9 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
 
         @Override
         protected Void doInBackground(Void... params) {
+
+           /*
+
             List<NameValuePair> data = new ArrayList<>();
 
             data.add(new BasicNameValuePair("user_email" , email2));
@@ -363,7 +381,61 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
             data.add(new BasicNameValuePair("city" , "city"));
 
             RegisterUserClass ruc = new RegisterUserClass();
-            result = ruc.sendPostRequest(SIGN_UP , data);
+
+            */
+
+
+            try {
+                url = new URL(SIGN_UP);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            try {
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(READ_TIMEOUT);
+                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+                conn.setRequestMethod("POST");
+
+                // setDoInput and setDoOutput method depict handling of both send and receive
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+                //conn.connect();
+                Uri.Builder builder = new Uri.Builder()
+                        .appendQueryParameter("user_name", name2)
+                        .appendQueryParameter("user_email", email2)
+                        .appendQueryParameter("password", pass2)
+                        .appendQueryParameter("address", "address")
+                        .appendQueryParameter("country", "country")
+                        .appendQueryParameter("state", "state")
+                        .appendQueryParameter("city", "city");
+
+                String query = builder.build().getEncodedQuery();
+
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(query);
+                writer.flush();
+                writer.close();
+                os.close();
+
+                conn.connect();
+
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+
+                result = bufferedReader.readLine();
+
+            } catch (UnsupportedEncodingException e1) {
+                e1.printStackTrace();
+            } catch (ProtocolException e1) {
+                e1.printStackTrace();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+
+
+            //result = ruc.sendPostRequest(SIGN_UP , data);
             try {
                 JSONObject obj = new JSONObject(result);
                 name1 = obj.getString("user_name");
@@ -385,7 +457,7 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
         }
 
 
-        @Override
+            @Override
         protected void onPostExecute(Void aVoid) {
 
             if(name1!=null && email1!=null)

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -45,6 +46,15 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -60,6 +70,8 @@ public class StartActivity extends AppCompatActivity implements GoogleApiClient.
     private static final int RC_SIGN_IN = 9001;
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
     String imageUrl = null;
+    public static final int CONNECTION_TIMEOUT=10000;
+    public static final int READ_TIMEOUT=15000;
     String nn = null;
     String pp = null;
     final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
@@ -355,6 +367,8 @@ public class StartActivity extends AppCompatActivity implements GoogleApiClient.
         String result;
         String name , email;
         String idd;
+        HttpURLConnection conn;
+        URL url = null;
 
         public login(String username , String password)
         {
@@ -373,13 +387,64 @@ public class StartActivity extends AppCompatActivity implements GoogleApiClient.
 
         @Override
         protected Void doInBackground(Void... params) {
-            List<NameValuePair> data = new ArrayList<>();
+           /* List<NameValuePair> data = new ArrayList<>();
 
             data.add(new BasicNameValuePair("user_email" , username));
             data.add(new BasicNameValuePair("password" , password));
 
             RegisterUserClass ruc = new RegisterUserClass();
-            result = ruc.sendPostRequest(LOG_IN , data);
+            result = ruc.sendPostRequest(LOG_IN , data);*/
+
+
+
+
+
+            try {
+                url = new URL(LOG_IN);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                conn = (HttpURLConnection)url.openConnection();
+                conn.setReadTimeout(READ_TIMEOUT);
+                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+                conn.setRequestMethod("POST");
+
+                // setDoInput and setDoOutput method depict handling of both send and receive
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+                //conn.connect();
+                Uri.Builder builder = new Uri.Builder()
+                        .appendQueryParameter("user_email", username)
+                        .appendQueryParameter("password", password);
+                String query = builder.build().getEncodedQuery();
+
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(query);
+                writer.flush();
+                writer.close();
+                os.close();
+
+                conn.connect();
+
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+
+
+                result = bufferedReader.readLine();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+
+
+
+
 
             try {
                 JSONObject obj = new JSONObject(result);
