@@ -94,7 +94,7 @@
                 android:paddingBottom="5dp"
                 android:textSize="10sp"
                 android:id="@+id/addlist"
-                android:drawableEnd="@drawable/plus"
+                android:drawableEnd="@drawable/plus2"
                 android:gravity="center"
                 android:clickable="true"
                 android:focusable="true"

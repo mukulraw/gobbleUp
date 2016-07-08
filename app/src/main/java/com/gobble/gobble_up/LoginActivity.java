@@ -76,6 +76,7 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
 
     private Boolean goog_flag = false;
     private Boolean fb_flag = false;
+    private Boolean sign_flag = false;
 
     //private CallbackManager callbackManager;
     //private LoginButton loginButton;
@@ -113,6 +114,7 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
         google_signin = (SignInButton) findViewById(R.id.bt_google_sign);
         fb_signin = (LoginButton) findViewById(R.id.bt_facebook1);
         fb_signin.setHeight(40);
+        fb_signin.setText("SIGNUP USING FACEBOOK");
 
 
         forgot = (TextView)findViewById(R.id.tv_userforgotpassword);
@@ -196,6 +198,7 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
                 {
                     if (mail.length()>0 && pass.length()>0)
                     { new login(mail , pass).execute();
+                        sign_flag = true;
 
                     }
                     else
@@ -368,31 +371,7 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
 
         }
 
-      /*  if(v == fb_signin)
-        {
-            callbackManager= CallbackManager.Factory.create();
 
-            loginButton= (LoginButton)findViewById(R.id.login_button);
-
-            loginButton.setReadPermissions("public_profile", "email","user_friends");
-
-            progressDialog = new ProgressDialog(LoginActivity.this);
-            progressDialog.setMessage("Loading...");
-            progressDialog.show();
-
-            loginButton.performClick();
-
-            loginButton.setPressed(true);
-
-            loginButton.invalidate();
-
-            loginButton.registerCallback(callbackManager, mCallBack);
-
-            loginButton.setPressed(false);
-
-            loginButton.invalidate();
-
-        }*/
 
     }
 
@@ -438,12 +417,8 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
                 name = obj.getString("user_name");
                 email = obj.getString("user_email");
                 idd = obj.getString("user_id");
-            } catch (JSONException e) {
+            } catch (JSONException | NullPointerException e) {
                 e.printStackTrace();
-            }catch (NullPointerException e)
-            {
-                e.printStackTrace();
-               // Toast.makeText(getBaseContext() , "failed to fetch data" , Toast.LENGTH_SHORT).show();
             }
 
             return null;
@@ -464,7 +439,7 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
 
 
 
-                Toast.makeText(getApplicationContext() , "welcome "+email , Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext() , "welcome "+name , Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(getApplicationContext() , GetStartActivity.class);
 
 
@@ -497,16 +472,31 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
                     if (mGoogleApiClient.isConnected())
                     {
                         signOut();
+                        goog_flag = false;
+                        Intent i = new Intent(getBaseContext() , Register.class);
+                        startActivity(i);
+                        Toast.makeText(getApplicationContext() , "You are an unregistered user, please register" , Toast.LENGTH_SHORT).show();
+
                     }
                 }
 
-                if (fb_flag)
+               if (fb_flag)
                 {
                     LoginManager.getInstance().logOut();
+                    fb_flag = false;
+                    Intent i = new Intent(getBaseContext() , Register.class);
+                    startActivity(i);
+                    Toast.makeText(getApplicationContext() , "You are an unregistered user, please register" , Toast.LENGTH_SHORT).show();
+
                 }
 
 
-                Toast.makeText(getApplicationContext() , "Invalid Email Id or Password" , Toast.LENGTH_SHORT).show();
+                if (sign_flag)
+                {
+                    sign_flag = false;
+                    Toast.makeText(getApplicationContext() , "Invalid Email Id or Password" , Toast.LENGTH_SHORT).show();
+                }
+
             }
 
             super.onPostExecute(aVoid);
@@ -522,16 +512,7 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
 
                         if (status.isSuccess())
                         {
-                            //pref = getSharedPreferences("MySignin", Context.MODE_PRIVATE);
-                            //edit = pref.edit();
 
-                            //edit.remove("google");
-                            //edit.apply();
-                            //Intent i = new Intent(getApplicationContext() , LoginActivity.class);
-                            //i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                            //startActivity(i);
-                            //overridePendingTransition(0,0);
-                           // finish();
 
                         }
 

@@ -57,10 +57,7 @@ public class SearchResultActivity extends AppCompatActivity implements TextWatch
         searchbar = (EditText) findViewById(R.id.searchBar);
 
         lv = (ListView) findViewById(R.id.search_list);
-        //lv = (ListView) findViewById(R.id.search_list);
 
-
-       // Log.d("asdasdasd", "entered search");
 
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -72,21 +69,7 @@ public class SearchResultActivity extends AppCompatActivity implements TextWatch
 
 
 
-            /*    frag3.setArguments(b);
 
-                MainActivity act = new MainActivity();
-
-                FragmentManager fm = (act).getSupportFragmentManager();
-
-                FragmentTransaction ft = fm.beginTransaction();
-
-                //LinearLayout v = (LinearLayout) findViewById(R.id.layoutToReplace);
-
-                ft.replace(R.id.layoutToReplace , frag3);
-                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
-                ft.addToBackStack(null);
-                ft.commit();
-                finish();*/
 
 
                 Intent resultintent = getIntent();

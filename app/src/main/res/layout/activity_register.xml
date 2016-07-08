@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     tools:context="com.gobble.gobble_up.Register">
 
 
@@ -149,29 +148,50 @@
                     android:orientation="horizontal"
                     tools:ignore="UselessParent">
 
-                    <com.facebook.login.widget.LoginButton
-                        android:id="@+id/bt_mailid"
+
+                    <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="19dp"
-                        android:paddingTop="19dp"
-                        android:textSize="10sp"
-                        android:text="@string/sign_in_with_facebook"
-                        android:layout_margin="2.5dp"
-                        android:textAllCaps="true"
-                        android:textColor="@color/white"
-                        android:layout_weight="0.5"
-                        android:background="#3b5998"
-                        tools:ignore="NestedWeights,SmallSp" />
+                        android:layout_weight=".5"
+                        >
+                        <com.facebook.login.widget.LoginButton
+                            android:id="@+id/bt_mailid"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textSize="10sp"
+                            android:paddingBottom="19dp"
+                            android:paddingTop="19dp"
+                            android:text="Signup using facebook"
+                            android:layout_margin="2.5dp"
+                            android:textAllCaps="true"
+
+                            tools:ignore="NestedWeights,SmallSp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:focusable="false"
+                            android:layout_margin="2.5dp"
+                            android:clickable="false"
+                            style="@style/FacebookLoginButton"
+                            android:textColor="@color/white"
+                            android:gravity="center"
+                            android:textSize="10sp"
+                            android:layout_height="match_parent"
+                            android:text="SIGNUP USING FACEBOOK"
+                            />
+
+                    </RelativeLayout>
+
+
 
                     <Button
                         android:id="@+id/bt_google"
                         android:layout_width="0dp"
                         android:layout_margin="2.5dp"
                         android:textSize="10sp"
-                        android:layout_height="50dp"
+                        android:layout_height="match_parent"
 
-                        android:text="@string/sign_in_with_google"
+                        android:text="Signup using google"
                         android:background="@color/red"
                         android:layout_weight=".5"
 
@@ -210,14 +230,10 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"   >
 
 
-        </LinearLayout>
+
+
 
     </LinearLayout>
 

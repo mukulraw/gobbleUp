@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetBehavior;
@@ -111,9 +112,11 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
         {
             if (item.getId() == b.tempList.get(i).getId())
             {
-                holder.addlist.setVisibility(View.GONE);
+
+                holder.addlist.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.minus , 0);
             }
         }
+
 
 
 
@@ -126,19 +129,91 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
             @Override
             public void onClick(View v) {
 
-                b.tempList.add(item);
-                b.comparecount++;
-                item.setSetlist(true);
-                if (bar.getState() == BottomSheetBehavior.STATE_COLLAPSED)
+
+
+
+
+                int flag2 = 0;
+
+                for (int i = 0 ; i<b.tempList.size() ; i++)
+                {
+                    if (item.getId() == b.tempList.get(i).getId())
+                    {
+
+                        flag2++;
+
+
+                    }
+                }
+
+
+
+
+                if (flag2 == 0)
+                {
+                    b.tempList.add(item);
+                    b.comparecount++;
+                    item.setSetlist(true);
+                    if (bar.getState() == BottomSheetBehavior.STATE_COLLAPSED)
+                    {
+
+                        bar.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    }
+                    TextView comp = (TextView)((MainActivity)context).findViewById(R.id.textView5);
+                    comp.setText(String.valueOf(b.tempList.size()));
+
+
+                    holder.addlist.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.minus , 0);
+                }
+
+
+                if (flag2>0)
                 {
 
-                    bar.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    int index = 0;
+                    int l = b.tempList.size();
+                    for (int i = 0 ; i<l ; i++)
+                    {
+                        if (item.getId() == b.tempList.get(i).getId())
+                        {
+                            index = i;
+                        }
+                    }
+
+
+                    b.tempList.remove(index);
+                    b.comparecount--;
+                    item.setSetlist(false);
+
+                    holder.addlist.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.plus2 , 0);
+
+                    TextView comp = (TextView)((MainActivity)context).findViewById(R.id.textView5);
+                    comp.setText(String.valueOf(b.tempList.size()));
+
+                    if (l == 1)
+                    {
+                        TextView comp1 = (TextView)((MainActivity)context).findViewById(R.id.textView4);
+
+                        if (comp1.getText().equals("0"))
+                        {
+                            if (bar.getState() == BottomSheetBehavior.STATE_EXPANDED)
+                            {
+
+                                bar.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
+                            }
+                        }
+
+
+
+
+                    }
+
+
+
                 }
-                TextView comp = (TextView)((MainActivity)context).findViewById(R.id.textView5);
-                comp.setText(String.valueOf(b.tempList.size()));
 
 
-                holder.addlist.setVisibility(View.GONE);
 
             }
         });
