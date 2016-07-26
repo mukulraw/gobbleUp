@@ -387,13 +387,7 @@ public class StartActivity extends AppCompatActivity implements GoogleApiClient.
 
         @Override
         protected Void doInBackground(Void... params) {
-           /* List<NameValuePair> data = new ArrayList<>();
 
-            data.add(new BasicNameValuePair("user_email" , username));
-            data.add(new BasicNameValuePair("password" , password));
-
-            RegisterUserClass ruc = new RegisterUserClass();
-            result = ruc.sendPostRequest(LOG_IN , data);*/
 
 
 
@@ -473,7 +467,7 @@ public class StartActivity extends AppCompatActivity implements GoogleApiClient.
             {
 
 
-                Toast.makeText(getApplicationContext() , "welcome "+email , Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext() , "welcome "+name , Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(getApplicationContext() , GetStartActivity.class);
                 if (imageUrl!=null)
                 {

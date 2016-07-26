@@ -32,9 +32,9 @@
                     android:id="@+id/toolbar2"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:background="@drawable/toolbar_background"
-                    android:gravity="top"
 
+                    android:gravity="top"
+                    app:logo="@drawable/toolbar_background"
                     android:minHeight="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
                     app:layout_scrollFlags="scroll|enterAlways"

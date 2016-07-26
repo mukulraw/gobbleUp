@@ -93,6 +93,9 @@ public class SubCategoryFragment extends Fragment {
 
         pager = (ViewPager)view.findViewById(R.id.pagerId);
 
+
+        pager.setOffscreenPageLimit(5);
+
         list1 = new ArrayList<>();
 
         refresh(a);
@@ -115,50 +118,13 @@ public class SubCategoryFragment extends Fragment {
         }
     }
 
-    public class loadImage extends AsyncTask<Void , Void , Void>
-    {
 
-        String url;
-        ImageView iv;
-        Bitmap d;
-
-        public loadImage(ImageView iv , String url)
-        {
-            this.iv = iv;
-            this.url = url;
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-
-
-           // Log.d("asdasdasd" , url);
-            d = LoadImageFromURL(url);
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            Animation animation = null;
-            if (getContext()!=null)
-            {
-                animation = AnimationUtils.loadAnimation(getContext() , R.anim.fade);
-                iv.startAnimation(animation);
-                iv.setImageBitmap(d);
-
-            }
-
-
-        }
-    }
 
     public void refresh(String cat)
     {
         list1.clear();
         String url = SUB_CATEGORY + cat;
         new connect(url).execute();
-        //mProgressBar.setVisibility(View.VISIBLE);
     }
 
 
@@ -233,16 +199,10 @@ public class SubCategoryFragment extends Fragment {
             try {
                 array = new JSONArray(json);
                 length = array.length();
-            } catch (JSONException e) {
+            } catch (JSONException | NullPointerException e) {
                 e.printStackTrace();
               //  Log.e("JSON Parser", "Error parsing data " + e.toString());
-            }catch (NullPointerException e)
-            {
-                e.printStackTrace();
-                //Toast.makeText(getBaseContext() , "failed to fetch data" , Toast.LENGTH_SHORT).show();
             }
-
-
 
 
             for (int i=0 ; i<length;i++)
@@ -257,12 +217,8 @@ public class SubCategoryFragment extends Fragment {
                     image = image.replaceAll(" " , "%20");
                     bean.setImage(image);
                     list1.add(bean);
-                } catch (JSONException e) {
+                } catch (JSONException | NullPointerException e) {
                     e.printStackTrace();
-                }catch (NullPointerException e)
-                {
-                    e.printStackTrace();
-                    //Toast.makeText(getBaseContext() , "failed to fetch data" , Toast.LENGTH_SHORT).show();
                 }
             }
 

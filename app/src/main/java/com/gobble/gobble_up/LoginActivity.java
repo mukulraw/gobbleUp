@@ -417,13 +417,6 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
 
         @Override
         protected Void doInBackground(Void... params) {
-         /*   List<NameValuePair> data = new ArrayList<>();
-
-            data.add(new BasicNameValuePair("user_email" , username));
-            data.add(new BasicNameValuePair("password" , password));
-
-            RegisterUserClass ruc = new RegisterUserClass();
-            result = ruc.sendPostRequest(LOG_IN , data);*/
 
             try {
                 url = new URL(LOG_IN);

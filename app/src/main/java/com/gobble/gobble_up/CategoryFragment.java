@@ -159,11 +159,7 @@ public class CategoryFragment extends Fragment {
 
 
             try {
-                // HttpClient client = new DefaultHttpClient();
-                //  HttpGet get = new HttpGet(url);
-                //  HttpResponse response = client.execute(get);
-                //HttpEntity entity = response.getEntity();
-                //is = entity.getContent();
+
 
                 URL u = new URL(url);
 
@@ -205,7 +201,7 @@ public class CategoryFragment extends Fragment {
                 is.close();
                 json = sb.toString();
             } catch (Exception e) {
-                //Log.e("Buffer Error", "Error converting result " + e.toString());
+
                 e.printStackTrace();
             }
 
@@ -214,7 +210,7 @@ public class CategoryFragment extends Fragment {
                 length = array.length();
             } catch (JSONException | NullPointerException e) {
                 e.printStackTrace();
-                //Log.e("JSON Parser", "Error parsing data " + e.toString());
+
             }
 
 

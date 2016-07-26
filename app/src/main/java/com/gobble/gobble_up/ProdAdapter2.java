@@ -44,6 +44,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.zip.Inflater;
 
 
@@ -78,6 +79,17 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
     }
 
 
+
+    public void sort(ArrayList<ProductBean> list2)
+    {
+        this.list.clear();
+        this.list = list2;
+    }
+
+    public void filter(ArrayList<ProductBean> list3)
+    {
+        this.list = list3;
+    }
 
 
     @Override

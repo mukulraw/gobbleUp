@@ -3,6 +3,63 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="bottom"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_gravity="bottom"
+            android:id="@+id/sort_and_filter"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_margin="5dp"
+            android:layout_height="wrap_content">
+
+<RelativeLayout
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SORT"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:drawablePadding="5dp"
+                android:drawableStart="@drawable/sort"
+                android:padding="5dp"
+                android:id="@+id/sort"
+                />
+</RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FILTER"
+                android:padding="5dp"
+                android:drawablePadding="5dp"
+                android:layout_centerInParent="true"
+                android:drawableStart="@drawable/filtrer"
+                android:gravity="center"
+                android:id="@+id/filter"
+                />
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
@@ -12,6 +69,8 @@
         android:clipToPadding="false"
         />
 
+
+    </LinearLayout>
 
     <ProgressBar
         android:layout_width="wrap_content"

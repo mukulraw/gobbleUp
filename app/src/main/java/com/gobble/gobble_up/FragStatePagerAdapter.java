@@ -6,10 +6,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.ArrayList;
 
-/**
- * Created by hi on 31-05-2016.
- */
-public class FragStatePagerAdapter extends FragmentStatePagerAdapter {
+
+class FragStatePagerAdapter extends FragmentStatePagerAdapter {
 
 
 
@@ -19,7 +17,7 @@ public class FragStatePagerAdapter extends FragmentStatePagerAdapter {
     int count;
 
 
-    public FragStatePagerAdapter(FragmentManager fm , ArrayList<categoryBean> list , int count) {
+    FragStatePagerAdapter(FragmentManager fm, ArrayList<categoryBean> list, int count) {
         super(fm);
         this.list = list;
         this.count = count;

@@ -1,10 +1,12 @@
 package com.gobble.gobble_up;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.IntegerRes;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
@@ -16,11 +18,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +54,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 
 public class SubCatFragment extends Fragment {
@@ -55,12 +65,14 @@ public class SubCatFragment extends Fragment {
     private ProdAdapter2 adapter;
     RecyclerView grid;
     int page;
+    TextView sort , filter;
     String id;
+    LinearLayout sortFilter;
     ProgressBar bar;
     String name;
     //RelativeLayout bar;
 
-    public static SubCatFragment newInstance(int page , String id) {
+    static SubCatFragment newInstance(int page, String id) {
         Bundle args = new Bundle();
         args.putInt("page", page);
         args.putString("id" , id);
@@ -94,6 +106,8 @@ public class SubCatFragment extends Fragment {
 
         bar = (ProgressBar)view.findViewById(R.id.progress_sub_cat_list);
 
+        sortFilter = (LinearLayout)view.findViewById(R.id.sort_and_filter);
+
         comparebean b = (comparebean)getActivity().getApplicationContext();
 
         //bar = (RelativeLayout)getActivity().findViewById(R.id.bottombar);
@@ -107,13 +121,147 @@ public class SubCatFragment extends Fragment {
             //bar.setVisibility(View.INVISIBLE);
         }
 
+
+        sort = (TextView) view.findViewById(R.id.sort);
+        filter = (TextView) view.findViewById(R.id.filter);
+
+
         grid = (RecyclerView)view.findViewById(R.id.sub_cat_grid);
 
         grid.setHasFixedSize(true);
         grid.setLayoutManager(lLayout);
+        CoordinatorLayout coordinatorLayout = (CoordinatorLayout)((MainActivity)getContext()).findViewById(R.id.coordinate);
+        View vie = coordinatorLayout.findViewById(R.id.bottombar);
+        BottomSheetBehavior bot = BottomSheetBehavior.from(vie);
+
+
+        list1 = new ArrayList<>();
+        adapter = new ProdAdapter2(getContext() , list1 , bot);
+
+        grid.setAdapter(adapter);
 
 
 
+
+
+        sort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                final Dialog dialog = new Dialog(getActivity());
+                dialog.setContentView(R.layout.sort_dialog);
+                dialog.setCancelable(false);
+                dialog.show();
+
+                ImageButton close = (ImageButton)dialog.findViewById(R.id.close_dialog);
+                final RadioButton l2h = (RadioButton) dialog.findViewById(R.id.price_low_to_high);
+                final RadioButton h2l = (RadioButton) dialog.findViewById(R.id.price_high_to_low);
+                TextView sort = (TextView)dialog.findViewById(R.id.sorter);
+
+
+                l2h.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                        if (h2l.isChecked())
+                        h2l.setChecked(false);
+
+
+
+                    }
+                });
+
+                h2l.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                        if (l2h.isChecked())
+                       l2h.setChecked(false);
+
+                    }
+                });
+
+                close.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+
+                sort.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        if (l2h.isChecked() || h2l.isChecked())
+                        {
+                            if (l2h.isChecked())
+                            {
+                                if (h2l.isChecked())
+                                {
+                                    h2l.toggle();
+                                }
+
+
+                                Collections.sort(list1, new Comparator<ProductBean>() {
+                                    @Override
+                                    public int compare(ProductBean lhs, ProductBean rhs) {
+                                        if (Float.parseFloat(lhs.getPrice()) > Float.parseFloat(rhs.getPrice()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(list1);
+                                adapter.notifyDataSetChanged();
+
+                            }
+
+                            if (h2l.isChecked())
+                            {
+
+                                if (l2h.isChecked())
+                                    l2h.toggle();
+
+
+                                Collections.sort(list1, new Comparator<ProductBean>() {
+                                    @Override
+                                    public int compare(ProductBean lhs, ProductBean rhs) {
+                                        if (Float.parseFloat(lhs.getPrice()) < Float.parseFloat(rhs.getPrice()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(list1);
+                                adapter.notifyDataSetChanged();
+
+                            }
+
+
+                        }
+
+
+
+
+                        dialog.dismiss();
+
+
+
+                    }
+                });
+
+
+
+
+
+
+
+
+
+            }
+        });
 
 
 
@@ -140,7 +288,7 @@ public class SubCatFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
+        sortFilter.setVisibility(View.GONE);
         grid.setVisibility(View.GONE);
         bar.setVisibility(View.VISIBLE);
 
@@ -313,17 +461,20 @@ public class SubCatFragment extends Fragment {
                 CoordinatorLayout coordinatorLayout = (CoordinatorLayout)((MainActivity)getContext()).findViewById(R.id.coordinate);
                 View view = coordinatorLayout.findViewById(R.id.bottombar);
                 BottomSheetBehavior bot = BottomSheetBehavior.from(view);
-                adapter = new ProdAdapter2(getContext() ,  list1 , bot);
+                //adapter = new ProdAdapter2(getContext() ,  list1 , bot);
+                adapter.setGridData(list1);
             }catch (NullPointerException e)
             {
                 e.printStackTrace();
             }
 
             //adapter.setGridData(list1);
-            grid.setAdapter(adapter);
+            //grid.setAdapter(adapter);
+
+            adapter.notifyDataSetChanged();
 
             bar.setVisibility(View.GONE);
-
+            sortFilter.setVisibility(View.VISIBLE);
             grid.setVisibility(View.VISIBLE);
 
 

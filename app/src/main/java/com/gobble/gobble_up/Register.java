@@ -368,21 +368,6 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
         @Override
         protected Void doInBackground(Void... params) {
 
-           /*
-
-            List<NameValuePair> data = new ArrayList<>();
-
-            data.add(new BasicNameValuePair("user_email" , email2));
-            data.add(new BasicNameValuePair("password" , pass2));
-            data.add(new BasicNameValuePair("user_name" , name2));
-            data.add(new BasicNameValuePair("address" , "address"));
-            data.add(new BasicNameValuePair("country" , "country"));
-            data.add(new BasicNameValuePair("state" , "state"));
-            data.add(new BasicNameValuePair("city" , "city"));
-
-            RegisterUserClass ruc = new RegisterUserClass();
-
-            */
 
 
             try {
