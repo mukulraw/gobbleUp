@@ -6,6 +6,7 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,6 +29,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
+import jp.wasabeef.recyclerview.animators.SlideInRightAnimator;
 
 public class TempList extends AppCompatActivity {
 
@@ -62,11 +66,17 @@ public class TempList extends AppCompatActivity {
             Toast.makeText(this , "Swipe to remove item" , Toast.LENGTH_LONG).show();
         }
 
+
+        adapter = new tempAdapter(this , list);
+        listview.setAdapter(adapter);
+        listview.setLayoutManager(layoutManager);
+
+
         refresh();
 
         listview.setVisibility(View.GONE);
         saveList.setVisibility(View.GONE);
-
+        listview.setItemAnimator(new SlideInRightAnimator());
 
 
 
@@ -87,8 +97,14 @@ public class TempList extends AppCompatActivity {
 
 
 
+        ItemTouchHelper.Callback callback =
+                new SimpleItemTouchHelperCallback(adapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(listview);
 
-        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+
+
+     /*   ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
                 return false;
@@ -96,6 +112,8 @@ public class TempList extends AppCompatActivity {
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+
+
 
 
 
@@ -110,7 +128,11 @@ public class TempList extends AppCompatActivity {
 
 
 
+
             }
+
+
+
         };
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
@@ -118,7 +140,7 @@ public class TempList extends AppCompatActivity {
         itemTouchHelper.attachToRecyclerView(listview);
 
 
-
+*/
 
 
 
@@ -128,7 +150,7 @@ public class TempList extends AppCompatActivity {
     }
 
 
-    public void refresh()
+    private void refresh()
     {
 
 
@@ -179,10 +201,14 @@ public class TempList extends AppCompatActivity {
                 b.tempList.clear();
                 b.tempListCount = 0;
                 list.clear();
-                tempAdapter adapter = new tempAdapter(getApplicationContext() , list);
 
-                listview.setAdapter(adapter);
-                listview.setLayoutManager(layoutManager);
+                adapter.setGridData(list);
+                adapter.notifyDataSetChanged();
+
+                //tempAdapter adapter = new tempAdapter(getApplicationContext() , list);
+
+                //listview.setAdapter(adapter);
+                //listview.setLayoutManager(layoutManager);
 
 
             }
@@ -520,12 +546,15 @@ public class TempList extends AppCompatActivity {
 
             progressBar.setVisibility(View.GONE);
 
-            adapter = new tempAdapter(getApplicationContext() , list);
+            adapter.setGridData(list);
+            adapter.notifyDataSetChanged();
+
+            //adapter = new tempAdapter(getApplicationContext() , list);
 
             saveList.setVisibility(View.VISIBLE);
             listview.setVisibility(View.VISIBLE);
-            listview.setAdapter(adapter);
-            listview.setLayoutManager(layoutManager);
+            //listview.setAdapter(adapter);
+            //listview.setLayoutManager(layoutManager);
 
 
 

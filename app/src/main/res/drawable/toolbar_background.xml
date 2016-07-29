@@ -14,6 +14,9 @@
     <item>
         <bitmap android:src="@drawable/header" android:gravity="center"
             android:antialias="true"
+            android:filter="true"
+            android:mipMap="true"
+            android:tileMode="disabled"
             />
 
     </item>

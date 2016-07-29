@@ -24,16 +24,22 @@ import java.util.List;
 /**
  * Created by hi on 6/18/2016.
  */
-public class tempAdapter extends RecyclerView.Adapter<tempAdapter.RecycleViewHolder> {
+class tempAdapter extends RecyclerView.Adapter<tempAdapter.RecycleViewHolder> implements ItemTouchHelperAdapter {
     private final Context context;
     List<comparelistBean> list = new ArrayList<>();
 
 
 
-    public tempAdapter(Context context , List<comparelistBean> list)
+    tempAdapter(Context context, List<comparelistBean> list)
     {
         this.context = context;
         this.list = list;
+    }
+
+
+    public void setGridData(List<comparelistBean> list)
+    {
+     this.list = list;
     }
 
 
@@ -92,9 +98,23 @@ public class tempAdapter extends RecyclerView.Adapter<tempAdapter.RecycleViewHol
 
 
 
+
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    @Override
+    public void onItemMove(int fromPosition, int toPosition) {
+
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        comparebean b = (comparebean)context.getApplicationContext();
+        b.tempList.remove(position);
+        list.remove(position);
+        notifyItemRemoved(position);
     }
 
     class RecycleViewHolder extends RecyclerView.ViewHolder {
@@ -105,7 +125,10 @@ public class tempAdapter extends RecyclerView.Adapter<tempAdapter.RecycleViewHol
 
         ImageButton add;
 
-        public RecycleViewHolder(View itemView) {
+
+
+
+        RecycleViewHolder(View itemView) {
             super(itemView);
             image = (ImageView)itemView.findViewById(R.id.tempprodImage);
             price = (TextView)itemView.findViewById(R.id.tempprodPrice);
