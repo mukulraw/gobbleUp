@@ -1,12 +1,8 @@
 package com.gobble.gobble_up;
 
 import android.app.Dialog;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.IntegerRes;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
@@ -17,36 +13,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.GridView;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
-import android.widget.RelativeLayout;
-import android.widget.Spinner;
+import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -61,15 +35,17 @@ import java.util.Comparator;
 public class SubCatFragment extends Fragment {
 
     private String PROD_BY_CAT = "http://nationproducts.in/global/api/products/id/";
-    ArrayList<ProductBean> list1;
+    private ArrayList<ProductBean> list1;
+    private ArrayList<ProductBean> subList;
     private ProdAdapter2 adapter;
-    RecyclerView grid;
-    int page;
-    TextView sort , filter;
+    private RecyclerView grid;
+    private int page;
+    private TextView sort , filter;
     String id;
-    LinearLayout sortFilter;
-    ProgressBar bar;
+    private LinearLayout sortFilter;
+    private ProgressBar bar;
     String name;
+    private boolean sort_flag = false;
     //RelativeLayout bar;
 
     static SubCatFragment newInstance(int page, String id) {
@@ -112,14 +88,6 @@ public class SubCatFragment extends Fragment {
 
         //bar = (RelativeLayout)getActivity().findViewById(R.id.bottombar);
 
-        if (b.comparecount>0)
-        {
-            //bar.setVisibility(View.VISIBLE);
-        }
-        else
-        {
-            //bar.setVisibility(View.INVISIBLE);
-        }
 
 
         sort = (TextView) view.findViewById(R.id.sort);
@@ -136,12 +104,170 @@ public class SubCatFragment extends Fragment {
 
 
         list1 = new ArrayList<>();
+        subList = new ArrayList<>();
         adapter = new ProdAdapter2(getContext() , list1 , bot);
 
         grid.setAdapter(adapter);
 
 
 
+        filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+
+
+
+
+
+                final Dialog dialog = new Dialog(getActivity());
+
+                dialog.setContentView(R.layout.filter_dialog);
+                dialog.setCancelable(true);
+
+                dialog.show();
+
+
+                final RadioGroup rg = (RadioGroup)dialog.findViewById(R.id.radio_group_pricer);
+
+
+                TextView clear = (TextView)dialog.findViewById(R.id.clear);
+
+                clear.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        sort_flag = false;
+
+                        adapter.setGridData(list1);
+                        adapter.notifyDataSetChanged();
+
+                        dialog.dismiss();
+
+                    }
+                });
+
+
+                TextView filterer = (TextView) dialog.findViewById(R.id.filterer);
+
+                filterer.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        final int selectedId = rg.getCheckedRadioButtonId();
+
+
+
+                        if (selectedId == R.id.price_under_h)
+                        {
+                            Log.d("asdasdasdasd" , "selese");
+
+                            subList.clear();
+
+                            for (int i = 0 ; i<list1.size() ; i++)
+                            {
+                                if (Float.parseFloat(list1.get(i).getPrice())<100)
+                                {
+                                    Log.d("asdasdasd" , "entered");
+                                    subList.add(list1.get(i));
+                                }
+                            }
+
+
+                            adapter.setGridData(subList);
+                            adapter.notifyDataSetChanged();
+
+                            sort_flag = true;
+
+                        }
+
+                        if (selectedId == R.id.price_between_h_and_5h)
+                        {
+                            subList.clear();
+
+                            for (int i = 0 ; i<list1.size() ; i++)
+                            {
+                                if (Float.parseFloat(list1.get(i).getPrice())<500 && Float.parseFloat(list1.get(i).getPrice())>=100)
+                                {
+                                    subList.add(list1.get(i));
+                                }
+                            }
+
+
+
+
+                            adapter.setGridData(subList);
+                            adapter.notifyDataSetChanged();
+
+
+                            sort_flag = true;
+
+                        }
+
+                        if (selectedId == R.id.price_between_5h_and_1k)
+                        {
+                            subList.clear();
+
+                            for (int i = 0 ; i<list1.size() ; i++)
+                            {
+                                if (Float.parseFloat(list1.get(i).getPrice())<1000 && Float.parseFloat(list1.get(i).getPrice())>=500)
+                                {
+                                    subList.add(list1.get(i));
+                                }
+                            }
+
+
+
+
+                            adapter.setGridData(subList);
+                            adapter.notifyDataSetChanged();
+
+
+                            sort_flag = true;
+
+                        }
+
+
+                        if (selectedId == R.id.price_over_1k)
+                        {
+                            subList.clear();
+
+                            for (int i = 0 ; i<list1.size() ; i++)
+                            {
+                                if (Float.parseFloat(list1.get(i).getPrice())>=1000)
+                                {
+                                    subList.add(list1.get(i));
+                                }
+                            }
+
+
+
+
+                            adapter.setGridData(subList);
+                            adapter.notifyDataSetChanged();
+
+
+                            sort_flag = true;
+
+                        }
+
+
+
+                        dialog.dismiss();
+
+
+                    }
+                });
+
+
+
+
+
+
+
+
+            }
+        });
 
 
         sort.setOnClickListener(new View.OnClickListener() {
@@ -154,30 +280,14 @@ public class SubCatFragment extends Fragment {
                 dialog.show();
 
                 ImageButton close = (ImageButton)dialog.findViewById(R.id.close_dialog);
-                final RadioButton l2h = (RadioButton) dialog.findViewById(R.id.price_low_to_high);
-                final RadioButton h2l = (RadioButton) dialog.findViewById(R.id.price_high_to_low);
+
+                final RadioGroup rg = (RadioGroup)dialog.findViewById(R.id.radioGroup);
+
                 TextView sort = (TextView)dialog.findViewById(R.id.sorter);
 
 
-                l2h.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                        if (h2l.isChecked())
-                        h2l.setChecked(false);
 
 
-
-                    }
-                });
-
-                h2l.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                        if (l2h.isChecked())
-                       l2h.setChecked(false);
-
-                    }
-                });
 
                 close.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -190,39 +300,16 @@ public class SubCatFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
 
-                        if (l2h.isChecked() || h2l.isChecked())
+
+
+                        int selectedId = rg.getCheckedRadioButtonId();
+
+
+
+                        if (selectedId == R.id.price_high_to_low)
                         {
-                            if (l2h.isChecked())
+                            if (!sort_flag)
                             {
-                                if (h2l.isChecked())
-                                {
-                                    h2l.toggle();
-                                }
-
-
-                                Collections.sort(list1, new Comparator<ProductBean>() {
-                                    @Override
-                                    public int compare(ProductBean lhs, ProductBean rhs) {
-                                        if (Float.parseFloat(lhs.getPrice()) > Float.parseFloat(rhs.getPrice()))
-                                            return 1;
-                                        else
-                                            return -1;
-                                    }
-                                });
-
-
-                                adapter.setGridData(list1);
-                                adapter.notifyDataSetChanged();
-
-                            }
-
-                            if (h2l.isChecked())
-                            {
-
-                                if (l2h.isChecked())
-                                    l2h.toggle();
-
-
                                 Collections.sort(list1, new Comparator<ProductBean>() {
                                     @Override
                                     public int compare(ProductBean lhs, ProductBean rhs) {
@@ -236,11 +323,143 @@ public class SubCatFragment extends Fragment {
 
                                 adapter.setGridData(list1);
                                 adapter.notifyDataSetChanged();
+                            }
+                            else
+                            {
+                                Collections.sort(subList, new Comparator<ProductBean>() {
+                                    @Override
+                                    public int compare(ProductBean lhs, ProductBean rhs) {
+                                        if (Float.parseFloat(lhs.getPrice()) < Float.parseFloat(rhs.getPrice()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
 
+
+                                adapter.setGridData(subList);
+                                adapter.notifyDataSetChanged();
                             }
 
 
                         }
+
+                        if (selectedId == R.id.price_low_to_high)
+                        {
+                            if (!sort_flag)
+                            {
+                                Collections.sort(list1, new Comparator<ProductBean>() {
+                                    @Override
+                                    public int compare(ProductBean lhs, ProductBean rhs) {
+                                        if (Float.parseFloat(lhs.getPrice()) > Float.parseFloat(rhs.getPrice()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(list1);
+                                adapter.notifyDataSetChanged();
+                            }
+                            else {
+                                Collections.sort(subList, new Comparator<ProductBean>() {
+                                    @Override
+                                    public int compare(ProductBean lhs, ProductBean rhs) {
+                                        if (Float.parseFloat(lhs.getPrice()) > Float.parseFloat(rhs.getPrice()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(subList);
+                                adapter.notifyDataSetChanged();
+                            }
+
+                        }
+
+                        if (selectedId == R.id.proteinSort)
+                        {
+                            if (!sort_flag)
+                            {
+                                Collections.sort(list1, new Comparator<ProductBean>() {
+                                    @Override
+                                    public int compare(ProductBean lhs, ProductBean rhs) {
+                                        if (Float.parseFloat(lhs.getProtein()) < Float.parseFloat(rhs.getProtein()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+
+                                adapter.setGridData(list1);
+                                adapter.notifyDataSetChanged();
+                            }
+                            else
+                            {
+                                Collections.sort(subList, new Comparator<ProductBean>() {
+                                    @Override
+                                    public int compare(ProductBean lhs, ProductBean rhs) {
+                                        if (Float.parseFloat(lhs.getProtein()) < Float.parseFloat(rhs.getProtein()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+
+                                adapter.setGridData(subList);
+                                adapter.notifyDataSetChanged();
+                            }
+
+
+                        }
+
+                        if (selectedId == R.id.caloriesSort)
+                        {
+                            if (!sort_flag)
+                            {
+                                Collections.sort(list1, new Comparator<ProductBean>() {
+                                    @Override
+                                    public int compare(ProductBean lhs, ProductBean rhs) {
+                                        if (Float.parseFloat(lhs.getCalories()) < Float.parseFloat(rhs.getCalories()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(list1);
+                                adapter.notifyDataSetChanged();
+                            }
+                            else
+                            {
+                                Collections.sort(subList, new Comparator<ProductBean>() {
+                                    @Override
+                                    public int compare(ProductBean lhs, ProductBean rhs) {
+                                        if (Float.parseFloat(lhs.getCalories()) < Float.parseFloat(rhs.getCalories()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(subList);
+                                adapter.notifyDataSetChanged();
+                            }
+
+
+                        }
+
+
+
 
 
 
@@ -274,7 +493,7 @@ public class SubCatFragment extends Fragment {
 
 
 
-    public void refresh(String cat)
+    private void refresh(String cat)
     {
 
 
@@ -338,6 +557,7 @@ public class SubCatFragment extends Fragment {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
+                refresh(getArguments().getString("id"));
             }
 
             try {
@@ -358,16 +578,10 @@ public class SubCatFragment extends Fragment {
             try {
                 array = new JSONArray(json);
                 length = array.length();
-            } catch (JSONException e) {
+            } catch (JSONException | NullPointerException e) {
                 e.printStackTrace();
                // Log.e("JSON Parser", "Error parsing data " + e.toString());
-            }catch (NullPointerException e)
-            {
-                e.printStackTrace();
-                // Toast.makeText(getBaseContext() , "failed to fetch data" , Toast.LENGTH_SHORT).show();
             }
-
-
 
 
             try {
@@ -387,7 +601,15 @@ public class SubCatFragment extends Fragment {
                     bean.setId(obj.getInt("id"));
                     bean.setName(obj.getString("name"));
                     bean.setPrice(obj.getString("price"));
-                    bean.setDescription(obj.getString("description"));
+
+                    JSONArray nutr = obj.getJSONArray("nutration");
+                    JSONObject cal = nutr.getJSONObject(0);
+                    JSONObject pro = nutr.getJSONObject(3);
+
+                    bean.setCalories(cal.getString("value"));
+                    bean.setProtein(pro.getString("value"));
+
+                    //bean.setDescription(obj.getString("description"));
                     String image = obj.getString("image");
                     image = image.replaceAll(" " , "%20");
                     bean.setImage(image);

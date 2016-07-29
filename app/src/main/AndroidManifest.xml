@@ -43,17 +43,13 @@
         <activity
             android:name=".GetStartActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".FirstPage"
-            android:screenOrientation="portrait" />
+
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity
-            android:name=".Compare"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".MainList"
             android:screenOrientation="portrait" />

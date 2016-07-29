@@ -5,7 +5,7 @@ package com.gobble.gobble_up;
  */
 public class ProductBean {
     int id;
-    String image , name , price , description;
+    String image , name , price , protein , calories;
     Boolean set = false;
     Boolean setlist = false;
 
@@ -57,14 +57,19 @@ public class ProductBean {
         this.price = price;
     }
 
-    public String getDescription() {
-
-
-        return description;
+    public String getProtein() {
+        return protein;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setProtein(String protein) {
+        this.protein = protein;
     }
 
+    public String getCalories() {
+        return calories;
+    }
+
+    public void setCalories(String calories) {
+        this.calories = calories;
+    }
 }

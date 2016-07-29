@@ -44,16 +44,16 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by hi on 10-06-2016.
  */
 public class SubCategoryFragment extends Fragment {
-    TextView title;
+    private TextView title;
     private String SUB_CATEGORY = "http://nationproducts.in/global/api/categories/id/";
-    ArrayList<categoryBean> list1;
+    private ArrayList<categoryBean> list1;
     //private ProgressBar mProgressBar;
-    ImageView banner;
-    TabLayout tab;
-    FragStatePagerAdapter adapter1;
-    AppBarLayout bar;
-    ViewPager pager;
-    ProgressBar progressBar;
+   private ImageView banner;
+    private TabLayout tab;
+    private FragStatePagerAdapter adapter1;
+    private AppBarLayout bar;
+    private ViewPager pager;
+    private ProgressBar progressBar;
 
     @Nullable
     @Override
@@ -94,9 +94,13 @@ public class SubCategoryFragment extends Fragment {
         pager = (ViewPager)view.findViewById(R.id.pagerId);
 
 
-        pager.setOffscreenPageLimit(5);
+
 
         list1 = new ArrayList<>();
+
+
+
+
 
         refresh(a);
 
@@ -243,6 +247,7 @@ public class SubCategoryFragment extends Fragment {
             try
             {
                 pager.setAdapter(adapter1);
+                pager.setOffscreenPageLimit(list1.size() - 1);
             }catch (NullPointerException e)
             {
                 e.printStackTrace();

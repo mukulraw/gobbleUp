@@ -126,7 +126,7 @@ public class CategoryFragment extends Fragment {
 
 
 
-    public void refresh()
+    private void refresh()
     {
         list.clear();
         String GET_CATEGORY = "http://nationproducts.in/global/api/categories";
@@ -173,20 +173,8 @@ public class CategoryFragment extends Fragment {
 
             } catch (IOException e) {
                 e.printStackTrace();
-                URL u;
-                try {
-                    u = new URL(url);
 
-                    HttpURLConnection connection = (HttpURLConnection)u.openConnection();
-
-                    if(connection.getResponseCode()==200)
-                    {
-                        is = connection.getInputStream();
-                    }
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-
+                refresh();
 
             }
 

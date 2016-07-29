@@ -39,51 +39,46 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:id="@+id/radioGroup"
         android:layout_marginEnd="10dp"
 
         >
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
+                android:text="  Price: Low to High"
+                android:checked="false"
                 android:id="@+id/price_low_to_high"
                 android:layout_alignParentStart="true"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/price_low_to_high"
-                android:padding="10dp"
-                android:gravity="center"
-                android:layout_centerVertical="true"
-                android:text="Price: Low to High"
-                />
 
-        </RelativeLayout>
-   <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
+                android:text="  Price: High to Low"
                 android:id="@+id/price_high_to_low"
                 android:layout_alignParentStart="true"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/price_high_to_low"
-                android:padding="10dp"
-                android:gravity="center"
-                android:layout_centerVertical="true"
-                android:text="Price: High to Low"
-                />
 
-        </RelativeLayout>
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="  Protein"
+            android:id="@+id/proteinSort"
+            android:layout_alignParentStart="true"/>
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="  Calories"
+            android:id="@+id/caloriesSort"
+            android:layout_alignParentStart="true"/>
 
     </RadioGroup>
 
@@ -100,3 +95,4 @@
 
 
 </LinearLayout>
+
