@@ -22,17 +22,16 @@ import java.util.List;
 /**
  * Created by Dheeraj on 8/6/2015.
  */
-public class RegisterUserClass {
+class RegisterUserClass {
  
-    public String sendPostRequest(String requestURL,
-                                  List<NameValuePair> data) {
+    String sendPostRequest(String requestURL,
+                           List<NameValuePair> data) {
 
-        URL url;
+
         InputStream is = null;
-        String response = null;
-        String result = null;
+
         String json = null;
-        JSONObject jObj = null;
+
         try {
 
 

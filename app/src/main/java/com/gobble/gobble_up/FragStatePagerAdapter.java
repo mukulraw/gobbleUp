@@ -14,7 +14,7 @@ class FragStatePagerAdapter extends FragmentStatePagerAdapter {
     private ArrayList<categoryBean> list = new ArrayList<>();
     String id , name;
     categoryBean item;
-    int count;
+    private int count;
 
 
     FragStatePagerAdapter(FragmentManager fm, ArrayList<categoryBean> list, int count) {
@@ -34,11 +34,6 @@ class FragStatePagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public int getCount() {
         return count;
-    }
-
-    public String getPagetitle(int position)
-    {
-        return list.get(position).getName();
     }
 
 

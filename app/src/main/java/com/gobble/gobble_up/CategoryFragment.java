@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -156,29 +157,25 @@ public class CategoryFragment extends Fragment {
 
         @Override
         protected Void doInBackground(Void... params) {
-
+            URL u = null;
+            try {
+                u = new URL(url);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            HttpURLConnection connection = null;
 
             try {
 
 
-                URL u = new URL(url);
-
-
-                HttpURLConnection connection = (HttpURLConnection)u.openConnection();
-
-                if(connection.getResponseCode()==200)
-                {
-                    is = connection.getInputStream();
+                if (u != null) {
+                    connection = (HttpURLConnection)u.openConnection();
                 }
 
-            } catch (IOException e) {
-                e.printStackTrace();
 
-                refresh();
-
-            }
-
-            try {
+                if (connection != null && connection.getResponseCode() == 200) {
+                    is = connection.getInputStream();
+                }
                 BufferedReader reader = new BufferedReader(new InputStreamReader(
                         is, "utf-8"), 8);
                 StringBuilder sb = new StringBuilder();
@@ -188,10 +185,19 @@ public class CategoryFragment extends Fragment {
                 }
                 is.close();
                 json = sb.toString();
-            } catch (Exception e) {
 
+            } catch (IOException|NullPointerException e) {
                 e.printStackTrace();
+
+                refresh();
+
+            }finally {
+                if (connection != null) {
+                    connection.disconnect();
+                }
             }
+
+
 
             try {
                 array = new JSONArray(json);
@@ -235,9 +241,7 @@ public class CategoryFragment extends Fragment {
             CatGridAdapter adapter = new CatGridAdapter(getActivity(), list);
             grid.setAdapter(adapter);
 
-            //adapter.setGridData(list);
-            //list.clear();
-            // mProgressBar.setVisibility(View.GONE);
+
             progressBar.setVisibility(View.GONE);
             bannerText.setVisibility(View.VISIBLE);
             slide.setVisibility(View.VISIBLE);

@@ -152,6 +152,8 @@ public class SubCategoryFragment extends Fragment {
 
         int length;
         String url;
+        URL u = null;
+        HttpURLConnection connection;
 
 
         connect(String url)
@@ -167,25 +169,15 @@ public class SubCategoryFragment extends Fragment {
         protected Void doInBackground(Void... params) {
 
 
-            //Log.d("asdasdasd" , url);
 
             try {
-                //HttpClient client = new DefaultHttpClient();
-                //HttpGet get = new HttpGet(url);
-                //HttpResponse response = client.execute(get);
-                //HttpEntity entity = response.getEntity();
-                //is = entity.getContent();
-                URL u = new URL(url);
-                HttpURLConnection connection = (HttpURLConnection)u.openConnection();
+
+                u = new URL(url);
+                connection = (HttpURLConnection)u.openConnection();
                 if(connection.getResponseCode()==200)
                 {
                     is = connection.getInputStream();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            try {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(
                         is, "utf-8"), 8);
                 StringBuilder sb = new StringBuilder();
@@ -195,17 +187,20 @@ public class SubCategoryFragment extends Fragment {
                 }
                 is.close();
                 json = sb.toString();
-            } catch (Exception e) {
+            } catch (IOException e) {
                 e.printStackTrace();
-              //  Log.e("Buffer Error", "Error converting result " + e.toString());
+            }finally {
+                connection.disconnect();
             }
+
+
 
             try {
                 array = new JSONArray(json);
                 length = array.length();
             } catch (JSONException | NullPointerException e) {
                 e.printStackTrace();
-              //  Log.e("JSON Parser", "Error parsing data " + e.toString());
+
             }
 
 

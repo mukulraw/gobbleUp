@@ -1,29 +1,18 @@
 package com.gobble.gobble_up;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.SearchView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,13 +23,10 @@ import java.util.ArrayList;
 
 public class SearchResultActivity extends AppCompatActivity implements TextWatcher {
 
-    private String GET_ALL = "http://nationproducts.in/global/api/allproduct";
-
-    ArrayList<searchBean> original;
+    private ArrayList<searchBean> original;
     ArrayList<searchBean> result;
     searchAdapter adapter;
-    ListView lv;
-    EditText searchbar;
+    private ListView lv;
 
 
     @Override
@@ -52,9 +38,10 @@ public class SearchResultActivity extends AppCompatActivity implements TextWatch
         original = new ArrayList<>();
         original.clear();
 
+        String GET_ALL = "http://nationproducts.in/global/api/allproduct";
         new connect(GET_ALL).execute();
 
-        searchbar = (EditText) findViewById(R.id.searchBar);
+        EditText searchbar = (EditText) findViewById(R.id.searchBar);
 
         lv = (ListView) findViewById(R.id.search_list);
 
@@ -164,7 +151,8 @@ public class SearchResultActivity extends AppCompatActivity implements TextWatch
             InputStream is;
             String json;
             JSONArray array;
-
+            HttpURLConnection connection;
+            URL u = null;
 
             int length;
             String url;
@@ -185,41 +173,36 @@ public class SearchResultActivity extends AppCompatActivity implements TextWatch
                     //HttpEntity entity = response.getEntity();
                     //is = entity.getContent();
 
-                    URL u = new URL(url);
-                    HttpURLConnection connection = (HttpURLConnection) u.openConnection();
+                    u = new URL(url);
+                    connection = (HttpURLConnection) u.openConnection();
                     if (connection.getResponseCode() == 200) {
                         is = connection.getInputStream();
                     }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                try {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(
                             is, "utf-8"), 8);
                     StringBuilder sb = new StringBuilder();
-                    String line = null;
+                    String line;
                     while ((line = reader.readLine()) != null) {
                         sb.append(line).append("\n");
                     }
                     is.close();
                     json = sb.toString();
-                  //  Log.d("asdasdad", json);
-                } catch (Exception e) {
+
+                } catch (IOException e) {
                     e.printStackTrace();
-                  //  Log.e("Buffer Error", "Error converting result " + e.toString());
                 }
+                finally {
+                    connection.disconnect();
+                }
+
+
 
                 try {
                     array = new JSONArray(json);
                     length = array.length();
-                } catch (JSONException e) {
+                } catch (JSONException | NullPointerException e) {
                     e.printStackTrace();
                     //Log.e("JSON Parser", "Error parsing data " + e.toString());
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                    //Toast.makeText(getBaseContext() , "failed to fetch data" , Toast.LENGTH_SHORT).show();
                 }
 
 

@@ -1,16 +1,21 @@
 package com.gobble.gobble_up;
 
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.OvershootInterpolator;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +42,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.wasabeef.recyclerview.animators.ScaleInTopAnimator;
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
+
 /**
  * Created by hi on 6/16/2016.
  */
@@ -49,6 +57,7 @@ public class Compare2 extends AppCompatActivity {
     LinearLayoutManager layoutManager;
     ProgressBar bar;
     TextView empty;
+compareAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,12 +68,21 @@ public class Compare2 extends AppCompatActivity {
 
         listview = (RecyclerView)findViewById(R.id.compare_layout_list);
 
+        RecyclerView.ItemAnimator animator = listview.getItemAnimator();
+
+
+        listview.setItemAnimator(new SlideInUpAnimator(new OvershootInterpolator(1f)));
         empty = (TextView)findViewById(R.id.emptymessage);
 
         bar = (ProgressBar)findViewById(R.id.compareProgress);
 
 
                layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+
+        list = new ArrayList<>();
+        adapter = new compareAdapter(getApplicationContext() , list);
+        listview.setAdapter(adapter);
+        listview.setLayoutManager(layoutManager);
 
 
         lLayout = new GridLayoutManager(this , 1);
@@ -81,6 +99,9 @@ public class Compare2 extends AppCompatActivity {
 
 
 
+
+
+
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.UP ) {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
@@ -88,15 +109,31 @@ public class Compare2 extends AppCompatActivity {
             }
 
             @Override
+            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+
+
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+                View itemView = viewHolder.itemView;
+
+                Drawable d = ContextCompat.getDrawable(getBaseContext() , R.drawable.black_shade);
+                d.setBounds(itemView.getLeft(), itemView.getTop(), (int) dX, itemView.getBottom());
+                d.draw(c);
+
+
+
+            }
+
+            @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
 
 
 
-                b.list.remove(viewHolder.getAdapterPosition());
+                //b.list.remove(viewHolder.getAdapterPosition());
                 //adapter.notifyDataSetChanged();
-                refresh();
+                //adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
 
 
+                adapter.onItemDismiss(viewHolder.getAdapterPosition());
 
 
 
@@ -122,12 +159,12 @@ public class Compare2 extends AppCompatActivity {
     }
 
 
-    void refresh()
+    private void refresh()
     {
 
         comparebean b = (comparebean)this.getApplicationContext();
 
-        list = new ArrayList<>();
+
 
         listview.setVisibility(View.GONE);
 
@@ -366,6 +403,8 @@ public class Compare2 extends AppCompatActivity {
         JSONArray mainArray , nutArray;
         String faat , pro , carb , idd;
 
+        URL u = null;
+        HttpURLConnection connection;
 
 
         int length;
@@ -390,31 +429,28 @@ public class Compare2 extends AppCompatActivity {
                 //HttpEntity entity = response.getEntity();
                 //is = entity.getContent();
 
-                URL u = new URL(url);
-                HttpURLConnection connection = (HttpURLConnection)u.openConnection();
+                u = new URL(url);
+                connection = (HttpURLConnection)u.openConnection();
                 if(connection.getResponseCode()==200)
                 {
                     is = connection.getInputStream();
                 }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            try {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(
                         is, "utf-8"), 8);
                 StringBuilder sb = new StringBuilder();
-                String line = null;
+                String line;
                 while ((line = reader.readLine()) != null) {
                     sb.append(line).append("\n");
                 }
                 is.close();
                 json = sb.toString();
-            } catch (Exception e) {
+            } catch (IOException e) {
                 e.printStackTrace();
-                //Log.e("Buffer Error", "Error converting result " + e.toString());
+            }finally {
+                connection.disconnect();
             }
+
+
 
             try {
                 mainArray = new JSONArray(json);
@@ -517,10 +553,11 @@ public class Compare2 extends AppCompatActivity {
 
             listview.setVisibility(View.VISIBLE);
 
-            compareAdapter adapter = new compareAdapter(getApplicationContext() , list);
 
-            listview.setAdapter(adapter);
-            listview.setLayoutManager(layoutManager);
+            adapter.setGridData(list);
+            adapter.notifyDataSetChanged();
+
+
 
 
 

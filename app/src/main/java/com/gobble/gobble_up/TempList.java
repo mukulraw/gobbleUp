@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.OvershootInterpolator;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,6 +51,10 @@ public class TempList extends AppCompatActivity {
 
         listview = (RecyclerView)findViewById(R.id.temp_list);
 
+        SlideInLeftAnimator animator = new SlideInLeftAnimator();
+        animator.setInterpolator(new OvershootInterpolator());
+
+        listview.setItemAnimator(animator);
         empty = (TextView)findViewById(R.id.tempEmptyMessage);
         saveList = (TextView)findViewById(R.id.saveList);
 
@@ -76,7 +81,7 @@ public class TempList extends AppCompatActivity {
 
         listview.setVisibility(View.GONE);
         saveList.setVisibility(View.GONE);
-        listview.setItemAnimator(new SlideInRightAnimator());
+
 
 
 

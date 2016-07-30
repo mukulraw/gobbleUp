@@ -360,7 +360,7 @@ public class StartActivity extends AppCompatActivity implements GoogleApiClient.
 
     }
 
-    public class login extends AsyncTask<Void , Void , Void>
+    private class login extends AsyncTask<Void , Void , Void>
     {
 
         String username , password;
@@ -370,7 +370,7 @@ public class StartActivity extends AppCompatActivity implements GoogleApiClient.
         HttpURLConnection conn;
         URL url = null;
 
-        public login(String username , String password)
+        login(String username, String password)
         {
             this.username = username;
             this.password = password;
@@ -432,6 +432,8 @@ public class StartActivity extends AppCompatActivity implements GoogleApiClient.
 
             } catch (IOException e) {
                 e.printStackTrace();
+            }finally {
+                conn.disconnect();
             }
 
 

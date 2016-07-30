@@ -47,15 +47,11 @@ import java.net.URL;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener , GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
-    CircleImageView profile;
-    TextView head_name;
-    GoogleApiClient mGoogleApiClient;
+    private GoogleApiClient mGoogleApiClient;
     private SharedPreferences pref;
     private SharedPreferences.Editor edit;
-    String url , n;
-    public BottomSheetBehavior bar;
-    public TextView countt , countsa;
-    ImageButton compare , list;
+    private BottomSheetBehavior bar;
+    private TextView countt , countsa;
 
 
     @Override
@@ -75,11 +71,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
        // bar.setState(BottomSheetBehavior.STATE_COLLAPSED);
 
-        list = (ImageButton)findViewById(R.id.imageButton3);
+        ImageButton list = (ImageButton) findViewById(R.id.imageButton3);
 
         countt = (TextView)findViewById(R.id.textView5);
         countsa = (TextView)findViewById(R.id.textView4);
-        compare = (ImageButton)findViewById(R.id.imageButton2);
+        ImageButton compare = (ImageButton) findViewById(R.id.imageButton2);
 
 
         compare.setOnClickListener(new View.OnClickListener() {
@@ -118,15 +114,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         @SuppressLint("InflateParams") View header = LayoutInflater.from(this).inflate(R.layout.nav_header , null);
-        if (nav != null) {
-            nav.addHeaderView(header);
-        }
+        nav.addHeaderView(header);
 
         Bundle b = getIntent().getExtras();
 
         if(b!=null) {
-            url = String.valueOf(b.get("url"));
-            n = String.valueOf(b.get("name"));
+            String url = String.valueOf(b.get("url"));
+            String n = String.valueOf(b.get("name"));
 
             comparebean be = (comparebean)this.getApplicationContext();
 
@@ -134,11 +128,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             be.n = n;
 
             //Log.d("asdasdasd" , n);
-            profile = (CircleImageView)header.findViewById(R.id.headerProfile);
-            head_name = (TextView)header.findViewById(R.id.headertitle);
-            if (url!=null)
+            CircleImageView profile = (CircleImageView) header.findViewById(R.id.headerProfile);
+            TextView head_name = (TextView) header.findViewById(R.id.headertitle);
+            if (url !=null)
             {
-                new loadImage(profile , url).execute();
+                new loadImage(profile, url).execute();
             }
 
             head_name.setText(n);
@@ -174,10 +168,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         try
         {
             InputStream is = (InputStream) new URL(url).getContent();
-            Bitmap d = BitmapFactory.decodeStream(is);
-            return d;
+            return BitmapFactory.decodeStream(is);
         }catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
             return null;
         }
     }
@@ -189,22 +182,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    public void onCompare(View view)
-    {
-        Intent i = new Intent(getApplicationContext() , Compare2.class);
-
-        startActivity(i);
-
-    }
 
 
-    public void onList(View view)
-    {
-        Intent i = new Intent(getApplicationContext() , MainList.class);
 
-        startActivityForResult(i , 112);
 
-    }
 
 
 
@@ -237,7 +218,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             pref = getSharedPreferences("MySignin", Context.MODE_PRIVATE);
             edit = pref.edit();
 
-            //Log.d("asdasdasd" , "log out clicked" );
+
             if (pref.getBoolean("google" , false))
             {
                 if (mGoogleApiClient.isConnected())
@@ -291,7 +272,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 new ResultCallback<Status>() {
                     @SuppressLint("CommitPrefEdits")
                     @Override
-                    public void onResult(Status status) {
+                    public void onResult(@NonNull Status status) {
 
 
                         if (status.isSuccess())
@@ -332,7 +313,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.search_bar);
+        if (item.getItemId() == R.id.search_bar)
         {
 
             Intent i = new Intent(getApplicationContext() , SearchResultActivity.class);
@@ -406,14 +387,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    public class loadImage extends AsyncTask<Void , Void , Void>
+    private class loadImage extends AsyncTask<Void , Void , Void>
     {
 
         String url;
         CircleImageView iv;
         Bitmap d;
 
-        public loadImage(CircleImageView iv , String url)
+        loadImage(CircleImageView iv, String url)
         {
             this.iv = iv;
             this.url = url;

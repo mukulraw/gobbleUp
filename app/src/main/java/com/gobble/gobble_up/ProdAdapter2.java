@@ -371,6 +371,8 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
         comparebean b;
         int length;
         String url;
+        URL u = null;
+        HttpURLConnection connection;
 
         RatingBar rating;
 
@@ -396,17 +398,12 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
                 //HttpResponse response = client.execute(get);
                 //HttpEntity entity = response.getEntity();
                 //is = entity.getContent();
-                URL u = new URL(url);
-                HttpURLConnection connection = (HttpURLConnection)u.openConnection();
+                u = new URL(url);
+                connection = (HttpURLConnection)u.openConnection();
                 if(connection.getResponseCode()==200)
                 {
                     is = connection.getInputStream();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            try {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(
                         is, "utf-8"), 8);
                 StringBuilder sb = new StringBuilder();
@@ -416,10 +413,13 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
                 }
                 is.close();
                 json = sb.toString();
-            } catch (Exception e) {
+            } catch (IOException e) {
                 e.printStackTrace();
-                // Log.e("Buffer Error", "Error converting result " + e.toString());
+            }finally {
+                connection.disconnect();
             }
+
+
 
             try {
                 array = new JSONArray(json);

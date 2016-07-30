@@ -1,34 +1,23 @@
 package com.gobble.gobble_up;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Dialog;
-import android.app.IntentService;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.v4.app.Fragment;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.facebook.AccessToken;
-import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
@@ -45,12 +34,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationServices;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -60,46 +45,34 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Collections;
+
 
 import com.facebook.FacebookSdk;
 
 public class LoginActivity extends FragmentActivity implements GoogleApiClient.ConnectionCallbacks , GoogleApiClient.OnConnectionFailedListener  , View.OnClickListener {
-    private String LOG_IN = "http://nationproducts.in/global/api/login";
     private static final int RC_SIGN_IN = 9001;
 
-    EditText email , password;
-    public static final int CONNECTION_TIMEOUT=10000;
-    public static final int READ_TIMEOUT=15000;
+    private EditText email , password;
+    private static final int CONNECTION_TIMEOUT=10000;
+    private static final int READ_TIMEOUT=15000;
 
-    private SharedPreferences pref;
     private SharedPreferences.Editor edit;
 
-    String imageUrl = null;
-    String nn = null;
-    String pp = null;
+    private String imageUrl = null;
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
-
-    TextView forgot;
-    TextView sign_up;
 
     private Boolean goog_flag = false;
     private Boolean fb_flag = false;
     private Boolean sign_flag = false;
 
-    //private CallbackManager callbackManager;
-    //private LoginButton loginButton;
-    //Button google_signin;
-    LoginButton fb_signin;
-    private ProgressDialog progressDialog;
-    SignInButton google_signin;
+
+    private SignInButton google_signin;
     private GoogleApiClient mGoogleApiClient;
 
-    String fb_email , fb_name , fb_id , fb_gender;
 
-    private AccessTokenTracker accessTokenTracker;
+
+
     //private ProfileTracker profileTracker;
     private CallbackManager callbackManager;
 
@@ -116,28 +89,28 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
 
         setContentView(R.layout.activity_login);
 
-        pref = getSharedPreferences("MySignin", Context.MODE_PRIVATE);
+        SharedPreferences pref = getSharedPreferences("MySignin", Context.MODE_PRIVATE);
         edit = pref.edit();
 
         email = (EditText)findViewById(R.id.et_Email);
         password = (EditText)findViewById(R.id.et_Password);
 
         google_signin = (SignInButton) findViewById(R.id.bt_google_sign);
-        fb_signin = (LoginButton) findViewById(R.id.bt_facebook1);
+        LoginButton fb_signin = (LoginButton) findViewById(R.id.bt_facebook1);
         fb_signin.setHeight(40);
         fb_signin.setText("SIGNUP USING FACEBOOK");
 
 
-        forgot = (TextView)findViewById(R.id.tv_userforgotpassword);
+        TextView forgot = (TextView) findViewById(R.id.tv_userforgotpassword);
 
         Button sign_in = (Button) findViewById(R.id.bt_signin);
-        sign_up = (TextView) findViewById(R.id.bt_creataccount);
+        TextView sign_up = (TextView) findViewById(R.id.bt_creataccount);
 
 
 
 
 
-        fb_signin.setReadPermissions(Arrays.asList("public_profile"));
+        fb_signin.setReadPermissions(Collections.singletonList("public_profile"));
         fb_signin.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             private ProfileTracker mProfileTracker;
             @Override
@@ -253,7 +226,7 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
         return true;
 
     }
-    void showGooglePlayServicesAvailabilityErrorDialog(
+    private void showGooglePlayServicesAvailabilityErrorDialog(
             final int connectionStatusCode) {
         this.runOnUiThread(new Runnable() {
             public void run() {
@@ -343,12 +316,18 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
-            String e = acct.getEmail();
-            nn = e;
+            String e = null;
+            if (acct != null) {
+                e = acct.getEmail();
+            }
             //Log.d("asdsd" , e);
-            String p = acct.getEmail();
-            pp = p;
-            imageUrl = String.valueOf(acct.getPhotoUrl());
+            String p = null;
+            if (acct != null) {
+                p = acct.getEmail();
+            }
+            if (acct != null) {
+                imageUrl = String.valueOf(acct.getPhotoUrl());
+            }
             //Log.d("asdasdasd" , p);
 
 
@@ -358,9 +337,6 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
            new login(e , p).execute();
 
 
-        } else {
-            // Signed out, show unauthenticated UI.
-
         }
     }
 
@@ -369,7 +345,7 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
 
 
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
 
@@ -390,7 +366,7 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
 
 
 
-    public class login extends AsyncTask<Void , Void , Void>
+    private class login extends AsyncTask<Void , Void , Void>
     {
 
         String username , password;
@@ -400,7 +376,7 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
         HttpURLConnection conn;
         URL url = null;
 
-        public login(String username , String password)
+        login(String username, String password)
         {
             this.username = username;
             this.password = password;
@@ -419,6 +395,7 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
         protected Void doInBackground(Void... params) {
 
             try {
+                String LOG_IN = "http://nationproducts.in/global/api/login";
                 url = new URL(LOG_IN);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -457,6 +434,8 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
 
             } catch (IOException e) {
                 e.printStackTrace();
+            }finally {
+                conn.disconnect();
             }
 
 
@@ -562,14 +541,9 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
                 new ResultCallback<Status>() {
                     @Override
-                    public void onResult(Status status) {
+                    public void onResult(@NonNull Status status) {
 
 
-                        if (status.isSuccess())
-                        {
-
-
-                        }
 
 
                     }

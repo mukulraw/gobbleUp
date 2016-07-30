@@ -161,11 +161,11 @@ public class GetStartActivity extends AppCompatActivity {
     }
 
 
-    public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
+    private class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
         final int noOfTabs;
 
-        public SectionsPagerAdapter(FragmentManager fm , int noOfTabs) {
+        SectionsPagerAdapter(FragmentManager fm, int noOfTabs) {
             super(fm);
             this.noOfTabs = noOfTabs;
         }

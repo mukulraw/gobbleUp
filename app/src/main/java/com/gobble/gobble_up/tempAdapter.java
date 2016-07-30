@@ -3,6 +3,8 @@ package com.gobble.gobble_up;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPropertyAnimatorListener;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.Html;
@@ -20,6 +22,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import jp.wasabeef.recyclerview.animators.holder.AnimateViewHolder;
 
 /**
  * Created by hi on 6/18/2016.
@@ -117,7 +121,7 @@ class tempAdapter extends RecyclerView.Adapter<tempAdapter.RecycleViewHolder> im
         notifyItemRemoved(position);
     }
 
-    class RecycleViewHolder extends RecyclerView.ViewHolder {
+    class RecycleViewHolder extends AnimateViewHolder {
 
         ImageView image;
         TextView price , name;
@@ -138,15 +142,25 @@ class tempAdapter extends RecyclerView.Adapter<tempAdapter.RecycleViewHolder> im
 
         }
 
+        @Override
+        public void animateAddImpl(ViewPropertyAnimatorListener listener) {
+            ViewCompat.animate(itemView)
+                    .translationY(0)
+                    .alpha(1)
+                    .setDuration(300)
+                    .setListener(listener)
+                    .start();
+        }
 
-
-
-
-
-
-
-
-
+        @Override
+        public void animateRemoveImpl(ViewPropertyAnimatorListener listener) {
+            ViewCompat.animate(itemView)
+                    .translationY(-itemView.getHeight() * 0.3f)
+                    .alpha(0)
+                    .setDuration(300)
+                    .setListener(listener)
+                    .start();
+        }
 
 
     }

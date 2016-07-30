@@ -33,21 +33,24 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by hi on 6/16/2016.
- */
-public class compareAdapter extends RecyclerView.Adapter<compareAdapter.RecycleViewHolder> {
+
+class compareAdapter extends RecyclerView.Adapter<compareAdapter.RecycleViewHolder> implements ItemTouchHelperAdapter{
     private final Context context;
     List<comparelistBean> list = new ArrayList<>();
 
     ImageButton a;
 
-    public compareAdapter(Context context , List<comparelistBean> list)
+    compareAdapter(Context context, List<comparelistBean> list)
     {
         this.context = context;
         this.list = list;
     }
 
+
+    public void setGridData(List<comparelistBean> list)
+    {
+        this.list = list;
+    }
 
 
     @Override
@@ -183,7 +186,23 @@ public class compareAdapter extends RecyclerView.Adapter<compareAdapter.RecycleV
         return list.size();
     }
 
-    class RecycleViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public void onItemMove(int fromPosition, int toPosition) {
+
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+
+        comparebean b = (comparebean)context.getApplicationContext();
+        b.list.remove(position);
+        list.remove(position);
+        notifyItemRemoved(position);
+
+
+    }
+
+    class RecycleViewHolder extends RecyclerView.ViewHolder{
 
         ImageView image;
         TextView price , name;
