@@ -116,11 +116,6 @@ public class SubCatFragment extends Fragment {
 
         grid.addOnScrollListener(new EndlessScrollListener(linearLayoutManager) {
             @Override
-            public int getFooterViewType(int defaultNoFooterViewType) {
-                return R.id.progressBar;
-            }
-
-            @Override
             public void onLoadMore(int page, int totalItemsCount) {
                 // Triggered only when new data needs to be appended to the list
                 // Add whatever code is needed to append new items to the bottom of the list
@@ -627,6 +622,8 @@ public class SubCatFragment extends Fragment {
                         }
 
                     }
+
+
 
 
                         list1.add(bean);
