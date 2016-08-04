@@ -99,6 +99,11 @@ class tempAdapter extends RecyclerView.Adapter<tempAdapter.RecycleViewHolder> im
 
 
 
+    void addItem(int position)
+    {
+        //this.list.add(position , item);
+        notifyItemInserted(position);
+    }
 
 
 
@@ -151,6 +156,8 @@ class tempAdapter extends RecyclerView.Adapter<tempAdapter.RecycleViewHolder> im
                     .setListener(listener)
                     .start();
         }
+
+
 
         @Override
         public void animateRemoveImpl(ViewPropertyAnimatorListener listener) {

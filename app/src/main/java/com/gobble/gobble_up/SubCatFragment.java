@@ -8,11 +8,13 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -96,8 +98,11 @@ public class SubCatFragment extends Fragment {
 
         grid = (RecyclerView)view.findViewById(R.id.sub_cat_grid);
 
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+
+
         grid.setHasFixedSize(true);
-        grid.setLayoutManager(lLayout);
+        grid.setLayoutManager(linearLayoutManager);
         CoordinatorLayout coordinatorLayout = (CoordinatorLayout)((MainActivity)getContext()).findViewById(R.id.coordinate);
         View vie = coordinatorLayout.findViewById(R.id.bottombar);
         BottomSheetBehavior bot = BottomSheetBehavior.from(vie);
@@ -109,6 +114,14 @@ public class SubCatFragment extends Fragment {
 
         grid.setAdapter(adapter);
 
+        grid.addOnScrollListener(new EndlessScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to the bottom of the list
+                refresh(getArguments().getString("id"));
+            }
+        });
 
 
         filter.setOnClickListener(new View.OnClickListener() {
@@ -203,54 +216,6 @@ public class SubCatFragment extends Fragment {
                             sort_flag = true;
 
                         }
-
-                        if (selectedId == R.id.price_between_5h_and_1k)
-                        {
-                            subList.clear();
-
-                            for (int i = 0 ; i<list1.size() ; i++)
-                            {
-                                if (Float.parseFloat(list1.get(i).getPrice())<1000 && Float.parseFloat(list1.get(i).getPrice())>=500)
-                                {
-                                    subList.add(list1.get(i));
-                                }
-                            }
-
-
-
-
-                            adapter.setGridData(subList);
-                            adapter.notifyDataSetChanged();
-
-
-                            sort_flag = true;
-
-                        }
-
-
-                        if (selectedId == R.id.price_over_1k)
-                        {
-                            subList.clear();
-
-                            for (int i = 0 ; i<list1.size() ; i++)
-                            {
-                                if (Float.parseFloat(list1.get(i).getPrice())>=1000)
-                                {
-                                    subList.add(list1.get(i));
-                                }
-                            }
-
-
-
-
-                            adapter.setGridData(subList);
-                            adapter.notifyDataSetChanged();
-
-
-                            sort_flag = true;
-
-                        }
-
 
 
                         dialog.dismiss();

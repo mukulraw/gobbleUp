@@ -31,6 +31,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.wasabeef.recyclerview.animators.ScaleInAnimator;
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
 import jp.wasabeef.recyclerview.animators.SlideInRightAnimator;
 
@@ -51,10 +52,9 @@ public class TempList extends AppCompatActivity {
 
         listview = (RecyclerView)findViewById(R.id.temp_list);
 
-        SlideInLeftAnimator animator = new SlideInLeftAnimator();
-        animator.setInterpolator(new OvershootInterpolator());
 
-        listview.setItemAnimator(animator);
+
+
         empty = (TextView)findViewById(R.id.tempEmptyMessage);
         saveList = (TextView)findViewById(R.id.saveList);
 
@@ -73,6 +73,18 @@ public class TempList extends AppCompatActivity {
 
 
         adapter = new tempAdapter(this , list);
+
+        ScaleInAnimator animator = new ScaleInAnimator();
+        animator.setAddDuration(2000);
+        animator.setRemoveDuration(2000);
+
+
+        SlideInRightAnimator animator1 = new SlideInRightAnimator();
+        animator1.setRemoveDuration(1000);
+
+
+        listview.setItemAnimator(animator1);
+
         listview.setAdapter(adapter);
         listview.setLayoutManager(layoutManager);
 
@@ -552,7 +564,12 @@ public class TempList extends AppCompatActivity {
             progressBar.setVisibility(View.GONE);
 
             adapter.setGridData(list);
-            adapter.notifyDataSetChanged();
+
+            for (int i = 0 ; i < list.size() ; i++)
+            {
+                adapter.addItem(i);
+            }
+
 
             //adapter = new tempAdapter(getApplicationContext() , list);
 
