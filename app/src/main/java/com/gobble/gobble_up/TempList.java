@@ -273,6 +273,7 @@ public class TempList extends AppCompatActivity {
 
                 URL u = new URL(url);
                 HttpURLConnection connection = (HttpURLConnection)u.openConnection();
+                connection.setConnectTimeout(1000);
                 if(connection.getResponseCode()==200)
                 {
                     is = connection.getInputStream();

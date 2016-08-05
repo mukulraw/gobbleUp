@@ -57,6 +57,26 @@
 
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/title_size"
+                android:gravity="bottom"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="10dp"
+                android:textColor="@color/white"
+                android:textAllCaps="true"
+                android:layout_gravity="bottom"
+                android:textSize="16sp"
+
+
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true" />
+
+
+
         </RelativeLayout>
 
 

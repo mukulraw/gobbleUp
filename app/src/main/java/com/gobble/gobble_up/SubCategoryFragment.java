@@ -39,13 +39,19 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.GET;
 
 /**
  * Created by hi on 10-06-2016.
  */
 public class SubCategoryFragment extends Fragment {
     private TextView title;
-    private String SUB_CATEGORY = "http://nationproducts.in/global/api/categories/id/";
+
     private ArrayList<categoryBean> list1;
     //private ProgressBar mProgressBar;
    private ImageView banner;
@@ -53,6 +59,7 @@ public class SubCategoryFragment extends Fragment {
     private FragStatePagerAdapter adapter1;
     private AppBarLayout bar;
     private ViewPager pager;
+    static String a;
     private ProgressBar progressBar;
 
     @Nullable
@@ -68,7 +75,7 @@ public class SubCategoryFragment extends Fragment {
 
         bar = (AppBarLayout)view.findViewById(R.id.htab_appbar1);
 
-        String a = getArguments().getString("id");
+        a = getArguments().getString("id");
 
         title.setText(getArguments().getString("name"));
 
@@ -124,11 +131,92 @@ public class SubCategoryFragment extends Fragment {
 
 
 
+    public void fetch()
+    {
+        String SUB_CATEGORY = "http://nationproducts.in/";
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(SUB_CATEGORY)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        final subCatAPI request = retrofit.create(subCatAPI.class);
+        Call<ArrayList<categoryBean>> call = request.getBooks(a);
+        call.enqueue(new Callback<ArrayList<categoryBean>>() {
+            @Override
+            public void onResponse(Call<ArrayList<categoryBean>> call, Response<ArrayList<categoryBean>> response) {
+
+
+
+
+
+                for(int i = 0 ; i<response.body().size() ;i++)
+                {
+                    String n = response.body().get(i).getName();
+                    //  Log.d("asdasdasd" , n);
+                    tab.addTab(tab.newTab().setText(n));
+                }
+                adapter1 = new FragStatePagerAdapter(getChildFragmentManager() , response.body() , tab.getTabCount());
+                try
+                {
+                    pager.setAdapter(adapter1);
+                    pager.setOffscreenPageLimit(response.body().size() - 1);
+                }catch (NullPointerException e)
+                {
+                    e.printStackTrace();
+                }
+
+                pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tab));
+                tab.setTabGravity(TabLayout.GRAVITY_CENTER);
+                tab.setTabMode(TabLayout.MODE_SCROLLABLE);
+                tab.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab1) {
+                        pager.setCurrentItem(tab1.getPosition());
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab1) {
+
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab1) {
+
+                    }
+                });
+
+//            adapter.setGridData(list1);
+                //list.clear();
+
+                progressBar.setVisibility(View.GONE);
+                tab.setVisibility(View.VISIBLE);
+                title.setVisibility(View.VISIBLE);
+                banner.setVisibility(View.VISIBLE);
+                bar.setVisibility(View.VISIBLE);
+
+
+
+
+
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<categoryBean>> call, Throwable t) {
+              //  Log.d("Error",t.getMessage());
+            }
+        });
+
+
+
+    }
+
+
+
     public void refresh(String cat)
     {
         list1.clear();
-        String url = SUB_CATEGORY + cat;
-        new connect(url).execute();
+        //String url = SUB_CATEGORY + cat;
+       // new connect(url).execute();
+        fetch();
     }
 
 
@@ -142,6 +230,11 @@ public class SubCategoryFragment extends Fragment {
 
 
     }
+
+
+
+
+
 
     public class connect extends AsyncTask<Void , Void , Void>
     {

@@ -23,7 +23,8 @@
 
     <style name="SwitchStyle" parent="Widget.AppCompat.CompoundButton.Switch">
 
-        <item name="android:color">@color/grey</item>
+        <item name="android:color">@color/colorPrimaryDark</item>
+
     </style>
 
 

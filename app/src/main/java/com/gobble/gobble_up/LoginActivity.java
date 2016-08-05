@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -102,6 +103,52 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
 
 
         TextView forgot = (TextView) findViewById(R.id.tv_userforgotpassword);
+
+
+
+
+
+        forgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Dialog dialog = new Dialog(LoginActivity.this);
+                dialog.setCancelable(false);
+                dialog.setContentView(R.layout.forgot_dialog);
+
+                dialog.show();
+
+
+               final EditText asd = (EditText)dialog.findViewById(R.id.forgot_email);
+                TextView close = (TextView)dialog.findViewById(R.id.close_forget_dialog);
+                TextView sub = (TextView)dialog.findViewById(R.id.submit_forget_dialog);
+
+                close.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+
+
+                sub.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        String as = asd.getText().toString();
+                        new login2(as).execute();
+
+                    }
+                });
+
+
+
+
+
+            }
+        });
+
+
+
 
         Button sign_in = (Button) findViewById(R.id.bt_signin);
         TextView sign_up = (TextView) findViewById(R.id.bt_creataccount);
@@ -536,6 +583,103 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
             super.onPostExecute(aVoid);
         }
     }
+
+
+
+    private class login2 extends AsyncTask<Void , Void , Void>
+    {
+
+        String username;
+        String result;
+
+        HttpURLConnection conn;
+        URL url = null;
+
+        login2(String username)
+        {
+            this.username = username;
+
+        }
+
+
+
+
+
+
+
+
+
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            try {
+                String LOG_IN = "http://nationproducts.in/global/api/forgotpassword";
+                url = new URL(LOG_IN);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                conn = (HttpURLConnection)url.openConnection();
+                conn.setReadTimeout(READ_TIMEOUT);
+                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+                conn.setRequestMethod("POST");
+
+                // setDoInput and setDoOutput method depict handling of both send and receive
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+                //conn.connect();
+                Uri.Builder builder = new Uri.Builder()
+                        .appendQueryParameter("user_email", username);
+                String query = builder.build().getEncodedQuery();
+
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(query);
+                writer.flush();
+                writer.close();
+                os.close();
+
+                conn.connect();
+
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+
+
+                result = bufferedReader.readLine();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }finally {
+                conn.disconnect();
+            }
+
+
+
+
+
+
+
+
+
+
+            return null;
+        }
+
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
+            Log.d("asdasdasd" , result);
+
+
+
+            super.onPostExecute(aVoid);
+        }
+    }
+
 
     private void signOut() {
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(

@@ -62,6 +62,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 
@@ -69,7 +75,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
     ArrayList<bean> list;
 
     ImageView iv;
-    private TextView title;
+    private TextView title , siz;
     private Button add , compare;
     private String iidd;
     RatingBar ratrr;
@@ -103,6 +109,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
         add = (Button)view.findViewById(R.id.addtolist);
         title = (TextView)view.findViewById(R.id.title_single);
+        siz = (TextView)view.findViewById(R.id.title_size);
 
         nutrition = new ArrayList<>();
         pieChart = (PieChart)view.findViewById(R.id.pie);
@@ -247,6 +254,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
 
 
+
        // list.add(new bean("price" , price));
        // list.add(new bean("description" , desc));
 
@@ -345,8 +353,11 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
 
 
+        //fetch();
+
         return view;
     }
+
 
 
 
@@ -398,6 +409,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
         rat = 0;
 
         new connect2(GET_REVIEWS + iidd).execute();
+
 
 
 
@@ -502,7 +514,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
         InputStream is;
         String json;
         JSONObject object;
-        String prie , desc , nae;
+        String prie , desc , nae , bran = "" , size="";
         JSONArray mainArray , nutArray;
         String faat , pro , carb;
 
@@ -575,8 +587,10 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
             try {
                 prie = object.getString("price");
                 nae = object.getString("name");
+                size = object.getString("size");
                 pId = object.getString("id");
                 desc = object.getString("description");
+                bran = object.getString("brand");
             } catch (JSONException | NullPointerException e) {
                 e.printStackTrace();
             }
@@ -629,6 +643,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
 
             title.setText(nae);
+            siz.setText(size);
             list.add(new bean("price" , prie));
             list.add(new bean("description" , desc));
 
@@ -636,7 +651,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
 
             calories_single.setText(nutrition.get(0));
-            brand.setText("brand");
+            brand.setText(bran);
             description.setText(desc);
             price_single.setText(prie);
             allergic.setText("allergic");

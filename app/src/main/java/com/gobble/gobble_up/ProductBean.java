@@ -5,9 +5,27 @@ package com.gobble.gobble_up;
  */
 public class ProductBean {
     int id;
-    String image , name , price , protein , calories;
+    String image , name , price , protein , calories , brand , size;
     Boolean set = false;
     Boolean setlist = false;
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+
 
     public void setSetlist(Boolean setlist) {
         this.setlist = setlist;

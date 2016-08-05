@@ -4,8 +4,10 @@ import android.app.Dialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringDef;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,8 +32,19 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class SubCatFragment extends Fragment {
@@ -48,7 +61,6 @@ public class SubCatFragment extends Fragment {
     private ProgressBar bar;
     String name;
     private boolean sort_flag = false;
-    //RelativeLayout bar;
 
     static SubCatFragment newInstance(int page, String id) {
         Bundle args = new Bundle();
@@ -114,14 +126,6 @@ public class SubCatFragment extends Fragment {
 
         grid.setAdapter(adapter);
 
-        grid.addOnScrollListener(new EndlessScrollListener(linearLayoutManager) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount) {
-                // Triggered only when new data needs to be appended to the list
-                // Add whatever code is needed to append new items to the bottom of the list
-                refresh(getArguments().getString("id"));
-            }
-        });
 
 
         filter.setOnClickListener(new View.OnClickListener() {
@@ -142,7 +146,68 @@ public class SubCatFragment extends Fragment {
                 dialog.show();
 
 
+                TextView priceFilter = (TextView)dialog.findViewById(R.id.price_filter);
+                TextView brandFilter = (TextView)dialog.findViewById(R.id.brand_filter);
+
+                final List<String> blist = new ArrayList<String>();
+                final brandAdapter[] adapter1 = new brandAdapter[1];
+                final Set<String> s = new HashSet<String>();
                 final RadioGroup rg = (RadioGroup)dialog.findViewById(R.id.radio_group_pricer);
+                final RadioGroup rg2 = (RadioGroup)dialog.findViewById(R.id.radio_group_brand);
+                final RecyclerView brandList = (RecyclerView)dialog.findViewById(R.id.brand_list);
+
+                priceFilter.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        if (rg2.getVisibility() == View.VISIBLE)
+                        {
+                            rg2.setVisibility(View.GONE);
+                            rg.setVisibility(View.VISIBLE);
+                        }
+
+                    }
+                });
+
+                brandFilter.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        if (rg.getVisibility() == View.VISIBLE)
+                        {
+                            rg.setVisibility(View.GONE);
+                            rg2.setVisibility(View.VISIBLE);
+
+                            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+                            brandList.setLayoutManager(layoutManager);
+
+
+                            for ( int i = 0 ; i < list1.size() ; i++)
+                            {
+                                blist.add(list1.get(i).getBrand());
+                            }
+
+                            s.addAll(blist);
+                            blist.clear();
+                            blist.addAll(s);
+
+                            adapter1[0] = new brandAdapter(getContext() , blist);
+                            brandList.setAdapter(adapter1[0]);
+
+
+                        }
+
+                    }
+                });
+
+
+
+
+
+
+
+
+
 
 
                 TextView clear = (TextView)dialog.findViewById(R.id.clear);
@@ -167,58 +232,113 @@ public class SubCatFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
 
-                        final int selectedId = rg.getCheckedRadioButtonId();
 
-
-
-                        if (selectedId == R.id.price_under_h)
+                        if (rg.getVisibility() == View.VISIBLE)
                         {
-                            Log.d("asdasdasdasd" , "selese");
+                            final int selectedId = rg.getCheckedRadioButtonId();
+
+
+
+                            if (selectedId == R.id.price_under_h)
+                            {
+                                Log.d("asdasdasdasd" , "selese");
+
+                                subList.clear();
+
+                                for (int i = 0 ; i<list1.size() ; i++)
+                                {
+                                    if (Float.parseFloat(list1.get(i).getPrice())<100)
+                                    {
+                                        Log.d("asdasdasd" , "entered");
+                                        subList.add(list1.get(i));
+                                    }
+                                }
+
+
+                                adapter.setGridData(subList);
+                                adapter.notifyDataSetChanged();
+
+                                sort_flag = true;
+                                dialog.dismiss();
+                            }
+
+                            if (selectedId == R.id.price_between_h_and_5h)
+                            {
+                                subList.clear();
+
+                                for (int i = 0 ; i<list1.size() ; i++)
+                                {
+                                    if (Float.parseFloat(list1.get(i).getPrice())<500 && Float.parseFloat(list1.get(i).getPrice())>=100)
+                                    {
+                                        subList.add(list1.get(i));
+                                    }
+                                }
+
+
+
+
+                                adapter.setGridData(subList);
+                                adapter.notifyDataSetChanged();
+
+
+                                sort_flag = true;
+                                dialog.dismiss();
+                            }
+
+                        }
+
+                        if (rg2.getVisibility() == View.VISIBLE)
+                        {
+                            List<String> checkedList = adapter1[0].getCheckedIds();
+
+
+
 
                             subList.clear();
 
-                            for (int i = 0 ; i<list1.size() ; i++)
+                            if (checkedList.size()>0)
                             {
-                                if (Float.parseFloat(list1.get(i).getPrice())<100)
+                                for (int i = 0 ; i<list1.size() ; i++)
                                 {
-                                    Log.d("asdasdasd" , "entered");
-                                    subList.add(list1.get(i));
+
+                                    for (int j = 0 ; j < checkedList.size() ; j++)
+                                    {
+                                        if (Objects.equals(list1.get(i).getBrand(), checkedList.get(j)))
+                                        {
+                                            subList.add(list1.get(i));
+                                        }
+                                    }
+
                                 }
+                                dialog.dismiss();
                             }
+                            else
+                            {
+                                sort_flag = false;
+
+                                adapter.setGridData(list1);
+                                adapter.notifyDataSetChanged();
+
+                                dialog.dismiss();
+                            }
+
+
+
 
 
                             adapter.setGridData(subList);
                             adapter.notifyDataSetChanged();
 
-                            sort_flag = true;
-
-                        }
-
-                        if (selectedId == R.id.price_between_h_and_5h)
-                        {
-                            subList.clear();
-
-                            for (int i = 0 ; i<list1.size() ; i++)
-                            {
-                                if (Float.parseFloat(list1.get(i).getPrice())<500 && Float.parseFloat(list1.get(i).getPrice())>=100)
-                                {
-                                    subList.add(list1.get(i));
-                                }
-                            }
-
-
-
-
-                            adapter.setGridData(subList);
-                            adapter.notifyDataSetChanged();
-
 
                             sort_flag = true;
+
+
 
                         }
 
 
-                        dialog.dismiss();
+
+
 
 
                     }
@@ -466,6 +586,7 @@ public class SubCatFragment extends Fragment {
         list1.clear();
         String url = PROD_BY_CAT + cat;
         new connect(url).execute();
+
         //mProgressBar.setVisibility(View.VISIBLE);
     }
 
@@ -481,7 +602,71 @@ public class SubCatFragment extends Fragment {
 
 
 
+
     }
+
+
+
+
+    public void getch()
+    {
+        String SUB_CATEGORY = "http://nationproducts.in/";
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(SUB_CATEGORY)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        final subCat2API request = retrofit.create(subCat2API.class);
+        Call<ArrayList<ProductBean>> call = request.getBooks(getArguments().getString("id"));
+
+        call.enqueue(new Callback<ArrayList<ProductBean>>() {
+            @Override
+            public void onResponse(Call<ArrayList<ProductBean>> call, Response<ArrayList<ProductBean>> response) {
+
+                list1 = response.body();
+
+
+
+
+
+                try
+                {
+                    CoordinatorLayout coordinatorLayout = (CoordinatorLayout)((MainActivity)getContext()).findViewById(R.id.coordinate);
+                    View view = coordinatorLayout.findViewById(R.id.bottombar);
+                    BottomSheetBehavior bot = BottomSheetBehavior.from(view);
+                    //adapter = new ProdAdapter2(getContext() ,  list1 , bot);
+                    adapter.setGridData(response.body());
+                }catch (NullPointerException e)
+                {
+                    e.printStackTrace();
+                }
+
+                //adapter.setGridData(list1);
+                //grid.setAdapter(adapter);
+
+                adapter.notifyDataSetChanged();
+
+                bar.setVisibility(View.GONE);
+                sortFilter.setVisibility(View.VISIBLE);
+                grid.setVisibility(View.VISIBLE);
+
+
+
+
+
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<ProductBean>> call, Throwable t) {
+             //   Log.d("Error",t.getMessage());
+            }
+        });
+
+
+
+    }
+
+
 
     public class connect extends AsyncTask<Void , Void , Void>
     {
@@ -567,11 +752,17 @@ public class SubCatFragment extends Fragment {
                     bean.setName(obj.getString("name"));
                     bean.setPrice(obj.getString("price"));
 
+                    bean.setBrand(obj.getString("brand"));
+                    bean.setSize(obj.getString("size"));
+
+
+
                     JSONArray nutr = obj.getJSONArray("nutration");
                     JSONObject cal = nutr.getJSONObject(0);
                     JSONObject pro = nutr.getJSONObject(3);
 
                     bean.setCalories(cal.getString("value"));
+
                     bean.setProtein(pro.getString("value"));
 
                     //bean.setDescription(obj.getString("description"));

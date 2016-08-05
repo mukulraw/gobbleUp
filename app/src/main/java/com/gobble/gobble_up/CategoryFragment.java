@@ -7,9 +7,11 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.ListFragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +29,15 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static android.R.attr.data;
 
 
 public class CategoryFragment extends Fragment {
@@ -130,10 +141,55 @@ public class CategoryFragment extends Fragment {
     private void refresh()
     {
         list.clear();
-        String GET_CATEGORY = "http://nationproducts.in/global/api/categories";
-        new connect(GET_CATEGORY).execute();
+
+        //new connect(GET_CATEGORY).execute();
+
+        fetch();
+    }
+
+
+    public void fetch()
+    {
+        String GET_CATEGORY = "http://nationproducts.in/";
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(GET_CATEGORY)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        catAPI request = retrofit.create(catAPI.class);
+        Call<ArrayList<categoryBean>> call = request.getBooks();
+
+        call.enqueue(new Callback<ArrayList<categoryBean>>() {
+            @Override
+            public void onResponse(Call<ArrayList<categoryBean>> call, Response<ArrayList<categoryBean>> response) {
+
+                list = response.body();
+                CatGridAdapter adapter = new CatGridAdapter(getActivity(), response.body());
+
+                Log.d("asdasdasd" , String.valueOf(response.body().size()));
+
+                grid.setAdapter(adapter);
+
+
+                progressBar.setVisibility(View.GONE);
+                bannerText.setVisibility(View.VISIBLE);
+                slide.setVisibility(View.VISIBLE);
+                indi.setVisibility(View.VISIBLE);
+                appBarLayout.setVisibility(View.VISIBLE);
+
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<categoryBean>> call, Throwable t) {
+//                Log.d("Error",t.getMessage());
+            }
+        });
+
+
+
 
     }
+
+
 
 
 
