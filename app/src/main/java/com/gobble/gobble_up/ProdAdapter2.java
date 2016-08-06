@@ -28,7 +28,9 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gobble.gobble_up.POJO.CompareModel;
 import com.gobble.gobble_up.POJO.Model;
+import com.gobble.gobble_up.POJO.ReviewModel;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -48,6 +50,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.zip.Inflater;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
@@ -142,7 +150,7 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
 
                 for (int i = 0 ; i<b.tempList.size() ; i++)
                 {
-                    if (item.getId() == b.tempList.get(i).getId())
+                    if (Objects.equals(item.getId(), b.tempList.get(i).getId()))
                     {
 
                         flag2++;
@@ -178,7 +186,7 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
                     int l = b.tempList.size();
                     for (int i = 0 ; i<l ; i++)
                     {
-                        if (item.getId() == b.tempList.get(i).getId())
+                        if (Objects.equals(item.getId(), b.tempList.get(i).getId()))
                         {
                             index = i;
                         }
@@ -224,7 +232,9 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
         String id = String.valueOf(item.getId());
 
         rat = 0;
-        new connect2(GET_REVIEWS+id , holder.ratingBar).execute();
+        fetch(id , holder.ratingBar);
+
+        //new connect2(GET_REVIEWS+id , holder.ratingBar).execute();
 
 
         holder.switcher.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -346,6 +356,46 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
 
 
 
+
+
+
+    }
+
+
+    public void fetch(String url , final RatingBar rating)
+    {
+        String SUB_CATEGORY = "http://nationproducts.in/";
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(SUB_CATEGORY)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        final ReviewAPI request = retrofit.create(ReviewAPI.class);
+        Call<ArrayList<ReviewModel>> call = request.getBooks(url);
+
+        call.enqueue(new Callback<ArrayList<ReviewModel>>() {
+            @Override
+            public void onResponse(Call<ArrayList<ReviewModel>> call, Response<ArrayList<ReviewModel>> response) {
+
+
+                for (int i = 0 ; i < response.body().size() ; i++)
+                {
+                    rat = rat + Float.parseFloat(response.body().get(i).getRating());
+                }
+
+                rating.setRating(rat/response.body().size());
+
+
+
+
+
+
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<ReviewModel>> call, Throwable t) {
+                //Log.d("Error",t.getMessage());
+            }
+        });
 
 
 

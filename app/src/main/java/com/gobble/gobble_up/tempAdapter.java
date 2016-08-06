@@ -17,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.gobble.gobble_up.POJO.CompareModel;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -30,18 +31,18 @@ import jp.wasabeef.recyclerview.animators.holder.AnimateViewHolder;
  */
 class tempAdapter extends RecyclerView.Adapter<tempAdapter.RecycleViewHolder> implements ItemTouchHelperAdapter {
     private final Context context;
-    List<comparelistBean> list = new ArrayList<>();
+    ArrayList<CompareModel> list = new ArrayList<>();
 
 
 
-    tempAdapter(Context context, List<comparelistBean> list)
+    tempAdapter(Context context, ArrayList<CompareModel> list)
     {
         this.context = context;
         this.list = list;
     }
 
 
-    public void setGridData(List<comparelistBean> list)
+    public void setGridData(ArrayList<CompareModel> list)
     {
      this.list = list;
     }
@@ -57,7 +58,7 @@ class tempAdapter extends RecyclerView.Adapter<tempAdapter.RecycleViewHolder> im
     @Override
     public void onBindViewHolder(final RecycleViewHolder holder, int position) {
 
-        final comparelistBean item = list.get(position);
+        final CompareModel item = list.get(position);
         holder.setIsRecyclable(false);
         DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)
                 .cacheOnDisc(true).resetViewBeforeLoading(false).build();

@@ -27,6 +27,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gobble.gobble_up.POJO.CompareModel;
 import com.gobble.gobble_up.POJO.Model;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -37,18 +38,18 @@ import java.util.List;
 
 class compareAdapter extends RecyclerView.Adapter<compareAdapter.RecycleViewHolder> implements ItemTouchHelperAdapter{
     private final Context context;
-    List<comparelistBean> list = new ArrayList<>();
+    ArrayList<CompareModel> list = new ArrayList<>();
 
     ImageButton a;
 
-    compareAdapter(Context context, List<comparelistBean> list)
+    compareAdapter(Context context, ArrayList<CompareModel> list)
     {
         this.context = context;
         this.list = list;
     }
 
 
-    public void setGridData(List<comparelistBean> list)
+    public void setGridData(ArrayList<CompareModel> list)
     {
         this.list = list;
     }
@@ -63,7 +64,7 @@ class compareAdapter extends RecyclerView.Adapter<compareAdapter.RecycleViewHold
     @Override
     public void onBindViewHolder(final RecycleViewHolder holder, int position) {
 
-        final comparelistBean item = list.get(position);
+        final CompareModel item = list.get(position);
         holder.setIsRecyclable(false);
         DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)
                 .cacheOnDisc(true).resetViewBeforeLoading(false).build();
@@ -88,19 +89,19 @@ class compareAdapter extends RecyclerView.Adapter<compareAdapter.RecycleViewHold
 
             holder.price.setText("Price: "+item.getPrice());
             holder.name.setText(item.getName());
-            holder.calories.setText(Html.fromHtml("<b><i>Calories:   </i></b>"+item.getCalories()));
+            holder.calories.setText(Html.fromHtml("<b><i>Calories:   </i></b>"+item.getNutration().get(0).getValue()));
             //holder.calories.setText("<b>Calories:   </b>"+item.getCalories());
-            holder.fat.setText(Html.fromHtml("<b><i>Calories:   </i></b>"+item.getCalories()));
-            holder.carbs.setText(Html.fromHtml("<b><i>Carbohydrates:   </i></b>"+item.getCarbs()));
-            holder.protein.setText(Html.fromHtml("<b><i>Protein:   </i></b>"+item.getProtein()));
-            holder.sodium.setText(Html.fromHtml("<b><i>Sodium:   </i></b>"+item.getSodium()));
-            holder.potassium.setText(Html.fromHtml("<b><i>Potassium:   </i></b>"+item.getPotassium()));
-            holder.fiber.setText(Html.fromHtml("<b><i>Fiber:   </i></b>"+item.getFiber()));
-            holder.sugar.setText(Html.fromHtml("<b><i>Sugar:   </i></b>"+item.getSugar()));
-            holder.vita.setText(Html.fromHtml("<b><i>Vitamin A:   </i></b>"+item.getVita()));
-            holder.vitc.setText(Html.fromHtml("<b><i>Vitamin C:   </i></b>"+item.getVitc()));
-            holder.calcium.setText(Html.fromHtml("<b><i>Calcium:   </i></b>"+item.getCalcium()));
-            holder.iron.setText(Html.fromHtml("<b><i>Iron:   </i></b>"+item.getIron()));
+            holder.fat.setText(Html.fromHtml("<b><i>Calories:   </i></b>"+item.getNutration().get(1).getValue()));
+            holder.carbs.setText(Html.fromHtml("<b><i>Carbohydrates:   </i></b>"+item.getNutration().get(2).getValue()));
+            holder.protein.setText(Html.fromHtml("<b><i>Protein:   </i></b>"+item.getNutration().get(3).getValue()));
+            holder.sodium.setText(Html.fromHtml("<b><i>Sodium:   </i></b>"+item.getNutration().get(4).getValue()));
+            holder.potassium.setText(Html.fromHtml("<b><i>Potassium:   </i></b>"+item.getNutration().get(5).getValue()));
+            holder.fiber.setText(Html.fromHtml("<b><i>Fiber:   </i></b>"+item.getNutration().get(6).getValue()));
+            holder.sugar.setText(Html.fromHtml("<b><i>Sugar:   </i></b>"+item.getNutration().get(7).getValue()));
+            holder.vita.setText(Html.fromHtml("<b><i>Vitamin A:   </i></b>"+item.getNutration().get(8).getValue()));
+            holder.vitc.setText(Html.fromHtml("<b><i>Vitamin C:   </i></b>"+item.getNutration().get(9).getValue()));
+            holder.calcium.setText(Html.fromHtml("<b><i>Calcium:   </i></b>"+item.getNutration().get(10).getValue()));
+            holder.iron.setText(Html.fromHtml("<b><i>Iron:   </i></b>"+item.getNutration().get(11).getValue()));
 
 
         final comparebean b = (comparebean)context.getApplicationContext();

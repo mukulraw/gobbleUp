@@ -125,9 +125,9 @@ public class SubCatFragment extends Fragment {
 
         list1 = new ArrayList<>();
         subList = new ArrayList<>();
-        //adapter = new ProdAdapter2(getContext() , list1 , bot);
+        adapter = new ProdAdapter2(getContext() , list1 , bot);
 
-        //grid.setAdapter(adapter);
+        grid.setAdapter(adapter);
 
 
 
@@ -639,19 +639,17 @@ public class SubCatFragment extends Fragment {
                     CoordinatorLayout coordinatorLayout = (CoordinatorLayout)((MainActivity)getContext()).findViewById(R.id.coordinate);
                     View view = coordinatorLayout.findViewById(R.id.bottombar);
                     BottomSheetBehavior bot = BottomSheetBehavior.from(view);
-                    adapter = new ProdAdapter2(getContext() ,  list1 , bot);
+                    //adapter = new ProdAdapter2(getContext() ,  list1 , bot);
                     adapter.setGridData(list1);
                 }catch (NullPointerException e)
                 {
                     e.printStackTrace();
                 }
 
-
-
                 //adapter.setGridData(list1);
                 //grid.setAdapter(adapter);
 
-                //adapter.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
 
                 bar.setVisibility(View.GONE);
                 sortFilter.setVisibility(View.VISIBLE);

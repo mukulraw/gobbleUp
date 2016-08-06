@@ -18,6 +18,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gobble.gobble_up.POJO.CompareModel;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,12 +36,17 @@ import java.util.List;
 import jp.wasabeef.recyclerview.animators.ScaleInAnimator;
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
 import jp.wasabeef.recyclerview.animators.SlideInRightAnimator;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class TempList extends AppCompatActivity {
 
     RecyclerView listview;
     private String GET_PRODUCT = "http://nationproducts.in/global/api/product/id/";
-    List<comparelistBean> list;
+    ArrayList<CompareModel> list;
     LinearLayoutManager layoutManager;
     TextView saveList;
     ProgressBar progressBar;
@@ -53,7 +60,7 @@ public class TempList extends AppCompatActivity {
         listview = (RecyclerView)findViewById(R.id.temp_list);
 
 
-
+        list = new ArrayList<>();
 
         empty = (TextView)findViewById(R.id.tempEmptyMessage);
         saveList = (TextView)findViewById(R.id.saveList);
@@ -72,15 +79,15 @@ public class TempList extends AppCompatActivity {
         }
 
 
-        adapter = new tempAdapter(this , list);
+        adapter = new tempAdapter(getApplicationContext() , list);
 
         ScaleInAnimator animator = new ScaleInAnimator();
-        animator.setAddDuration(2000);
-        animator.setRemoveDuration(2000);
+        animator.setAddDuration(500);
+        animator.setRemoveDuration(500);
 
 
         SlideInRightAnimator animator1 = new SlideInRightAnimator();
-        animator1.setRemoveDuration(1000);
+        animator1.setRemoveDuration(500);
 
 
         listview.setItemAnimator(animator1);
@@ -172,7 +179,7 @@ public class TempList extends AppCompatActivity {
 
 
         final comparebean b = (comparebean)this.getApplicationContext();
-        list = new ArrayList<>();
+
 
         list.clear();
         progressBar.setVisibility(View.VISIBLE);
@@ -190,15 +197,9 @@ public class TempList extends AppCompatActivity {
             Log.d("asdasdasd" , id);
 
 
+            fetch(id);
 
-            if (i<(length-1))
-            {
-                new connect(GET_PRODUCT+id).execute();
-            }
-            else
-            {
-                new connect2(GET_PRODUCT+id).execute();
-            }
+
 
         }
     }
@@ -232,6 +233,58 @@ public class TempList extends AppCompatActivity {
         }
 
     }
+
+
+
+
+    public void fetch(String iid)
+    {
+        String SUB_CATEGORY = "http://nationproducts.in/";
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(SUB_CATEGORY)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        final CompareAPI request = retrofit.create(CompareAPI.class);
+        Call<ArrayList<CompareModel>> call = request.getBooks(iid);
+
+        call.enqueue(new Callback<ArrayList<CompareModel>>() {
+            @Override
+            public void onResponse(Call<ArrayList<CompareModel>> call, Response<ArrayList<CompareModel>> response) {
+
+                Log.d("asdasdasd" , response.body().toString());
+
+
+                list.add(response.body().get(0));
+                adapter.notifyItemInserted(list.size()-1);
+
+
+                listview.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
+
+                //adapter.setGridData(list);
+
+
+
+                //adapter = new tempAdapter(getApplicationContext() , list);
+
+                saveList.setVisibility(View.VISIBLE);
+                listview.setVisibility(View.VISIBLE);
+
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<CompareModel>> call, Throwable t) {
+                //Log.d("Error",t.getMessage());
+            }
+        });
+
+
+
+
+
+
+    }
+
 
     public class connect extends AsyncTask<Void , Void , Void>
     {
@@ -372,7 +425,7 @@ public class TempList extends AppCompatActivity {
 
 
 
-
+/*
 
             comparelistBean bean = new comparelistBean();
             bean.setImage(ima);
@@ -395,7 +448,7 @@ public class TempList extends AppCompatActivity {
 
 
             empty.setVisibility(View.GONE);
-
+*/
 
 
         }
@@ -541,7 +594,7 @@ public class TempList extends AppCompatActivity {
 
 
 
-
+/*
 
             comparelistBean bean = new comparelistBean();
             bean.setImage(ima);
@@ -570,7 +623,7 @@ public class TempList extends AppCompatActivity {
             {
                 adapter.addItem(i);
             }
-
+*/
 
             //adapter = new tempAdapter(getApplicationContext() , list);
 

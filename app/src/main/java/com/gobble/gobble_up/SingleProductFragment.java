@@ -46,7 +46,9 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.gobble.gobble_up.POJO.CompareModel;
 import com.gobble.gobble_up.POJO.Model;
+import com.gobble.gobble_up.POJO.ReviewModel;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -62,6 +64,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -73,7 +76,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 public class SingleProductFragment extends Fragment implements View.OnClickListener {
-    ArrayList<bean> list;
+    //ArrayList<CompareModel> list;
 
     ImageView iv;
     private TextView title , siz;
@@ -222,7 +225,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
         add.setBackground(getResources().getDrawable(R.drawable.grey));
         for (int k = 0 ; k<b.tempList.size() ; k++)
         {
-            if (iidd == b.tempList.get(k).getId())
+            if (Objects.equals(iidd, b.tempList.get(k).getId()))
             {
                 add.setText("ADDED");
                 add.setBackground(getResources().getDrawable(R.drawable.dark));
@@ -244,14 +247,16 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
         imageLoader.displayImage(getArguments().getString("image") , iv , options);
 
 
-        list = new ArrayList<>();
+       // list = new ArrayList<>();
 
         String GET_PRODUCT = "http://nationproducts.in/global/api/product/id/";
 
 
 
-        new connect(GET_PRODUCT +iidd).execute();
+        //new connect(GET_PRODUCT +iidd).execute();
 
+
+        fetch(iidd);
 
 
 
@@ -362,7 +367,134 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
 
 
+    public void fetch(String iid)
+    {
+        String SUB_CATEGORY = "http://nationproducts.in/";
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(SUB_CATEGORY)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        final CompareAPI request = retrofit.create(CompareAPI.class);
+        Call<ArrayList<CompareModel>> call = request.getBooks(iid);
 
+        call.enqueue(new Callback<ArrayList<CompareModel>>() {
+            @Override
+            public void onResponse(Call<ArrayList<CompareModel>> call, Response<ArrayList<CompareModel>> response) {
+
+
+                String faat = response.body().get(0).getNutration().get(1).getValue().toString();
+                String pro = response.body().get(0).getNutration().get(3).getValue().toString();
+                String carb = response.body().get(0).getNutration().get(2).getValue().toString();
+
+                title.setText(response.body().get(0).getName());
+                siz.setText(response.body().get(0).getSize());
+                //list.add(new bean("price" , prie);
+                //list.add(new bean("description" , desc));
+
+
+
+
+                calories_single.setText(response.body().get(0).getNutration().get(0).getValue().toString());
+                brand.setText(response.body().get(0).getBrand());
+                description.setText(response.body().get(0).getDescription());
+                price_single.setText(response.body().get(0).getPrice());
+                allergic.setText("allergic");
+                allergic.setVisibility(View.GONE);
+
+
+                sliderName.setText(response.body().get(0).getName());
+                sliderBelowText.setText("There are "+ response.body().get(0).getNutration().get(0).getValue()+ " in a 100g serving of "+ response.body().get(0).getName()+".\n"+"Calorie breakdown: "+response.body().get(0).getNutration().get(1).getValue()+" fat, "+response.body().get(0).getNutration().get(2).getValue()+" carbs, "+response.body().get(0).getNutration().get(3).getValue()+" protein.");
+
+                calories.setText(response.body().get(0).getNutration().get(0).getValue().toString());
+                fat.setText(response.body().get(0).getNutration().get(1).getValue().toString());
+                carbs.setText(response.body().get(0).getNutration().get(2).getValue().toString());
+                protein.setText(response.body().get(0).getNutration().get(3).getValue().toString());
+                sodium.setText(response.body().get(0).getNutration().get(4).getValue().toString());
+                potassium.setText(response.body().get(0).getNutration().get(5).getValue().toString());
+                fiber.setText(response.body().get(0).getNutration().get(6).getValue().toString());
+                sugar.setText(response.body().get(0).getNutration().get(7).getValue().toString());
+                vita.setText(response.body().get(0).getNutration().get(8).getValue().toString());
+                vitc.setText(response.body().get(0).getNutration().get(9).getValue().toString());
+                calcium.setText(response.body().get(0).getNutration().get(10).getValue().toString());
+                iron.setText(response.body().get(0).getNutration().get(11).getValue().toString());
+
+                float fatt = Float.parseFloat(faat);
+                float proo = Float.parseFloat(pro);
+                float carbb = Float.parseFloat(carb);
+
+
+
+
+                ArrayList<Entry> entries = new ArrayList<>();
+
+                entries.add(new Entry(fatt , 0));
+                entries.add(new Entry(carbb , 1));
+                entries.add(new Entry(proo , 2));
+
+
+
+                PieDataSet dataset = new PieDataSet(entries, null);
+                dataset.setSliceSpace(3);
+                dataset.setSelectionShift(5);
+
+                dataset.setColors(ColorTemplate.VORDIPLOM_COLORS);
+
+                ArrayList<String> labels = new ArrayList<String>();
+
+                labels.add("Fat");
+                labels.add("Carbohydrates");
+                labels.add("Protein");
+
+
+
+
+
+                PieData data = new PieData(labels, dataset);
+                data.setValueFormatter(new PercentFormatter());
+                data.setValueTextSize(11f);
+                data.setValueTextColor(Color.BLACK);
+                pieChart.setData(data);
+                pieChart.setDescription("Nutrition");
+                pieChart.animate();
+
+                pieChart.invalidate();
+
+
+
+                ArrayList<BarEntry> entries1 = new ArrayList<>();
+                entries1.add(new BarEntry(fatt , 0));
+                entries1.add(new BarEntry(carbb , 1));
+                entries1.add(new BarEntry(proo , 2));
+
+                BarDataSet barDataSet = new BarDataSet(entries1 , null);
+
+                barDataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
+                BarData data1 = new BarData(labels ,  barDataSet);
+                //data1.setValueFormatter(new PercentFormatter());
+                data1.setValueTextSize(11f);
+                data1.setValueTextColor(Color.BLACK);
+                barChart.setData(data1);
+                barChart.animate();
+                barChart.setDescription("");
+                barChart.invalidate();
+
+
+
+
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<CompareModel>> call, Throwable t) {
+                //Log.d("Error",t.getMessage());
+            }
+        });
+
+
+
+
+
+
+    }
 
 
 
@@ -381,7 +513,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
         for (int k = 0 ; k<b.tempList.size() ; k++)
         {
-            if (iidd == b.tempList.get(k).getId())
+            if (Objects.equals(iidd, b.tempList.get(k).getId()))
             {
                 add.setText("ADDED");
                 add.setBackground(getResources().getDrawable(R.drawable.dark));
@@ -397,7 +529,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
 
 
-            if (b.list.get(i).getId() == iidd)
+            if (Objects.equals(b.list.get(i).getId(), iidd))
             {
                 compare.setBackground(getResources().getDrawable(R.drawable.dark));
 
@@ -408,8 +540,9 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
         rat = 0;
 
-        new connect2(GET_REVIEWS + iidd).execute();
+        //new connect2(GET_REVIEWS + iidd).execute();
 
+        fetch2(iidd);
 
 
 
@@ -643,8 +776,8 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
             title.setText(nae);
             siz.setText(size);
-            list.add(new bean("price" , prie));
-            list.add(new bean("description" , desc));
+           // list.add(new bean("price" , prie));
+           // list.add(new bean("description" , desc));
 
 
 
@@ -851,6 +984,49 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
     }
 
 
+    public void fetch2(String url)
+    {
+        String SUB_CATEGORY = "http://nationproducts.in/";
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(SUB_CATEGORY)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        final ReviewAPI request = retrofit.create(ReviewAPI.class);
+        Call<ArrayList<ReviewModel>> call = request.getBooks(url);
+
+        call.enqueue(new Callback<ArrayList<ReviewModel>>() {
+            @Override
+            public void onResponse(Call<ArrayList<ReviewModel>> call, Response<ArrayList<ReviewModel>> response) {
+
+
+                for (int i = 0 ; i < response.body().size() ; i++)
+                {
+                    rat = rat + Float.parseFloat(response.body().get(i).getRating());
+                }
+
+                ratrr.setRating(rat/response.body().size());
+
+
+                scroller.setVisibility(View.VISIBLE);
+
+                barr.setVisibility(View.GONE);
+
+
+
+
+
+
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<ReviewModel>> call, Throwable t) {
+                //Log.d("Error",t.getMessage());
+            }
+        });
+
+
+
+    }
 
 
 

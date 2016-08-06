@@ -6,6 +6,8 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -28,6 +30,8 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.gobble.gobble_up.POJO.CompareModel;
+import com.gobble.gobble_up.POJO.Model;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,6 +48,11 @@ import java.util.List;
 
 import jp.wasabeef.recyclerview.animators.ScaleInTopAnimator;
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by hi on 6/16/2016.
@@ -51,7 +60,7 @@ import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 public class Compare2 extends AppCompatActivity {
 
     RecyclerView listview;
-    List<comparelistBean> list;
+    ArrayList<CompareModel> list;
 
     GridLayoutManager lLayout;
     LinearLayoutManager layoutManager;
@@ -170,10 +179,6 @@ compareAdapter adapter;
 
         bar.setVisibility(View.VISIBLE);
 
-
-
-
-
         int length = b.list.size();
 
         if (length == 0)
@@ -182,37 +187,79 @@ compareAdapter adapter;
             empty.setVisibility(View.VISIBLE);
 
         }
-        else
+
+
+
+        if (length>1)
+        {
+            for (int i = 0 ; i<length ; i++)
+        {
+            String id = String.valueOf(b.list.get(i).getId());
+
+
+
+            String GET_PRODUCT = "http://nationproducts.in/global/api/product/id/";
+
+            fetch(id);
+
+
+        }
+
+        }else
         {
 
-            for (int i = 0 ; i<length ; i++)
-            {
-                if (length == 0)
-                {
-                    bar.setVisibility(View.GONE);
-                    empty.setVisibility(View.VISIBLE);
-                }
-
-                String id = String.valueOf(b.list.get(i).getId());
-                Log.d("asdasdasd" , id);
-
-
-                String GET_PRODUCT = "http://nationproducts.in/global/api/product/id/";
-                if (i<length-1)
-                {
-                    new connect(GET_PRODUCT +id).execute();
-                }
-                else {
-                    new connect2(GET_PRODUCT +id).execute();
-                }
-
-
-            }
+            Toast.makeText(getApplicationContext() , "Only one item to compare" , Toast.LENGTH_SHORT).show();
         }
 
 
 
     }
+
+
+
+
+    public void fetch(String iid)
+    {
+        String SUB_CATEGORY = "http://nationproducts.in/";
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(SUB_CATEGORY)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        final CompareAPI request = retrofit.create(CompareAPI.class);
+        Call<ArrayList<CompareModel>> call = request.getBooks(iid);
+
+        call.enqueue(new Callback<ArrayList<CompareModel>>() {
+            @Override
+            public void onResponse(Call<ArrayList<CompareModel>> call, Response<ArrayList<CompareModel>> response) {
+
+                Log.d("asdasdasd" , response.body().toString());
+
+
+                list.add(response.body().get(0));
+                adapter.notifyItemInserted(list.size()-1);
+
+                bar.setVisibility(View.GONE);
+
+                listview.setVisibility(View.VISIBLE);
+
+
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<CompareModel>> call, Throwable t) {
+                   //Log.d("Error",t.getMessage());
+            }
+        });
+
+
+
+
+
+
+    }
+
+
+
 
 
     public class connect extends AsyncTask<Void , Void , Void>
@@ -355,7 +402,7 @@ compareAdapter adapter;
 
 
 
-
+/*
             comparelistBean bean = new comparelistBean();
             bean.setImage(ima);
             bean.setId(idd);
@@ -379,7 +426,7 @@ compareAdapter adapter;
             //compareAdapter adapter = new compareAdapter(getApplicationContext() , list);
 
             empty.setVisibility(View.GONE);
-
+*/
 
 
 
@@ -529,7 +576,7 @@ compareAdapter adapter;
 
 
 
-            comparelistBean bean = new comparelistBean();
+      /*      comparelistBean bean = new comparelistBean();
             bean.setImage(ima);
             bean.setId(idd);
             bean.setPrice(prie);
@@ -557,7 +604,7 @@ compareAdapter adapter;
             adapter.setGridData(list);
             adapter.notifyDataSetChanged();
 
-
+*/
 
 
 
