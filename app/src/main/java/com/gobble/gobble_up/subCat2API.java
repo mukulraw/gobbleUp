@@ -1,5 +1,7 @@
 package com.gobble.gobble_up;
 
+import com.gobble.gobble_up.POJO.Model;
+
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -10,7 +12,7 @@ interface subCat2API {
 
 
     @GET("global/api/products/id/{id}")
-    Call<ArrayList<ProductBean>> getBooks(
+    Call<ArrayList<Model>> getBooks(
             @Path("id") String id
     );
 

@@ -28,6 +28,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gobble.gobble_up.POJO.Model;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -45,19 +46,20 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.zip.Inflater;
 
 
 class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
     private Context context;
     private String GET_REVIEWS = "http://nationproducts.in/global/api/productreviews/id/";
-    private ArrayList<ProductBean> list = new ArrayList<>();
+    private ArrayList<Model> list = new ArrayList<>();
 
     BottomSheetBehavior bar;
 
     float rat = 0;
 
-    ProdAdapter2(Context context, ArrayList<ProductBean> list, BottomSheetBehavior bar)
+    ProdAdapter2(Context context, ArrayList<Model> list, BottomSheetBehavior bar)
     {
 
         this.context = context;
@@ -66,7 +68,7 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
     }
 
 
-    public void setGridData(ArrayList<ProductBean> list)
+    public void setGridData(ArrayList<Model> list)
     {
         this.list = list;
     }
@@ -80,22 +82,13 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
 
 
 
-    public void sort(ArrayList<ProductBean> list2)
-    {
-        this.list.clear();
-        this.list = list2;
-    }
 
-    public void filter(ArrayList<ProductBean> list3)
-    {
-        this.list = list3;
-    }
 
 
     @Override
     public void onBindViewHolder(final RecycleViewHolder holder, int position) {
         final comparebean b = (comparebean)context.getApplicationContext();
-        final ProductBean item = list.get(position);
+        final Model item = list.get(position);
      //   Log.d("asdasdasd" , "adapter2");
 
         holder.setIsRecyclable(false);
@@ -110,10 +103,10 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
         holder.priceTextView.setText(price);
 
 
-        for (int i = 0 ; i<list.size() ; i++) {
+        for (int i = 0 ; i<b.list.size() ; i++) {
 
 
-            if (item.getSet()) {
+            if (Objects.equals(item.getId(), b.list.get(i).getId())) {
                 holder.switcher.setChecked(true);
 
             }
@@ -122,7 +115,7 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
 
         for (int i = 0 ; i<b.tempList.size() ; i++)
         {
-            if (item.getId() == b.tempList.get(i).getId())
+            if (Objects.equals(item.getId(), b.tempList.get(i).getId()))
             {
 
                 holder.addlist.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.minus , 0);
@@ -165,7 +158,6 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
                 {
                     b.tempList.add(item);
                     b.comparecount++;
-                    item.setSetlist(true);
                     if (bar.getState() == BottomSheetBehavior.STATE_COLLAPSED)
                     {
 
@@ -195,7 +187,6 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
 
                     b.tempList.remove(index);
                     b.comparecount--;
-                    item.setSetlist(false);
 
                     holder.addlist.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.plus2 , 0);
 
@@ -252,7 +243,6 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
 
                         b.list.add(item);
                         b.comparecount++;
-                        item.setSet(true);
 
                         if (bar.getState() == BottomSheetBehavior.STATE_COLLAPSED)
                         {
@@ -323,7 +313,7 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
 
 
                     b.list.remove(index);
-                    item.setSet(false);
+
                     b.comparecount--;
                     TextView comp = (TextView)((MainActivity)context).findViewById(R.id.textView4);
                     comp.setText(String.valueOf(b.list.size()));
@@ -544,26 +534,18 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
 
         }
 
-        public void bind(ProductBean item) {
 
-            titleTextView.setText(item.getName());
-            priceTextView.setText(item.getPrice());
-            new loadImage(imageView , item.getImage()).execute();
-
-        }
 
         @Override
         public void onClick(View v) {
 
-            ProductBean item = (ProductBean) list.get(getPosition());
+            Model item = list.get(getAdapterPosition());
 
             SingleProductFragment frag3 = new SingleProductFragment();
             Bundle b = new Bundle();
 
             b.putString("id" , String.valueOf(item.getId()));
-            //b.putString("name" , item.getName());
-            //b.putString("price" , item.getPrice());
-            //b.putString("desc" , item.getDescription());
+
             b.putString("image" , item.getImage());
 
             frag3.setArguments(b);

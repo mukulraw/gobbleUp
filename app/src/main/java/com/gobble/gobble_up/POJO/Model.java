@@ -1,16 +1,12 @@
-package com.gobble.gobble_up;
-
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+package com.gobble.gobble_up.POJO;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by hi on 8/5/2016.
- */
+public class Model {
 
-public class Example {
     @SerializedName("id")
     @Expose
     private String id;
@@ -32,15 +28,12 @@ public class Example {
     @SerializedName("size")
     @Expose
     private String size;
-    @SerializedName("description")
-    @Expose
-    private String description;
-    @SerializedName("image")
-    @Expose
-    private String image;
     @SerializedName("nutration")
     @Expose
     private List<Nutration> nutration = new ArrayList<Nutration>();
+    @SerializedName("image")
+    @Expose
+    private String image;
 
     /**
      *
@@ -171,19 +164,19 @@ public class Example {
     /**
      *
      * @return
-     * The description
+     * The nutration
      */
-    public String getDescription() {
-        return description;
+    public List<Nutration> getNutration() {
+        return nutration;
     }
 
     /**
      *
-     * @param description
-     * The description
+     * @param nutration
+     * The nutration
      */
-    public void setDescription(String description) {
-        this.description = description;
+    public void setNutration(List<Nutration> nutration) {
+        this.nutration = nutration;
     }
 
     /**
@@ -204,21 +197,4 @@ public class Example {
         this.image = image;
     }
 
-    /**
-     *
-     * @return
-     * The nutration
-     */
-    public List<Nutration> getNutration() {
-        return nutration;
-    }
-
-    /**
-     *
-     * @param nutration
-     * The nutration
-     */
-    public void setNutration(List<Nutration> nutration) {
-        this.nutration = nutration;
-    }
 }

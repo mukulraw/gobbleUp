@@ -27,6 +27,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gobble.gobble_up.POJO.Model;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -105,7 +106,7 @@ class compareAdapter extends RecyclerView.Adapter<compareAdapter.RecycleViewHold
         final comparebean b = (comparebean)context.getApplicationContext();
         for (int i = 0 ; i<b.tempList.size() ; i++)
         {
-            if (Integer.parseInt(item.getId()) == b.tempList.get(i).getId())
+            if (item.getId() == b.tempList.get(i).getId())
             {
                 holder.add.setBackground(context.getResources().getDrawable(R.drawable.list_yellow));
             }
@@ -122,7 +123,7 @@ class compareAdapter extends RecyclerView.Adapter<compareAdapter.RecycleViewHold
 
                 for (int i = 0 ; i<b.tempList.size() ; i++)
                 {
-                    if (Integer.parseInt(item.getId()) == b.tempList.get(i).getId())
+                    if (item.getId() == b.tempList.get(i).getId())
                     {
                         flag++;
                     }
@@ -131,9 +132,8 @@ class compareAdapter extends RecyclerView.Adapter<compareAdapter.RecycleViewHold
 
                 if (flag <1)
                 {
-                    ProductBean item1 = new ProductBean();
-                    item1.setId(Integer.parseInt(item.getId()));
-                    item1.setSetlist(true);
+                    Model item1 = new Model();
+                    item1.setId(item.getId());
                     b.tempList.add(item1);
                     b.comparecount++;
 

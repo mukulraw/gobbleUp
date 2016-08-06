@@ -46,6 +46,7 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.gobble.gobble_up.POJO.Model;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -221,7 +222,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
         add.setBackground(getResources().getDrawable(R.drawable.grey));
         for (int k = 0 ; k<b.tempList.size() ; k++)
         {
-            if (Integer.parseInt(iidd) == b.tempList.get(k).getId())
+            if (iidd == b.tempList.get(k).getId())
             {
                 add.setText("ADDED");
                 add.setBackground(getResources().getDrawable(R.drawable.dark));
@@ -268,7 +269,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
                 int flag = 0;
                 for (int i = 0 ; i<b.list.size() ; i++)
                 {
-                    if (b.list.get(i).getId() == Integer.parseInt(iidd))
+                    if (b.list.get(i).getId() == iidd)
                     {
                        flag = 1;
                     }
@@ -280,13 +281,12 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
                 }
                 else
                 {
-                    ProductBean item = new ProductBean();
+                    Model item = new Model();
                     if (b.list.size() < 4)
                     {
-                        item.setId(Integer.parseInt(iidd));
+                        item.setId(iidd);
                         b.list.add(item);
                         b.comparecount++;
-                        item.setSet(true);
                         compare.setBackground(getResources().getDrawable(R.drawable.dark));
                         //Toast.makeText(getContext() , "Added to compare" , Toast.LENGTH_SHORT).show();
 
@@ -381,7 +381,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
         for (int k = 0 ; k<b.tempList.size() ; k++)
         {
-            if (Integer.parseInt(iidd) == b.tempList.get(k).getId())
+            if (iidd == b.tempList.get(k).getId())
             {
                 add.setText("ADDED");
                 add.setBackground(getResources().getDrawable(R.drawable.dark));
@@ -397,7 +397,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
 
 
-            if (b.list.get(i).getId() == Integer.parseInt(iidd))
+            if (b.list.get(i).getId() == iidd)
             {
                 compare.setBackground(getResources().getDrawable(R.drawable.dark));
 
@@ -438,9 +438,8 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
             if (!add.getText().equals("ADDED"))
             {
-                ProductBean item = new ProductBean();
-                item.setId(Integer.parseInt(iidd));
-                item.setSetlist(true);
+                Model item = new Model();
+                item.setId(iidd);
                 b.tempList.add(item);
                 b.comparecount++;
                 add.setText("ADDED");

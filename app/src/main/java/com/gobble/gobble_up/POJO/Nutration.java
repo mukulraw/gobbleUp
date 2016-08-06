@@ -1,11 +1,7 @@
-package com.gobble.gobble_up;
+package com.gobble.gobble_up.POJO;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-/**
- * Created by hi on 8/5/2016.
- */
 
 public class Nutration {
     @SerializedName("id")
@@ -113,5 +109,4 @@ public class Nutration {
     public void setUnit(String unit) {
         this.unit = unit;
     }
-
 }

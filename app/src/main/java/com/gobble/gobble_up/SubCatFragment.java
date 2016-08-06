@@ -22,6 +22,9 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
+import com.gobble.gobble_up.POJO.Model;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,8 +53,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class SubCatFragment extends Fragment {
 
     private String PROD_BY_CAT = "http://nationproducts.in/global/api/products/id/";
-    private ArrayList<ProductBean> list1;
-    private ArrayList<ProductBean> subList;
+    private ArrayList<Model> list1;
+    private ArrayList<Model> subList;
     private ProdAdapter2 adapter;
     private RecyclerView grid;
     private int page;
@@ -122,9 +125,9 @@ public class SubCatFragment extends Fragment {
 
         list1 = new ArrayList<>();
         subList = new ArrayList<>();
-        adapter = new ProdAdapter2(getContext() , list1 , bot);
+        //adapter = new ProdAdapter2(getContext() , list1 , bot);
 
-        grid.setAdapter(adapter);
+        //grid.setAdapter(adapter);
 
 
 
@@ -395,9 +398,9 @@ public class SubCatFragment extends Fragment {
                         {
                             if (!sort_flag)
                             {
-                                Collections.sort(list1, new Comparator<ProductBean>() {
+                                Collections.sort(list1, new Comparator<Model>() {
                                     @Override
-                                    public int compare(ProductBean lhs, ProductBean rhs) {
+                                    public int compare(Model lhs, Model rhs) {
                                         if (Float.parseFloat(lhs.getPrice()) < Float.parseFloat(rhs.getPrice()))
                                             return 1;
                                         else
@@ -411,9 +414,9 @@ public class SubCatFragment extends Fragment {
                             }
                             else
                             {
-                                Collections.sort(subList, new Comparator<ProductBean>() {
+                                Collections.sort(subList, new Comparator<Model>() {
                                     @Override
-                                    public int compare(ProductBean lhs, ProductBean rhs) {
+                                    public int compare(Model lhs, Model rhs) {
                                         if (Float.parseFloat(lhs.getPrice()) < Float.parseFloat(rhs.getPrice()))
                                             return 1;
                                         else
@@ -433,9 +436,9 @@ public class SubCatFragment extends Fragment {
                         {
                             if (!sort_flag)
                             {
-                                Collections.sort(list1, new Comparator<ProductBean>() {
+                                Collections.sort(list1, new Comparator<Model>() {
                                     @Override
-                                    public int compare(ProductBean lhs, ProductBean rhs) {
+                                    public int compare(Model lhs, Model rhs) {
                                         if (Float.parseFloat(lhs.getPrice()) > Float.parseFloat(rhs.getPrice()))
                                             return 1;
                                         else
@@ -448,9 +451,9 @@ public class SubCatFragment extends Fragment {
                                 adapter.notifyDataSetChanged();
                             }
                             else {
-                                Collections.sort(subList, new Comparator<ProductBean>() {
+                                Collections.sort(subList, new Comparator<Model>() {
                                     @Override
-                                    public int compare(ProductBean lhs, ProductBean rhs) {
+                                    public int compare(Model lhs, Model rhs) {
                                         if (Float.parseFloat(lhs.getPrice()) > Float.parseFloat(rhs.getPrice()))
                                             return 1;
                                         else
@@ -469,10 +472,10 @@ public class SubCatFragment extends Fragment {
                         {
                             if (!sort_flag)
                             {
-                                Collections.sort(list1, new Comparator<ProductBean>() {
+                                Collections.sort(list1, new Comparator<Model>() {
                                     @Override
-                                    public int compare(ProductBean lhs, ProductBean rhs) {
-                                        if (Float.parseFloat(lhs.getProtein()) < Float.parseFloat(rhs.getProtein()))
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(3).getValue().toString()) < Float.parseFloat(rhs.getNutration().get(3).getValue().toString()))
                                             return 1;
                                         else
                                             return -1;
@@ -486,10 +489,10 @@ public class SubCatFragment extends Fragment {
                             }
                             else
                             {
-                                Collections.sort(subList, new Comparator<ProductBean>() {
+                                Collections.sort(subList, new Comparator<Model>() {
                                     @Override
-                                    public int compare(ProductBean lhs, ProductBean rhs) {
-                                        if (Float.parseFloat(lhs.getProtein()) < Float.parseFloat(rhs.getProtein()))
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(3).getValue().toString()) < Float.parseFloat(rhs.getNutration().get(3).getValue().toString()))
                                             return 1;
                                         else
                                             return -1;
@@ -509,10 +512,10 @@ public class SubCatFragment extends Fragment {
                         {
                             if (!sort_flag)
                             {
-                                Collections.sort(list1, new Comparator<ProductBean>() {
+                                Collections.sort(list1, new Comparator<Model>() {
                                     @Override
-                                    public int compare(ProductBean lhs, ProductBean rhs) {
-                                        if (Float.parseFloat(lhs.getCalories()) < Float.parseFloat(rhs.getCalories()))
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(0).getValue().toString()) < Float.parseFloat(rhs.getNutration().get(0).getValue().toString()))
                                             return 1;
                                         else
                                             return -1;
@@ -525,10 +528,10 @@ public class SubCatFragment extends Fragment {
                             }
                             else
                             {
-                                Collections.sort(subList, new Comparator<ProductBean>() {
+                                Collections.sort(subList, new Comparator<Model>() {
                                     @Override
-                                    public int compare(ProductBean lhs, ProductBean rhs) {
-                                        if (Float.parseFloat(lhs.getCalories()) < Float.parseFloat(rhs.getCalories()))
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(0).getValue().toString()) < Float.parseFloat(rhs.getNutration().get(0).getValue().toString()))
                                             return 1;
                                         else
                                             return -1;
@@ -585,8 +588,9 @@ public class SubCatFragment extends Fragment {
         list1 = new ArrayList<>();
         list1.clear();
         String url = PROD_BY_CAT + cat;
-        new connect(url).execute();
+        //new connect(url).execute();
 
+        getch();
         //mProgressBar.setVisibility(View.VISIBLE);
     }
 
@@ -599,6 +603,7 @@ public class SubCatFragment extends Fragment {
 
         refresh(getArguments().getString("id"));
 
+        //getch();
 
 
 
@@ -617,11 +622,11 @@ public class SubCatFragment extends Fragment {
                 .build();
 
         final subCat2API request = retrofit.create(subCat2API.class);
-        Call<ArrayList<ProductBean>> call = request.getBooks(getArguments().getString("id"));
+        Call<ArrayList<Model>> call = request.getBooks(getArguments().getString("id"));
 
-        call.enqueue(new Callback<ArrayList<ProductBean>>() {
+        call.enqueue(new Callback<ArrayList<Model>>() {
             @Override
-            public void onResponse(Call<ArrayList<ProductBean>> call, Response<ArrayList<ProductBean>> response) {
+            public void onResponse(Call<ArrayList<Model>> call, Response<ArrayList<Model>> response) {
 
                 list1 = response.body();
 
@@ -634,17 +639,19 @@ public class SubCatFragment extends Fragment {
                     CoordinatorLayout coordinatorLayout = (CoordinatorLayout)((MainActivity)getContext()).findViewById(R.id.coordinate);
                     View view = coordinatorLayout.findViewById(R.id.bottombar);
                     BottomSheetBehavior bot = BottomSheetBehavior.from(view);
-                    //adapter = new ProdAdapter2(getContext() ,  list1 , bot);
-                    adapter.setGridData(response.body());
+                    adapter = new ProdAdapter2(getContext() ,  list1 , bot);
+                    adapter.setGridData(list1);
                 }catch (NullPointerException e)
                 {
                     e.printStackTrace();
                 }
 
+
+
                 //adapter.setGridData(list1);
                 //grid.setAdapter(adapter);
 
-                adapter.notifyDataSetChanged();
+                //adapter.notifyDataSetChanged();
 
                 bar.setVisibility(View.GONE);
                 sortFilter.setVisibility(View.VISIBLE);
@@ -657,7 +664,7 @@ public class SubCatFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<ArrayList<ProductBean>> call, Throwable t) {
+            public void onFailure(Call<ArrayList<Model>> call, Throwable t) {
              //   Log.d("Error",t.getMessage());
             }
         });
@@ -770,7 +777,7 @@ public class SubCatFragment extends Fragment {
                     image = image.replaceAll(" " , "%20");
                     bean.setImage(image);
                     int l = b.list.size();
-                    if (l >0) {
+        /*            if (l >0) {
                         if (l == 1) {
                             if (obj.getInt("id") == b.list.get(0).getId()) {
                               //  Log.d("asdasdasd", "checked");
@@ -817,7 +824,7 @@ public class SubCatFragment extends Fragment {
 
 
 
-                        list1.add(bean);
+                        list1.add(bean);*/
                 } catch (JSONException | NullPointerException e) {
                     e.printStackTrace();
                 }

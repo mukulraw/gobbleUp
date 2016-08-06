@@ -6,13 +6,15 @@ import android.graphics.Bitmap;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
+import com.gobble.gobble_up.POJO.Model;
+
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class comparebean extends MultiDexApplication {
-    ArrayList<ProductBean> list = new ArrayList<>();
-    ArrayList<ProductBean> tempList = new ArrayList<>();
+    ArrayList<Model> list = new ArrayList<>();
+    ArrayList<Model> tempList = new ArrayList<>();
     int tempListCount = 0;
     List<Bitmap> bitmaps = new ArrayList<>();
     String url = null;
