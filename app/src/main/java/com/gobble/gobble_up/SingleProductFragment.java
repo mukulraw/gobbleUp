@@ -85,7 +85,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
     RatingBar ratrr;
     private List<String> nutrition;
     private PieChart pieChart;
-    private TextView brand , price_single , calories_single , description , allergic;
+    private TextView brand , price_single , calories_single , description ;
     private String GET_REVIEWS = "http://nationproducts.in/global/api/productreviews/id/";
     private BarChart barChart;
     String pId;
@@ -100,6 +100,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
     private TextView sliderName , sliderBelowText , calories , fat , carbs , protein , sodium , potassium , fiber , sugar , vita , vitc , calcium , iron;
 
     private BottomSheetBehavior mBottomSheetBehavior;
+
     float rat = 0;
 
 
@@ -135,17 +136,10 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
         price_single = (TextView)view.findViewById(R.id.price);
         calories_single = (TextView)view.findViewById(R.id.calories_single);
         description = (TextView)view.findViewById(R.id.description);
-        allergic = (TextView)view.findViewById(R.id.allergic_to);
 
 
-        //pieChart.setDrawHoleEnabled(true);
-        //pieChart.setHoleColorTransparent(true);
-        //pieChart.setHoleRadius(7);
-        //pieChart.setTransparentCircleRadius(10);
 
-        // enable rotation of the chart by touch
-        //pieChart.setRotationAngle(0);
-        //pieChart.setRotationEnabled(true);
+
 
         sliderName = (TextView)view.findViewById(R.id.slider_name);
         sliderBelowText = (TextView)view.findViewById(R.id.below_text);
@@ -185,16 +179,6 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
             }
         });
 
-        //TextView openSlider = (TextView)view.findViewById(R.id.open_slider);
-
-
-
-      //  openSlider.setOnClickListener(new View.OnClickListener() {
-       //     @Override
-    //        public void onClick(View v) {
-      //          mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-    //        }
-   //     });
 
 
         GridLayoutManager lLayout = new GridLayoutManager(getContext(), 1);
@@ -398,8 +382,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
                 brand.setText(response.body().get(0).getBrand());
                 description.setText(response.body().get(0).getDescription());
                 price_single.setText(response.body().get(0).getPrice());
-                allergic.setText("allergic");
-                allergic.setVisibility(View.GONE);
+
 
 
                 sliderName.setText(response.body().get(0).getName());
@@ -422,14 +405,40 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
                 float proo = Float.parseFloat(pro);
                 float carbb = Float.parseFloat(carb);
 
+                ArrayList<String> labels = new ArrayList<String>();
 
 
+
+
+
+                int i = 0;
 
                 ArrayList<Entry> entries = new ArrayList<>();
 
-                entries.add(new Entry(fatt , 0));
-                entries.add(new Entry(carbb , 1));
-                entries.add(new Entry(proo , 2));
+                if (fatt>0)
+                {
+                    entries.add(new Entry(fatt , i));
+                    labels.add("Fat");
+                    i++;
+                }
+
+                if (carbb>0)
+                {
+                    entries.add(new Entry(carbb , i));
+                    labels.add("Carbohydrates");
+                    i++;
+                }
+
+                if (proo>0)
+                {
+                    entries.add(new Entry(proo , 2));
+                    labels.add("Protein");
+                    i++;
+                }
+
+
+
+
 
 
 
@@ -439,16 +448,20 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
                 dataset.setColors(ColorTemplate.VORDIPLOM_COLORS);
 
-                ArrayList<String> labels = new ArrayList<String>();
-
-                labels.add("Fat");
-                labels.add("Carbohydrates");
-                labels.add("Protein");
 
 
 
 
 
+
+                if (labels.size() == 0)
+                {
+                    pieChart.setVisibility(View.GONE);
+                }
+                else
+                {
+                    pieChart.setVisibility(View.VISIBLE);
+                }
                 PieData data = new PieData(labels, dataset);
                 data.setValueFormatter(new PercentFormatter());
                 data.setValueTextSize(11f);
@@ -460,16 +473,62 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
                 pieChart.invalidate();
 
 
+                ArrayList<String> labels1 = new ArrayList<String>();
 
+                //labels1.add("Fat");
+                //labels1.add("Carbohydrates");
+                //labels1.add("Protein");
+
+
+
+
+                int j = 0;
                 ArrayList<BarEntry> entries1 = new ArrayList<>();
-                entries1.add(new BarEntry(fatt , 0));
-                entries1.add(new BarEntry(carbb , 1));
-                entries1.add(new BarEntry(proo , 2));
+                //entries1.add(new BarEntry(fatt , 0));
+                //entries1.add(new BarEntry(carbb , 1));
+                //entries1.add(new BarEntry(proo , 2));
+
+
+                if (fatt>0)
+                {
+                    entries1.add(new BarEntry(fatt , j));
+                    labels1.add("Fat");
+                    j++;
+                }
+
+                if (carbb>0)
+                {
+                    entries1.add(new BarEntry(carbb , j));
+                    labels1.add("Carbohydrates");
+                    j++;
+                }
+
+                if (proo>0)
+                {
+                    entries1.add(new BarEntry(proo , j));
+                    labels1.add("Protein");
+                    j++;
+                }
+
+
+
+
+
+                if (labels1.size() == 0)
+                {
+                    barChart.setVisibility(View.GONE);
+                }
+                else
+                {
+                    barChart.setVisibility(View.VISIBLE);
+                }
+
+
 
                 BarDataSet barDataSet = new BarDataSet(entries1 , null);
 
                 barDataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
-                BarData data1 = new BarData(labels ,  barDataSet);
+                BarData data1 = new BarData(labels1 ,  barDataSet);
                 //data1.setValueFormatter(new PercentFormatter());
                 data1.setValueTextSize(11f);
                 data1.setValueTextColor(Color.BLACK);
@@ -786,7 +845,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
             brand.setText(bran);
             description.setText(desc);
             price_single.setText(prie);
-            allergic.setText("allergic");
+
 
 
             sliderName.setText(nae);
