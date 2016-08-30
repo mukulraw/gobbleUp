@@ -101,7 +101,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
     private BottomSheetBehavior mBottomSheetBehavior;
 
-    float rat = 0;
+    float rat;
 
 
 
@@ -333,7 +333,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
                 Intent i = new Intent(getContext() , Rate_Review.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("iidd" , pId);
+                bundle.putString("iidd" , iidd);
                 i.putExtras(bundle);
                 startActivity(i);
 
@@ -597,7 +597,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
         }
 
 
-        rat = 0;
+        //rat = 0;
 
         //new connect2(GET_REVIEWS + iidd).execute();
 
@@ -1043,7 +1043,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
     }
 
 
-    public void fetch2(String url)
+    public void fetch2(final String url)
     {
         String SUB_CATEGORY = "http://nationproducts.in/";
         Retrofit retrofit = new Retrofit.Builder()
@@ -1070,7 +1070,9 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
                 barr.setVisibility(View.GONE);
 
+                Log.d("sdfjnolisdfsf" , String.valueOf(url));
 
+                rat = 0;
 
 
 

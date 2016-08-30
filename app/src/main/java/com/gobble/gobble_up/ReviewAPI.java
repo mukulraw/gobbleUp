@@ -9,11 +9,8 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
-/**
- * Created by hi on 8/6/2016.
- */
 
-public interface ReviewAPI {
+interface ReviewAPI {
 
     @GET("global/api/productreviews/id/{id}")
     Call<ArrayList<ReviewModel>> getBooks(
