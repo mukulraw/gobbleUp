@@ -5,6 +5,8 @@
     card_view:cardUseCompatPadding="true"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     card_view:cardCornerRadius="3dp"
+    android:background="#fff"
+
     android:layout_height="match_parent">
 
 <LinearLayout

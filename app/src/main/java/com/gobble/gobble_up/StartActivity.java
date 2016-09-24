@@ -68,6 +68,7 @@ public class StartActivity extends AppCompatActivity implements GoogleApiClient.
     private SharedPreferences pref;
     private SharedPreferences.Editor edit;
     private static final int RC_SIGN_IN = 9001;
+    ConnectionDetector cd;
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
     String imageUrl = null;
     public static final int CONNECTION_TIMEOUT=10000;
@@ -124,6 +125,9 @@ public class StartActivity extends AppCompatActivity implements GoogleApiClient.
 
 
 
+        cd = new ConnectionDetector(this);
+
+
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             int hasLocationPermission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -160,44 +164,54 @@ public class StartActivity extends AppCompatActivity implements GoogleApiClient.
 
 
 
-
-
-        if ( pref.getBoolean("google" , false)  )
+        if (cd.isConnectingToInternet())
         {
-
-            if(checkPlayServices())
+            if ( pref.getBoolean("google" , false)  )
             {
 
-                buildGoogleApiClient();
+                if(checkPlayServices())
+                {
 
-                signIn();
+                    buildGoogleApiClient();
 
+                    signIn();
+
+
+                }
 
             }
 
-        }
-
-        else if (pref.getBoolean("fb" , false))
-        {
+            else if (pref.getBoolean("fb" , false))
+            {
 
 
-            LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
+                LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
+
+
+            }
+            else
+            {
+                t=new Timer();
+                t.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+                        startActivity(intent);
+                        finish();
+
+                    }
+                }, 2000);
+            }
 
 
         }
         else
         {
-            t=new Timer();
-            t.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    Intent intent = new Intent(getBaseContext(), LoginActivity.class);
-                    startActivity(intent);
-                    finish();
-
-                }
-            }, 2000);
+            Intent i = new Intent(getApplicationContext() , MainList.class);
+            startActivity(i);
+            finish();
         }
+
 
 
 

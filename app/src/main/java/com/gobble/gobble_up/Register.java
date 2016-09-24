@@ -460,7 +460,9 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
 
 
                 Intent i = new Intent(getApplicationContext() , LoginActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(i);
+                finish();
 
 
                 LoginManager.getInstance().logOut();

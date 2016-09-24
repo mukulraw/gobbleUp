@@ -542,6 +542,7 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
 
                 i.putExtra("id" , idd);
                 i.putExtra("name" , name);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(i);
                 finish();
             }

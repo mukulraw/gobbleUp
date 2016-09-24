@@ -46,11 +46,20 @@ public class MainList extends AppCompatActivity {
     private String GET_ALL_LIST = "http://nationproducts.in/global/api/alllists/userId/";
     private String DELETE_LIST = "http://nationproducts.in/global/api/deletelist/listId/";
     ProgressBar bar;
+
+    DBHandler handler;
+
+    ConnectionDetector cd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_list);
 
+
+        handler = new DBHandler(this);
+
+        cd = new ConnectionDetector(this);
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar11);
@@ -110,12 +119,89 @@ public class MainList extends AppCompatActivity {
 
         lview.setVisibility(View.GONE);
         list.clear();
-        new connect(GET_ALL_LIST + iidd).execute();
+        //new connect(GET_ALL_LIST + iidd).execute();
+
+        getFromSQLite();
+
         //mProgressBar.setVisibility(View.VISIBLE);
     }
 
 
 
+    public void getFromSQLite()
+    {
+
+
+        List<offlineMainListBean> listt = handler.getAllusers();
+
+
+        for (int i = 0 ; i < listt.size() ; i++)
+        {
+            addListBean bean = new addListBean();
+            bean.setListName(listt.get(i).getListName());
+            bean.setListId(listt.get(i).getListId());
+            bean.setCreatedTime(listt.get(i).getCreatedTime());
+            bean.setTotalItem(listt.get(i).getTotalItems());
+            list.add(bean);
+        }
+
+
+        adapter.setGridData(list);
+
+        bar.setVisibility(View.GONE);
+
+        lview.setVisibility(View.VISIBLE);
+
+
+        syncSQLite();
+
+
+
+
+    }
+
+
+
+    public void syncSQLite()
+    {
+
+
+        if (cd.isConnectingToInternet())
+        {
+            new connect(GET_ALL_LIST + iidd).execute();
+        }
+
+
+
+
+
+
+
+    }
+
+    public void refreshList()
+    {
+        List<offlineMainListBean> listt = handler.getAllusers();
+
+        ArrayList<addListBean> l = new ArrayList<>();
+
+        for (int i = 0 ; i < listt.size() ; i++)
+        {
+            addListBean bean = new addListBean();
+            bean.setListName(listt.get(i).getListName());
+            bean.setListId(listt.get(i).getListId());
+            bean.setCreatedTime(listt.get(i).getCreatedTime());
+            bean.setTotalItem(listt.get(i).getTotalItems());
+            l.add(bean);
+        }
+
+
+        adapter.setGridData(l);
+
+
+
+
+    }
 
 
 
@@ -216,7 +302,12 @@ public class MainList extends AppCompatActivity {
 
                             String name = updatename.getText().toString();
 
-                            new login(name , iidd).execute();
+
+                            if (cd.isConnectingToInternet())
+                            {
+                                new login(name , iidd).execute();
+                            }
+
                             dialog1.dismiss();
 
                            refresh();
@@ -254,7 +345,12 @@ public class MainList extends AppCompatActivity {
 
 
 
-                            new delete(DELETE_LIST+idd).execute();
+                            if (cd.isConnectingToInternet())
+                            {
+                                new delete(DELETE_LIST+idd , idd).execute();
+                            }
+
+
                             dialog.dismiss();
                            refresh();
                         }
@@ -298,7 +394,7 @@ public class MainList extends AppCompatActivity {
                 RegisterUserClass ruc = new RegisterUserClass();
                 result = ruc.sendPostRequest(UPDATE_LIST_NAME , data);
 
-                Log.d("asdasdasd" , result);
+               // Log.d("asdasdasd" , result);
 
                 //try {
                 //  JSONObject obj = new JSONObject(result);
@@ -321,6 +417,10 @@ public class MainList extends AppCompatActivity {
             protected void onPostExecute(Void aVoid) {
 
                 super.onPostExecute(aVoid);
+
+                int a = handler.updateMainListName(password , username);
+                refreshList();
+
             }
         }
 
@@ -338,15 +438,17 @@ public class MainList extends AppCompatActivity {
             String json;
             JSONArray array;
 
+            String iiid;
 
 
 
             int length;
             String url;
 
-            delete(String url)
+            delete(String url , String iiid)
             {
                 this.url = url;
+                this.iiid = iiid;
             }
 
 
@@ -407,6 +509,11 @@ public class MainList extends AppCompatActivity {
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
+
+
+                handler.deleteMainList(iiid);
+                refreshList();
+
 
                 // new MainList().refresh();
 
@@ -506,19 +613,20 @@ public class MainList extends AppCompatActivity {
             {
                 try {
                     JSONObject obj = array.getJSONObject(i);
-                    addListBean bean = new addListBean();
+                    offlineMainListBean bean = new offlineMainListBean();
                     bean.setListName(obj.getString("listName"));
                     bean.setListId(obj.getString("listId"));
                     bean.setCreatedTime(obj.getString("createdTime"));
-                    bean.setTotalItem(obj.getString("totalItem"));
+                    bean.setTotalItems(obj.getString("totalItem"));
 
 
 
 
+                    handler.insertUser(bean);
 
 
 
-                    list.add(bean);
+                    //list.add(bean);
                 } catch (JSONException | NullPointerException e) {
                     e.printStackTrace();
                 }
@@ -533,11 +641,14 @@ public class MainList extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-            adapter.setGridData(list);
 
-            bar.setVisibility(View.GONE);
+            refreshList();
 
-            lview.setVisibility(View.VISIBLE);
+//            adapter.setGridData(list);
+
+           // bar.setVisibility(View.GONE);
+
+           // lview.setVisibility(View.VISIBLE);
             //list.clear();
             //mProgressBar.setVisibility(View.GONE);
         }

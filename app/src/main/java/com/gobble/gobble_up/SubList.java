@@ -42,17 +42,22 @@ import java.util.List;
 
 public class SubList extends AppCompatActivity {
 
-    ArrayList<subListBean> list;
+    ArrayList<offlineSubListBean> list;
     private RecyclerView lv;
     SubListAdapter adapter;
     String id;
     private TextView total;
     private GridLayoutManager lLayout;
+    SubListDBHandler handler;
+    ConnectionDetector cd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub_list);
+        handler = new SubListDBHandler(this);
+        cd = new ConnectionDetector(this);
+
 
 
         total = (TextView)findViewById(R.id.total);
@@ -70,8 +75,9 @@ public class SubList extends AppCompatActivity {
 
 
 
-        refresh();
+        //refresh();
 
+        getFromOffline(id);
 
 
 
@@ -81,14 +87,70 @@ public class SubList extends AppCompatActivity {
 
 
 
-    public void refresh()
+    public void getFromOffline(String iidd)
     {
+        adapter = new SubListAdapter(getBaseContext() , list);
+        lv.setAdapter(adapter);
+        lv.setHasFixedSize(true);
+        lv.setLayoutManager(lLayout);
 
-        list.clear();
+        List<offlineSubListBean> ll = handler.getSubData(iidd);
+
+
+        for (int i=0 ; i<ll.size();i++)
+        {
+            try {
+
+                offlineSubListBean bean = ll.get(i);
+
+
+
+
+                list.add(bean);
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+        }
+
+        adapter.setGridData(list);
+
+        total.setText("TOTAL:  "+String.valueOf(adapter.getTotal()));
+
+
+        syncOffline();
+
+
+    }
+
+
+    public void syncOffline()
+    {
         String GET_LIST_ITEMS = "http://nationproducts.in/global/api/listitems/listId/";
         new connect(GET_LIST_ITEMS + id).execute();
+    }
 
 
+    public void refresh()
+    {
+        ArrayList<offlineSubListBean> l2 = new ArrayList<>();
+
+        List<offlineSubListBean> ll = handler.getSubData(id);
+        for (int i=0 ; i<ll.size();i++)
+        {
+            try {
+
+                offlineSubListBean bean = ll.get(i);
+
+
+
+
+                l2.add(bean);
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+        }
+        adapter.setGridData(l2);
+        total.setText("TOTAL:  "+String.valueOf(adapter.getTotal()));
     }
 
     public class connect extends AsyncTask<Void , Void , Void>
@@ -157,14 +219,26 @@ public class SubList extends AppCompatActivity {
             {
                 try {
                     JSONObject obj = array.getJSONObject(i);
-                    subListBean bean = new subListBean();
+                    offlineSubListBean bean = new offlineSubListBean();
                     bean.setName(obj.getString("name"));
                     bean.setListId(obj.getString("listId"));
-                    bean.setImage(obj.getString("image"));
-                    bean.setQuantity(obj.getString("quantity"));
-                    bean.setPrice(obj.getString("price"));
+
+
+                    ImageLoader imageLoader = ImageLoader.getInstance();
+
+                    Bitmap bitmap = imageLoader.loadImageSync(obj.getString("image"));
+
+                    bean.setImage(Utils.getImageBytes(bitmap));
+
+
                     bean.setProductId(obj.getString("productId"));
-                    list.add(bean);
+                    //bean.setImage(obj.getString("image"));
+
+                    bean.setPrice(obj.getString("price"));
+
+                    handler.insertSubData(bean);
+
+                    //list.add(bean);
                 } catch (JSONException | NullPointerException e) {
                     e.printStackTrace();
                 }
@@ -178,12 +252,16 @@ public class SubList extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            adapter = new SubListAdapter(getBaseContext() , list);
-            lv.setAdapter(adapter);
-            lv.setHasFixedSize(true);
-            lv.setLayoutManager(lLayout);
+            //adapter = new SubListAdapter(getBaseContext() , list);
+            //lv.setAdapter(adapter);
+            //lv.setHasFixedSize(true);
+            //lv.setLayoutManager(lLayout);
+
+            refresh();
+
+
             //adapter.setGridData(list);
-            total.setText("TOTAL:  "+String.valueOf(adapter.getTotal()));
+            //total.setText("TOTAL:  "+String.valueOf(adapter.getTotal()));
             //list.clear();
             //mProgressBar.setVisibility(View.GONE);
         }
@@ -193,7 +271,7 @@ public class SubList extends AppCompatActivity {
     private class SubListAdapter extends RecyclerView.Adapter<SubListAdapter.RecyclerViewHolder> {
 
         Context context;
-    private ArrayList<subListBean> list1 = new ArrayList<>();
+    private ArrayList<offlineSubListBean> list1 = new ArrayList<>();
     private String DELETE_LIST = "http://nationproducts.in/global/api/removefromlist";
 
     String lid , pid , result;
@@ -218,13 +296,14 @@ public class SubList extends AppCompatActivity {
 
 
 
-    SubListAdapter(Context context, ArrayList<subListBean> list) {
+    SubListAdapter(Context context, ArrayList<offlineSubListBean> list) {
         this.context = context;
         this.list1 = list;
     }
 
-    public void setGridData(ArrayList<subListBean> mGridData) {
+    public void setGridData(ArrayList<offlineSubListBean> mGridData) {
         this.list1 = mGridData;
+        notifyDataSetChanged();
     }
 
         @Override
@@ -235,21 +314,18 @@ public class SubList extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final RecyclerViewHolder holder, final int pos) {
-            final subListBean item = list1.get(holder.getAdapterPosition());
+            final offlineSubListBean item = list1.get(holder.getAdapterPosition());
 
 
             holder.setIsRecyclable(false);
 
 
-            DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)
-                    .cacheOnDisc(true).resetViewBeforeLoading(false).build();
 
-
-            ImageLoader imageLoader = ImageLoader.getInstance();
+            holder.sublistImage.setImageBitmap(Utils.getImage(item.getImage()));
 
 
 
-            imageLoader.displayImage(item.getImage() , holder.sublistImage , options);
+
 
 
 
@@ -257,56 +333,60 @@ public class SubList extends AppCompatActivity {
             holder.subListPrice.setText(item.getPrice());
 
 
-
-            try
+            if (cd.isConnectingToInternet())
             {
-                holder.delete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        lid = item.getListId();
-                        pid = item.getProductId();
+                try
+                {
+                    holder.delete.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            lid = item.getListId();
+                            pid = item.getProductId();
 
 
-                        final Dialog dialog = new Dialog(SubList.this);
-                        dialog.setContentView(R.layout.delete_list_dialog);
-                        dialog.setCancelable(false);
-                        dialog.show();
+                            final Dialog dialog = new Dialog(SubList.this);
+                            dialog.setContentView(R.layout.delete_list_dialog);
+                            dialog.setCancelable(false);
+                            dialog.show();
 
-                        Button YES = (Button)dialog.findViewById(R.id.confirmDelete);
-                        Button NO = (Button)dialog.findViewById(R.id.cancel_delete_list);
+                            Button YES = (Button)dialog.findViewById(R.id.confirmDelete);
+                            Button NO = (Button)dialog.findViewById(R.id.cancel_delete_list);
 
-                        YES.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-
-
-
-
-                                new delete1(DELETE_LIST).execute();
-                                dialog.dismiss();
+                            YES.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
 
 
 
 
+                                    new delete1(DELETE_LIST).execute();
+                                    dialog.dismiss();
 
 
-                            }
-                        });
 
-                        NO.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialog.dismiss();
-                            }
-                        });
 
-                    }
-                });
 
-            }catch (NullPointerException e)
-            {
-                e.printStackTrace();
+
+                                }
+                            });
+
+                            NO.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    dialog.dismiss();
+                                }
+                            });
+
+                        }
+                    });
+
+                }catch (NullPointerException e)
+                {
+                    e.printStackTrace();
+                }
+
             }
+
 
         }
 
@@ -324,7 +404,7 @@ public class SubList extends AppCompatActivity {
         float sum = 0;
         for (int i = 0 ; i<getItemCount() ; i++)
         {
-            subListBean item = list1.get(i);
+            offlineSubListBean item = list1.get(i);
             float temp = Float.parseFloat(item.getPrice());
             sum = sum+temp;
 
@@ -389,7 +469,7 @@ public class SubList extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            list = new ArrayList<subListBean>();
+            list = new ArrayList<offlineSubListBean>();
           refresh();
 
 

@@ -288,6 +288,54 @@ public class SubCatFragment extends Fragment {
                                 dialog.dismiss();
                             }
 
+                            if (selectedId == R.id.price_between_5h_and_1k)
+                            {
+                                subList.clear();
+
+                                for (int i = 0 ; i<list1.size() ; i++)
+                                {
+                                    if (Float.parseFloat(list1.get(i).getPrice())<1000 && Float.parseFloat(list1.get(i).getPrice())>=500)
+                                    {
+                                        subList.add(list1.get(i));
+                                    }
+                                }
+
+
+
+
+                                adapter.setGridData(subList);
+                                adapter.notifyDataSetChanged();
+
+
+                                sort_flag = true;
+                                dialog.dismiss();
+                            }
+
+
+                            if (selectedId == R.id.price_over_1k)
+                            {
+                                subList.clear();
+
+                                for (int i = 0 ; i<list1.size() ; i++)
+                                {
+                                    if (Float.parseFloat(list1.get(i).getPrice())>1000)
+                                    {
+                                        subList.add(list1.get(i));
+                                    }
+                                }
+
+
+
+
+                                adapter.setGridData(subList);
+                                adapter.notifyDataSetChanged();
+
+
+                                sort_flag = true;
+                                dialog.dismiss();
+                            }
+
+
                         }
 
                         if (rg2.getVisibility() == View.VISIBLE)
