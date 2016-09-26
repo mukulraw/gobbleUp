@@ -81,6 +81,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
     ImageView iv;
     private TextView title , siz;
     private Button add , compare;
+    private RelativeLayout clickRating;
     private String iidd;
     RatingBar ratrr;
     private List<String> nutrition;
@@ -119,6 +120,8 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
         nutrition = new ArrayList<>();
         pieChart = (PieChart)view.findViewById(R.id.pie);
         pieChart.setUsePercentValues(true);
+
+        clickRating = (RelativeLayout)view.findViewById(R.id.click_rating);
 
         ratrr = (RatingBar)view.findViewById(R.id.ratrrr);
 
@@ -323,6 +326,22 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
 
         add.setOnClickListener(this);
+
+
+
+        clickRating.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent i = new Intent(getContext() , Rate_Review.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("iidd" , iidd);
+                i.putExtras(bundle);
+                startActivity(i);
+
+            }
+        });
+
 
 
 

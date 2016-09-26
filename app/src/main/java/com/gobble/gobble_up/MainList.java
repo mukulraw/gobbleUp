@@ -97,12 +97,6 @@ public class MainList extends AppCompatActivity {
         });
 
 
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
         list = new ArrayList<>();
 
         adapter = new MainListAdapter(this , R.layout.main_list_model , list);
@@ -110,6 +104,14 @@ public class MainList extends AppCompatActivity {
 
 
         refresh();
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
     }
 
     public void refresh()
@@ -183,7 +185,7 @@ public class MainList extends AppCompatActivity {
     {
         List<offlineMainListBean> listt = handler.getAllusers();
 
-        ArrayList<addListBean> l = new ArrayList<>();
+        list.clear();
 
         for (int i = 0 ; i < listt.size() ; i++)
         {
@@ -192,11 +194,16 @@ public class MainList extends AppCompatActivity {
             bean.setListId(listt.get(i).getListId());
             bean.setCreatedTime(listt.get(i).getCreatedTime());
             bean.setTotalItem(listt.get(i).getTotalItems());
-            l.add(bean);
+            list.add(bean);
         }
 
 
-        adapter.setGridData(l);
+        adapter.setGridData(list);
+
+        bar.setVisibility(View.GONE);
+
+        lview.setVisibility(View.VISIBLE);
+
 
 
 

@@ -5,13 +5,22 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.pdf.PdfDocument;
+import android.media.Image;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +28,23 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -30,15 +53,26 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
+
+
+
 
 public class SubList extends AppCompatActivity {
 
@@ -47,16 +81,35 @@ public class SubList extends AppCompatActivity {
     SubListAdapter adapter;
     String id;
     private TextView total;
+    LinearLayout layoutToShare;
     private GridLayoutManager lLayout;
-    SubListDBHandler handler;
+    DBHandler handler;
     ConnectionDetector cd;
+    TextView shareMyList;
+    int height , wil;
+    Bitmap shareBitmap;
+    View content;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub_list);
-        handler = new SubListDBHandler(this);
+        handler = new DBHandler(this);
         cd = new ConnectionDetector(this);
+
+        shareMyList = (TextView)findViewById(R.id.share_list);
+
+        layoutToShare = (LinearLayout)findViewById(R.id.layout_to_share);
+
+
+        shareMyList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               // tela();
+                makePDF();
+            }
+        });
+
 
 
 
@@ -81,6 +134,98 @@ public class SubList extends AppCompatActivity {
 
 
 
+
+    }
+
+
+
+
+
+
+
+    public void makePDF()
+    {
+        Font bfBold12 = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD, new BaseColor(0, 0, 0));
+        Font bf12 = new Font(Font.FontFamily.TIMES_ROMAN, 12);
+
+        try {
+            String fpath = "/sdcard/asdasdasd.pdf";
+            File file = new File(fpath);
+            // If file does not exists, then create it
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+
+            Paragraph paragraph = new Paragraph();
+
+            // step 1
+            Document document = new Document();
+            // step 2
+            PdfWriter.getInstance(document,
+                    new FileOutputStream(file.getAbsoluteFile()));
+            // step 3
+            document.addTitle("Gobble Up shared sheet");
+            document.setPageSize(PageSize.LETTER);
+            document.open();
+
+            // step 4
+
+            float[] columnWidths = {5f, 2f};
+
+            PdfPTable table = new PdfPTable(columnWidths);
+            table.setWidthPercentage(90f);
+
+
+
+            insertCell(table, "Product Name", Element.ALIGN_CENTER, 1, bfBold12);
+            insertCell(table, "Price", Element.ALIGN_CENTER, 1, bfBold12);
+            table.setHeaderRows(1);
+            insertCell(table, "", Element.ALIGN_LEFT, 4, bfBold12);
+
+            for (int i = 0 ; i < list.size() ; i++)
+            {
+                insertCell(table, list.get(i).getName() , Element.ALIGN_LEFT, 1, bf12);
+                insertCell(table,  list.get(i).getPrice(), Element.ALIGN_CENTER, 1, bf12);
+                //document.add(new Paragraph(list.get(i).getName()));
+            }
+
+
+
+
+            paragraph.add(table);
+
+            document.add(paragraph);
+
+
+            // step 5
+            document.close();
+
+            Log.d("Suceess", "Sucess");
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        } catch (DocumentException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+
+        }
+    }
+
+
+    private void insertCell(PdfPTable table, String text, int align, int colspan, Font font){
+
+        //create a new cell with the specified Text and Font
+        PdfPCell cell = new PdfPCell(new Phrase(text.trim(), font));
+        //set the cell alignment
+        cell.setHorizontalAlignment(align);
+        //set the cell column span in case you want to merge two or more cells
+        cell.setColspan(colspan);
+        //in case there is no text and you wan to create an empty row
+        if(text.trim().equalsIgnoreCase("")){
+            cell.setMinimumHeight(10f);
+        }
+        //add the call to the table
+        table.addCell(cell);
 
     }
 
@@ -125,8 +270,13 @@ public class SubList extends AppCompatActivity {
 
     public void syncOffline()
     {
-        String GET_LIST_ITEMS = "http://nationproducts.in/global/api/listitems/listId/";
-        new connect(GET_LIST_ITEMS + id).execute();
+
+        if (cd.isConnectingToInternet())
+        {
+            String GET_LIST_ITEMS = "http://nationproducts.in/global/api/listitems/listId/";
+            new connect(GET_LIST_ITEMS + id).execute();
+        }
+
     }
 
 
@@ -469,8 +619,12 @@ public class SubList extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            list = new ArrayList<offlineSubListBean>();
-          refresh();
+
+            handler.deleteSubList(lid , pid);
+
+            syncOffline();
+
+          //refresh();
 
 
         }

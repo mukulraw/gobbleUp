@@ -136,6 +136,7 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
 
                         String as = asd.getText().toString();
                         new login2(as).execute();
+                        dialog.dismiss();
 
                     }
                 });
@@ -673,7 +674,16 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
         @Override
         protected void onPostExecute(Void aVoid) {
 
-            Log.d("asdasdasd" , result);
+            if (result.equals("{\"responce_code\":200,\"msg\":\"New password send to your email\"}"))
+            {
+            Toast.makeText(getApplicationContext() , "A new password has been sent to your inbox" , Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext() , "Not a valid user" , Toast.LENGTH_SHORT).show();
+            }
+
+
 
 
 

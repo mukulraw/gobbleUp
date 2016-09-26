@@ -99,7 +99,7 @@ compareAdapter adapter;
 
         if (b.list.size()>0)
         {
-            Toast.makeText(getApplicationContext() , "Swipe up to remove item" , Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext() , "Swipe up to remove item" , Toast.LENGTH_SHORT).show();
         }
 
         refresh();
@@ -205,7 +205,7 @@ compareAdapter adapter;
 
         }
 
-        }else
+        }else if (length ==1)
         {
 
             Toast.makeText(getApplicationContext() , "Only one item to compare" , Toast.LENGTH_SHORT).show();
@@ -232,7 +232,7 @@ compareAdapter adapter;
             @Override
             public void onResponse(Call<ArrayList<CompareModel>> call, Response<ArrayList<CompareModel>> response) {
 
-                Log.d("asdasdasd" , response.body().toString());
+               // Log.d("asdasdasd" , response.body().toString());
 
 
                 list.add(response.body().get(0));

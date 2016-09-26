@@ -14,7 +14,7 @@ import java.util.List;
 
 class DBHandler extends SQLiteOpenHelper{
 
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
 
     private static final String DATABASE_NAME = "dbGobble";
@@ -45,8 +45,8 @@ class DBHandler extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.d("asdasd" , query2);
-        //db.execSQL(query2);
-        //Log.d("asdasd" , query);
+        db.execSQL(query2);
+        Log.d("asdasd" , query);
         db.execSQL(query);
     }
 
@@ -60,7 +60,7 @@ class DBHandler extends SQLiteOpenHelper{
 
 
 
-        if (exists)
+        if (!exists)
         {
             ContentValues cv = new ContentValues();
             cv.put(LIST_ID , item.getListId());
@@ -109,6 +109,24 @@ class DBHandler extends SQLiteOpenHelper{
     }
 
 
+    void clearData()
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME  ,null , null);
+        db.delete(SUB_TABLE , null , null);
+        db.close();
+    }
+
+
+    void deleteSubList(String listId , String productId)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String[] columnNames = new String[] {LIST_ID , PROD_ID};
+        db.delete(SUB_TABLE, LIST_ID + " = ? AND "+PROD_ID+" = ?",
+                new String[] { listId , productId });
+        db.close();
+    }
+
 
     void deleteMainList(String listId)
     {
@@ -136,9 +154,9 @@ class DBHandler extends SQLiteOpenHelper{
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
 
 
-        //db.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME);
-        //db.execSQL("DROP TABLE IF EXISTS "+SUB_TABLE);
-        //onCreate(db);
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS "+SUB_TABLE);
+        onCreate(db);
 
 
     }

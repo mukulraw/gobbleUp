@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private SharedPreferences.Editor edit;
     private BottomSheetBehavior bar;
     private TextView countt , countsa;
+    DBHandler handler;
 
 
     @Override
@@ -63,6 +64,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         CoordinatorLayout coordinatorLayout = (CoordinatorLayout)this.findViewById(R.id.coordinate);
 
 
+
+        handler = new DBHandler(this);
 
         View botto = coordinatorLayout.findViewById(R.id.bottombar);
 
@@ -248,6 +251,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 overridePendingTransition(0,0);
                 finish();
             }
+
+
+            handler.clearData();
 
 
 

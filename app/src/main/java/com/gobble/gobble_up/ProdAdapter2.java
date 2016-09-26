@@ -232,7 +232,12 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
         String id = String.valueOf(item.getId());
 
         rat = 0;
-        fetch(id , holder.ratingBar);
+
+
+        holder.ratingBar.setRating(Float.parseFloat(item.getRating()));
+
+
+       // fetch(id , holder.ratingBar);
 
         //new connect2(GET_REVIEWS+id , holder.ratingBar).execute();
 

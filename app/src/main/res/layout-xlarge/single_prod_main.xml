@@ -94,40 +94,41 @@
                 android:fillViewport="true"
                 >
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
                     android:layout_height="wrap_content">
 
                     <Button
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:id="@+id/addtolist"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginBottom="20dp"
+                        android:layout_gravity="center_vertical"
                         android:textColor="@color/white"
+                        android:layout_margin="5dp"
+
                         android:text="add to list"
-                        android:textSize="28sp"
-                        android:layout_marginStart="20dp"
+
 
                         />
 
                     <Button
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:id="@+id/addtocompare"
-                        android:layout_alignParentEnd="true"
                         android:textColor="@color/white"
-                        android:layout_alignParentBottom="true"
-                        android:textSize="28sp"
-                        android:layout_marginBottom="20dp"
-                        android:layout_marginEnd="20dp"
+                        android:layout_gravity="center_vertical"
+
+                        android:layout_margin="5dp"
+
                         android:text="COMPARE"
 
                         />
 
-                </RelativeLayout>
-
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -192,6 +193,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:id="@+id/click_rating"
                         >
 
                         <RatingBar
@@ -327,19 +329,19 @@
                         />
 
                 </LinearLayout>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/black"
-                    />
+
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="65dp"
+                    android:layout_height="wrap_content"
                     android:id="@+id/clicktoexpand"
                     android:text="NUTRITIONAL DETAILS"
                     android:gravity="center_vertical"
                     android:textColor="@color/white"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp"
                     android:background="@color/colorPrimaryDark"
                     android:textSize="28sp"
                     android:textStyle="bold"
@@ -377,9 +379,13 @@
                 android:layout_width="match_parent"
 
                 android:layout_marginBottom="10dp"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:text="NUTRITIONAL DETAILS"
                 android:gravity="center_vertical"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
                 android:textColor="@color/white"
                 android:background="@color/colorPrimaryDark"
                 android:textSize="24sp"

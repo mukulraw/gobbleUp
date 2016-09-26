@@ -34,6 +34,9 @@ public class Model {
     @SerializedName("image")
     @Expose
     private String image;
+    @SerializedName("rating")
+    @Expose
+    private String rating;
 
     /**
      *
@@ -43,6 +46,21 @@ public class Model {
     public String getId() {
         return id;
     }
+
+
+    public String getRating() {
+        return rating;
+    }
+
+    /**
+     *
+     * @param rating
+     * The rating
+     */
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
+
 
     /**
      *
