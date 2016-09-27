@@ -3,13 +3,17 @@ package com.gobble.gobble_up;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.graphics.pdf.PdfDocument;
-import android.media.Image;
+
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
@@ -39,6 +43,7 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
@@ -56,6 +61,7 @@ import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -85,7 +91,7 @@ public class SubList extends AppCompatActivity {
     private GridLayoutManager lLayout;
     DBHandler handler;
     ConnectionDetector cd;
-    TextView shareMyList;
+    FloatingActionButton shareMyList;
     int height , wil;
     Bitmap shareBitmap;
     View content;
@@ -97,7 +103,7 @@ public class SubList extends AppCompatActivity {
         handler = new DBHandler(this);
         cd = new ConnectionDetector(this);
 
-        shareMyList = (TextView)findViewById(R.id.share_list);
+        shareMyList = (FloatingActionButton) findViewById(R.id.share_list);
 
         layoutToShare = (LinearLayout)findViewById(R.id.layout_to_share);
 
@@ -107,6 +113,10 @@ public class SubList extends AppCompatActivity {
             public void onClick(View view) {
                // tela();
                 makePDF();
+
+
+
+
             }
         });
 
@@ -145,11 +155,12 @@ public class SubList extends AppCompatActivity {
 
     public void makePDF()
     {
+        String fpath = null;
         Font bfBold12 = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD, new BaseColor(0, 0, 0));
         Font bf12 = new Font(Font.FontFamily.TIMES_ROMAN, 12);
 
         try {
-            String fpath = "/sdcard/asdasdasd.pdf";
+            fpath = "/sdcard/gobble_up.pdf";
             File file = new File(fpath);
             // If file does not exists, then create it
             if (!file.exists()) {
@@ -167,6 +178,21 @@ public class SubList extends AppCompatActivity {
             document.addTitle("Gobble Up shared sheet");
             document.setPageSize(PageSize.LETTER);
             document.open();
+
+
+            Drawable d = getResources().getDrawable(R.drawable.header);
+
+            BitmapDrawable bitDw = ((BitmapDrawable) d);
+
+            Bitmap bmp = bitDw.getBitmap();
+
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+
+            Image image = Image.getInstance(stream.toByteArray());
+
+            //document.add(image);
 
             // step 4
 
@@ -189,11 +215,19 @@ public class SubList extends AppCompatActivity {
                 //document.add(new Paragraph(list.get(i).getName()));
             }
 
+            PdfPCell cell = new PdfPCell(new Phrase("Gobble up shared list", bfBold12));
 
-
-
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             paragraph.add(table);
 
+            PdfPTable table2 = new PdfPTable(1);
+
+
+            table2.addCell(cell);
+
+            paragraph.add(table2);
+
+            document.add(image);
             document.add(paragraph);
 
 
@@ -209,6 +243,24 @@ public class SubList extends AppCompatActivity {
             e.printStackTrace();
 
         }
+
+
+
+        Intent intentShareFile = new Intent(Intent.ACTION_SEND);
+        File fileWithinMyDir = new File(fpath);
+
+        if(fileWithinMyDir.exists()) {
+            intentShareFile.setType("application/pdf");
+            intentShareFile.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://"+fpath));
+
+            intentShareFile.putExtra(Intent.EXTRA_SUBJECT,
+                    "Sharing File...");
+            intentShareFile.putExtra(Intent.EXTRA_TEXT, "Sharing File...");
+
+            startActivity(Intent.createChooser(intentShareFile, "Share File"));
+        }
+
+
     }
 
 
@@ -282,7 +334,9 @@ public class SubList extends AppCompatActivity {
 
     public void refresh()
     {
-        ArrayList<offlineSubListBean> l2 = new ArrayList<>();
+        //ArrayList<offlineSubListBean> l2 = new ArrayList<>();
+
+        list.clear();
 
         List<offlineSubListBean> ll = handler.getSubData(id);
         for (int i=0 ; i<ll.size();i++)
@@ -294,12 +348,12 @@ public class SubList extends AppCompatActivity {
 
 
 
-                l2.add(bean);
+                list.add(bean);
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }
         }
-        adapter.setGridData(l2);
+        adapter.setGridData(list);
         total.setText("TOTAL:  "+String.valueOf(adapter.getTotal()));
     }
 

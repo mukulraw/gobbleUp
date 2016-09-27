@@ -116,8 +116,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             e.printStackTrace();
         }
 
-        @SuppressLint("InflateParams") View header = LayoutInflater.from(this).inflate(R.layout.nav_header , null);
-        nav.addHeaderView(header);
+        //@SuppressLint("InflateParams") View header = LayoutInflater.from(this).inflate(R.layout.nav_header , null);
+        //nav.addHeaderView(header);
+
+        View header = nav.getHeaderView(0);
 
         Bundle b = getIntent().getExtras();
 
@@ -133,9 +135,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             //Log.d("asdasdasd" , n);
             CircleImageView profile = (CircleImageView) header.findViewById(R.id.headerProfile);
             TextView head_name = (TextView) header.findViewById(R.id.headertitle);
-            if (url !=null)
+            if (url.length() > 0)
             {
                 new loadImage(profile, url).execute();
+            }
+            else
+            {
+                profile.setImageDrawable(getResources().getDrawable(R.drawable.com_facebook_profile_picture_blank_portrait));
             }
 
             head_name.setText(n);
@@ -252,8 +258,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 finish();
             }
 
+            comparebean be = (comparebean)this.getApplicationContext();
 
+            be.url = "";
+            be.n = "";
             handler.clearData();
+
 
 
 
@@ -419,7 +429,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         @Override
         protected void onPostExecute(Void aVoid) {
 
-            iv.setImageBitmap(d);
+            if (d!=null)
+            {
+                iv.setImageBitmap(d);
+            }
+            else
+            {
+                iv.setImageDrawable(getResources().getDrawable(R.drawable.com_facebook_profile_picture_blank_portrait));
+            }
+
 
         }
     }

@@ -12,10 +12,10 @@ public class Nutration {
     private String name;
     @SerializedName("p_id")
     @Expose
-    private Integer pId;
+    private String pId;
     @SerializedName("value")
     @Expose
-    private Integer value;
+    private String value;
     @SerializedName("unit")
     @Expose
     private String unit;
@@ -61,7 +61,7 @@ public class Nutration {
      * @return
      * The pId
      */
-    public Integer getPId() {
+    public String getPId() {
         return pId;
     }
 
@@ -70,7 +70,7 @@ public class Nutration {
      * @param pId
      * The p_id
      */
-    public void setPId(Integer pId) {
+    public void setPId(String pId) {
         this.pId = pId;
     }
 
@@ -79,7 +79,7 @@ public class Nutration {
      * @return
      * The value
      */
-    public Integer getValue() {
+    public String getValue() {
         return value;
     }
 
@@ -88,7 +88,7 @@ public class Nutration {
      * @param value
      * The value
      */
-    public void setValue(Integer value) {
+    public void setValue(String value) {
         this.value = value;
     }
 
