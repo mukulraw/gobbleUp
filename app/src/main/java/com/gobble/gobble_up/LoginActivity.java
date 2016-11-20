@@ -171,7 +171,7 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
                             // profile2 is the new profile
                             //Log.v("facebook - profile1", profile2.getFirstName());
                             String p = profile2.getId();
-                            String e = profile2.getName();
+                            String e = profile2.getId();
                             imageUrl = String.valueOf(profile2.getProfilePictureUri(70,70));
                             fb_flag = true;
                             new login(e , p).execute();
@@ -185,7 +185,7 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
                     Profile profile = Profile.getCurrentProfile();
                     //Log.v("facebook - profile2", profile.getFirstName());
                     String p = profile.getId();
-                    String e = profile.getName();
+                    String e = profile.getId();
                     imageUrl = String.valueOf(profile.getProfilePictureUri(70,70));
                     fb_flag = true;
                     new login(e , p).execute();
@@ -366,12 +366,12 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
             GoogleSignInAccount acct = result.getSignInAccount();
             String e = null;
             if (acct != null) {
-                e = acct.getEmail();
+                e = acct.getId();
             }
             //Log.d("asdsd" , e);
             String p = null;
             if (acct != null) {
-                p = acct.getEmail();
+                p = acct.getId();
             }
             if (acct != null) {
                 imageUrl = String.valueOf(acct.getPhotoUrl());

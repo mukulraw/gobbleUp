@@ -93,7 +93,7 @@ public class StartActivity extends AppCompatActivity implements GoogleApiClient.
                     public void onSuccess(LoginResult loginResult) {
                         AccessToken accessToken = loginResult.getAccessToken();
                         Profile profile = Profile.getCurrentProfile();
-                        String e = profile.getName();
+                        String e = profile.getId();
                         nn = e;
                         //Log.d("asdsd" , e);
                         String p = profile.getId();
@@ -280,10 +280,10 @@ public class StartActivity extends AppCompatActivity implements GoogleApiClient.
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
-            String e = acct.getEmail();
+            String e = acct.getId();
             nn = e;
             //Log.d("asdsd" , e);
-            String p = acct.getEmail();
+            String p = acct.getId();
             pp = p;
             imageUrl = String.valueOf(acct.getPhotoUrl());
             //Log.d("asdasdasd" , p);

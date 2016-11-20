@@ -115,7 +115,7 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
                             // profile2 is the new profile
                             String p = profile2.getId();
                            //Log.d("asdasdasdfbId" , p);
-                            String e = profile2.getName();
+                            String e = profile2.getId();
                             String n = profile2.getName();
 
                             new login(e , n , p).execute();
@@ -129,7 +129,7 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
                     Profile profile = Profile.getCurrentProfile();
                     String p = profile.getId();
                    // Log.d("asdasdasdfbId" , p);
-                    String e = profile.getName();
+                    String e = profile.getId();
                     String n = profile.getName();
 
                     new login(e , n , p).execute();
@@ -282,10 +282,10 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
             //String url = String.valueOf(acct.getPhotoUrl());
-            String e = acct.getEmail();
+            String e = acct.getId();
          //   Log.d("asdasd"  , e);
             String n = acct.getDisplayName();
-            String p = acct.getEmail();
+            String p = acct.getId();
            // Log.d("asdasdid" , p);
 
 
@@ -449,7 +449,7 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
             {
 
 
-                Toast.makeText(getApplicationContext() , email1+"\n"+"successfully registered\nPlease Login to continue" , Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext() , name1+"\n"+"successfully registered\nPlease Login to continue" , Toast.LENGTH_SHORT).show();
 
 
                 name.setText("");

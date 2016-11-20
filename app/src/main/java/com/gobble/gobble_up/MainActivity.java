@@ -222,6 +222,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }
 
+        if (id == R.id.home)
+        {
+
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+            CategoryFragment frag1 = new CategoryFragment();
+
+
+
+            //ft.remove(frag1);
+            ft.replace(R.id.layoutToReplace , frag1);
+            ft.commit();
+
+
+        }
+
         if(id == R.id.nav_log_out)
         {
             pref = getSharedPreferences("MySignin", Context.MODE_PRIVATE);
