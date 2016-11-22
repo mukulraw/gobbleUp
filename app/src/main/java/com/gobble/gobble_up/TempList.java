@@ -1,9 +1,12 @@
 package com.gobble.gobble_up;
 
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -121,17 +124,26 @@ public class TempList extends AppCompatActivity {
 
 
 
-        ItemTouchHelper.Callback callback =
-                new SimpleItemTouchHelperCallback(adapter);
-        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
-        touchHelper.attachToRecyclerView(listview);
 
-
-
-     /*   ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.START | ItemTouchHelper.END ) {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
                 return false;
+            }
+
+            @Override
+            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+
+
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+                View itemView = viewHolder.itemView;
+
+               // Drawable d = ContextCompat.getDrawable(getBaseContext() , R.drawable.black_shade);
+                //d.setBounds(itemView.getLeft(), itemView.getTop(), (int) dX, itemView.getBottom());
+                //d.draw(c);
+
+
+
             }
 
             @Override
@@ -139,24 +151,19 @@ public class TempList extends AppCompatActivity {
 
 
 
-
-
-                b.tempList.remove(viewHolder.getAdapterPosition());
+                //b.list.remove(viewHolder.getAdapterPosition());
                 //adapter.notifyDataSetChanged();
-                refresh();
-                adapter = new tempAdapter(getApplicationContext() , list);
-                listview.setAdapter(adapter);
+                //adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
 
 
+                adapter.onItemDismiss(viewHolder.getAdapterPosition());
 
+                checkList();
 
 
 
 
             }
-
-
-
         };
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
@@ -164,7 +171,17 @@ public class TempList extends AppCompatActivity {
         itemTouchHelper.attachToRecyclerView(listview);
 
 
-*/
+
+
+
+        //ItemTouchHelper.Callback callback =
+        //        new SimpleItemTouchHelperCallback(adapter);
+        //ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        //touchHelper.attachToRecyclerView(listview);
+
+
+
+
 
 
 
@@ -223,10 +240,9 @@ public class TempList extends AppCompatActivity {
                 adapter.setGridData(list);
                 adapter.notifyDataSetChanged();
 
-                //tempAdapter adapter = new tempAdapter(getApplicationContext() , list);
+                checkList();
 
-                //listview.setAdapter(adapter);
-                //listview.setLayoutManager(layoutManager);
+
 
 
             }
@@ -261,11 +277,7 @@ public class TempList extends AppCompatActivity {
                 listview.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
 
-                //adapter.setGridData(list);
 
-
-
-                //adapter = new tempAdapter(getApplicationContext() , list);
 
                 saveList.setVisibility(View.VISIBLE);
                 listview.setVisibility(View.VISIBLE);
@@ -274,7 +286,7 @@ public class TempList extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ArrayList<CompareModel>> call, Throwable t) {
-                //Log.d("Error",t.getMessage());
+
             }
         });
 
@@ -286,357 +298,15 @@ public class TempList extends AppCompatActivity {
     }
 
 
-    public class connect extends AsyncTask<Void , Void , Void>
+    private void checkList()
     {
-
-        List<String> nutrition = new ArrayList<>();
-
-
-
-        InputStream is;
-        String json;
-        JSONObject object;
-        String prie , desc , nae , ima;
-        JSONArray mainArray , nutArray;
-        String faat , pro , carb;
-
-
-
-        int length;
-        String url;
-
-        connect(String url)
+        if (list.size() < 1)
         {
-            this.url = url;
-        }
-
-
-
-
-        @Override
-        protected Void doInBackground(Void... params) {
-
-
-            try {
-                // HttpClient client = new DefaultHttpClient();
-                //  HttpGet get = new HttpGet(url);
-                //  HttpResponse response = client.execute(get);
-                //HttpEntity entity = response.getEntity();
-                //is = entity.getContent();
-
-                URL u = new URL(url);
-                HttpURLConnection connection = (HttpURLConnection)u.openConnection();
-                connection.setConnectTimeout(1000);
-                if(connection.getResponseCode()==200)
-                {
-                    is = connection.getInputStream();
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            try {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(
-                        is, "utf-8"), 8);
-                StringBuilder sb = new StringBuilder();
-                String line = null;
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line).append("\n");
-                }
-                is.close();
-                json = sb.toString();
-            } catch (Exception e) {
-                e.printStackTrace();
-                //Log.e("Buffer Error", "Error converting result " + e.toString());
-            }
-
-            try {
-                mainArray = new JSONArray(json);
-                //length = array.length();
-            } catch (JSONException | NullPointerException e) {
-                e.printStackTrace();
-                //Log.e("JSON Parser", "Error parsing data " + e.toString());
-            }
-
-
-            try {
-                object = mainArray.getJSONObject(0);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-
-            try {
-                prie = object.getString("price");
-                nae = object.getString("name");
-                desc = object.getString("description");
-                ima = object.getString("image");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-
-            try {
-                nutArray = object.getJSONArray("nutration");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            length = nutArray.length();
-
-            for (int i=0 ; i<length;i++)
-            {
-                try {
-                    JSONObject obj = nutArray.getJSONObject(i);
-
-                    if (obj.getString("unit").equals("per"))
-                    {
-                        nutrition.add(obj.getString("value") + "%");
-                    }
-
-                    else
-                    {
-                        nutrition.add(obj.getString("value") +  obj.getString("unit"));
-                    }
-
-
-
-                } catch (JSONException | NullPointerException e) {
-                    e.printStackTrace();
-                }
-            }
-            try {
-                faat = nutArray.getJSONObject(1).getString("value");
-                pro = nutArray.getJSONObject(3).getString("value");
-                carb = nutArray.getJSONObject(2).getString("value");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-
-
-
-
-/*
-
-            comparelistBean bean = new comparelistBean();
-            bean.setImage(ima);
-            bean.setPrice(prie);
-            bean.setName(nae);
-            bean.setCalories(nutrition.get(0));
-            bean.setFat(nutrition.get(1));
-            bean.setCarbs(nutrition.get(2));
-            bean.setProtein(nutrition.get(3));
-            bean.setSodium(nutrition.get(4));
-            bean.setPotassium(nutrition.get(5));
-            bean.setFiber(nutrition.get(6));
-            bean.setSugar(nutrition.get(7));
-            bean.setVita(nutrition.get(8));
-            bean.setVitc(nutrition.get(9));
-            bean.setCalcium(nutrition.get(10));
-            bean.setIron(nutrition.get(11));
-
-            list.add(bean);
-
-
-            empty.setVisibility(View.GONE);
-*/
-
-
+            finish();
         }
     }
 
 
-    private class connect2 extends AsyncTask<Void , Void , Void>
-    {
-
-        List<String> nutrition = new ArrayList<>();
-
-
-
-        InputStream is;
-        String json;
-        JSONObject object;
-        String prie , desc , nae , ima;
-        JSONArray mainArray , nutArray;
-        String faat , pro , carb;
-
-
-
-        int length;
-        String url;
-
-        connect2(String url)
-        {
-            this.url = url;
-        }
-
-
-
-
-        @Override
-        protected Void doInBackground(Void... params) {
-
-
-            try {
-                // HttpClient client = new DefaultHttpClient();
-                //  HttpGet get = new HttpGet(url);
-                //  HttpResponse response = client.execute(get);
-                //HttpEntity entity = response.getEntity();
-                //is = entity.getContent();
-
-                URL u = new URL(url);
-                HttpURLConnection connection = (HttpURLConnection)u.openConnection();
-                if(connection.getResponseCode()==200)
-                {
-                    is = connection.getInputStream();
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            try {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(
-                        is, "utf-8"), 8);
-                StringBuilder sb = new StringBuilder();
-                String line = null;
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line).append("\n");
-                }
-                is.close();
-                json = sb.toString();
-            } catch (Exception e) {
-                e.printStackTrace();
-                //Log.e("Buffer Error", "Error converting result " + e.toString());
-            }
-
-            try {
-                mainArray = new JSONArray(json);
-                //length = array.length();
-            } catch (JSONException | NullPointerException e) {
-                e.printStackTrace();
-                //Log.e("JSON Parser", "Error parsing data " + e.toString());
-            }
-
-
-            try {
-                object = mainArray.getJSONObject(0);
-            } catch (JSONException | NullPointerException e) {
-                e.printStackTrace();
-            }
-
-
-            try {
-                prie = object.getString("price");
-                nae = object.getString("name");
-                desc = object.getString("description");
-                ima = object.getString("image");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-
-            try {
-                nutArray = object.getJSONArray("nutration");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            length = nutArray.length();
-
-            for (int i=0 ; i<length;i++)
-            {
-                try {
-                    JSONObject obj = nutArray.getJSONObject(i);
-
-                    if (obj.getString("unit").equals("per"))
-                    {
-                        nutrition.add(obj.getString("value") + "%");
-                    }
-
-                    else
-                    {
-                        nutrition.add(obj.getString("value") +  obj.getString("unit"));
-                    }
-
-
-
-                } catch (JSONException | NullPointerException e) {
-                    e.printStackTrace();
-                }
-            }
-            try {
-                faat = nutArray.getJSONObject(1).getString("value");
-                pro = nutArray.getJSONObject(3).getString("value");
-                carb = nutArray.getJSONObject(2).getString("value");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-
-
-
-
-
-/*
-
-            comparelistBean bean = new comparelistBean();
-            bean.setImage(ima);
-            bean.setPrice(prie);
-            bean.setName(nae);
-            bean.setCalories(nutrition.get(0));
-            bean.setFat(nutrition.get(1));
-            bean.setCarbs(nutrition.get(2));
-            bean.setProtein(nutrition.get(3));
-            bean.setSodium(nutrition.get(4));
-            bean.setPotassium(nutrition.get(5));
-            bean.setFiber(nutrition.get(6));
-            bean.setSugar(nutrition.get(7));
-            bean.setVita(nutrition.get(8));
-            bean.setVitc(nutrition.get(9));
-            bean.setCalcium(nutrition.get(10));
-            bean.setIron(nutrition.get(11));
-
-            list.add(bean);
-
-            progressBar.setVisibility(View.GONE);
-
-            adapter.setGridData(list);
-
-            for (int i = 0 ; i < list.size() ; i++)
-            {
-                adapter.addItem(i);
-            }
-*/
-
-            //adapter = new tempAdapter(getApplicationContext() , list);
-
-            saveList.setVisibility(View.VISIBLE);
-            listview.setVisibility(View.VISIBLE);
-            //listview.setAdapter(adapter);
-            //listview.setLayoutManager(layoutManager);
-
-
-
-
-        }
-    }
 
 
 }

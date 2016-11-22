@@ -85,7 +85,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
     private String iidd;
     RatingBar ratrr;
     private List<String> nutrition;
-    private PieChart pieChart;
+
     private TextView brand , price_single , calories_single , description ;
     private String GET_REVIEWS = "http://nationproducts.in/global/api/productreviews/id/";
     private BarChart barChart;
@@ -118,8 +118,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
         siz = (TextView)view.findViewById(R.id.title_size);
 
         nutrition = new ArrayList<>();
-        pieChart = (PieChart)view.findViewById(R.id.pie);
-        pieChart.setUsePercentValues(true);
+
 
         clickRating = (RelativeLayout)view.findViewById(R.id.click_rating);
 
@@ -174,13 +173,15 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
         mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
 
 
+        TextView head = (TextView)view.findViewById(R.id.bottom_bar_heading);
 
-        clickToExpand.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-            }
-        });
+
+        int height = head.getMeasuredHeight();
+
+
+        Log.d("asdheight" , String.valueOf(height));
+
+        mBottomSheetBehavior.setPeekHeight(30);
 
 
 
@@ -284,11 +285,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
                         if (bar.getState() == BottomSheetBehavior.STATE_COLLAPSED)
                         {
-                           // TranslateAnimation animate = new TranslateAnimation(0,0,bar.getHeight(),0);
-                           // animate.setDuration(500);
-                           // animate.setFillAfter(true);
-                           // bar.startAnimation(animate);
-                            //bar.setVisibility(View.VISIBLE);
+
                             bar.setState(BottomSheetBehavior.STATE_EXPANDED);
 
                         }
@@ -473,23 +470,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
 
 
-                if (labels.size() == 0)
-                {
-                    pieChart.setVisibility(View.GONE);
-                }
-                else
-                {
-                    pieChart.setVisibility(View.VISIBLE);
-                }
-                PieData data = new PieData(labels, dataset);
-                data.setValueFormatter(new PercentFormatter());
-                data.setValueTextSize(11f);
-                data.setValueTextColor(Color.BLACK);
-                pieChart.setData(data);
-                pieChart.setDescription("Nutrition");
-                pieChart.animate();
 
-                pieChart.invalidate();
 
 
                 ArrayList<String> labels1 = new ArrayList<String>();
@@ -914,15 +895,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
 
 
-            PieData data = new PieData(labels, dataset);
-            data.setValueFormatter(new PercentFormatter());
-            data.setValueTextSize(11f);
-            data.setValueTextColor(Color.BLACK);
-            pieChart.setData(data);
-            pieChart.setDescription("Nutrition");
-            pieChart.animate();
 
-            pieChart.invalidate();
 
 
 
@@ -949,117 +922,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
 
 
-    private class connect2 extends AsyncTask<Void , Void , Void>
-    {
 
-        InputStream is;
-        String json;
-        JSONArray array;
-        comparebean b;
-        int length;
-        String url;
-
-
-        connect2(String url)
-        {
-            this.url = url;
-        }
-
-
-
-
-        @Override
-        protected Void doInBackground(Void... params) {
-
-
-            // Log.d("Sub category fragment" , url);
-
-            try {
-                //HttpClient client = new DefaultHttpClient();
-                //HttpGet get = new HttpGet(url);
-                //HttpResponse response = client.execute(get);
-                //HttpEntity entity = response.getEntity();
-                //is = entity.getContent();
-                URL u = new URL(url);
-                HttpURLConnection connection = (HttpURLConnection)u.openConnection();
-                if(connection.getResponseCode()==200)
-                {
-                    is = connection.getInputStream();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            try {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(
-                        is, "utf-8"), 8);
-                StringBuilder sb = new StringBuilder();
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line).append("\n");
-                }
-                is.close();
-                json = sb.toString();
-            } catch (Exception e) {
-                e.printStackTrace();
-                // Log.e("Buffer Error", "Error converting result " + e.toString());
-            }
-
-            try {
-                array = new JSONArray(json);
-                length = array.length();
-            } catch (JSONException | NullPointerException e) {
-                e.printStackTrace();
-                // Log.e("JSON Parser", "Error parsing data " + e.toString());
-            }
-
-
-            for (int i=0 ; i<length;i++)
-            {
-
-                try {
-                    JSONObject obj = array.getJSONObject(i);
-
-
-                    String r = obj.getString("rating");
-
-
-                    rat = rat + Float.parseFloat(r);
-
-
-
-
-
-                } catch (JSONException | NullPointerException e) {
-                    e.printStackTrace();
-                }
-            }
-
-
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-
-            // adapter.setGridData(list1);
-
-
-
-            ratrr.setRating(rat/length);
-
-
-            scroller.setVisibility(View.VISIBLE);
-
-            barr.setVisibility(View.GONE);
-
-            //list.clear();
-            //mProgressBar.setVisibility(View.GONE);
-
-        }
-    }
 
 
     public void fetch2(final String url)
@@ -1100,7 +963,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
             @Override
             public void onFailure(Call<ArrayList<ReviewModel>> call, Throwable t) {
-                //Log.d("Error",t.getMessage());
+
             }
         });
 

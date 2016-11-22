@@ -3,6 +3,7 @@ package com.gobble.gobble_up;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPropertyAnimatorListener;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,9 +28,7 @@ import java.util.List;
 
 import jp.wasabeef.recyclerview.animators.holder.AnimateViewHolder;
 
-/**
- * Created by hi on 6/18/2016.
- */
+
 class tempAdapter extends RecyclerView.Adapter<tempAdapter.RecycleViewHolder> implements ItemTouchHelperAdapter {
     private final Context context;
     ArrayList<CompareModel> list = new ArrayList<>();
@@ -64,13 +64,7 @@ class tempAdapter extends RecyclerView.Adapter<tempAdapter.RecycleViewHolder> im
                 .cacheOnDisc(true).resetViewBeforeLoading(false).build();
 
 
-        //  if (item.getPrice() == null)
-        //  {
-        //      holder.add.setVisibility(View.GONE);
-        //      holder.price.setVisibility(View.INVISIBLE);
-        //      holder.calories.setGravity(Gravity.START);
-        //      holder.fat.setGravity(Gravity.START);
-        //  }
+
 
         ImageLoader imageLoader = ImageLoader.getInstance();
 
@@ -100,11 +94,7 @@ class tempAdapter extends RecyclerView.Adapter<tempAdapter.RecycleViewHolder> im
 
 
 
-    void addItem(int position)
-    {
-        //this.list.add(position , item);
-        notifyItemInserted(position);
-    }
+
 
 
 
@@ -127,7 +117,7 @@ class tempAdapter extends RecyclerView.Adapter<tempAdapter.RecycleViewHolder> im
         notifyItemRemoved(position);
     }
 
-    class RecycleViewHolder extends AnimateViewHolder {
+    class RecycleViewHolder extends AnimateViewHolder implements View.OnClickListener{
 
         ImageView image;
         TextView price , name;
@@ -140,6 +130,7 @@ class tempAdapter extends RecyclerView.Adapter<tempAdapter.RecycleViewHolder> im
 
         RecycleViewHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
             image = (ImageView)itemView.findViewById(R.id.tempprodImage);
             price = (TextView)itemView.findViewById(R.id.tempprodPrice);
             name = (TextView)itemView.findViewById(R.id.tempprodName);
@@ -171,6 +162,21 @@ class tempAdapter extends RecyclerView.Adapter<tempAdapter.RecycleViewHolder> im
         }
 
 
+        @Override
+        public void onClick(View view) {
+
+            Intent intent = new Intent(context , MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            Bundle b = new Bundle();
+            b.putBoolean("basket" , true);
+            b.putString("id" , list.get(getAdapterPosition()).getId());
+            b.putString("image" , list.get(getAdapterPosition()).getImage());
+            intent.putExtras(b);
+
+
+            context.startActivity(intent);
+
+        }
     }
 
 

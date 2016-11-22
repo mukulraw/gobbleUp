@@ -54,9 +54,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * Created by hi on 6/16/2016.
- */
+
 public class Compare2 extends AppCompatActivity {
 
     RecyclerView listview;
@@ -66,7 +64,7 @@ public class Compare2 extends AppCompatActivity {
     LinearLayoutManager layoutManager;
     ProgressBar bar;
     TextView empty;
-compareAdapter adapter;
+    compareAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -144,6 +142,7 @@ compareAdapter adapter;
 
                 adapter.onItemDismiss(viewHolder.getAdapterPosition());
 
+                checkList();
 
 
 
@@ -165,6 +164,15 @@ compareAdapter adapter;
 
         //listview.setAdapter(adapter);
         //listview.setLayoutManager(lLayout);
+    }
+
+
+    private void checkList()
+    {
+        if (list.size() < 1)
+        {
+            finish();
+        }
     }
 
 
@@ -262,355 +270,10 @@ compareAdapter adapter;
 
 
 
-    public class connect extends AsyncTask<Void , Void , Void>
-    {
 
-        List<String> nutrition = new ArrayList<>();
 
 
 
-        InputStream is;
-        String json;
-        JSONObject object;
-        String prie , desc , nae , ima;
-        JSONArray mainArray , nutArray;
-        String faat , pro , carb , idd;
-
-
-
-        int length;
-        String url;
-
-        connect(String url)
-        {
-            this.url = url;
-        }
-
-
-
-
-        @Override
-        protected Void doInBackground(Void... params) {
-
-
-            try {
-                // HttpClient client = new DefaultHttpClient();
-                //  HttpGet get = new HttpGet(url);
-                //  HttpResponse response = client.execute(get);
-                //HttpEntity entity = response.getEntity();
-                //is = entity.getContent();
-
-                URL u = new URL(url);
-                HttpURLConnection connection = (HttpURLConnection)u.openConnection();
-                if(connection.getResponseCode()==200)
-                {
-                    is = connection.getInputStream();
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            try {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(
-                        is, "utf-8"), 8);
-                StringBuilder sb = new StringBuilder();
-                String line = null;
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line).append("\n");
-                }
-                is.close();
-                json = sb.toString();
-            } catch (Exception e) {
-                e.printStackTrace();
-                //Log.e("Buffer Error", "Error converting result " + e.toString());
-            }
-
-            try {
-                mainArray = new JSONArray(json);
-                //length = array.length();
-            } catch (JSONException | NullPointerException e) {
-                e.printStackTrace();
-                //Log.e("JSON Parser", "Error parsing data " + e.toString());
-            }
-
-
-            try {
-                object = mainArray.getJSONObject(0);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-
-            try {
-                prie = object.getString("price");
-                nae = object.getString("name");
-                desc = object.getString("description");
-                ima = object.getString("image");
-                idd = object.getString("id");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-
-            try {
-                nutArray = object.getJSONArray("nutration");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            length = nutArray.length();
-
-            for (int i=0 ; i<length;i++)
-            {
-                try {
-                    JSONObject obj = nutArray.getJSONObject(i);
-
-                    if (obj.getString("unit").equals("per"))
-                    {
-                        nutrition.add(obj.getString("value") + "%");
-                    }
-
-                    else
-                    {
-                        nutrition.add(obj.getString("value") +  obj.getString("unit"));
-                    }
-
-
-
-                } catch (JSONException | NullPointerException e) {
-                    e.printStackTrace();
-                }
-            }
-            try {
-                faat = nutArray.getJSONObject(1).getString("value");
-                pro = nutArray.getJSONObject(3).getString("value");
-                carb = nutArray.getJSONObject(2).getString("value");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-
-
-
-
-
-/*
-            comparelistBean bean = new comparelistBean();
-            bean.setImage(ima);
-            bean.setId(idd);
-            bean.setPrice(prie);
-            bean.setName(nae);
-            bean.setCalories(nutrition.get(0));
-            bean.setFat(nutrition.get(1));
-            bean.setCarbs(nutrition.get(2));
-            bean.setProtein(nutrition.get(3));
-            bean.setSodium(nutrition.get(4));
-            bean.setPotassium(nutrition.get(5));
-            bean.setFiber(nutrition.get(6));
-            bean.setSugar(nutrition.get(7));
-            bean.setVita(nutrition.get(8));
-            bean.setVitc(nutrition.get(9));
-            bean.setCalcium(nutrition.get(10));
-            bean.setIron(nutrition.get(11));
-
-            list.add(bean);
-
-            //compareAdapter adapter = new compareAdapter(getApplicationContext() , list);
-
-            empty.setVisibility(View.GONE);
-*/
-
-
-
-
-
-        }
-    }
-
-
-    private class connect2 extends AsyncTask<Void , Void , Void>
-    {
-
-        List<String> nutrition = new ArrayList<>();
-
-
-
-        InputStream is;
-        String json;
-        JSONObject object;
-        String prie , desc , nae , ima;
-        JSONArray mainArray , nutArray;
-        String faat , pro , carb , idd;
-
-        URL u = null;
-        HttpURLConnection connection;
-
-
-        int length;
-        String url;
-
-        connect2(String url)
-        {
-            this.url = url;
-        }
-
-
-
-
-        @Override
-        protected Void doInBackground(Void... params) {
-
-
-            try {
-                // HttpClient client = new DefaultHttpClient();
-                //  HttpGet get = new HttpGet(url);
-                //  HttpResponse response = client.execute(get);
-                //HttpEntity entity = response.getEntity();
-                //is = entity.getContent();
-
-                u = new URL(url);
-                connection = (HttpURLConnection)u.openConnection();
-                if(connection.getResponseCode()==200)
-                {
-                    is = connection.getInputStream();
-                }
-                BufferedReader reader = new BufferedReader(new InputStreamReader(
-                        is, "utf-8"), 8);
-                StringBuilder sb = new StringBuilder();
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line).append("\n");
-                }
-                is.close();
-                json = sb.toString();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }finally {
-                connection.disconnect();
-            }
-
-
-
-            try {
-                mainArray = new JSONArray(json);
-                //length = array.length();
-            } catch (JSONException | NullPointerException e) {
-                e.printStackTrace();
-                //Log.e("JSON Parser", "Error parsing data " + e.toString());
-            }
-
-
-            try {
-                object = mainArray.getJSONObject(0);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-
-            try {
-                prie = object.getString("price");
-                nae = object.getString("name");
-                desc = object.getString("description");
-                ima = object.getString("image");
-                idd = object.getString("id");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-
-            try {
-                nutArray = object.getJSONArray("nutration");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            length = nutArray.length();
-
-            for (int i=0 ; i<length;i++)
-            {
-                try {
-                    JSONObject obj = nutArray.getJSONObject(i);
-
-                    if (obj.getString("unit").equals("per"))
-                    {
-                        nutrition.add(obj.getString("value") + "%");
-                    }
-
-                    else
-                    {
-                        nutrition.add(obj.getString("value") +  obj.getString("unit"));
-                    }
-
-
-
-                } catch (JSONException | NullPointerException e) {
-                    e.printStackTrace();
-                }
-            }
-            try {
-                faat = nutArray.getJSONObject(1).getString("value");
-                pro = nutArray.getJSONObject(3).getString("value");
-                carb = nutArray.getJSONObject(2).getString("value");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-
-
-
-
-
-
-      /*      comparelistBean bean = new comparelistBean();
-            bean.setImage(ima);
-            bean.setId(idd);
-            bean.setPrice(prie);
-            bean.setName(nae);
-            bean.setCalories(nutrition.get(0));
-            bean.setFat(nutrition.get(1));
-            bean.setCarbs(nutrition.get(2));
-            bean.setProtein(nutrition.get(3));
-            bean.setSodium(nutrition.get(4));
-            bean.setPotassium(nutrition.get(5));
-            bean.setFiber(nutrition.get(6));
-            bean.setSugar(nutrition.get(7));
-            bean.setVita(nutrition.get(8));
-            bean.setVitc(nutrition.get(9));
-            bean.setCalcium(nutrition.get(10));
-            bean.setIron(nutrition.get(11));
-
-            list.add(bean);
-
-            bar.setVisibility(View.GONE);
-
-            listview.setVisibility(View.VISIBLE);
-
-
-            adapter.setGridData(list);
-            adapter.notifyDataSetChanged();
-
-*/
-
-
-
-
-        }
-    }
 
 
 }

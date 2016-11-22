@@ -377,7 +377,7 @@
 
             <TextView
                 android:layout_width="match_parent"
-
+                android:id="@+id/bottom_bar_heading"
                 android:layout_marginBottom="10dp"
                 android:layout_height="wrap_content"
                 android:text="NUTRITIONAL DETAILS"
@@ -841,12 +841,7 @@
 
 
 
-                <com.github.mikephil.charting.charts.PieChart
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:id="@+id/pie"
-                    android:layout_gravity="center_horizontal"
-                    />
+
 
                 <com.github.mikephil.charting.charts.BarChart
                     android:layout_width="match_parent"

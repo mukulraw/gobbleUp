@@ -52,7 +52,7 @@ class DBHandler extends SQLiteOpenHelper{
 
 
 
-    public void insertSubData(offlineSubListBean item)
+    void insertSubData(offlineSubListBean item)
     {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -77,15 +77,15 @@ class DBHandler extends SQLiteOpenHelper{
     }
 
 
-    public List<offlineSubListBean> getSubData(String iidd)
+    List<offlineSubListBean> getSubData(String iidd)
     {
         List<offlineSubListBean> list = new ArrayList<>();
-       // String query = "SELECT * FROM "+SUB_TABLE+" WHERE "+LIST_ID+"="+iidd;
+
         SQLiteDatabase db = this.getWritableDatabase();
         String[] columnNames = new String[] {KEY_ID , LIST_ID , PROD_NAME , PROD_PRICE , PROD_IMAGE , PROD_ID};
         String whereClause = LIST_ID+"="+iidd;
 
-       // return mDb.query(DATABASE_TABLE_TIMETABLE, columnNames, whereClause, null, null, null, null);
+
 
 
         Cursor cursor = db.query(SUB_TABLE , columnNames , whereClause , null , null , null , null);

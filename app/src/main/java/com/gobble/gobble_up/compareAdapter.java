@@ -34,6 +34,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 class compareAdapter extends RecyclerView.Adapter<compareAdapter.RecycleViewHolder> implements ItemTouchHelperAdapter{
@@ -89,25 +90,25 @@ class compareAdapter extends RecyclerView.Adapter<compareAdapter.RecycleViewHold
 
             holder.price.setText("Price: "+item.getPrice());
             holder.name.setText(item.getName());
-            holder.calories.setText(Html.fromHtml("<b><i>Calories:   </i></b>"+item.getNutration().get(0).getValue()));
+            holder.calories.setText(Html.fromHtml("<b><i>Calories:   </i></b>"+item.getNutration().get(0).getValue() + "g"));
             //holder.calories.setText("<b>Calories:   </b>"+item.getCalories());
-            holder.fat.setText(Html.fromHtml("<b><i>Calories:   </i></b>"+item.getNutration().get(1).getValue()));
-            holder.carbs.setText(Html.fromHtml("<b><i>Carbohydrates:   </i></b>"+item.getNutration().get(2).getValue()));
-            holder.protein.setText(Html.fromHtml("<b><i>Protein:   </i></b>"+item.getNutration().get(3).getValue()));
-            holder.sodium.setText(Html.fromHtml("<b><i>Sodium:   </i></b>"+item.getNutration().get(4).getValue()));
-            holder.potassium.setText(Html.fromHtml("<b><i>Potassium:   </i></b>"+item.getNutration().get(5).getValue()));
-            holder.fiber.setText(Html.fromHtml("<b><i>Fiber:   </i></b>"+item.getNutration().get(6).getValue()));
-            holder.sugar.setText(Html.fromHtml("<b><i>Sugar:   </i></b>"+item.getNutration().get(7).getValue()));
-            holder.vita.setText(Html.fromHtml("<b><i>Vitamin A:   </i></b>"+item.getNutration().get(8).getValue()));
-            holder.vitc.setText(Html.fromHtml("<b><i>Vitamin C:   </i></b>"+item.getNutration().get(9).getValue()));
+            holder.fat.setText(Html.fromHtml("<b><i>Calories:   </i></b>"+item.getNutration().get(1).getValue() + "g"));
+            holder.carbs.setText(Html.fromHtml("<b><i>Carbohydrates:   </i></b>"+item.getNutration().get(2).getValue() + "g"));
+            holder.protein.setText(Html.fromHtml("<b><i>Protein:   </i></b>"+item.getNutration().get(3).getValue() + "g"));
+            holder.sodium.setText(Html.fromHtml("<b><i>Sodium:   </i></b>"+item.getNutration().get(4).getValue() + "mg"));
+            holder.potassium.setText(Html.fromHtml("<b><i>Potassium:   </i></b>"+item.getNutration().get(5).getValue() + "mg"));
+            holder.fiber.setText(Html.fromHtml("<b><i>Fiber:   </i></b>"+item.getNutration().get(6).getValue() + "g"));
+            holder.sugar.setText(Html.fromHtml("<b><i>Sugar:   </i></b>"+item.getNutration().get(7).getValue() + "g"));
+            holder.vita.setText(Html.fromHtml("<b><i>Vitamin A:   </i></b>"+item.getNutration().get(8).getValue() + "%"));
+            holder.vitc.setText(Html.fromHtml("<b><i>Vitamin C:   </i></b>"+item.getNutration().get(9).getValue() + "%"));
             holder.calcium.setText(Html.fromHtml("<b><i>Calcium:   </i></b>"+item.getNutration().get(10).getValue()));
-            holder.iron.setText(Html.fromHtml("<b><i>Iron:   </i></b>"+item.getNutration().get(11).getValue()));
+            holder.iron.setText(Html.fromHtml("<b><i>Iron:   </i></b>"+item.getNutration().get(11).getValue() + "%"));
 
 
         final comparebean b = (comparebean)context.getApplicationContext();
         for (int i = 0 ; i<b.tempList.size() ; i++)
         {
-            if (item.getId() == b.tempList.get(i).getId())
+            if (Objects.equals(item.getId(), b.tempList.get(i).getId()))
             {
                 holder.add.setBackground(context.getResources().getDrawable(R.drawable.list_yellow));
             }
@@ -124,7 +125,7 @@ class compareAdapter extends RecyclerView.Adapter<compareAdapter.RecycleViewHold
 
                 for (int i = 0 ; i<b.tempList.size() ; i++)
                 {
-                    if (item.getId() == b.tempList.get(i).getId())
+                    if (Objects.equals(item.getId(), b.tempList.get(i).getId()))
                     {
                         flag++;
                     }
@@ -203,7 +204,7 @@ class compareAdapter extends RecyclerView.Adapter<compareAdapter.RecycleViewHold
 
     }
 
-    class RecycleViewHolder extends RecyclerView.ViewHolder{
+    class RecycleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         ImageView image;
         TextView price , name;
@@ -211,8 +212,9 @@ class compareAdapter extends RecyclerView.Adapter<compareAdapter.RecycleViewHold
 
         ImageButton add;
 
-        public RecycleViewHolder(View itemView) {
+        RecycleViewHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
             image = (ImageView)itemView.findViewById(R.id.compare_model_image);
             price = (TextView)itemView.findViewById(R.id.compare_model_price);
             name = (TextView)itemView.findViewById(R.id.compare_model_name);
@@ -221,7 +223,7 @@ class compareAdapter extends RecyclerView.Adapter<compareAdapter.RecycleViewHold
             carbs = (TextView)itemView.findViewById(R.id.compare_carbs);
             protein = (TextView)itemView.findViewById(R.id.compare_protein);
             sodium = (TextView)itemView.findViewById(R.id.compare_sodium);
-            potassium= (TextView)itemView.findViewById(R.id.compare_potassium);
+            potassium = (TextView)itemView.findViewById(R.id.compare_potassium);
             fiber = (TextView)itemView.findViewById(R.id.compare_fiber);
             sugar = (TextView)itemView.findViewById(R.id.compare_sugar);
             vita = (TextView)itemView.findViewById(R.id.compare_vita);
@@ -234,16 +236,26 @@ class compareAdapter extends RecyclerView.Adapter<compareAdapter.RecycleViewHold
         }
 
 
+        @Override
+        public void onClick(View view) {
+
+
+            Intent intent = new Intent(context , MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            Bundle b = new Bundle();
+            b.putBoolean("compare" , true);
+            b.putString("idc" , list.get(getAdapterPosition()).getId());
+            b.putString("imagec" , list.get(getAdapterPosition()).getImage());
+            intent.putExtras(b);
+
+
+            context.startActivity(intent);
 
 
 
 
 
-
-
-
-
-
+        }
     }
 
 

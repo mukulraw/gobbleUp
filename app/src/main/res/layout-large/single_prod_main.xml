@@ -385,7 +385,7 @@
                 android:layout_marginBottom="10dp"
                 android:layout_height="45dp"
                 android:text="NUTRITIONAL DETAILS"
-
+                android:id="@+id/bottom_bar_heading"
                 android:gravity="center_vertical"
                 android:textColor="@color/white"
                 android:background="@color/colorPrimaryDark"
@@ -842,12 +842,6 @@
 
 
 
-                <com.github.mikephil.charting.charts.PieChart
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:id="@+id/pie"
-                    android:layout_gravity="center_horizontal"
-                    />
 
                 <com.github.mikephil.charting.charts.BarChart
                     android:layout_width="match_parent"

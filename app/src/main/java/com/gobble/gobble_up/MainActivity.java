@@ -15,6 +15,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -41,6 +42,8 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationServices;
 
+import org.w3c.dom.Text;
+
 import java.io.InputStream;
 import java.net.URL;
 
@@ -53,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private BottomSheetBehavior bar;
     private TextView countt , countsa;
     DBHandler handler;
+    DrawerLayout drawer;
 
 
     @Override
@@ -61,8 +65,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
 
-        CoordinatorLayout coordinatorLayout = (CoordinatorLayout)this.findViewById(R.id.coordinate);
-
+        CoordinatorLayout coordinatorLayout = (CoordinatorLayout) this.findViewById(R.id.coordinate);
 
 
         handler = new DBHandler(this);
@@ -72,21 +75,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bar = BottomSheetBehavior.from(botto);
 
 
-       // bar.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        // bar.setState(BottomSheetBehavior.STATE_COLLAPSED);
 
-        ImageButton list = (ImageButton) findViewById(R.id.imageButton3);
+        TextView list = (TextView) findViewById(R.id.imageButton3);
 
-        countt = (TextView)findViewById(R.id.textView5);
-        countsa = (TextView)findViewById(R.id.textView4);
-        ImageButton compare = (ImageButton) findViewById(R.id.imageButton2);
+        countt = (TextView) findViewById(R.id.textView5);
+        countsa = (TextView) findViewById(R.id.textView4);
+        TextView compare = (TextView) findViewById(R.id.imageButton2);
 
 
         compare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext() , Compare2.class);
+                Intent i = new Intent(getApplicationContext(), Compare2.class);
 
-                startActivityForResult(i , 12);
+                startActivityForResult(i, 12);
             }
         });
 
@@ -94,14 +97,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext() , TempList.class);
-                startActivityForResult(i , 112);
+                Intent i = new Intent(getApplicationContext(), TempList.class);
+                startActivityForResult(i, 112);
             }
         });
 
         buildGoogleApiClient();
 
-        NavigationView nav = (NavigationView)findViewById(R.id.navId);
+        NavigationView nav = (NavigationView) findViewById(R.id.navId);
 
         nav.setNavigationItemSelectedListener(this);
 
@@ -111,45 +114,101 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         try {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        }catch (NullPointerException e)
-        {
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
 
-        //@SuppressLint("InflateParams") View header = LayoutInflater.from(this).inflate(R.layout.nav_header , null);
-        //nav.addHeaderView(header);
 
         View header = nav.getHeaderView(0);
 
-        Bundle b = getIntent().getExtras();
-
-        if(b!=null) {
-            String url = String.valueOf(b.get("url"));
-            String n = String.valueOf(b.get("name"));
-
-            comparebean be = (comparebean)this.getApplicationContext();
-
-            be.url = url;
-            be.n = n;
-
-            //Log.d("asdasdasd" , n);
-            CircleImageView profile = (CircleImageView) header.findViewById(R.id.headerProfile);
-            TextView head_name = (TextView) header.findViewById(R.id.headertitle);
-            if (url.length() > 0)
-            {
-                new loadImage(profile, url).execute();
-            }
-            else
-            {
-                profile.setImageDrawable(getResources().getDrawable(R.drawable.com_facebook_profile_picture_blank_portrait));
-            }
-
-            head_name.setText(n);
-
-
+        Bundle b = null;
+        if (getIntent().getExtras() != null) {
+            b = getIntent().getExtras();
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawerLayout);
+
+        if (b != null) {
+
+            try {
+
+
+                if (b.getBoolean("basket"))
+                {
+
+                    String id = b.getString("id");
+
+
+
+                    Bundle b1 = new Bundle();
+                    b1.putString("id" , id);
+                    b1.putString("image" , String.valueOf(b.get("image")));
+
+
+
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    SingleProductFragment frag = new SingleProductFragment();
+
+                    frag.setArguments(b1);
+
+                    ft.replace(R.id.layoutToReplace , frag);
+                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+                    ft.commit();
+                }
+
+
+                if (b.getBoolean("compare"))
+                {
+
+                    String id = b.getString("idc");
+
+
+
+                    Bundle b1 = new Bundle();
+                    b1.putString("id" , id);
+                    b1.putString("image" , String.valueOf(b.get("imagec")));
+
+
+
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    SingleProductFragment frag = new SingleProductFragment();
+
+                    frag.setArguments(b1);
+
+                    ft.replace(R.id.layoutToReplace , frag);
+                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+                    ft.commit();
+                }
+
+
+
+
+
+                String url = String.valueOf(b.get("url"));
+                String n = String.valueOf(b.get("name"));
+
+                comparebean be = (comparebean) this.getApplicationContext();
+
+                be.url = url;
+                be.n = n;
+
+                //Log.d("asdasdasd" , n);
+                CircleImageView profile = (CircleImageView) header.findViewById(R.id.headerProfile);
+                TextView head_name = (TextView) header.findViewById(R.id.headertitle);
+                if (url.length() > 0) {
+                    new loadImage(profile, url).execute();
+                } else {
+                    profile.setImageDrawable(getResources().getDrawable(R.drawable.com_facebook_profile_picture_blank_portrait));
+                }
+
+                head_name.setText(n);
+
+            }catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+
+        drawer = (DrawerLayout) findViewById(R.id.drawerLayout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -163,11 +222,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         CategoryFragment frag1 = new CategoryFragment();
 
 
-
         //ft.remove(frag1);
-        ft.add(R.id.layoutToReplace , frag1);
+        ft.add(R.id.layoutToReplace, frag1);
         ft.commit();
-
 
 
     }
@@ -234,6 +291,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             //ft.remove(frag1);
             ft.replace(R.id.layoutToReplace , frag1);
             ft.commit();
+
+            drawer.closeDrawer(GravityCompat.START);
+
+
 
 
         }

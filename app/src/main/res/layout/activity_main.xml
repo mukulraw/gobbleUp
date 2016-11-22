@@ -65,7 +65,7 @@
         <android.support.v4.widget.NestedScrollView
             android:id="@+id/bottombar"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:clipToPadding="false"
             android:background="#B3000000"
@@ -82,18 +82,22 @@
                 >
 
 
-                <ImageButton
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginStart="10dp"
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
                     android:id="@+id/imageButton2"
                     android:layout_alignParentTop="true"
-                    android:background="@drawable/ompar32"
+                    android:drawableEnd="@drawable/ompar32"
+                    android:text="COMPARE LIST"
+                    android:textColor="#fff"
+                    android:drawablePadding="10dp"
                     android:backgroundTint="@color/white"
                     android:layout_alignTop="@+id/textView4"
                     android:layout_alignParentStart="true"
-                    tools:ignore="ContentDescription,UnusedAttribute" />
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -111,17 +115,19 @@
 
 
 
-                <ImageButton
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="10dp"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
                     android:id="@+id/imageButton3"
                     android:layout_alignParentTop="true"
-                    android:background="@drawable/list_black"
+                    android:text="BASKET"
+                    android:textColor="#fff"
+                    android:drawablePadding="10dp"
+                    android:drawableEnd="@drawable/list_black"
                     android:layout_alignTop="@+id/textView5"
                     android:layout_alignParentEnd="true"
-                    tools:ignore="ContentDescription" />
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"

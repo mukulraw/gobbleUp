@@ -34,10 +34,7 @@
         android:gravity="start"
         android:background="@color/colorPrimaryDark"
         android:textColor="@color/white"
-        android:paddingTop="4dp"
-        android:paddingStart="4dp"
-        android:paddingEnd="4dp"
-        android:paddingBottom="4dp"
+        android:padding="18dp"
         android:text="@string/my_grocery_list"
         />
 
