@@ -1,8 +1,6 @@
 package com.gobble.gobble_up;
 
-/**
- * Created by hi on 02-06-2016.
- */
+
 public class compareListViewBean {
 
     String header;

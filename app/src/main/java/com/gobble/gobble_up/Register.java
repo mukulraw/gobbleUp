@@ -2,7 +2,9 @@ package com.gobble.gobble_up;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
@@ -33,6 +35,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationServices;
 
 import org.apache.http.NameValuePair;
@@ -57,6 +61,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
+
 public class Register extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks , GoogleApiClient.OnConnectionFailedListener , View.OnClickListener{
 
 
@@ -66,11 +77,15 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
     private GoogleApiClient mGoogleApiClient;
     Button register;
     public static final int CONNECTION_TIMEOUT=10000;
+    private Boolean goog_flag = false;
     public static final int READ_TIMEOUT=15000;
+    private Boolean fb_flag = false;
+    private String imageUrl = null;
     private String SIGN_UP = "http://nationproducts.in/global/api/register";
 
     Button goog;
     LoginButton fb;
+    private SharedPreferences.Editor edit;
 
     private AccessTokenTracker accessTokenTracker;
     //private ProfileTracker profileTracker;
@@ -82,6 +97,9 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(this);
         setContentView(R.layout.activity_register);
+
+        SharedPreferences pref = getSharedPreferences("MySignin", Context.MODE_PRIVATE);
+        edit = pref.edit();
 
         name = (EditText)findViewById(R.id.et_username);
         email = (EditText)findViewById(R.id.et_Email_id);
@@ -113,12 +131,88 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
                         @Override
                         protected void onCurrentProfileChanged(Profile profile, Profile profile2) {
                             // profile2 is the new profile
-                            String p = profile2.getId();
+                            final String p = profile2.getId();
                            //Log.d("asdasdasdfbId" , p);
-                            String e = profile2.getId();
+                            final String e = profile2.getId();
                             String n = profile2.getName();
+                            fb_flag = true;
+                            //new login(e , n , p).execute();
 
-                            new login(e , n , p).execute();
+
+
+                            String SUB_CATEGORY = "http://nationproducts.in/";
+                            Retrofit retrofit = new Retrofit.Builder()
+                                    .baseUrl(SUB_CATEGORY)
+                                    .addConverterFactory(ScalarsConverterFactory.create())
+                                    .addConverterFactory(GsonConverterFactory.create())
+                                    .build();
+                            final CompareAPI request = retrofit.create(CompareAPI.class);
+
+                            Call<registerBean> call = request.register(n , e , p , "address" , "country" , "city" , "state");
+
+
+                            call.enqueue(new Callback<registerBean>() {
+                                @Override
+                                public void onResponse(Call<registerBean> call, Response<registerBean> response) {
+
+
+
+                                    Call<loginBean> call1 = request.login(e , p);
+
+                                    call1.enqueue(new Callback<loginBean>() {
+                                        @Override
+                                        public void onResponse(Call<loginBean> call, Response<loginBean> response) {
+
+                                            Toast.makeText(getApplicationContext() , "welcome "+response.body().getUserName() , Toast.LENGTH_SHORT).show();
+                                            Intent i = new Intent(getApplicationContext() , GetStartActivity.class);
+
+
+                                            edit.putBoolean("fb" , true);
+                                            edit.apply();
+                                            i.putExtra("url" , imageUrl);
+
+                                            i.putExtra("id" , response.body().getUserId());
+                                            i.putExtra("name" , response.body().getUserName());
+                                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                            startActivity(i);
+                                            finish();
+
+
+
+
+
+
+
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<loginBean> call, Throwable t) {
+
+
+                                            LoginManager.getInstance().logOut();
+                                            fb_flag = false;
+
+
+                                        }
+                                    });
+
+
+
+
+
+
+
+                                }
+
+                                @Override
+                                public void onFailure(Call<registerBean> call, Throwable t) {
+                                    LoginManager.getInstance().logOut();
+                                    fb_flag = false;
+                                }
+                            });
+
+
+
                             mProfileTracker.stopTracking();
                         }
                     };
@@ -127,12 +221,89 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
                 }
                 else {
                     Profile profile = Profile.getCurrentProfile();
-                    String p = profile.getId();
+                    final String p = profile.getId();
                    // Log.d("asdasdasdfbId" , p);
-                    String e = profile.getId();
+                    final String e = profile.getId();
                     String n = profile.getName();
+                    fb_flag = true;
+                    //new login(e , n , p).execute();
 
-                    new login(e , n , p).execute();
+
+
+                    String SUB_CATEGORY = "http://nationproducts.in/";
+                    Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl(SUB_CATEGORY)
+                            .addConverterFactory(ScalarsConverterFactory.create())
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build();
+                    final CompareAPI request = retrofit.create(CompareAPI.class);
+
+                    Call<registerBean> call = request.register(n , e , p , "address" , "country" , "city" , "state");
+
+
+                    call.enqueue(new Callback<registerBean>() {
+                        @Override
+                        public void onResponse(Call<registerBean> call, Response<registerBean> response) {
+
+
+
+                            Call<loginBean> call1 = request.login(e , p);
+
+                            call1.enqueue(new Callback<loginBean>() {
+                                @Override
+                                public void onResponse(Call<loginBean> call, Response<loginBean> response) {
+
+                                    Toast.makeText(getApplicationContext() , "welcome "+response.body().getUserName() , Toast.LENGTH_SHORT).show();
+                                    Intent i = new Intent(getApplicationContext() , GetStartActivity.class);
+
+
+                                    edit.putBoolean("fb" , true);
+                                    edit.apply();
+                                    i.putExtra("url" , imageUrl);
+
+                                    i.putExtra("id" , response.body().getUserId());
+                                    i.putExtra("name" , response.body().getUserName());
+                                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    startActivity(i);
+                                    finish();
+
+
+
+
+
+
+
+                                }
+
+                                @Override
+                                public void onFailure(Call<loginBean> call, Throwable t) {
+
+
+                                    LoginManager.getInstance().logOut();
+                                    fb_flag = false;
+
+
+                                }
+                            });
+
+
+
+
+
+
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<registerBean> call, Throwable t) {
+                            LoginManager.getInstance().logOut();
+                            fb_flag = false;
+                        }
+                    });
+
+
+
+
                 }
 
 
@@ -294,7 +465,102 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
 
 
 
-            new login(e , n , p).execute();
+            //new login(e , n , p).execute();
+
+
+
+
+            //Log.d("asdasdasd" , p);
+
+
+            goog_flag = true;
+
+
+            //new login(e , p).execute();
+
+            String SUB_CATEGORY = "http://nationproducts.in/";
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(SUB_CATEGORY)
+                    .addConverterFactory(ScalarsConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            final CompareAPI request = retrofit.create(CompareAPI.class);
+
+            Call<registerBean> call = request.register(n , e , p , "address" , "country" , "city" , "state");
+
+
+            final String finalE = e;
+            final String finalP = p;
+            call.enqueue(new Callback<registerBean>() {
+                @Override
+                public void onResponse(Call<registerBean> call, Response<registerBean> response) {
+
+
+
+                    Call<loginBean> call1 = request.login(finalE, finalP);
+
+                    call1.enqueue(new Callback<loginBean>() {
+                        @Override
+                        public void onResponse(Call<loginBean> call, Response<loginBean> response) {
+
+                            Toast.makeText(getApplicationContext() , "welcome "+response.body().getUserName() , Toast.LENGTH_SHORT).show();
+                            Intent i = new Intent(getApplicationContext() , GetStartActivity.class);
+
+
+                            edit.putBoolean("google" , true);
+                            edit.apply();
+                            i.putExtra("url" , imageUrl);
+
+                            i.putExtra("id" , response.body().getUserId());
+                            i.putExtra("name" , response.body().getUserName());
+                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(i);
+                            finish();
+
+
+
+
+
+
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<loginBean> call, Throwable t) {
+
+
+                            if (mGoogleApiClient.isConnected()) {
+                                signOut();
+                                goog_flag = false;
+                            }
+
+
+                        }
+                    });
+
+
+
+
+
+
+
+                }
+
+                @Override
+                public void onFailure(Call<registerBean> call, Throwable t) {
+
+                    if (mGoogleApiClient.isConnected()) {
+                        signOut();
+                        goog_flag = false;
+                    }
+
+                }
+            });
+
+
+
+
+
 
 
         } else {
@@ -302,6 +568,21 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
 
         }
     }
+
+
+    private void signOut() {
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(@NonNull Status status) {
+
+
+
+
+                    }
+                });
+    }
+
 
     private synchronized void buildGoogleApiClient() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

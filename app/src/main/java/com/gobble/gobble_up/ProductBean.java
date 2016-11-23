@@ -1,8 +1,5 @@
 package com.gobble.gobble_up;
 
-/**
- * Created by hi on 30-05-2016.
- */
 public class ProductBean {
     int id;
     String image , name , price , protein , calories , brand , size;

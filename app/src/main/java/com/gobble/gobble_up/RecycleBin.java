@@ -4,9 +4,7 @@ import android.os.Build;
 import android.util.SparseArray;
 import android.view.View;
 
-/**
- * Created by hi on 09-06-2016.
- */
+
 public class RecycleBin {
 
     private View[] activeViews = new View[0];

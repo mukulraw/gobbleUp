@@ -10,11 +10,11 @@
 
         <item
             android:id="@+id/nav_camera"
-            android:icon="@drawable/list_really_black"
+            android:icon="@drawable/list"
             android:title="List" />
         <item
             android:id="@+id/nav_gallery"
-            android:icon="@drawable/ompar32"
+            android:icon="@drawable/compare_black"
             android:title="Compare List" />
 
     </group>
@@ -22,7 +22,7 @@
     <item android:title="">
         <menu>
             <item
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/share"
                 android:title="Share" />
             <item
                 android:id="@+id/nav_log_out"

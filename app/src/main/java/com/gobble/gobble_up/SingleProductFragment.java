@@ -20,6 +20,7 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -27,6 +28,7 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
@@ -102,7 +104,10 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
     private BottomSheetBehavior mBottomSheetBehavior;
 
+    LinearLayout paddingView;
+
     float rat;
+    TextView head;
 
 
 
@@ -111,11 +116,13 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.single_prod_main , container , false);
+        final View view = inflater.inflate(R.layout.single_prod_main , container , false);
 
         add = (Button)view.findViewById(R.id.addtolist);
         title = (TextView)view.findViewById(R.id.title_single);
         siz = (TextView)view.findViewById(R.id.title_size);
+
+        paddingView = (LinearLayout)view.findViewById(R.id.padding_view);
 
         nutrition = new ArrayList<>();
 
@@ -129,7 +136,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
         compare = (Button)view.findViewById(R.id.addtocompare);
         barChart = (BarChart)view.findViewById(R.id.bar_chart);
 
-        TextView clickToExpand = (TextView) view.findViewById(R.id.clicktoexpand);
+
 
         scroller = (ScrollView)view.findViewById(R.id.scroller);
 
@@ -173,15 +180,48 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
         mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
 
 
-        TextView head = (TextView)view.findViewById(R.id.bottom_bar_heading);
 
 
-        int height = head.getMeasuredHeight();
+
+        head = (TextView)view.findViewById(R.id.bottom_bar_heading);
 
 
-        Log.d("asdheight" , String.valueOf(height));
 
-        mBottomSheetBehavior.setPeekHeight(30);
+        head.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED)
+                {
+                    mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+                }
+                else
+                {
+                    mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
+                }
+
+
+            }
+        });
+
+
+        ViewTreeObserver vto = head.getViewTreeObserver();
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                mBottomSheetBehavior.setPeekHeight(head.getHeight());
+                scroller.setPadding(0 , 0 , 0 , head.getHeight());
+                head.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+            }
+        });
+
+
+
+
+
+
 
 
 
@@ -262,15 +302,73 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
                 int flag = 0;
                 for (int i = 0 ; i<b.list.size() ; i++)
                 {
-                    if (b.list.get(i).getId() == iidd)
+                    if (Objects.equals(b.list.get(i).getId(), iidd))
                     {
-                       flag = 1;
+                       flag++;
                     }
                 }
 
-                if (flag == 1)
+                if (flag > 0)
                 {
-                    Toast.makeText(getContext() , "Already added to compare" , Toast.LENGTH_SHORT).show();
+                 //   Toast.makeText(getContext() , "Already added to compare" , Toast.LENGTH_SHORT).show();
+
+
+
+                    int index = 0;
+                    // Log.d("asdasdasd" , item.getName());
+                    int l = b.list.size();
+
+
+                    if (l == 1)
+                    {
+                        TextView comp1 = (TextView)((MainActivity)getContext()).findViewById(R.id.textView5);
+
+                        if (comp1.getText().equals("0"))
+                        {
+                            if (bar.getState() == BottomSheetBehavior.STATE_EXPANDED)
+                            {
+                                // TranslateAnimation animate = new TranslateAnimation(0,0,0,bar.getHeight());
+                                //animate.setDuration(500);
+                                //animate.setFillAfter(true);
+                                //bar.startAnimation(animate);
+                                //bar.setVisibility(View.GONE);
+                                bar.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
+                            }
+                        }
+
+
+
+
+                    }
+
+                    for (int i = 0 ; i<l ; i++)
+                    {
+                        if (Objects.equals(iidd, b.list.get(i).getId()))
+                        {
+                            index = i;
+                        }
+                    }
+
+
+                    b.list.remove(index);
+
+                    b.comparecount--;
+                    TextView comp = (TextView)((MainActivity)getContext()).findViewById(R.id.textView4);
+                    comp.setText(String.valueOf(b.list.size()));
+                    //b.list.remove(item);
+
+
+                    compare.setBackground(getResources().getDrawable(R.drawable.grey));
+
+
+
+                    Toast.makeText(getContext() , "Removed from compare" , Toast.LENGTH_SHORT).show();
+
+
+
+
+
                 }
                 else
                 {
@@ -296,6 +394,8 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
                         if (comp != null) {
                             comp.setText(String.valueOf(b.list.size()));
                         }
+
+                        Toast.makeText(getContext() , "Added to Compare" , Toast.LENGTH_SHORT).show();
 
                         //bar.animate().alpha(1.0f);
                         // b.bitmaps.add(LoadImageFromURL(item.getImage()));
@@ -367,6 +467,9 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
 
 
+
+
+
     public void fetch(String iid)
     {
         String SUB_CATEGORY = "http://nationproducts.in/";
@@ -382,9 +485,9 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
             public void onResponse(Call<ArrayList<CompareModel>> call, Response<ArrayList<CompareModel>> response) {
 
 
-                String faat = response.body().get(0).getNutration().get(1).getValue().toString();
-                String pro = response.body().get(0).getNutration().get(3).getValue().toString();
-                String carb = response.body().get(0).getNutration().get(2).getValue().toString();
+                String faat = response.body().get(0).getNutration().get(1).getValue();
+                String pro = response.body().get(0).getNutration().get(3).getValue();
+                String carb = response.body().get(0).getNutration().get(2).getValue();
 
                 title.setText(response.body().get(0).getName());
                 siz.setText(response.body().get(0).getSize());
@@ -394,7 +497,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
 
 
-                calories_single.setText(response.body().get(0).getNutration().get(0).getValue().toString());
+                calories_single.setText(response.body().get(0).getNutration().get(0).getValue());
                 brand.setText(response.body().get(0).getBrand());
                 description.setText(response.body().get(0).getDescription());
                 price_single.setText(response.body().get(0).getPrice());
@@ -417,52 +520,86 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
                 calcium.setText(response.body().get(0).getNutration().get(10).getValue().toString());
                 iron.setText(response.body().get(0).getNutration().get(11).getValue().toString());
 
-                float fatt = Float.parseFloat(faat);
-                float proo = Float.parseFloat(pro);
-                float carbb = Float.parseFloat(carb);
-
-                ArrayList<String> labels = new ArrayList<String>();
 
 
 
 
 
-                int i = 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                float calo = Float.parseFloat(response.body().get(0).getNutration().get(0).getValue());
+                float fatt = Float.parseFloat(response.body().get(0).getNutration().get(1).getValue());
+                float proo = Float.parseFloat(response.body().get(0).getNutration().get(3).getValue());
+                float carbb = Float.parseFloat(response.body().get(0).getNutration().get(2).getValue());
+                float sodi = Float.parseFloat(response.body().get(0).getNutration().get(4).getValue());
+                float pota = Float.parseFloat(response.body().get(0).getNutration().get(5).getValue());
+                float fibe = Float.parseFloat(response.body().get(0).getNutration().get(6).getValue());
+                float suga = Float.parseFloat(response.body().get(0).getNutration().get(7).getValue());
+                float vitaa = Float.parseFloat(response.body().get(0).getNutration().get(8).getValue());
+                float vitac = Float.parseFloat(response.body().get(0).getNutration().get(9).getValue());
+                float calc = Float.parseFloat(response.body().get(0).getNutration().get(10).getValue());
+                float iro = Float.parseFloat(response.body().get(0).getNutration().get(11).getValue());
+
+
+
 
                 ArrayList<Entry> entries = new ArrayList<>();
 
-                if (fatt>0)
-                {
-                    entries.add(new Entry(fatt , i));
-                    labels.add("Fat");
-                    i++;
-                }
-
-                if (carbb>0)
-                {
-                    entries.add(new Entry(carbb , i));
-                    labels.add("Carbohydrates");
-                    i++;
-                }
-
-                if (proo>0)
-                {
-                    entries.add(new Entry(proo , 2));
-                    labels.add("Protein");
-                    i++;
-                }
+                entries.add(new Entry(calo , 0));
+                entries.add(new Entry(fatt , 1));
+                entries.add(new Entry(carbb , 2));
+                entries.add(new Entry(proo , 3));
+                entries.add(new Entry(sodi , 4));
+                entries.add(new Entry(pota , 5));
+                entries.add(new Entry(fibe , 6));
+                entries.add(new Entry(suga , 7));
+                entries.add(new Entry(vitaa , 8));
+                entries.add(new Entry(vitac , 9));
+                entries.add(new Entry(calc , 10));
+                entries.add(new Entry(iro , 11));
 
 
 
 
+                ArrayList<String> labels = new ArrayList<String>();
 
-
-
-                PieDataSet dataset = new PieDataSet(entries, null);
-                dataset.setSliceSpace(3);
-                dataset.setSelectionShift(5);
-
-                dataset.setColors(ColorTemplate.VORDIPLOM_COLORS);
+                labels.add("Calories");
+                labels.add("Fat");
+                labels.add("Carbohydrates");
+                labels.add("Protein");
+                labels.add("Sodium");
+                labels.add("Potassium");
+                labels.add("Fiber");
+                labels.add("Sugar");
+                labels.add("Vitamin A");
+                labels.add("Vitamin C");
+                labels.add("Calcium");
+                labels.add("Iron");
 
 
 
@@ -473,62 +610,24 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
 
 
-                ArrayList<String> labels1 = new ArrayList<String>();
-
-                //labels1.add("Fat");
-                //labels1.add("Carbohydrates");
-                //labels1.add("Protein");
-
-
-
-
-                int j = 0;
                 ArrayList<BarEntry> entries1 = new ArrayList<>();
-                //entries1.add(new BarEntry(fatt , 0));
-                //entries1.add(new BarEntry(carbb , 1));
-                //entries1.add(new BarEntry(proo , 2));
-
-
-                if (fatt>0)
-                {
-                    entries1.add(new BarEntry(fatt , j));
-                    labels1.add("Fat");
-                    j++;
-                }
-
-                if (carbb>0)
-                {
-                    entries1.add(new BarEntry(carbb , j));
-                    labels1.add("Carbohydrates");
-                    j++;
-                }
-
-                if (proo>0)
-                {
-                    entries1.add(new BarEntry(proo , j));
-                    labels1.add("Protein");
-                    j++;
-                }
-
-
-
-
-
-                if (labels1.size() == 0)
-                {
-                    barChart.setVisibility(View.GONE);
-                }
-                else
-                {
-                    barChart.setVisibility(View.VISIBLE);
-                }
-
-
+                entries1.add(new BarEntry(calo , 0));
+                entries1.add(new BarEntry(fatt , 1));
+                entries1.add(new BarEntry(carbb , 2));
+                entries1.add(new BarEntry(proo , 3));
+                entries1.add(new BarEntry(sodi , 4));
+                entries1.add(new BarEntry(pota , 5));
+                entries1.add(new BarEntry(fibe , 6));
+                entries1.add(new BarEntry(suga , 7));
+                entries1.add(new BarEntry(vitaa , 8));
+                entries1.add(new BarEntry(vitac , 9));
+                entries1.add(new BarEntry(calc , 10));
+                entries1.add(new BarEntry(iro , 11));
 
                 BarDataSet barDataSet = new BarDataSet(entries1 , null);
 
                 barDataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
-                BarData data1 = new BarData(labels1 ,  barDataSet);
+                BarData data1 = new BarData(labels ,  barDataSet);
                 //data1.setValueFormatter(new PercentFormatter());
                 data1.setValueTextSize(11f);
                 data1.setValueTextColor(Color.BLACK);
@@ -536,6 +635,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
                 barChart.animate();
                 barChart.setDescription("");
                 barChart.invalidate();
+
 
 
 
@@ -563,7 +663,11 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
     public void onResume() {
         super.onResume();
 
+        //CoordinatorLayout coordinatorLayout = (CoordinatorLayout)((MainActivity)getContext()).findViewById(R.id.coordinate);
 
+        //View view1 = coordinatorLayout.findViewById(R.id.bottombar);
+
+        //bar = BottomSheetBehavior.from(view1);
 
         final comparebean b = (comparebean)getContext().getApplicationContext();
 
@@ -576,6 +680,14 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
             {
                 add.setText("ADDED");
                 add.setBackground(getResources().getDrawable(R.drawable.dark));
+
+                bar.setState(BottomSheetBehavior.STATE_EXPANDED);
+                TextView comp = (TextView)((MainActivity)getActivity()).findViewById(R.id.textView5);
+                if (comp != null) {
+                    comp.setText(String.valueOf(b.tempList.size()));
+                }
+
+
             }
 
         }
@@ -591,7 +703,11 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
             if (Objects.equals(b.list.get(i).getId(), iidd))
             {
                 compare.setBackground(getResources().getDrawable(R.drawable.dark));
-
+                bar.setState(BottomSheetBehavior.STATE_EXPANDED);
+                TextView comp = (TextView)((MainActivity)getContext()).findViewById(R.id.textView4);
+                if (comp != null) {
+                    comp.setText(String.valueOf(b.list.size()));
+                }
             }
 
         }
@@ -650,6 +766,59 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
                 if (comp != null) {
                     comp.setText(String.valueOf(b.tempList.size()));
                 }
+
+                Toast.makeText(getContext() , "Added in Basket" , Toast.LENGTH_SHORT).show();
+
+            }
+            else
+            {
+
+
+                int index = 0;
+                int l = b.tempList.size();
+                for (int i = 0 ; i<l ; i++)
+                {
+                    if (Objects.equals(iidd, b.tempList.get(i).getId()))
+                    {
+                        index = i;
+                    }
+                }
+
+
+                b.tempList.remove(index);
+                b.comparecount--;
+
+
+
+                TextView comp = (TextView)((MainActivity)getContext()).findViewById(R.id.textView5);
+                comp.setText(String.valueOf(b.tempList.size()));
+
+                if (l == 1)
+                {
+                    TextView comp1 = (TextView)((MainActivity)getContext()).findViewById(R.id.textView4);
+
+                    if (comp1.getText().equals("0"))
+                    {
+                        if (bar.getState() == BottomSheetBehavior.STATE_EXPANDED)
+                        {
+
+                            bar.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
+                        }
+                    }
+
+
+
+
+                }
+
+
+                add.setText("ADD TO LIST");
+                add.setBackground(getResources().getDrawable(R.drawable.grey));
+
+                Toast.makeText(getContext() , "Removed from Basket" , Toast.LENGTH_SHORT).show();
+
+
             }
 
         }
@@ -864,32 +1033,57 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
             calcium.setText(nutrition.get(10));
             iron.setText(nutrition.get(11));
 
-            float fatt = Float.parseFloat(faat);
-            float proo = Float.parseFloat(pro);
-            float carbb = Float.parseFloat(carb);
+
+
+            float calo = Float.parseFloat(nutrition.get(0));
+            float fatt = Float.parseFloat(nutrition.get(1));
+            float proo = Float.parseFloat(nutrition.get(3));
+            float carbb = Float.parseFloat(nutrition.get(2));
+            float sodi = Float.parseFloat(nutrition.get(4));
+            float pota = Float.parseFloat(nutrition.get(5));
+            float fibe = Float.parseFloat(nutrition.get(6));
+            float suga = Float.parseFloat(nutrition.get(7));
+            float vitaa = Float.parseFloat(nutrition.get(8));
+            float vitac = Float.parseFloat(nutrition.get(9));
+            float calc = Float.parseFloat(nutrition.get(10));
+            float iro = Float.parseFloat(nutrition.get(11));
 
 
 
 
             ArrayList<Entry> entries = new ArrayList<>();
 
-                entries.add(new Entry(fatt , 0));
-                entries.add(new Entry(carbb , 1));
-                entries.add(new Entry(proo , 2));
+                entries.add(new Entry(calo , 0));
+                entries.add(new Entry(fatt , 1));
+                entries.add(new Entry(carbb , 2));
+                entries.add(new Entry(proo , 3));
+                entries.add(new Entry(sodi , 4));
+                entries.add(new Entry(pota , 5));
+                entries.add(new Entry(fibe , 6));
+                entries.add(new Entry(suga , 7));
+                entries.add(new Entry(vitaa , 8));
+                entries.add(new Entry(vitac , 9));
+                entries.add(new Entry(calc , 10));
+                entries.add(new Entry(iro , 11));
 
 
 
-            PieDataSet dataset = new PieDataSet(entries, null);
-            dataset.setSliceSpace(3);
-            dataset.setSelectionShift(5);
-
-            dataset.setColors(ColorTemplate.VORDIPLOM_COLORS);
 
             ArrayList<String> labels = new ArrayList<String>();
 
+                labels.add("Calories");
                 labels.add("Fat");
                 labels.add("Carbohydrates");
                 labels.add("Protein");
+                labels.add("Sodium");
+                labels.add("Potassium");
+                labels.add("Fiber");
+                labels.add("Sugar");
+                labels.add("Vitamin A");
+                labels.add("Vitamin C");
+                labels.add("Calcium");
+                labels.add("Iron");
+
 
 
 
@@ -900,9 +1094,18 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
 
             ArrayList<BarEntry> entries1 = new ArrayList<>();
-            entries1.add(new BarEntry(fatt , 0));
-            entries1.add(new BarEntry(carbb , 1));
-            entries1.add(new BarEntry(proo , 2));
+            entries1.add(new BarEntry(calo , 0));
+            entries1.add(new BarEntry(fatt , 1));
+            entries1.add(new BarEntry(carbb , 2));
+            entries1.add(new BarEntry(proo , 3));
+            entries1.add(new BarEntry(sodi , 4));
+            entries1.add(new BarEntry(pota , 5));
+            entries1.add(new BarEntry(fibe , 6));
+            entries1.add(new BarEntry(suga , 7));
+            entries1.add(new BarEntry(vitaa , 8));
+            entries1.add(new BarEntry(vitac , 9));
+            entries1.add(new BarEntry(calc , 10));
+            entries1.add(new BarEntry(iro , 11));
 
             BarDataSet barDataSet = new BarDataSet(entries1 , null);
 

@@ -174,10 +174,6 @@ public class TempList extends AppCompatActivity {
 
 
 
-        //ItemTouchHelper.Callback callback =
-        //        new SimpleItemTouchHelperCallback(adapter);
-        //ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
-        //touchHelper.attachToRecyclerView(listview);
 
 
 
@@ -215,9 +211,6 @@ public class TempList extends AppCompatActivity {
 
 
             fetch(id);
-
-
-
         }
     }
 

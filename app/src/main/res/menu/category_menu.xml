@@ -6,7 +6,7 @@
 
     <item
         android:id="@+id/search_bar"
-        android:icon="@drawable/earc"
+        android:icon="@drawable/search"
         appcompat:showAsAction="always"
         android:title="Search"
         android:orderInCategory="200"

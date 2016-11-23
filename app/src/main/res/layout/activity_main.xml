@@ -69,7 +69,7 @@
             android:layout_alignParentBottom="true"
             android:clipToPadding="false"
             android:background="#B3000000"
-            app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
+            app:layout_behavior="@string/bottom_sheet_behavior"
             >
 
             <RelativeLayout
@@ -90,11 +90,11 @@
                     android:layout_margin="10dp"
                     android:id="@+id/imageButton2"
                     android:layout_alignParentTop="true"
-                    android:drawableEnd="@drawable/ompar32"
+                    android:drawableEnd="@drawable/compare"
                     android:text="COMPARE LIST"
                     android:textColor="#fff"
+                    android:gravity="center_vertical"
                     android:drawablePadding="10dp"
-                    android:backgroundTint="@color/white"
                     android:layout_alignTop="@+id/textView4"
                     android:layout_alignParentStart="true"
                     />
@@ -123,6 +123,7 @@
                     android:layout_alignParentTop="true"
                     android:text="BASKET"
                     android:textColor="#fff"
+                    android:gravity="center_vertical"
                     android:drawablePadding="10dp"
                     android:drawableEnd="@drawable/list_black"
                     android:layout_alignTop="@+id/textView5"

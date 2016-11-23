@@ -14,9 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.Inflater;
 
-/**
- * Created by hi on 8/5/2016.
- */
 
 class brandAdapter extends RecyclerView.Adapter<brandAdapter.ViewHolder> {
 

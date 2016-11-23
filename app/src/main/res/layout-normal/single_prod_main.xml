@@ -20,6 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:id="@+id/padding_view"
             >
 
 
@@ -92,6 +93,7 @@
                 android:orientation="vertical"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 android:fillViewport="true"
+
                 >
 
                 <LinearLayout
@@ -373,21 +375,7 @@
                 </LinearLayout>
 
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/clicktoexpand"
-                    android:text="NUTRITIONAL DETAILS"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/white"
-                    android:background="@color/colorPrimaryDark"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
-                    android:paddingBottom="15dp"
-                    android:paddingTop="15dp"
-                    android:textSize="24sp"
 
-                    />
 
 
 
@@ -426,12 +414,16 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="10dp"
                 android:text="NUTRITIONAL DETAILS"
-                android:gravity="center_vertical"
+                android:gravity="center"
+
+                android:drawableEnd="@drawable/down"
+                android:background="#f2f2f2"
                 android:paddingEnd="10dp"
                 android:paddingTop="15dp"
-                android:paddingBottom="15dp"
-                android:textColor="@color/white"
-                android:background="@color/colorPrimaryDark"
+
+                android:paddingBottom="55dp"
+                android:textColor="@color/colorAccent"
+
                 android:textSize="24sp"
                 />
 
