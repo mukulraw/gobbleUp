@@ -103,7 +103,7 @@
                 android:layout_toStartOf="@+id/plus"
                 android:layout_above="@+id/switcher"
                 android:layout_alignParentEnd="true"
-                android:text="ADD TO LIST"
+                android:text="ADD TO BASKET"
                 tools:ignore="UnknownId,UnknownIdInLayout,UnusedAttribute" />
 
 

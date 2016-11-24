@@ -544,42 +544,47 @@ public class SubList extends AppCompatActivity {
                     holder.delete.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            lid = item.getListId();
-                            pid = item.getProductId();
+
+                            if (cd.isConnectingToInternet()) {
 
 
-                            final Dialog dialog = new Dialog(SubList.this);
-                            dialog.setContentView(R.layout.delete_list_dialog);
-                            dialog.setCancelable(false);
-                            dialog.show();
-
-                            Button YES = (Button)dialog.findViewById(R.id.confirmDelete);
-                            Button NO = (Button)dialog.findViewById(R.id.cancel_delete_list);
-
-                            YES.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
+                                lid = item.getListId();
+                                pid = item.getProductId();
 
 
+                                final Dialog dialog = new Dialog(SubList.this);
+                                dialog.setContentView(R.layout.delete_list_dialog);
+                                dialog.setCancelable(false);
+                                dialog.show();
+
+                                Button YES = (Button) dialog.findViewById(R.id.confirmDelete);
+                                Button NO = (Button) dialog.findViewById(R.id.cancel_delete_list);
+
+                                YES.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
 
 
-                                    new delete1(DELETE_LIST).execute();
-                                    dialog.dismiss();
+                                        new delete1(DELETE_LIST).execute();
+                                        dialog.dismiss();
 
 
+                                    }
+                                });
+
+                                NO.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        dialog.dismiss();
+                                    }
+                                });
 
 
-
-
-                                }
-                            });
-
-                            NO.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    dialog.dismiss();
-                                }
-                            });
+                            }
+                            else
+                            {
+                                Toast.makeText(context , "No Internet Connection" , Toast.LENGTH_SHORT).show();
+                            }
 
                         }
                     });

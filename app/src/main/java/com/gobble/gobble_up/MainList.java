@@ -172,13 +172,6 @@ public class MainList extends AppCompatActivity {
         {
             new connect(GET_ALL_LIST + iidd).execute();
         }
-
-
-
-
-
-
-
     }
 
     public void refreshList()
@@ -247,7 +240,7 @@ public class MainList extends AppCompatActivity {
         }
 
         @Override
-        public View getView(final int position, View convertView, final ViewGroup parent) {
+        public View getView(final int position, final View convertView, final ViewGroup parent) {
             View row = convertView;
             ViewHolder holder;
             if (row == null) {
@@ -261,6 +254,13 @@ public class MainList extends AppCompatActivity {
                 holder.listttotal = (TextView)row.findViewById(R.id.addlistTotalItem);
                 holder.delete = (Button)row.findViewById(R.id.deleteList);
                 holder.edit = (TextView)row.findViewById(R.id.edit);
+
+
+
+
+                holder.edit.setVisibility(View.GONE);
+
+
 
                 row.setTag(holder);
             } else {
@@ -282,47 +282,51 @@ public class MainList extends AppCompatActivity {
 
 
 
-                    final Dialog dialog1 = new Dialog(getContext());
-                    dialog1.setContentView(R.layout.edit_dialog);
-                    dialog1.setCancelable(false);
-                    dialog1.show();
+                    if (cd.isConnectingToInternet()) {
+                        final Dialog dialog1 = new Dialog(getContext());
+                        dialog1.setContentView(R.layout.edit_dialog);
+                        dialog1.setCancelable(false);
+                        dialog1.show();
 
-                    ImageButton cross = (ImageButton)dialog1.findViewById(R.id.cancel_edit_dialog);
+                        ImageButton cross = (ImageButton) dialog1.findViewById(R.id.cancel_edit_dialog);
 
-                    cross.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            dialog1.dismiss();
-                        }
-                    });
-
-                    final EditText updatename = (EditText)dialog1.findViewById(R.id.new_name);
-                    Button update = (Button)dialog1.findViewById(R.id.dialogipdate);
-
-                    update.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-
-
-                            String iidd = item.getListId();
-
-
-                            String name = updatename.getText().toString();
-
-
-                            if (cd.isConnectingToInternet())
-                            {
-                                new login(name , iidd).execute();
+                        cross.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dialog1.dismiss();
                             }
+                        });
 
-                            dialog1.dismiss();
+                        final EditText updatename = (EditText) dialog1.findViewById(R.id.new_name);
+                        Button update = (Button) dialog1.findViewById(R.id.dialogipdate);
 
-                           refresh();
-                        }
-                    });
+                        update.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
 
 
+                                String iidd = item.getListId();
 
+
+                                String name = updatename.getText().toString();
+
+
+                                if (cd.isConnectingToInternet()) {
+                                    new login(name, iidd).execute();
+                                }
+
+                                dialog1.dismiss();
+
+                                refresh();
+                            }
+                        });
+
+
+                    }
+                    else
+                    {
+                        Toast.makeText(context , "No Internet Connection" , Toast.LENGTH_SHORT).show();
+                    }
 
                 }
             });
@@ -332,6 +336,12 @@ public class MainList extends AppCompatActivity {
             holder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+
+                    if (cd.isConnectingToInternet())
+                    {
+
+
 
                     addListBean item = (addListBean)list.get(position);
                     final String idd = item.getListId();
@@ -369,7 +379,11 @@ public class MainList extends AppCompatActivity {
                             dialog.dismiss();
                         }
                     });
-
+                    }
+                    else
+                    {
+                        Toast.makeText(context , "No Internet Connection" , Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
 

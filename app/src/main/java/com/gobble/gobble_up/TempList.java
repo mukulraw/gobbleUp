@@ -99,7 +99,7 @@ public class TempList extends AppCompatActivity {
         listview.setLayoutManager(layoutManager);
 
 
-        refresh();
+        //refresh();
 
         listview.setVisibility(View.GONE);
         saveList.setVisibility(View.GONE);
@@ -187,6 +187,17 @@ public class TempList extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        list.clear();
+
+        refresh();
+
+
+    }
+
     private void refresh()
     {
 
@@ -195,11 +206,11 @@ public class TempList extends AppCompatActivity {
 
 
         list.clear();
-        progressBar.setVisibility(View.VISIBLE);
+        //progressBar.setVisibility(View.VISIBLE);
         int length = b.tempList.size();
         if (length == 0)
         {
-            progressBar.setVisibility(View.GONE);
+            //progressBar.setVisibility(View.GONE);
             empty.setVisibility(View.VISIBLE);
             saveList.setVisibility(View.GONE);
             listview.setVisibility(View.GONE);
@@ -266,9 +277,10 @@ public class TempList extends AppCompatActivity {
                 list.add(response.body().get(0));
                 adapter.notifyItemInserted(list.size()-1);
 
+                adapter.notifyDataSetChanged();
 
                 listview.setVisibility(View.VISIBLE);
-                progressBar.setVisibility(View.GONE);
+                //progressBar.setVisibility(View.GONE);
 
 
 

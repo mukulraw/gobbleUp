@@ -95,12 +95,16 @@ public class Compare2 extends AppCompatActivity {
         lLayout = new GridLayoutManager(this , 1);
         final comparebean b = (comparebean)this.getApplicationContext();
 
-        if (b.list.size()>0)
+
+
+        if (b.list.size() > 1)
         {
-            //Toast.makeText(getApplicationContext() , "Swipe up to remove item" , Toast.LENGTH_SHORT).show();
+            Toast.makeText(this , "Swipe Up to Remove Items" , Toast.LENGTH_LONG).show();
         }
 
-        refresh();
+
+
+        //refresh();
 
 
 
@@ -167,6 +171,18 @@ public class Compare2 extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
+
+        list.clear();
+
+        refresh();
+
+    }
+
     private void checkList()
     {
         if (list.size() < 1)
@@ -217,6 +233,7 @@ public class Compare2 extends AppCompatActivity {
         {
 
             Toast.makeText(getApplicationContext() , "Only one item to compare" , Toast.LENGTH_SHORT).show();
+            finish();
         }
 
 
@@ -245,6 +262,7 @@ public class Compare2 extends AppCompatActivity {
 
                 list.add(response.body().get(0));
                 adapter.notifyItemInserted(list.size()-1);
+                adapter.notifyDataSetChanged();
 
                 bar.setVisibility(View.GONE);
 

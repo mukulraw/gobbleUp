@@ -36,6 +36,9 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.Target;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -86,6 +89,16 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
     private RelativeLayout clickRating;
     private String iidd;
     RatingBar ratrr;
+
+
+    ShowcaseView showcaseView;
+
+
+
+    Target target;
+
+
+
     private List<String> nutrition;
 
     private TextView brand , price_single , calories_single , description ;
@@ -118,6 +131,11 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
         final View view = inflater.inflate(R.layout.single_prod_main , container , false);
 
+
+
+
+
+
         add = (Button)view.findViewById(R.id.addtolist);
         title = (TextView)view.findViewById(R.id.title_single);
         siz = (TextView)view.findViewById(R.id.title_size);
@@ -146,7 +164,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
         calories_single = (TextView)view.findViewById(R.id.calories_single);
         description = (TextView)view.findViewById(R.id.description);
 
-
+        head = (TextView)view.findViewById(R.id.bottom_bar_heading);
 
 
 
@@ -183,7 +201,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
 
 
-        head = (TextView)view.findViewById(R.id.bottom_bar_heading);
+
 
 
 
@@ -249,7 +267,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
 
 
-        add.setText("ADD TO LIST");
+        add.setText("ADD TO BASKET");
         add.setBackground(getResources().getDrawable(R.drawable.grey));
         for (int k = 0 ; k<b.tempList.size() ; k++)
         {
@@ -671,7 +689,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
         final comparebean b = (comparebean)getContext().getApplicationContext();
 
-        add.setText("ADD TO LIST");
+        add.setText("ADD TO BASKET");
         add.setBackground(getResources().getDrawable(R.drawable.grey));
 
         for (int k = 0 ; k<b.tempList.size() ; k++)
@@ -813,7 +831,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
                 }
 
 
-                add.setText("ADD TO LIST");
+                add.setText("ADD TO BASKET");
                 add.setBackground(getResources().getDrawable(R.drawable.grey));
 
                 Toast.makeText(getContext() , "Removed from Basket" , Toast.LENGTH_SHORT).show();

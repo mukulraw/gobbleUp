@@ -111,7 +111,7 @@
                         android:textColor="@color/white"
                         android:layout_margin="5dp"
 
-                        android:text="add to list"
+                        android:text="add to basket"
 
 
                         />

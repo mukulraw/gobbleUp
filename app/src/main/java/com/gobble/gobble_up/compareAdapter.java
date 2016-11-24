@@ -41,7 +41,7 @@ class compareAdapter extends RecyclerView.Adapter<compareAdapter.RecycleViewHold
     private final Context context;
     ArrayList<CompareModel> list = new ArrayList<>();
 
-    ImageButton a;
+    TextView a;
 
     compareAdapter(Context context, ArrayList<CompareModel> list)
     {
@@ -110,7 +110,7 @@ class compareAdapter extends RecyclerView.Adapter<compareAdapter.RecycleViewHold
         {
             if (Objects.equals(item.getId(), b.tempList.get(i).getId()))
             {
-                holder.add.setBackground(context.getResources().getDrawable(R.drawable.list_yellow));
+                holder.add.setTextColor(context.getResources().getColor(R.color.colorAccent));
             }
         }
 
@@ -139,11 +139,34 @@ class compareAdapter extends RecyclerView.Adapter<compareAdapter.RecycleViewHold
                     b.tempList.add(item1);
                     b.comparecount++;
 
-                    holder.add.setBackground(context.getResources().getDrawable(R.drawable.list_yellow));
+                    holder.add.setTextColor(context.getResources().getColor(R.color.colorAccent));
+                    Toast.makeText(context , "Added in Basket" , Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
-                    Toast.makeText(context , "Already in list" , Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context , "Already in list" , Toast.LENGTH_SHORT).show();
+
+
+
+                    int index = 0;
+                    int l = b.tempList.size();
+                    for (int i = 0 ; i<l ; i++)
+                    {
+                        if (Objects.equals(item.getId(), b.tempList.get(i).getId()))
+                        {
+                            index = i;
+                        }
+                    }
+
+
+                    b.tempList.remove(index);
+                    b.comparecount--;
+
+
+                    holder.add.setTextColor(context.getResources().getColor(R.color.grey));
+
+                    Toast.makeText(context , "Removed from Basket" , Toast.LENGTH_SHORT).show();
+
                 }
 
                 }
@@ -200,6 +223,7 @@ class compareAdapter extends RecyclerView.Adapter<compareAdapter.RecycleViewHold
         b.list.remove(position);
         list.remove(position);
         notifyItemRemoved(position);
+        notifyDataSetChanged();
 
 
     }
@@ -210,7 +234,7 @@ class compareAdapter extends RecyclerView.Adapter<compareAdapter.RecycleViewHold
         TextView price , name;
         TextView calories , fat , carbs , protein , sodium , potassium , fiber , sugar , vita ,vitc , calcium , iron;
 
-        ImageButton add;
+        TextView add;
 
         RecycleViewHolder(View itemView) {
             super(itemView);
@@ -230,7 +254,7 @@ class compareAdapter extends RecyclerView.Adapter<compareAdapter.RecycleViewHold
             vitc = (TextView)itemView.findViewById(R.id.compare_vitc);
             calcium = (TextView)itemView.findViewById(R.id.compare_calcium);
             iron = (TextView)itemView.findViewById(R.id.compare_iron);
-            add = (ImageButton) itemView.findViewById(R.id.compare_model_add);
+            add = (TextView) itemView.findViewById(R.id.compare_model_add);
 
 
         }

@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="wrap_content"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
     android:minWidth="300dp"
     android:layout_height="wrap_content">
+
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:minWidth="300dp"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+
 
 
     <RelativeLayout
@@ -64,21 +73,235 @@
                 android:layout_alignParentStart="true"/>
 
 
+
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:text="  Protein"
-            android:id="@+id/proteinSort"
+            android:text="  Calories: Low to High"
+            android:id="@+id/caloriesl2h"
+            android:layout_alignParentStart="true"/>
+
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="  Calories: High to Low"
+            android:id="@+id/caloriesh2l"
+            android:layout_alignParentStart="true"/>
+
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="  Fat: Low to High"
+            android:id="@+id/fatl2h"
+            android:layout_alignParentStart="true"/>
+
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="  Fat: High to Low"
+            android:id="@+id/fath2l"
             android:layout_alignParentStart="true"/>
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:text="  Calories"
-            android:id="@+id/caloriesSort"
+            android:text="  Carbohydrates: Low to High"
+            android:id="@+id/carbsl2h"
             android:layout_alignParentStart="true"/>
+
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="  Carbohydrates: High to Low"
+            android:id="@+id/carbsh2l"
+            android:layout_alignParentStart="true"/>
+
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="  Protein: Low to High"
+            android:id="@+id/proteinl2h"
+            android:layout_alignParentStart="true"/>
+
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="  Protein: High to Low"
+            android:id="@+id/proteinh2l"
+            android:layout_alignParentStart="true"/>
+
+
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="  Sodium: Low to High"
+            android:id="@+id/sodiuml2h"
+            android:layout_alignParentStart="true"/>
+
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="  Sodium: High to Low"
+            android:id="@+id/sodiumh2l"
+            android:layout_alignParentStart="true"/>
+
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="  Potassium: Low to High"
+            android:id="@+id/potassiuml2h"
+            android:layout_alignParentStart="true"/>
+
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="  Potassium: High to Low"
+            android:id="@+id/potassiumh2l"
+            android:layout_alignParentStart="true"/>
+
+
+
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="  Fiber: Low to High"
+            android:id="@+id/fiberl2h"
+            android:layout_alignParentStart="true"/>
+
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="  Fiber: High to Low"
+            android:id="@+id/fiberh2l"
+            android:layout_alignParentStart="true"/>
+
+
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="  Sugar: Low to High"
+            android:id="@+id/sugarl2h"
+            android:layout_alignParentStart="true"/>
+
+
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="  Sugar: High to Low"
+            android:id="@+id/sugarh2l"
+            android:layout_alignParentStart="true"/>
+
+
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="  Vitamin A: Low to High"
+            android:id="@+id/vitaal2h"
+            android:layout_alignParentStart="true"/>
+
+
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="  Vitamin A: High to Low"
+            android:id="@+id/vitaah2l"
+            android:layout_alignParentStart="true"/>
+
+
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="  Calcium: Low to High"
+            android:id="@+id/calcl2h"
+            android:layout_alignParentStart="true"/>
+
+
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="  Calcium: High to Low"
+            android:id="@+id/calch2l"
+            android:layout_alignParentStart="true"/>
+
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="  Iron: Low to High"
+            android:id="@+id/ironl2h"
+            android:layout_alignParentStart="true"/>
+
+
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="  Iron: High to Low"
+            android:id="@+id/ironh2l"
+            android:layout_alignParentStart="true"/>
+
+
+
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="  Vitamin C: Low to High"
+            android:id="@+id/vitacl2h"
+            android:layout_alignParentStart="true"/>
+
+
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="  Vitamin C: High to Low"
+            android:id="@+id/vitach2l"
+            android:layout_alignParentStart="true"/>
+
+
 
     </RadioGroup>
 
@@ -93,6 +316,6 @@
         android:id="@+id/sorter"
         />
 
-
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>
 

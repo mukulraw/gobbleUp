@@ -516,54 +516,20 @@ public class SubCatFragment extends Fragment {
 
                         }
 
-                        if (selectedId == R.id.proteinSort)
+
+
+
+
+
+
+                        if (selectedId == R.id.caloriesh2l)
                         {
                             if (!sort_flag)
                             {
                                 Collections.sort(list1, new Comparator<Model>() {
                                     @Override
                                     public int compare(Model lhs, Model rhs) {
-                                        if (Float.parseFloat(lhs.getNutration().get(3).getValue().toString()) < Float.parseFloat(rhs.getNutration().get(3).getValue().toString()))
-                                            return 1;
-                                        else
-                                            return -1;
-                                    }
-                                });
-
-
-
-                                adapter.setGridData(list1);
-                                adapter.notifyDataSetChanged();
-                            }
-                            else
-                            {
-                                Collections.sort(subList, new Comparator<Model>() {
-                                    @Override
-                                    public int compare(Model lhs, Model rhs) {
-                                        if (Float.parseFloat(lhs.getNutration().get(3).getValue().toString()) < Float.parseFloat(rhs.getNutration().get(3).getValue().toString()))
-                                            return 1;
-                                        else
-                                            return -1;
-                                    }
-                                });
-
-
-
-                                adapter.setGridData(subList);
-                                adapter.notifyDataSetChanged();
-                            }
-
-
-                        }
-
-                        if (selectedId == R.id.caloriesSort)
-                        {
-                            if (!sort_flag)
-                            {
-                                Collections.sort(list1, new Comparator<Model>() {
-                                    @Override
-                                    public int compare(Model lhs, Model rhs) {
-                                        if (Float.parseFloat(lhs.getNutration().get(0).getValue().toString()) < Float.parseFloat(rhs.getNutration().get(0).getValue().toString()))
+                                        if (Float.parseFloat(lhs.getNutration().get(0).getValue()) < Float.parseFloat(rhs.getNutration().get(0).getValue()))
                                             return 1;
                                         else
                                             return -1;
@@ -579,7 +545,7 @@ public class SubCatFragment extends Fragment {
                                 Collections.sort(subList, new Comparator<Model>() {
                                     @Override
                                     public int compare(Model lhs, Model rhs) {
-                                        if (Float.parseFloat(lhs.getNutration().get(0).getValue().toString()) < Float.parseFloat(rhs.getNutration().get(0).getValue().toString()))
+                                        if (Float.parseFloat(lhs.getNutration().get(0).getValue()) < Float.parseFloat(rhs.getNutration().get(0).getValue()))
                                             return 1;
                                         else
                                             return -1;
@@ -593,6 +559,895 @@ public class SubCatFragment extends Fragment {
 
 
                         }
+
+
+                        if (selectedId == R.id.fath2l)
+                        {
+                            if (!sort_flag)
+                            {
+                                Collections.sort(list1, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(1).getValue()) < Float.parseFloat(rhs.getNutration().get(1).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(list1);
+                                adapter.notifyDataSetChanged();
+                            }
+                            else
+                            {
+                                Collections.sort(subList, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(1).getValue()) < Float.parseFloat(rhs.getNutration().get(1).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(subList);
+                                adapter.notifyDataSetChanged();
+                            }
+
+
+                        }
+
+
+                        if (selectedId == R.id.carbsh2l)
+                        {
+                            if (!sort_flag)
+                            {
+                                Collections.sort(list1, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(2).getValue()) < Float.parseFloat(rhs.getNutration().get(2).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(list1);
+                                adapter.notifyDataSetChanged();
+                            }
+                            else
+                            {
+                                Collections.sort(subList, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(2).getValue()) < Float.parseFloat(rhs.getNutration().get(2).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(subList);
+                                adapter.notifyDataSetChanged();
+                            }
+
+
+                        }
+
+                        if (selectedId == R.id.proteinh2l)
+                        {
+                            if (!sort_flag)
+                            {
+                                Collections.sort(list1, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(3).getValue()) < Float.parseFloat(rhs.getNutration().get(3).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(list1);
+                                adapter.notifyDataSetChanged();
+                            }
+                            else
+                            {
+                                Collections.sort(subList, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(3).getValue()) < Float.parseFloat(rhs.getNutration().get(3).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(subList);
+                                adapter.notifyDataSetChanged();
+                            }
+
+
+                        }
+                        if (selectedId == R.id.sodiumh2l)
+                        {
+                            if (!sort_flag)
+                            {
+                                Collections.sort(list1, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(4).getValue()) < Float.parseFloat(rhs.getNutration().get(4).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(list1);
+                                adapter.notifyDataSetChanged();
+                            }
+                            else
+                            {
+                                Collections.sort(subList, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(4).getValue()) < Float.parseFloat(rhs.getNutration().get(4).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(subList);
+                                adapter.notifyDataSetChanged();
+                            }
+
+
+                        }
+
+                        if (selectedId == R.id.potassiumh2l)
+                        {
+                            if (!sort_flag)
+                            {
+                                Collections.sort(list1, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(5).getValue()) < Float.parseFloat(rhs.getNutration().get(5).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(list1);
+                                adapter.notifyDataSetChanged();
+                            }
+                            else
+                            {
+                                Collections.sort(subList, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(5).getValue()) < Float.parseFloat(rhs.getNutration().get(5).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(subList);
+                                adapter.notifyDataSetChanged();
+                            }
+
+
+                        }
+
+                        if (selectedId == R.id.fiberh2l)
+                        {
+                            if (!sort_flag)
+                            {
+                                Collections.sort(list1, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(6).getValue()) < Float.parseFloat(rhs.getNutration().get(6).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(list1);
+                                adapter.notifyDataSetChanged();
+                            }
+                            else
+                            {
+                                Collections.sort(subList, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(6).getValue()) < Float.parseFloat(rhs.getNutration().get(6).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(subList);
+                                adapter.notifyDataSetChanged();
+                            }
+
+
+                        }
+
+                        if (selectedId == R.id.sugarh2l)
+                        {
+                            if (!sort_flag)
+                            {
+                                Collections.sort(list1, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(7).getValue()) < Float.parseFloat(rhs.getNutration().get(7).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(list1);
+                                adapter.notifyDataSetChanged();
+                            }
+                            else
+                            {
+                                Collections.sort(subList, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(7).getValue()) < Float.parseFloat(rhs.getNutration().get(7).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(subList);
+                                adapter.notifyDataSetChanged();
+                            }
+
+
+                        }
+
+                        if (selectedId == R.id.vitaah2l)
+                        {
+                            if (!sort_flag)
+                            {
+                                Collections.sort(list1, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(8).getValue()) < Float.parseFloat(rhs.getNutration().get(8).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(list1);
+                                adapter.notifyDataSetChanged();
+                            }
+                            else
+                            {
+                                Collections.sort(subList, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(8).getValue()) < Float.parseFloat(rhs.getNutration().get(8).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(subList);
+                                adapter.notifyDataSetChanged();
+                            }
+
+
+                        }
+
+                        if (selectedId == R.id.vitach2l)
+                        {
+                            if (!sort_flag)
+                            {
+                                Collections.sort(list1, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(9).getValue()) < Float.parseFloat(rhs.getNutration().get(9).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(list1);
+                                adapter.notifyDataSetChanged();
+                            }
+                            else
+                            {
+                                Collections.sort(subList, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(9).getValue()) < Float.parseFloat(rhs.getNutration().get(9).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(subList);
+                                adapter.notifyDataSetChanged();
+                            }
+
+
+                        }
+
+                        if (selectedId == R.id.calch2l)
+                        {
+                            if (!sort_flag)
+                            {
+                                Collections.sort(list1, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(10).getValue()) < Float.parseFloat(rhs.getNutration().get(10).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(list1);
+                                adapter.notifyDataSetChanged();
+                            }
+                            else
+                            {
+                                Collections.sort(subList, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(10).getValue()) < Float.parseFloat(rhs.getNutration().get(10).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(subList);
+                                adapter.notifyDataSetChanged();
+                            }
+
+
+                        }
+
+                        if (selectedId == R.id.ironh2l)
+                        {
+                            if (!sort_flag)
+                            {
+                                Collections.sort(list1, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(11).getValue()) < Float.parseFloat(rhs.getNutration().get(11).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(list1);
+                                adapter.notifyDataSetChanged();
+                            }
+                            else
+                            {
+                                Collections.sort(subList, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(11).getValue()) < Float.parseFloat(rhs.getNutration().get(11).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(subList);
+                                adapter.notifyDataSetChanged();
+                            }
+
+
+                        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        if (selectedId == R.id.caloriesl2h)
+                        {
+                            if (!sort_flag)
+                            {
+                                Collections.sort(list1, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(0).getValue()) > Float.parseFloat(rhs.getNutration().get(0).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(list1);
+                                adapter.notifyDataSetChanged();
+                            }
+                            else
+                            {
+                                Collections.sort(subList, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(0).getValue()) > Float.parseFloat(rhs.getNutration().get(0).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(subList);
+                                adapter.notifyDataSetChanged();
+                            }
+
+
+                        }
+
+
+                        if (selectedId == R.id.fatl2h)
+                        {
+                            if (!sort_flag)
+                            {
+                                Collections.sort(list1, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(1).getValue()) > Float.parseFloat(rhs.getNutration().get(1).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(list1);
+                                adapter.notifyDataSetChanged();
+                            }
+                            else
+                            {
+                                Collections.sort(subList, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(1).getValue()) > Float.parseFloat(rhs.getNutration().get(1).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(subList);
+                                adapter.notifyDataSetChanged();
+                            }
+
+
+                        }
+
+
+                        if (selectedId == R.id.carbsl2h)
+                        {
+                            if (!sort_flag)
+                            {
+                                Collections.sort(list1, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(2).getValue()) > Float.parseFloat(rhs.getNutration().get(2).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(list1);
+                                adapter.notifyDataSetChanged();
+                            }
+                            else
+                            {
+                                Collections.sort(subList, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(2).getValue()) > Float.parseFloat(rhs.getNutration().get(2).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(subList);
+                                adapter.notifyDataSetChanged();
+                            }
+
+
+                        }
+
+                        if (selectedId == R.id.proteinl2h)
+                        {
+                            if (!sort_flag)
+                            {
+                                Collections.sort(list1, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(3).getValue()) > Float.parseFloat(rhs.getNutration().get(3).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(list1);
+                                adapter.notifyDataSetChanged();
+                            }
+                            else
+                            {
+                                Collections.sort(subList, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(3).getValue()) > Float.parseFloat(rhs.getNutration().get(3).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(subList);
+                                adapter.notifyDataSetChanged();
+                            }
+
+
+                        }
+                        if (selectedId == R.id.sodiuml2h)
+                        {
+                            if (!sort_flag)
+                            {
+                                Collections.sort(list1, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(4).getValue()) > Float.parseFloat(rhs.getNutration().get(4).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(list1);
+                                adapter.notifyDataSetChanged();
+                            }
+                            else
+                            {
+                                Collections.sort(subList, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(4).getValue()) > Float.parseFloat(rhs.getNutration().get(4).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(subList);
+                                adapter.notifyDataSetChanged();
+                            }
+
+
+                        }
+
+                        if (selectedId == R.id.potassiuml2h)
+                        {
+                            if (!sort_flag)
+                            {
+                                Collections.sort(list1, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(5).getValue()) > Float.parseFloat(rhs.getNutration().get(5).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(list1);
+                                adapter.notifyDataSetChanged();
+                            }
+                            else
+                            {
+                                Collections.sort(subList, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(5).getValue()) > Float.parseFloat(rhs.getNutration().get(5).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(subList);
+                                adapter.notifyDataSetChanged();
+                            }
+
+
+                        }
+
+                        if (selectedId == R.id.fiberl2h)
+                        {
+                            if (!sort_flag)
+                            {
+                                Collections.sort(list1, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(6).getValue()) > Float.parseFloat(rhs.getNutration().get(6).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(list1);
+                                adapter.notifyDataSetChanged();
+                            }
+                            else
+                            {
+                                Collections.sort(subList, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(6).getValue()) > Float.parseFloat(rhs.getNutration().get(6).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(subList);
+                                adapter.notifyDataSetChanged();
+                            }
+
+
+                        }
+
+                        if (selectedId == R.id.sugarl2h)
+                        {
+                            if (!sort_flag)
+                            {
+                                Collections.sort(list1, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(7).getValue()) > Float.parseFloat(rhs.getNutration().get(7).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(list1);
+                                adapter.notifyDataSetChanged();
+                            }
+                            else
+                            {
+                                Collections.sort(subList, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(7).getValue()) > Float.parseFloat(rhs.getNutration().get(7).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(subList);
+                                adapter.notifyDataSetChanged();
+                            }
+
+
+                        }
+
+                        if (selectedId == R.id.vitaal2h)
+                        {
+                            if (!sort_flag)
+                            {
+                                Collections.sort(list1, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(8).getValue()) > Float.parseFloat(rhs.getNutration().get(8).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(list1);
+                                adapter.notifyDataSetChanged();
+                            }
+                            else
+                            {
+                                Collections.sort(subList, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(8).getValue()) > Float.parseFloat(rhs.getNutration().get(8).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(subList);
+                                adapter.notifyDataSetChanged();
+                            }
+
+
+                        }
+
+                        if (selectedId == R.id.vitacl2h)
+                        {
+                            if (!sort_flag)
+                            {
+                                Collections.sort(list1, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(9).getValue()) > Float.parseFloat(rhs.getNutration().get(9).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(list1);
+                                adapter.notifyDataSetChanged();
+                            }
+                            else
+                            {
+                                Collections.sort(subList, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(9).getValue()) > Float.parseFloat(rhs.getNutration().get(9).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(subList);
+                                adapter.notifyDataSetChanged();
+                            }
+
+
+                        }
+
+                        if (selectedId == R.id.calcl2h)
+                        {
+                            if (!sort_flag)
+                            {
+                                Collections.sort(list1, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(10).getValue()) > Float.parseFloat(rhs.getNutration().get(10).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(list1);
+                                adapter.notifyDataSetChanged();
+                            }
+                            else
+                            {
+                                Collections.sort(subList, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(10).getValue()) > Float.parseFloat(rhs.getNutration().get(10).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(subList);
+                                adapter.notifyDataSetChanged();
+                            }
+
+
+                        }
+
+                        if (selectedId == R.id.ironl2h)
+                        {
+                            if (!sort_flag)
+                            {
+                                Collections.sort(list1, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(11).getValue()) > Float.parseFloat(rhs.getNutration().get(11).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(list1);
+                                adapter.notifyDataSetChanged();
+                            }
+                            else
+                            {
+                                Collections.sort(subList, new Comparator<Model>() {
+                                    @Override
+                                    public int compare(Model lhs, Model rhs) {
+                                        if (Float.parseFloat(lhs.getNutration().get(11).getValue()) > Float.parseFloat(rhs.getNutration().get(11).getValue()))
+                                            return 1;
+                                        else
+                                            return -1;
+                                    }
+                                });
+
+
+                                adapter.setGridData(subList);
+                                adapter.notifyDataSetChanged();
+                            }
+
+
+                        }
+
 
 
 

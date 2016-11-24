@@ -36,6 +36,15 @@ public interface CompareAPI {
     @POST("global/api/register")
     Call<registerBean> register(@Part("user_name") String userName, @Part("user_email") String email , @Part("password") String password , @Part("address") String address , @Part("country") String country , @Part("city") String city , @Part("state") String state);
 
+    @Multipart
+    @POST("global/api/updateprofile")
+    Call<updateBean> updateDetails(@Part("userId") String userId, @Part("age") String age , @Part("phone") String phone , @Part("gender") String gender , @Part("height") String height , @Part("weight") String weight , @Part("bmi") String bmi);
+
+    @Multipart
+    @POST("global/api/createlist")
+    Call<profileBean> getProfile(@Part("userId") String userId);
+
+
 
 
 }

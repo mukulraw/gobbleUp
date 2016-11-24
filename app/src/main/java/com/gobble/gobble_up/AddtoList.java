@@ -4,6 +4,7 @@ package com.gobble.gobble_up;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,8 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -47,15 +50,24 @@ public class AddtoList extends AppCompatActivity {
 
     ArrayList<addListBean> list;
 
+    DBHandler handler;
+
+    ConnectionDetector cd;
     addToListAdapter adapter;
 
     private String iidd;
 
 
+    private String GET_ALL_LIST = "http://nationproducts.in/global/api/alllists/userId/";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addto_list);
+
+        cd = new ConnectionDetector(this);
+
+        handler = new DBHandler(this);
 
         bar = (ProgressBar)findViewById(R.id.add_to_list_progress);
 
@@ -144,10 +156,8 @@ public class AddtoList extends AppCompatActivity {
 
 
 
-                        Intent resultIntent = getIntent();
-                        resultIntent.putExtra("result","result");
-                        setResult(RESULT_OK , resultIntent);
-                        finish();
+                        Toast.makeText(getApplicationContext() , "Adding..." , Toast.LENGTH_SHORT).show();
+
                         dialog.dismiss();
 
 
@@ -367,43 +377,30 @@ public class AddtoList extends AppCompatActivity {
 
 
 
-    private class addToList extends AsyncTask<Void , Void , Void>
-    {
+    private class addToList extends AsyncTask<Void , Void , Void> {
 
-        String pId , lId , quant;
+        String pId, lId, quant;
         String result;
 
 
-
-        addToList(String lId, String pId, String quant)
-        {
+        addToList(String lId, String pId, String quant) {
             this.pId = pId;
             this.lId = lId;
             this.quant = quant;
         }
 
 
-
-
-
-
-
-
-
-
         @Override
         protected Void doInBackground(Void... params) {
             List<NameValuePair> data = new ArrayList<>();
 
-            data.add(new BasicNameValuePair("listId" , lId));
-            data.add(new BasicNameValuePair("productId" , pId));
-            data.add(new BasicNameValuePair("quantity" , quant));
+            data.add(new BasicNameValuePair("listId", lId));
+            data.add(new BasicNameValuePair("productId", pId));
+            data.add(new BasicNameValuePair("quantity", quant));
 
             RegisterUserClass ruc = new RegisterUserClass();
             String ADD_TO_LIST = "http://nationproducts.in/global/api/addtolist";
             result = ruc.sendPostRequest(ADD_TO_LIST, data);
-
-
 
 
             return null;
@@ -417,9 +414,294 @@ public class AddtoList extends AppCompatActivity {
 
 
 
+            syncSQLite();
+
+
+
+
+
+
+
             super.onPostExecute(aVoid);
         }
     }
+
+    public void syncSQLite()
+    {
+
+
+        if (cd.isConnectingToInternet())
+        {
+            new syncmain(GET_ALL_LIST + iidd).execute();
+        }
+    }
+
+    public class syncmain extends AsyncTask<Void , Void , Void>
+    {
+
+        InputStream is;
+        String json;
+        JSONArray array;
+
+
+
+        String id;
+
+
+        int length;
+        String url;
+
+        syncmain(String url)
+        {
+            this.url = url;
+        }
+
+
+
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+
+            try {
+                // HttpClient client = new DefaultHttpClient();
+                //  HttpGet get = new HttpGet(url);
+                //  HttpResponse response = client.execute(get);
+                //HttpEntity entity = response.getEntity();
+                //is = entity.getContent();
+
+                URL u = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection)u.openConnection();
+                if(connection.getResponseCode()==200)
+                {
+                    is = connection.getInputStream();
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(
+                        is, "utf-8"), 8);
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line).append("\n");
+                }
+                is.close();
+                json = sb.toString();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //Log.e("Buffer Error", "Error converting result " + e.toString());
+            }
+
+            try {
+                array = new JSONArray(json);
+                length = array.length();
+            } catch (JSONException | NullPointerException e) {
+                e.printStackTrace();
+                //Log.e("JSON Parser", "Error parsing data " + e.toString());
+            }
+
+
+            for (int i=0 ; i<length;i++)
+            {
+                try {
+                    JSONObject obj = array.getJSONObject(i);
+                    offlineMainListBean bean = new offlineMainListBean();
+                    bean.setListName(obj.getString("listName"));
+                    bean.setListId(obj.getString("listId"));
+
+                    id = obj.getString("listId");
+
+                    bean.setCreatedTime(obj.getString("createdTime"));
+                    bean.setTotalItems(obj.getString("totalItem"));
+
+
+
+
+                    handler.insertUser(bean);
+
+
+
+                    //list.add(bean);
+                } catch (JSONException | NullPointerException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+
+
+
+
+
+            syncSubList(id);
+
+
+
+
+
+
+
+            //refreshList();
+
+//            adapter.setGridData(list);
+
+            // bar.setVisibility(View.GONE);
+
+            // lview.setVisibility(View.VISIBLE);
+            //list.clear();
+            //mProgressBar.setVisibility(View.GONE);
+        }
+    }
+
+
+    public void syncSubList(String id)
+    {
+
+        if (cd.isConnectingToInternet())
+        {
+            String GET_LIST_ITEMS = "http://nationproducts.in/global/api/listitems/listId/";
+            new syncSub(GET_LIST_ITEMS + id).execute();
+        }
+
+    }
+
+
+
+    public class syncSub extends AsyncTask<Void , Void , Void>
+    {
+
+        InputStream is;
+        String json;
+        JSONArray array;
+
+
+
+
+        int length;
+        String url;
+
+        syncSub(String url)
+        {
+            this.url = url;
+        }
+
+
+
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+
+            try {
+
+                URL u = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection)u.openConnection();
+                if(connection.getResponseCode()==200)
+                {
+                    is = connection.getInputStream();
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(
+                        is, "utf-8"), 8);
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line).append("\n");
+                }
+                is.close();
+                json = sb.toString();
+            } catch (Exception e) {
+                e.printStackTrace();
+                // Log.e("Buffer Error", "Error converting result " + e.toString());
+            }
+
+            try {
+                array = new JSONArray(json);
+                length = array.length();
+            } catch (JSONException | NullPointerException e) {
+                e.printStackTrace();
+                //Log.e("JSON Parser", "Error parsing data " + e.toString());
+            }
+
+
+            for (int i=0 ; i<length;i++)
+            {
+                try {
+                    JSONObject obj = array.getJSONObject(i);
+                    offlineSubListBean bean = new offlineSubListBean();
+                    bean.setName(obj.getString("name"));
+                    bean.setListId(obj.getString("listId"));
+
+
+                    ImageLoader imageLoader = ImageLoader.getInstance();
+
+                    Bitmap bitmap = imageLoader.loadImageSync(obj.getString("image"));
+
+                    bean.setImage(Utils.getImageBytes(bitmap));
+
+
+                    bean.setProductId(obj.getString("productId"));
+                    //bean.setImage(obj.getString("image"));
+
+                    bean.setPrice(obj.getString("price"));
+
+                    handler.insertSubData(bean);
+
+                    //list.add(bean);
+                } catch (JSONException | NullPointerException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            //adapter = new SubListAdapter(getBaseContext() , list);
+            //lv.setAdapter(adapter);
+            //lv.setHasFixedSize(true);
+            //lv.setLayoutManager(lLayout);
+
+            //refresh();
+
+
+            Toast.makeText(getApplicationContext() , "Added Successfully" , Toast.LENGTH_SHORT).show();
+
+            Intent resultIntent = getIntent();
+            resultIntent.putExtra("result","result");
+            setResult(RESULT_OK , resultIntent);
+            finish();
+
+            //adapter.setGridData(list);
+            //total.setText("TOTAL:  "+String.valueOf(adapter.getTotal()));
+            //list.clear();
+            //mProgressBar.setVisibility(View.GONE);
+        }
+    }
+
+
+
 
     private class addToListAdapter extends ArrayAdapter<addListBean> {
 
@@ -456,7 +738,7 @@ public class AddtoList extends AppCompatActivity {
                 holder.listtCreatedTime = (TextView) row.findViewById(R.id.addlidtlidtCreatedTime);
                 holder.listtidd = (TextView)row.findViewById(R.id.addlistlistId);
                 holder.listttotal = (TextView)row.findViewById(R.id.addlistTotalItem);
-                holder.delete = (Button)row.findViewById(R.id.deleteList);
+                //holder.delete = (Button)row.findViewById(R.id.deleteList);
 
                 row.setTag(holder);
             } else {
@@ -469,7 +751,7 @@ public class AddtoList extends AppCompatActivity {
             holder.listtidd.setText("Id: "+item.getListId());
 
 
-            holder.delete.setOnClickListener(new View.OnClickListener() {
+            /*holder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
@@ -511,7 +793,7 @@ public class AddtoList extends AppCompatActivity {
 
                 }
             });
-
+*/
             return row;
 
 
@@ -520,7 +802,7 @@ public class AddtoList extends AppCompatActivity {
         class ViewHolder {
             TextView listtName;
             TextView listtCreatedTime , listttotal , listtidd;
-            Button delete;
+            //Button delete;
         }
         class delete extends AsyncTask<Void , Void , Void>
         {

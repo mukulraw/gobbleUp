@@ -206,8 +206,48 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
 
                                 @Override
                                 public void onFailure(Call<registerBean> call, Throwable t) {
-                                    LoginManager.getInstance().logOut();
-                                    fb_flag = false;
+                                    Call<loginBean> call1 = request.login(e , p);
+
+                                    call1.enqueue(new Callback<loginBean>() {
+                                        @Override
+                                        public void onResponse(Call<loginBean> call, Response<loginBean> response) {
+
+                                            Toast.makeText(getApplicationContext() , "welcome "+response.body().getUserName() , Toast.LENGTH_SHORT).show();
+                                            Intent i = new Intent(getApplicationContext() , GetStartActivity.class);
+
+
+                                            edit.putBoolean("fb" , true);
+                                            edit.apply();
+                                            i.putExtra("url" , imageUrl);
+
+                                            i.putExtra("id" , response.body().getUserId());
+                                            i.putExtra("name" , response.body().getUserName());
+                                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                            startActivity(i);
+                                            finish();
+
+
+
+
+
+
+
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<loginBean> call, Throwable t) {
+
+
+                                            LoginManager.getInstance().logOut();
+                                            fb_flag = false;
+
+
+                                        }
+                                    });
+
+
+
+
                                 }
                             });
 
@@ -296,8 +336,44 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
 
                         @Override
                         public void onFailure(Call<registerBean> call, Throwable t) {
-                            LoginManager.getInstance().logOut();
-                            fb_flag = false;
+                            Call<loginBean> call1 = request.login(e , p);
+
+                            call1.enqueue(new Callback<loginBean>() {
+                                @Override
+                                public void onResponse(Call<loginBean> call, Response<loginBean> response) {
+
+                                    Toast.makeText(getApplicationContext() , "welcome "+response.body().getUserName() , Toast.LENGTH_SHORT).show();
+                                    Intent i = new Intent(getApplicationContext() , GetStartActivity.class);
+
+
+                                    edit.putBoolean("fb" , true);
+                                    edit.apply();
+                                    i.putExtra("url" , imageUrl);
+
+                                    i.putExtra("id" , response.body().getUserId());
+                                    i.putExtra("name" , response.body().getUserName());
+                                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    startActivity(i);
+                                    finish();
+
+
+
+
+
+
+
+                                }
+
+                                @Override
+                                public void onFailure(Call<loginBean> call, Throwable t) {
+
+
+                                    LoginManager.getInstance().logOut();
+                                    fb_flag = false;
+
+
+                                }
+                            });
                         }
                     });
 
@@ -549,11 +625,46 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
                 @Override
                 public void onFailure(Call<registerBean> call, Throwable t) {
 
-                    if (mGoogleApiClient.isConnected()) {
-                        signOut();
-                        goog_flag = false;
-                    }
+                    Call<loginBean> call1 = request.login(finalE, finalP);
 
+                    call1.enqueue(new Callback<loginBean>() {
+                        @Override
+                        public void onResponse(Call<loginBean> call, Response<loginBean> response) {
+
+                            Toast.makeText(getApplicationContext() , "welcome "+response.body().getUserName() , Toast.LENGTH_SHORT).show();
+                            Intent i = new Intent(getApplicationContext() , GetStartActivity.class);
+
+
+                            edit.putBoolean("google" , true);
+                            edit.apply();
+                            i.putExtra("url" , imageUrl);
+
+                            i.putExtra("id" , response.body().getUserId());
+                            i.putExtra("name" , response.body().getUserName());
+                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(i);
+                            finish();
+
+
+
+
+
+
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<loginBean> call, Throwable t) {
+
+
+                            if (mGoogleApiClient.isConnected()) {
+                                signOut();
+                                goog_flag = false;
+                            }
+
+
+                        }
+                    });
                 }
             });
 
