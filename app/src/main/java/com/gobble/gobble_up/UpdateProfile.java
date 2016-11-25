@@ -83,7 +83,10 @@ public class UpdateProfile extends AppCompatActivity implements AdapterView.OnIt
                     Float hei = Float.parseFloat(height.getText().toString());
                     Float bm = wei / ( (hei/100) * (hei/100) );
 
-                    bmi.setText(Float.toString(bm));
+                    String s = String.format("%.2f", bm);
+
+
+                    bmi.setText(s);
 
                 }
 
@@ -115,7 +118,12 @@ public class UpdateProfile extends AppCompatActivity implements AdapterView.OnIt
                     Float hei = Float.parseFloat(height.getText().toString());
                     Float bm = wei / ( (hei/100) * (hei/100) );
 
-                    bmi.setText(Float.toString(bm));
+
+                    String s = String.format("%.2f", bm);
+
+
+
+                    bmi.setText(s);
 
                 }
 

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "824846417601",
+    "project_id": "gobble-up"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:824846417601:android:1d28ff73e5a9b44b",
+        "android_client_info": {
+          "package_name": "com.gobble.gobble_up"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "824846417601-4thmjj3ekrg6qpqlulgg21ok9oia528i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gobble.gobble_up",
+            "certificate_hash": "77779D23E3F94B62B776763A997C454632E37305"
+          }
+        },
+        {
+          "client_id": "824846417601-bjce3em94l2pvfjafbn9i1cvrkldfqkv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5IzOzlU06n8bLVZZZGed9qSVZHC7-TLw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
