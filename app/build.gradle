@@ -3,9 +3,9 @@ apply plugin: 'android-apt'
 android {
     signingConfigs {
         config {
-            keyAlias 'kbi'
+            keyAlias 'gobble'
             keyPassword 'Zedistark1@'
-            storeFile file('D:/TBXAndroid/APK KEys/OneKeyForAll.jks')
+            storeFile file('C:/Users/mukul/Desktop/KeyStore.jks')
             storePassword 'Zedistark1@'
         }
     }
@@ -27,6 +27,9 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+        debug {
             signingConfig signingConfigs.config
         }
     }
