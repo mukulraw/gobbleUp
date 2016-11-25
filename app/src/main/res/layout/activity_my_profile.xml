@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_my_profile"
-    android:orientation="vertical"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.gobble.gobble_up.MyProfile">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        >
+
 
 
     <TextView
@@ -20,17 +29,166 @@
         />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center"
-        android:id="@+id/email"
+        android:text="Name"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
+        android:textColor="@color/colorAccent"
+        />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+
+            android:textAllCaps="true"
+            android:padding="18dp"
+            android:id="@+id/name"
+            />
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Age"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
+        android:textColor="@color/colorAccent"
         />
 
 
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+
+        android:padding="18dp"
+
+        android:id="@+id/age"
+        />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Phone"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
+        android:textColor="@color/colorAccent"
+        />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+
+
+        android:id="@+id/phone"
+        android:padding="18dp"
+        />
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Gender"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
+        android:textColor="@color/colorAccent"
+        />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textAllCaps="true"
+        android:id="@+id/gender"
+
+        android:padding="18dp"
+
+        />
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Height"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
+        android:textColor="@color/colorAccent"
+        />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+
+        android:padding="18dp"
+
+        android:id="@+id/height"
+        />
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Weight"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
+        android:textColor="@color/colorAccent"
+        />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+
+
+        android:id="@+id/weight"
+        android:padding="18dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:paddingTop="18dp"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
+        android:text="BMI"
+        android:textColor="@color/colorAccent"
+        android:textSize="64sp"
+        android:id="@+id/bmi"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:text="Your BMI value"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
+        android:paddingBottom="18dp"
+        android:textColor="#6d6d6d"
+        />
+
+    </LinearLayout>
 
 
 
 
-</LinearLayout>
+
+</ScrollView>

@@ -17,6 +17,11 @@
             android:icon="@drawable/compare_black"
             android:title="Compare List" />
 
+        <item
+            android:id="@+id/profile"
+            android:icon="@drawable/user"
+            android:title="My Profile" />
+
     </group>
 
     <item android:title="">

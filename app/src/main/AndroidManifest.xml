@@ -69,7 +69,10 @@
             android:name=".Rate_Review"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".MyProfile"></activity>
+        <activity
+            android:name=".MyProfile"
+            android:screenOrientation="portrait" />
+        <activity android:name=".UpdateProfile"></activity>
     </application>
 
 </manifest>

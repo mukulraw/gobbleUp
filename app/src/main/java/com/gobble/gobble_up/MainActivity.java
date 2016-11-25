@@ -269,6 +269,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }
 
+
+        if (id == R.id.profile)
+        {
+            Intent i = new Intent(getApplicationContext() , MyProfile.class);
+
+            startActivity(i);
+
+        }
+
+
+
         if (id == R.id.nav_camera)
         {
 

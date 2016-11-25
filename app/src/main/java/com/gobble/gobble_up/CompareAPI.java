@@ -41,7 +41,7 @@ public interface CompareAPI {
     Call<updateBean> updateDetails(@Part("userId") String userId, @Part("age") String age , @Part("phone") String phone , @Part("gender") String gender , @Part("height") String height , @Part("weight") String weight , @Part("bmi") String bmi);
 
     @Multipart
-    @POST("global/api/createlist")
+    @POST("global/api/profile")
     Call<profileBean> getProfile(@Part("userId") String userId);
 
 
