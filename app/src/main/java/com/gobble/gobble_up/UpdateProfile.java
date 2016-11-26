@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +30,8 @@ public class UpdateProfile extends AppCompatActivity implements AdapterView.OnIt
     EditText age , phone , height , weight;
     TextView bmi , save;
 
+
+
     String gend;
 
 
@@ -36,6 +39,8 @@ public class UpdateProfile extends AppCompatActivity implements AdapterView.OnIt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_profile);
+
+
 
         save = (TextView)findViewById(R.id.save_profile_button);
         bmi = (TextView)findViewById(R.id.bmi);

@@ -1,11 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_update_profile"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context="com.gobble.gobble_up.UpdateProfile">
 
+
+    <android.support.v7.widget.Toolbar
+
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+
+
+        android:background="@drawable/toolbar_background"
+        android:minHeight="?attr/actionBarSize"
+         />
+
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,7 +41,6 @@
             android:textColor="#43b8c6"
             />
 
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,13 +54,19 @@
 
 
 
+
+
+
+
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Age"
+            android:paddingTop="18dp"
             android:paddingStart="18dp"
             android:paddingEnd="18dp"
-            android:textColor="@color/colorAccent"
+            android:textColor="#43b8c6"
             />
 
 
@@ -66,7 +88,7 @@
             android:text="Phone"
             android:paddingStart="18dp"
             android:paddingEnd="18dp"
-            android:textColor="@color/colorAccent"
+            android:textColor="#43b8c6"
             />
 
 
@@ -88,7 +110,7 @@
             android:text="Gender"
             android:paddingStart="18dp"
             android:paddingEnd="18dp"
-            android:textColor="@color/colorAccent"
+            android:textColor="#43b8c6"
             />
 
 
@@ -111,7 +133,7 @@
             android:text="Height"
             android:paddingStart="18dp"
             android:paddingEnd="18dp"
-            android:textColor="@color/colorAccent"
+            android:textColor="#43b8c6"
             />
 
 
@@ -134,7 +156,7 @@
             android:text="Weight"
             android:paddingStart="18dp"
             android:paddingEnd="18dp"
-            android:textColor="@color/colorAccent"
+            android:textColor="#43b8c6"
             />
 
 
@@ -177,8 +199,8 @@
     </LinearLayout>
 
 
+    </ScrollView>
 
 
 
-
-</ScrollView>
+</LinearLayout>

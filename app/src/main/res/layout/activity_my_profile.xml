@@ -1,12 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_my_profile"
     android:background="#f1f1f1"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.gobble.gobble_up.MyProfile">
 
+
+    <android.support.v7.widget.Toolbar
+
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+
+
+        android:background="@drawable/toolbar_background"
+        android:minHeight="?attr/actionBarSize"
+        />
+
+
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
 
     <LinearLayout
@@ -27,11 +45,20 @@
             />
 
 
+
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/user"
+            android:id="@+id/profile_picture"
+            android:src="@drawable/com_facebook_profile_picture_blank_square"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Click to Edit"
             />
 
 
@@ -53,7 +80,7 @@
         android:text="Name"
         android:paddingStart="18dp"
         android:paddingEnd="18dp"
-        android:textColor="@color/colorAccent"
+        android:textColor="#43b8c6"
         />
 
 
@@ -81,7 +108,7 @@
         android:text="Age"
         android:paddingStart="18dp"
         android:paddingEnd="18dp"
-        android:textColor="@color/colorAccent"
+        android:textColor="#43b8c6"
         />
 
 
@@ -108,7 +135,7 @@
         android:text="Phone"
         android:paddingStart="18dp"
         android:paddingEnd="18dp"
-        android:textColor="@color/colorAccent"
+        android:textColor="#43b8c6"
         />
 
 
@@ -135,7 +162,7 @@
         android:text="Gender"
         android:paddingStart="18dp"
         android:paddingEnd="18dp"
-        android:textColor="@color/colorAccent"
+        android:textColor="#43b8c6"
         />
 
 
@@ -163,7 +190,7 @@
         android:text="Height"
         android:paddingStart="18dp"
         android:paddingEnd="18dp"
-        android:textColor="@color/colorAccent"
+        android:textColor="#43b8c6"
         />
 
 
@@ -190,7 +217,7 @@
         android:text="Weight"
         android:paddingStart="18dp"
         android:paddingEnd="18dp"
-        android:textColor="@color/colorAccent"
+        android:textColor="#43b8c6"
         />
 
 
@@ -238,7 +265,7 @@
     </LinearLayout>
 
 
+    </ScrollView>
 
 
-
-</ScrollView>
+</LinearLayout>

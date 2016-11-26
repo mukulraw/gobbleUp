@@ -10,6 +10,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+
+import com.gobble.gobble_up.POJO.Model;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,11 +23,19 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class SearchResultActivity extends AppCompatActivity implements TextWatcher {
 
     private ArrayList<searchBean> original;
-    ArrayList<searchBean> result;
+    List<Model> result;
     searchAdapter adapter;
     private ListView lv;
 
@@ -38,8 +49,8 @@ public class SearchResultActivity extends AppCompatActivity implements TextWatch
         original = new ArrayList<>();
         original.clear();
 
-        String GET_ALL = "http://nationproducts.in/global/api/allproduct";
-        new connect(GET_ALL).execute();
+        String GET_ALL = "http://nationproducts.in/global/api/searchproduct";
+        //new connect(GET_ALL).execute();
 
         EditText searchbar = (EditText) findViewById(R.id.searchBar);
 
@@ -83,7 +94,7 @@ public class SearchResultActivity extends AppCompatActivity implements TextWatch
 
                 if (query!=null)
                 {
-                    int textLength = query.length();
+                    /*int textLength = query.length();
                     result.clear();
 
                     for (int i = 0; i < original.size(); i++) {
@@ -94,19 +105,45 @@ public class SearchResultActivity extends AppCompatActivity implements TextWatch
                                 result.add(original.get(i));
                         }
 
+*/
+                    adapter = new searchAdapter(getApplicationContext(), R.layout.search_model, result);
+                    String SUB_CATEGORY = "http://nationproducts.in/";
+                    Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl(SUB_CATEGORY)
+                            .addConverterFactory(ScalarsConverterFactory.create())
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build();
+                    final CompareAPI request = retrofit.create(CompareAPI.class);
 
-                        adapter = new searchAdapter(getApplicationContext(), R.layout.search_model, result);
+                    Call<List<Model>> call = request.search(query , "0" , "0");
 
-                        adapter.setGridData(result);
+                    call.enqueue(new Callback<List<Model>>() {
+                        @Override
+                        public void onResponse(Call<List<Model>> call, Response<List<Model>> response) {
 
 
-                        if (lv != null) {
-                            lv.setAdapter(adapter);
+
+                            adapter.setGridData(response.body());
+
+
+                            if (lv != null) {
+                                lv.setAdapter(adapter);
+                            }
+
+
                         }
+
+                        @Override
+                        public void onFailure(Call<List<Model>> call, Throwable t) {
+
+                        }
+                    });
+
+
                         // lv.setAdapter(adapter);
 
 
-                    }
+
                 }
 
 

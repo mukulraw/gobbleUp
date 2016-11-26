@@ -41,6 +41,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationServices;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.w3c.dom.Text;
 
@@ -48,6 +49,12 @@ import java.io.InputStream;
 import java.net.URL;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener , GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private GoogleApiClient mGoogleApiClient;
@@ -192,15 +199,62 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 be.n = n;
 
                 //Log.d("asdasdasd" , n);
-                CircleImageView profile = (CircleImageView) header.findViewById(R.id.headerProfile);
-                TextView head_name = (TextView) header.findViewById(R.id.headertitle);
-                if (url.length() > 0) {
+                final CircleImageView profile = (CircleImageView) header.findViewById(R.id.headerProfile);
+                final TextView head_name = (TextView) header.findViewById(R.id.headertitle);
+            /*    if (url.length() > 0) {
                     new loadImage(profile, url).execute();
                 } else {
                     profile.setImageDrawable(getResources().getDrawable(R.drawable.com_facebook_profile_picture_blank_portrait));
                 }
+*/
 
-                head_name.setText(n);
+
+
+                //head_name.setText(n);
+
+
+
+                String SUB_CATEGORY = "http://nationproducts.in/";
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(SUB_CATEGORY)
+                        .addConverterFactory(ScalarsConverterFactory.create())
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                final CompareAPI request = retrofit.create(CompareAPI.class);
+
+                Call<profileBean> call = request.getProfile(be.user_id);
+
+                call.enqueue(new Callback<profileBean>() {
+                    @Override
+                    public void onResponse(Call<profileBean> call, Response<profileBean> response) {
+
+
+
+                        try {
+
+
+                            head_name.setText(response.body().getUserName());
+
+                            ImageLoader loader = ImageLoader.getInstance();
+
+                            loader.displayImage(response.body().getUserImage() , profile);
+
+
+                        }catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<profileBean> call, Throwable t) {
+
+                    }
+                });
+
+
 
             }catch (Exception e)
             {

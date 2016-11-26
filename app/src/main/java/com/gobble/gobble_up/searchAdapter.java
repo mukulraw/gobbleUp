@@ -10,23 +10,26 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.gobble.gobble_up.POJO.Model;
+
 import java.util.ArrayList;
+import java.util.List;
 
 class searchAdapter extends ArrayAdapter<searchBean> {
 
     private Context context;
     private int layoutResourceId;
-    private ArrayList<searchBean> list = new ArrayList<>();
+    private List<Model> list = new ArrayList<>();
 
-    searchAdapter(Context context, int resource, ArrayList<searchBean> list) {
-        super(context,resource , list);
+    searchAdapter(Context context, int resource, List<Model> list) {
+        super(context,resource);
         this.context = context;
         this.layoutResourceId = resource;
         this.list = list;
     }
 
 
-    public void setGridData(ArrayList<searchBean> mGridData) {
+    public void setGridData(List<Model> mGridData) {
         this.list = mGridData;
         notifyDataSetChanged();
     }
@@ -47,7 +50,7 @@ class searchAdapter extends ArrayAdapter<searchBean> {
             holder = (ViewHolder) row.getTag();
         }
 
-        searchBean item = list.get(position);
+        Model item = list.get(position);
         holder.searchName.setText(item.getName());
 
       //  Log.d("adapter" , item.getName());

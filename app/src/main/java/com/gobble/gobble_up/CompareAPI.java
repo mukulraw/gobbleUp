@@ -1,10 +1,13 @@
 package com.gobble.gobble_up;
 
 import com.gobble.gobble_up.POJO.CompareModel;
+import com.gobble.gobble_up.POJO.Model;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
@@ -45,6 +48,11 @@ public interface CompareAPI {
     Call<profileBean> getProfile(@Part("userId") String userId);
 
 
+    @Multipart
+    @POST("global/api/updateuserimage")
+    Call<String> updateImage(@Part("userId") String userId , @Part MultipartBody.Part file);
 
-
+    @Multipart
+    @POST("global/api/searchproduct")
+    Call<List<Model>> search(@Part("text") String text , @Part("cid") String cid , @Part("sid") String sid);
 }

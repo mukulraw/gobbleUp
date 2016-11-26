@@ -16,6 +16,9 @@ public class profileBean {
     @SerializedName("user_email")
     @Expose
     private String userEmail;
+    @SerializedName("user_image")
+    @Expose
+    private String userImage;
     @SerializedName("password")
     @Expose
     private String password;
@@ -123,6 +126,24 @@ public class profileBean {
      */
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
+    }
+
+    /**
+     *
+     * @return
+     * The userImage
+     */
+    public String getUserImage() {
+        return userImage;
+    }
+
+    /**
+     *
+     * @param userImage
+     * The user_image
+     */
+    public void setUserImage(String userImage) {
+        this.userImage = userImage;
     }
 
     /**
@@ -448,5 +469,6 @@ public class profileBean {
     public void setBmi(String bmi) {
         this.bmi = bmi;
     }
+
 
 }
