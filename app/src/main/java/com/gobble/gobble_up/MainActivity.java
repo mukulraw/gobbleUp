@@ -133,6 +133,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             b = getIntent().getExtras();
         }
 
+        final CircleImageView profile = (CircleImageView) header.findViewById(R.id.headerProfile);
+        final TextView head_name = (TextView) header.findViewById(R.id.headertitle);
+
 
         if (b != null) {
 
@@ -199,8 +202,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 be.n = n;
 
                 //Log.d("asdasdasd" , n);
-                final CircleImageView profile = (CircleImageView) header.findViewById(R.id.headerProfile);
-                final TextView head_name = (TextView) header.findViewById(R.id.headertitle);
+
             /*    if (url.length() > 0) {
                     new loadImage(profile, url).execute();
                 } else {
@@ -224,6 +226,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 Call<profileBean> call = request.getProfile(be.user_id);
 
+                Log.d("asduserId" , be.user_id);
+
                 call.enqueue(new Callback<profileBean>() {
                     @Override
                     public void onResponse(Call<profileBean> call, Response<profileBean> response) {
@@ -232,12 +236,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                         try {
 
+                            Log.d("asasasdasdimage" , response.body().getUserImage());
 
                             head_name.setText(response.body().getUserName());
 
                             ImageLoader loader = ImageLoader.getInstance();
 
-                            loader.displayImage(response.body().getUserImage() , profile);
+                            if (response.body().getUserImage().length()>0)
+                            {
+                                loader.displayImage(response.body().getUserImage() , profile);
+                            }
+
+
+
 
 
                         }catch (Exception e)
@@ -322,6 +333,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         }
+
+
+        if (id == R.id.share)
+        {
+            try {
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("text/plain");
+                i.putExtra(Intent.EXTRA_SUBJECT, "Gobble Up");
+                String sAux = "\nLet me recommend you this application\n\n";
+                sAux = sAux + "https://play.google.com/store/apps/details?id=com.gobble.gobble_up \n\n";
+                i.putExtra(Intent.EXTRA_TEXT, sAux);
+                startActivity(Intent.createChooser(i, "choose one"));
+            } catch(Exception e) {
+                //e.toString();
+            }
+        }
+
 
 
         if (id == R.id.profile)

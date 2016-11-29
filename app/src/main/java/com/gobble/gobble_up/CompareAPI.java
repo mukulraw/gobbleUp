@@ -2,6 +2,7 @@ package com.gobble.gobble_up;
 
 import com.gobble.gobble_up.POJO.CompareModel;
 import com.gobble.gobble_up.POJO.Model;
+import com.gobble.gobble_up.searchPOJO.searchBean;
 
 
 import java.util.ArrayList;
@@ -54,5 +55,5 @@ public interface CompareAPI {
 
     @Multipart
     @POST("global/api/searchproduct")
-    Call<List<Model>> search(@Part("text") String text , @Part("cid") String cid , @Part("sid") String sid);
+    Call<List<searchBean>> search(@Part("text") String text , @Part("cid") String cid , @Part("sid") String sid);
 }

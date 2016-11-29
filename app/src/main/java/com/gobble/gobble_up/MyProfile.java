@@ -250,9 +250,14 @@ public class MyProfile extends AppCompatActivity {
 
 
                                 try {
-
                                     ImageLoader loader = ImageLoader.getInstance();
-                                    loader.displayImage(response.body().getUserImage() , profilePic);
+                                    if (response.body().getUserImage().length()>0)
+                                    {
+                                        loader.displayImage(response.body().getUserImage() , profilePic);
+                                    }
+
+
+
 
 
                                 }catch (Exception e)

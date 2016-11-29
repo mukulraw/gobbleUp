@@ -1,17 +1,26 @@
 package com.gobble.gobble_up;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.Layout;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.gobble.gobble_up.POJO.Model;
+import com.gobble.gobble_up.searchPOJO.searchBean;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,10 +44,11 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class SearchResultActivity extends AppCompatActivity implements TextWatcher {
 
     private ArrayList<searchBean> original;
-    List<Model> result;
-    searchAdapter adapter;
-    private ListView lv;
+    List<searchBean> result;
+    SearchAdapter adapter;
+    private RecyclerView lv;
 
+    GridLayoutManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +64,20 @@ public class SearchResultActivity extends AppCompatActivity implements TextWatch
 
         EditText searchbar = (EditText) findViewById(R.id.searchBar);
 
-        lv = (ListView) findViewById(R.id.search_list);
+        lv = (RecyclerView) findViewById(R.id.search_list);
+
+        result = new ArrayList<>();
+
+        adapter = new SearchAdapter(this , result);
 
 
+        manager = new GridLayoutManager(this , 1);
 
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lv.setLayoutManager(manager);
+        lv.setAdapter(adapter);
+
+
+      /*  lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -78,7 +97,7 @@ public class SearchResultActivity extends AppCompatActivity implements TextWatch
 
             }
         });
-
+*/
         searchbar.addTextChangedListener(this);
 
     }
@@ -86,7 +105,7 @@ public class SearchResultActivity extends AppCompatActivity implements TextWatch
 
     private void handleIntent(String query) {
 
-        result = new ArrayList<>();
+        //result = new ArrayList<>();
         //original = new ArrayList<>();
 
 
@@ -106,7 +125,7 @@ public class SearchResultActivity extends AppCompatActivity implements TextWatch
                         }
 
 */
-                    adapter = new searchAdapter(getApplicationContext(), R.layout.search_model, result);
+                    //adapter = new searchAdapter(getApplicationContext(), R.layout.search_model, result);
                     String SUB_CATEGORY = "http://nationproducts.in/";
                     Retrofit retrofit = new Retrofit.Builder()
                             .baseUrl(SUB_CATEGORY)
@@ -115,32 +134,37 @@ public class SearchResultActivity extends AppCompatActivity implements TextWatch
                             .build();
                     final CompareAPI request = retrofit.create(CompareAPI.class);
 
-                    Call<List<Model>> call = request.search(query , "0" , "0");
+                    Call<List<searchBean>> call = request.search(query , "0" , "0");
 
-                    call.enqueue(new Callback<List<Model>>() {
+                    call.enqueue(new Callback<List<searchBean>>() {
                         @Override
-                        public void onResponse(Call<List<Model>> call, Response<List<Model>> response) {
+                        public void onResponse(Call<List<searchBean>> call, Response<List<searchBean>> response) {
 
 
+                            Log.d("asdasdasd" , String.valueOf(response.body().size()));
 
-                            adapter.setGridData(response.body());
+                           // adapter = new searchAdapter(getApplicationContext() , R.layout.search_model , response.body());
+
+                            result = response.body();
+
+                            adapter.setGridData(result);
 
 
-                            if (lv != null) {
+                            //if (lv != null) {
                                 lv.setAdapter(adapter);
-                            }
+                            //}
 
 
                         }
 
                         @Override
-                        public void onFailure(Call<List<Model>> call, Throwable t) {
+                        public void onFailure(Call<List<searchBean>> call, Throwable t) {
 
                         }
                     });
 
 
-                        // lv.setAdapter(adapter);
+
 
 
 
@@ -183,91 +207,76 @@ public class SearchResultActivity extends AppCompatActivity implements TextWatch
 
     }
 
-    public class connect extends AsyncTask<Void, Void, Void> {
-
-            InputStream is;
-            String json;
-            JSONArray array;
-            HttpURLConnection connection;
-            URL u = null;
-
-            int length;
-            String url;
-
-            connect(String url) {
-                this.url = url;
-            }
 
 
-            @Override
-            protected Void doInBackground(Void... params) {
+    public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder>
+    {
+
+        List<searchBean> list;
+        Context context;
 
 
-                try {
-                    // HttpClient client = new DefaultHttpClient();
-                    //  HttpGet get = new HttpGet(url);
-                    //  HttpResponse response = client.execute(get);
-                    //HttpEntity entity = response.getEntity();
-                    //is = entity.getContent();
-
-                    u = new URL(url);
-                    connection = (HttpURLConnection) u.openConnection();
-                    if (connection.getResponseCode() == 200) {
-                        is = connection.getInputStream();
-                    }
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(
-                            is, "utf-8"), 8);
-                    StringBuilder sb = new StringBuilder();
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        sb.append(line).append("\n");
-                    }
-                    is.close();
-                    json = sb.toString();
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                finally {
-                    connection.disconnect();
-                }
+        public SearchAdapter(Context context , List<searchBean> list)
+        {
+            this.list = list;
+            this.context = context;
+        }
 
 
-
-                try {
-                    array = new JSONArray(json);
-                    length = array.length();
-                } catch (JSONException | NullPointerException e) {
-                    e.printStackTrace();
-                    //Log.e("JSON Parser", "Error parsing data " + e.toString());
-                }
+        public  void setGridData(List<searchBean> list)
+        {
+            this.list = list;
+            notifyDataSetChanged();
+        }
 
 
-                for (int i = 0; i < length; i++) {
-                    try {
-                        JSONObject obj = array.getJSONObject(i);
-                        searchBean bean = new searchBean();
-                        bean.setName(obj.getString("name"));
-                        bean.setPrice(obj.getString("price"));
-                        bean.setImage(obj.getString("image"));
-                        bean.setCatId(obj.getString("cat_id"));
-                        bean.setId(obj.getString("id"));
-                        bean.setNutrition(obj.getString("nutration"));
-                        bean.setSubCatId(obj.getString("sub_cat_id"));
-                      //  Log.d("asdasdasd", obj.getString("name"));
-                        original.add(bean);
-                      //  Log.d("asdasdasd", "added");
-                    } catch (JSONException | NullPointerException e) {
-                        e.printStackTrace();
-                    }
-                }
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater inflater = (LayoutInflater)context.getSystemService(LAYOUT_INFLATER_SERVICE);
+            View view = inflater.inflate(R.layout.search_model , parent , false);
+            return new SearchAdapter.ViewHolder(view);
+        }
 
+        @Override
+        public void onBindViewHolder(ViewHolder holder, int position) {
 
-                return null;
-            }
-
+            searchBean item = list.get(position);
+            holder.textView.setText(item.getName());
 
         }
+
+        @Override
+        public int getItemCount() {
+            return list.size();
+        }
+
+        class ViewHolder extends RecyclerView.ViewHolder
+        {
+            TextView textView;
+
+            public ViewHolder(View itemView) {
+                super(itemView);
+
+                textView = (TextView)itemView.findViewById(R.id.search_name);
+
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        searchBean item = list.get(getAdapterPosition());
+
+                        Intent resultintent = getIntent();
+                        resultintent.putExtra("result" , item.getId());
+                        resultintent.putExtra("image" , item.getImage());
+                        setResult(RESULT_OK , resultintent);
+                        finish();
+                    }
+                });
+
+            }
+        }
+
+    }
 
 
 
