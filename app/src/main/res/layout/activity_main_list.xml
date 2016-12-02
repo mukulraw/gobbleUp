@@ -21,7 +21,7 @@
         android:id="@+id/toolbar11"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@drawable/toolbar_background"
+
         android:fitsSystemWindows="true"
         app:popupTheme="@style/AppTheme.PopupOverlay"
         >

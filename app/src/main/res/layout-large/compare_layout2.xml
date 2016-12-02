@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
     android:layout_width="match_parent"
-
     android:layout_height="match_parent"
-    tools:context="com.gobble.gobble_up.TempList">
-
+    tools:ignore="Overdraw">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:background="@color/white"
         >
 
         <android.support.v7.widget.Toolbar
@@ -27,66 +28,66 @@
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:background="@color/colorPrimaryDark"
+            android:textColor="@color/white"
+            android:paddingTop="10dp"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp"
+            android:paddingBottom="10dp"
+            android:text="Compared product list according to nutritional value"
+            />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="start"
-        android:background="@color/colorPrimaryDark"
-        android:textColor="@color/white"
-        android:padding="18dp"
-        android:text="@string/my_grocery_list"
-        />
-
-
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/temp_list"
-        android:layout_marginBottom="40dp"
-        />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="7"
+            >
 
 
 
 
+
+
+
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="0dp"
+                android:layout_weight="5"
+                android:layout_height="match_parent"
+                android:id="@+id/compare_layout_list"
+                />
+
+
+
+        </LinearLayout>
 
     </LinearLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/save_my_list"
-        android:drawableEnd="@drawable/right"
-        android:gravity="center"
-        android:id="@+id/saveList"
-        android:background="@color/black"
-        android:layout_alignParentBottom="true"
-        android:paddingTop="10dp"
-        android:textColor="@color/white"
-        android:paddingBottom="10dp"
-        />
 
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/compareProgress"
         android:layout_centerHorizontal="true"
         style="@android:style/Widget.ProgressBar.Small"
         android:layout_centerVertical="true"
-        android:id="@+id/baarr"
         android:visibility="gone"
         />
-
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:text="Empty list, add items to compare"
         android:gravity="center"
-        android:text="@string/sorry_no_items"
         android:textStyle="bold"
-        android:id="@+id/tempEmptyMessage"
+        android:id="@+id/emptymessage"
         android:visibility="gone"
-        />
+        android:layout_centerInParent="true"/>
 
 
 </RelativeLayout>

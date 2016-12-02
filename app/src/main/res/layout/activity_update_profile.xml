@@ -14,7 +14,7 @@
         android:layout_height="?attr/actionBarSize"
 
 
-        android:background="@drawable/toolbar_background"
+
         android:minHeight="?attr/actionBarSize"
          />
 

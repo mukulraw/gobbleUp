@@ -18,7 +18,7 @@
         android:id="@+id/toolbar2"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@drawable/toolbar_background"
+
         android:gravity="top"
 
         android:minHeight="?attr/actionBarSize"
@@ -45,13 +45,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
+        android:weightSum="7"
         >
 
 
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
 
+
+
+
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="0dp"
+        android:layout_weight="5"
         android:layout_height="match_parent"
         android:id="@+id/compare_layout_list"
         />

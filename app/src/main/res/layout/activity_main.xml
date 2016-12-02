@@ -34,7 +34,6 @@
                     android:layout_height="?attr/actionBarSize"
 
                     android:gravity="top"
-                    android:background="@drawable/toolbar_background"
                     android:minHeight="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
                     app:layout_scrollFlags="scroll|enterAlways"

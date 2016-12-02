@@ -16,8 +16,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,6 +62,8 @@ public class Compare2 extends AppCompatActivity {
     RecyclerView listview;
     ArrayList<CompareModel> list;
 
+    LinearLayout listHeader;
+
     GridLayoutManager lLayout;
     LinearLayoutManager layoutManager;
     ProgressBar bar;
@@ -71,6 +75,8 @@ public class Compare2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.compare_layout2);
 
+
+        //listHeader = (LinearLayout)findViewById(R.id.header_list);
 
 
         listview = (RecyclerView)findViewById(R.id.compare_layout_list);
@@ -95,11 +101,51 @@ public class Compare2 extends AppCompatActivity {
         lLayout = new GridLayoutManager(this , 1);
         final comparebean b = (comparebean)this.getApplicationContext();
 
+       /* LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.compare_model , null);
+
+        TextView price = (TextView)view.findViewById(R.id.compare_model_price);
+        TextView name = (TextView)view.findViewById(R.id.compare_model_name);
+        TextView calories = (TextView)view.findViewById(R.id.compare_calories);
+        TextView fat = (TextView)view.findViewById(R.id.compare_fat);
+        TextView carbs = (TextView)view.findViewById(R.id.compare_carbs);
+        TextView protein = (TextView)view.findViewById(R.id.compare_protein);
+        TextView sodium = (TextView)view.findViewById(R.id.compare_sodium);
+        TextView potassium = (TextView)view.findViewById(R.id.compare_potassium);
+        TextView fiber = (TextView)view.findViewById(R.id.compare_fiber);
+        TextView sugar = (TextView)view.findViewById(R.id.compare_sugar);
+        TextView vita = (TextView)view.findViewById(R.id.compare_vita);
+        TextView vitc = (TextView)view.findViewById(R.id.compare_vitc);
+        TextView calcium = (TextView)view.findViewById(R.id.compare_calcium);
+        TextView iron = (TextView)view.findViewById(R.id.compare_iron);
+        TextView add = (TextView)view.findViewById(R.id.compare_model_add);
+
+        price.setText("Price");
+        name.setText("Name");
+        calories.setText("Calories");
+        fat.setText("Fat");
+        carbs.setText("Carbohydrates");
+        protein.setText("Protein");
+        sodium.setText("Sodium");
+        potassium.setText("Potassium");
+        fiber.setText("Fiber");
+        sugar.setText("Sugar");
+        vita.setText("Vitamin A");
+        vitc.setText("Vitamin C");
+        calcium.setText("Calcium");
+        iron.setText("Iron");
+        add.setVisibility(View.GONE);
+
+        listHeader.addView(view);
+*/
 
 
         if (b.list.size() > 1)
         {
             Toast.makeText(this , "Swipe Up to Remove Items" , Toast.LENGTH_LONG).show();
+
+
+
         }
 
 
