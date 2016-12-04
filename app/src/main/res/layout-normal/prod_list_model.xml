@@ -92,7 +92,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="5dp"
+
                 android:textSize="10sp"
                 android:id="@+id/addlist"
                 android:drawableEnd="@drawable/plus2"
@@ -100,8 +100,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:drawableTint="@color/colorPrimaryDark"
-                android:paddingEnd="10dp"
-                android:paddingStart="10dp"
+                android:padding="10dp"
                 android:layout_toStartOf="@+id/plus"
                 android:layout_above="@+id/switcher"
                 android:layout_alignParentEnd="true"
@@ -120,7 +119,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:focusable="false"
-                android:layout_marginBottom="5dp"
+                android:padding="5dp"
                 android:id="@+id/switcher"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true" />

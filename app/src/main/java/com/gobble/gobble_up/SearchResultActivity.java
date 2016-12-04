@@ -76,6 +76,12 @@ public class SearchResultActivity extends AppCompatActivity implements TextWatch
         lv.setLayoutManager(manager);
         lv.setAdapter(adapter);
 
+        RecyclerView.ItemDecoration itemDecoration = new
+                SimpleDividerItemDecoration(this, SimpleDividerItemDecoration.VERTICAL_LIST);
+
+
+        lv.addItemDecoration(itemDecoration);
+
 
       /*  lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

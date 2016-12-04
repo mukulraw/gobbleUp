@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:paddingBottom="45dp"
         android:id="@+id/scroller"
-        android:visibility="gone"
+        android:visibility="visible"
         android:clipToPadding="false"
         android:layout_height="match_parent">
 
@@ -148,6 +148,7 @@
                         android:layout_weight="1"
                         android:paddingBottom="5dp"
                         android:paddingStart="5dp"
+                        android:textColor="#000"
                         android:paddingEnd="5dp"
                         android:paddingTop="5dp"
                         android:text="BRAND"
@@ -163,6 +164,7 @@
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
                         android:paddingEnd="5dp"
+                        android:textColor="#888888"
                         android:paddingStart="5dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
@@ -192,6 +194,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:paddingStart="5dp"
+                        android:textColor="#000"
                         android:paddingEnd="5dp"
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
@@ -206,10 +209,11 @@
                         android:background="@color/black"
                         />
 
-                    <RelativeLayout
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
+                        android:orientation="horizontal"
                         android:id="@+id/click_rating"
                         >
 
@@ -219,32 +223,35 @@
                             android:layout_centerHorizontal="true"
                             android:layout_centerVertical="true"
                             android:focusable="true"
-
+                            android:layout_margin="5dp"
+                            android:layout_gravity="center_vertical"
                             android:id="@+id/ratrrr"
                             style="?android:attr/ratingBarStyleSmall"
                             android:rating="3.5"
 
                             />
 
-                    </RelativeLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:id="@+id/rating"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center"
+                            android:textAllCaps="true"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:text="Rate"
+                            android:paddingBottom="5dp"
+                            android:paddingTop="5dp"
+                            android:paddingEnd="20dp"
+                            android:paddingStart="20dp"
+                            />
+
+                    </LinearLayout>
 
 
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:id="@+id/rating"
-                        android:layout_gravity="center_vertical"
-                        android:gravity="center"
-                        android:textAllCaps="true"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:text="Rate"
-                        android:paddingBottom="5dp"
-                        android:paddingTop="5dp"
-                        android:paddingEnd="20dp"
-                        android:paddingStart="20dp"
-                        />
+
 
                 </LinearLayout>
                 <TextView
@@ -268,6 +275,7 @@
                         android:paddingBottom="5dp"
                         android:paddingStart="5dp"
                         android:paddingEnd="5dp"
+                        android:textColor="#000"
                         android:paddingTop="5dp"
                         android:text="PRICE"
                         />
@@ -282,6 +290,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:id="@+id/price"
+                        android:textColor="#888888"
                         android:paddingStart="5dp"
                         android:paddingEnd="5dp"
                         android:paddingBottom="5dp"
@@ -311,6 +320,7 @@
                         android:paddingTop="5dp"
                         android:paddingStart="5dp"
                         android:paddingEnd="5dp"
+                        android:textColor="#000"
                         android:text="CALORIES"
                         />
 
@@ -325,6 +335,7 @@
                         android:layout_weight="2"
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
+                        android:textColor="#888888"
                         android:paddingEnd="5dp"
                         android:paddingStart="5dp"
                         android:id="@+id/calories_single"
@@ -353,6 +364,7 @@
                         android:paddingEnd="5dp"
                         android:paddingTop="5dp"
                         android:paddingStart="5dp"
+                        android:textColor="#000"
                         android:text="DESCRIPTION"
                         />
 
@@ -366,6 +378,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:paddingBottom="5dp"
+                        android:textColor="#888888"
                         android:paddingTop="5dp"
                         android:id="@+id/description"
                         android:paddingStart="5dp"
@@ -417,14 +430,20 @@
                 android:gravity="center"
 
                 android:drawableEnd="@drawable/down"
-                android:background="#f2f2f2"
+                android:background="@color/colorAccent"
                 android:paddingEnd="10dp"
                 android:paddingTop="15dp"
 
-                android:paddingBottom="55dp"
-                android:textColor="@color/colorAccent"
+                android:paddingBottom="15dp"
+                android:textColor="#fff"
 
                 android:textSize="24sp"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:id="@+id/margin"
                 />
 
             <TextView
@@ -492,6 +511,7 @@
                         android:layout_weight="1"
                         android:text="Calories"
                         android:paddingStart="5dp"
+                        android:textColor="#000"
                         android:paddingBottom="5dp"
                         android:paddingEnd="5dp"
                         android:paddingTop="5dp"
@@ -534,6 +554,7 @@
                         android:paddingEnd="5dp"
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
+                        android:textColor="#000"
                         android:paddingStart="5dp"
                         android:text="Total Fat"
                         />
@@ -573,6 +594,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:paddingStart="5dp"
+                        android:textColor="#000"
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
                         android:text="Carbohydrate"
@@ -615,6 +637,7 @@
                         android:layout_weight="1"
                         android:text="Protein"
                         android:paddingStart="5dp"
+                        android:textColor="#000"
                         android:paddingEnd="5dp"
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
@@ -658,6 +681,7 @@
                         android:paddingStart="5dp"
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
+                        android:textColor="#000"
                         android:text="Sodium"
                         />
 
@@ -697,6 +721,7 @@
                         android:paddingStart="5dp"
                         android:text="Potassium"
                         android:paddingEnd="5dp"
+                        android:textColor="#000"
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
                         />
@@ -738,6 +763,7 @@
                         android:paddingBottom="5dp"
                         android:paddingStart="5dp"
                         android:paddingEnd="5dp"
+                        android:textColor="#000"
                         android:paddingTop="5dp"
                         android:text="Fiber"
                         />
@@ -778,6 +804,7 @@
                         android:paddingEnd="5dp"
                         android:layout_height="wrap_content"
                         android:paddingStart="5dp"
+                        android:textColor="#000"
                         android:layout_weight="1"
                         android:text="Sugar"
                         />
@@ -815,6 +842,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:textColor="#000"
                         android:text="Vitamin A"
                         android:paddingBottom="5dp"
                         android:paddingStart="5dp"
@@ -859,6 +887,7 @@
                         android:paddingTop="5dp"
                         android:paddingEnd="5dp"
                         android:layout_height="wrap_content"
+                        android:textColor="#000"
                         android:layout_weight="1"
                         android:text="Vitamin C"
                         />
@@ -901,6 +930,7 @@
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
                         android:paddingStart="5dp"
+                        android:textColor="#000"
                         android:text="Calcium"
                         />
 
@@ -940,6 +970,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Iron"
+                        android:textColor="#000"
                         android:paddingBottom="5dp"
                         android:paddingStart="5dp"
                         android:paddingTop="5dp"

@@ -26,27 +26,71 @@
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto" />
+            xmlns:app="http://schemas.android.com/apk/res-auto" >
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start"
-            android:background="@color/colorPrimaryDark"
-            android:textColor="@color/white"
-            android:paddingTop="10dp"
-            android:paddingStart="18dp"
-            android:paddingEnd="18dp"
-            android:paddingBottom="10dp"
-            android:text="Compared product list according to nutritional value"
-            />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="Compare products"
+                android:textSize="24sp"
+                />
+
+
+        </android.support.v7.widget.Toolbar>
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tutorial"
+                android:orientation="vertical"
+                android:background="#a8000000"
+                >
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="18dp"
+                    android:paddingEnd="18dp"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:textColor="#fff"
+                    android:textSize="18sp"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Swipe up to remove items"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="18dp"
+                    android:textColor="#fff"
+                    android:paddingBottom="5dp"
+                    android:paddingEnd="18dp"
+                    android:textSize="10sp"
+                    android:layout_gravity="end"
+                    android:text="(Touch to dismiss)"
+                    />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:weightSum="7"
             >
+
+
 
 
 
@@ -63,6 +107,9 @@
 
 
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp" />
 
 
 
@@ -71,6 +118,8 @@
                     android:layout_height="20dp"
                     android:gravity="center"
                     android:text="Price"
+                    android:textColor="#000"
+
                     android:id="@+id/compare_model_price"
                     />
 
@@ -80,6 +129,7 @@
                     android:id="@+id/compare_model_name"
                     android:textAllCaps="true"
                     android:text="Name"
+
                     android:textColor="#ffffff"
                     android:gravity="center"
                     android:background="@color/colorPrimaryDark"
@@ -90,6 +140,7 @@
                     android:id="@+id/compare_calories"
                     android:text="Calories"
                     android:paddingTop="2dp"
+                    android:textColor="#000"
                     android:paddingBottom="2dp"
                     android:layout_gravity="center_horizontal"
                     />
@@ -104,6 +155,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="2dp"
+                    android:textColor="#000"
                     android:text="Fat"
                     android:paddingBottom="2dp"
                     android:layout_gravity="center_horizontal"
@@ -119,6 +171,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="2dp"
                     android:paddingBottom="2dp"
+                    android:textColor="#000"
                     android:text="Carbohydrates"
                     android:layout_gravity="center_horizontal"
                     android:id="@+id/compare_carbs"
@@ -133,6 +186,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="2dp"
                     android:text="Protein"
+                    android:textColor="#000"
                     android:paddingBottom="2dp"
                     android:layout_gravity="center_horizontal"
                     android:id="@+id/compare_protein"
@@ -147,6 +201,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="2dp"
                     android:text="Sodium"
+                    android:textColor="#000"
                     android:paddingBottom="2dp"
                     android:layout_gravity="center_horizontal"
                     android:id="@+id/compare_sodium"
@@ -161,6 +216,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="2dp"
                     android:paddingBottom="2dp"
+                    android:textColor="#000"
                     android:text="Potassium"
                     android:layout_gravity="center_horizontal"
                     android:id="@+id/compare_potassium"
@@ -176,6 +232,7 @@
                     android:paddingTop="2dp"
                     android:paddingBottom="2dp"
                     android:text="Fiber"
+                    android:textColor="#000"
                     android:layout_gravity="center_horizontal"
                     android:id="@+id/compare_fiber"
                     />
@@ -191,6 +248,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="2dp"
                     android:text="Sugar"
+                    android:textColor="#000"
                     android:paddingBottom="2dp"
                     android:layout_gravity="center_horizontal"
                     android:id="@+id/compare_sugar"
@@ -205,6 +263,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="2dp"
                     android:text="Vitamin A"
+                    android:textColor="#000"
                     android:paddingBottom="2dp"
                     android:layout_gravity="center_horizontal"
                     android:id="@+id/compare_vita"
@@ -218,6 +277,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="2dp"
+                    android:textColor="#000"
                     android:paddingBottom="2dp"
                     android:text="Vitamin C"
                     android:layout_gravity="center_horizontal"
@@ -233,6 +293,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/compare_calcium"
                     android:paddingTop="2dp"
+                    android:textColor="#000"
                     android:text="Calcium"
                     android:paddingBottom="2dp"
                     android:layout_gravity="center_horizontal"
@@ -247,6 +308,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="2dp"
                     android:text="Iron"
+                    android:textColor="#000"
                     android:paddingBottom="2dp"
                     android:layout_gravity="center_horizontal"
                     android:id="@+id/compare_iron"
@@ -271,6 +333,8 @@
                 />
 
 
+
+        </LinearLayout>
 
         </LinearLayout>
 

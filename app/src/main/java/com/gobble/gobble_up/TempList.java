@@ -1,6 +1,7 @@
 package com.gobble.gobble_up;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -13,10 +14,12 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,14 +56,56 @@ public class TempList extends AppCompatActivity {
     LinearLayoutManager layoutManager;
     TextView saveList;
     ProgressBar progressBar;
+    LinearLayout tutorial;
     tempAdapter adapter;
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
     TextView empty;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_temp_list);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        toolbar.setTitleTextColor(getResources().getColor(R.color.colorPrimaryDark));
+
+        toolbar.setNavigationIcon(R.drawable.back);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         listview = (RecyclerView)findViewById(R.id.temp_list);
+
+        preferences = getSharedPreferences("prefer" , MODE_PRIVATE);
+
+
+
+        tutorial = (LinearLayout)findViewById(R.id.tutorial);
+
+        if (preferences.getBoolean("toast" , false))
+        {
+            tutorial.setVisibility(View.GONE);
+        }
+
+        tutorial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                editor = preferences.edit();
+                editor.putBoolean("toast" , true);
+                editor.apply();
+                tutorial.setVisibility(View.GONE);
+
+            }
+        });
 
 
         list = new ArrayList<>();
@@ -76,10 +121,7 @@ public class TempList extends AppCompatActivity {
 
         final comparebean b = (comparebean)this.getApplicationContext();
 
-        if (b.tempList.size()>0)
-        {
-            Toast.makeText(this , "Swipe to remove item" , Toast.LENGTH_LONG).show();
-        }
+
 
 
         adapter = new tempAdapter(getApplicationContext() , list);
@@ -98,6 +140,11 @@ public class TempList extends AppCompatActivity {
         listview.setAdapter(adapter);
         listview.setLayoutManager(layoutManager);
 
+        RecyclerView.ItemDecoration itemDecoration = new
+                SimpleDividerItemDecoration(this, SimpleDividerItemDecoration.VERTICAL_LIST);
+
+
+        listview.addItemDecoration(itemDecoration);
 
         //refresh();
 
@@ -236,7 +283,7 @@ public class TempList extends AppCompatActivity {
         {
             if (resultCode == RESULT_OK)
             {
-                Toast.makeText(getBaseContext() , "Added to list" , Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getBaseContext() , "Added to list" , Toast.LENGTH_SHORT).show();
                 b.tempList.clear();
                 b.tempListCount = 0;
                 list.clear();

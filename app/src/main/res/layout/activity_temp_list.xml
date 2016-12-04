@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
 
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.gobble.gobble_up.TempList">
 
 
@@ -25,26 +26,79 @@
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto" />
+            xmlns:app="http://schemas.android.com/apk/res-auto" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="24sp"
+                android:text="My Basket"
+                android:gravity="center_vertical"
+                />
+
+        </android.support.v7.widget.Toolbar>
 
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="start"
-        android:background="@color/colorPrimaryDark"
-        android:textColor="@color/white"
-        android:padding="18dp"
-        android:text="@string/my_grocery_list"
-        />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tutorial"
+            android:orientation="vertical"
+            android:background="#a8000000"
+            >
 
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/temp_list"
-        android:layout_marginBottom="40dp"
-        />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:textColor="#fff"
+                android:textSize="18sp"
+                android:layout_gravity="center_horizontal"
+                android:text="Swipe up to remove items"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="18dp"
+                android:textColor="#fff"
+                android:paddingBottom="5dp"
+                android:paddingEnd="18dp"
+                android:textSize="10sp"
+                android:layout_gravity="end"
+                android:text="(Touch to dismiss)"
+                />
+
+
+        </LinearLayout>
+
+
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardUseCompatPadding="true"
+            android:layout_marginBottom="40dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
+            >
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/temp_list"
+
+                />
+
+        </android.support.v7.widget.CardView>
+
+
 
 
 

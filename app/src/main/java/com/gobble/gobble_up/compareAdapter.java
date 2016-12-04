@@ -88,21 +88,21 @@ class compareAdapter extends RecyclerView.Adapter<compareAdapter.RecycleViewHold
             Animation animation = AnimationUtils.loadAnimation(context , R.anim.fade);
             holder.image.startAnimation(animation);
 
-            holder.price.setText("Price: "+item.getPrice());
+            holder.price.setText(item.getPrice());
             holder.name.setText(item.getName());
-            holder.calories.setText(Html.fromHtml("<b><i>Calories:   </i></b>"+item.getNutration().get(0).getValue() + "g"));
+            holder.calories.setText(Html.fromHtml(item.getNutration().get(0).getValue()));
             //holder.calories.setText("<b>Calories:   </b>"+item.getCalories());
-            holder.fat.setText(Html.fromHtml("<b><i>Calories:   </i></b>"+item.getNutration().get(1).getValue() + "g"));
-            holder.carbs.setText(Html.fromHtml("<b><i>Carbohydrates:   </i></b>"+item.getNutration().get(2).getValue() + "g"));
-            holder.protein.setText(Html.fromHtml("<b><i>Protein:   </i></b>"+item.getNutration().get(3).getValue() + "g"));
-            holder.sodium.setText(Html.fromHtml("<b><i>Sodium:   </i></b>"+item.getNutration().get(4).getValue() + "mg"));
-            holder.potassium.setText(Html.fromHtml("<b><i>Potassium:   </i></b>"+item.getNutration().get(5).getValue() + "mg"));
-            holder.fiber.setText(Html.fromHtml("<b><i>Fiber:   </i></b>"+item.getNutration().get(6).getValue() + "g"));
-            holder.sugar.setText(Html.fromHtml("<b><i>Sugar:   </i></b>"+item.getNutration().get(7).getValue() + "g"));
-            holder.vita.setText(Html.fromHtml("<b><i>Vitamin A:   </i></b>"+item.getNutration().get(8).getValue() + "%"));
-            holder.vitc.setText(Html.fromHtml("<b><i>Vitamin C:   </i></b>"+item.getNutration().get(9).getValue() + "%"));
-            holder.calcium.setText(Html.fromHtml("<b><i>Calcium:   </i></b>"+item.getNutration().get(10).getValue()));
-            holder.iron.setText(Html.fromHtml("<b><i>Iron:   </i></b>"+item.getNutration().get(11).getValue() + "%"));
+            holder.fat.setText(Html.fromHtml(item.getNutration().get(1).getValue() + " g"));
+            holder.carbs.setText(Html.fromHtml(item.getNutration().get(2).getValue() + " g"));
+            holder.protein.setText(Html.fromHtml(item.getNutration().get(3).getValue() + " g"));
+            holder.sodium.setText(Html.fromHtml(item.getNutration().get(4).getValue() + " mg"));
+            holder.potassium.setText(Html.fromHtml(item.getNutration().get(5).getValue() + " mg"));
+            holder.fiber.setText(Html.fromHtml(item.getNutration().get(6).getValue() + " g"));
+            holder.sugar.setText(Html.fromHtml(item.getNutration().get(7).getValue() + " g"));
+            holder.vita.setText(Html.fromHtml(item.getNutration().get(8).getValue() + " %"));
+            holder.vitc.setText(Html.fromHtml(item.getNutration().get(9).getValue() + " %"));
+            holder.calcium.setText(Html.fromHtml(item.getNutration().get(10).getValue()));
+            holder.iron.setText(Html.fromHtml(item.getNutration().get(11).getValue() + " %"));
 
 
         final comparebean b = (comparebean)context.getApplicationContext();

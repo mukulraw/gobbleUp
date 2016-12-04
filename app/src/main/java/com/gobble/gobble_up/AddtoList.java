@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -65,6 +66,22 @@ public class AddtoList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addto_list);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        toolbar.setTitleTextColor(getResources().getColor(R.color.colorPrimaryDark));
+
+        toolbar.setNavigationIcon(R.drawable.back);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         cd = new ConnectionDetector(this);
 
         handler = new DBHandler(this);
@@ -92,7 +109,7 @@ public class AddtoList extends AppCompatActivity {
 
                 final Dialog dialog = new Dialog(AddtoList.this);
                 dialog.setContentView(R.layout.create_list_dialog);
-                dialog.setCancelable(false);
+                dialog.setCancelable(true);
                 dialog.show();
 
                 Button Create = (Button)dialog.findViewById(R.id.buttonncreate);
@@ -137,7 +154,7 @@ public class AddtoList extends AppCompatActivity {
                 final String idd = item.getListId();
                 final Dialog dialog = new Dialog(AddtoList.this);
                 dialog.setContentView(R.layout.dialog_add);
-                dialog.setCancelable(false);
+                dialog.setCancelable(true);
                 dialog.show();
 
                 Button YES = (Button)dialog.findViewById(R.id.dialogAdd);
@@ -156,7 +173,9 @@ public class AddtoList extends AppCompatActivity {
 
 
 
+                        bar.setVisibility(View.VISIBLE);
                         Toast.makeText(getApplicationContext() , "Adding..." , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext() , "Please Wait" , Toast.LENGTH_SHORT).show();
 
                         dialog.dismiss();
 
@@ -247,11 +266,22 @@ public class AddtoList extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
 
 
+            final comparebean b = (comparebean)getBaseContext().getApplicationContext();
 
 
             if (idd!=null)
             {
-                Toast.makeText(getApplicationContext() , "List Created successfully" , Toast.LENGTH_SHORT).show();
+                for (int i = 0 ; i<b.tempList.size() ; i++)
+                {
+                    new addToList(idd , String.valueOf(b.tempList.get(i).getId()) , "1").execute();
+                }
+
+
+
+                bar.setVisibility(View.VISIBLE);
+                Toast.makeText(getApplicationContext() , "Adding..." , Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext() , "Please Wait" , Toast.LENGTH_SHORT).show();
+
             }
 
 
@@ -687,6 +717,8 @@ public class AddtoList extends AppCompatActivity {
 
 
             Toast.makeText(getApplicationContext() , "Added Successfully" , Toast.LENGTH_SHORT).show();
+
+            bar.setVisibility(View.GONE);
 
             Intent resultIntent = getIntent();
             resultIntent.putExtra("result","result");

@@ -46,9 +46,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 
-/**
- * Created by hi on 10-06-2016.
- */
+
 public class SubCategoryFragment extends Fragment {
     private TextView title;
 

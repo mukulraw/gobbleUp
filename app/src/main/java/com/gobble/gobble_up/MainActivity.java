@@ -326,10 +326,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         int id = item.getItemId();
         if (id == R.id.nav_gallery) {
-
+            drawer.closeDrawer(GravityCompat.START);
             Intent i = new Intent(getApplicationContext() , Compare2.class);
 
             startActivity(i);
+
+
 
 
         }
@@ -348,6 +350,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             } catch(Exception e) {
                 //e.toString();
             }
+
+            drawer.closeDrawer(GravityCompat.START);
+
         }
 
 
@@ -355,7 +360,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.profile)
         {
             Intent i = new Intent(getApplicationContext() , MyProfile.class);
-
+            drawer.closeDrawer(GravityCompat.START);
             startActivity(i);
 
         }
@@ -367,7 +372,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
             Intent i = new Intent(getApplicationContext() , MainList.class);
-
+            drawer.closeDrawer(GravityCompat.START);
             startActivity(i);
 
         }
@@ -624,6 +629,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if (drawer.isDrawerOpen(GravityCompat.START))
+        {
+            drawer.closeDrawer(GravityCompat.START);
+        }
+        else
+        {
+            super.onBackPressed();
+        }
 
     }
 }

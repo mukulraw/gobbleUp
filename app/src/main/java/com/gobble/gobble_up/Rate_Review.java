@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DialogTitle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -58,6 +59,23 @@ public class Rate_Review extends AppCompatActivity {
         setContentView(R.layout.activity_rate__review);
         pId = getIntent().getExtras().getString("iidd");
 
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        toolbar.setTitleTextColor(getResources().getColor(R.color.colorPrimaryDark));
+
+        toolbar.setNavigationIcon(R.drawable.back);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
        // rate = (RatingBar) findViewById(R.id.rate);
         //comment = (EditText) findViewById(R.id.comment);
         //Button submitRate = (Button) findViewById(R.id.submit_rate);
@@ -73,6 +91,12 @@ public class Rate_Review extends AppCompatActivity {
         getRatings.setHasFixedSize(true);
         getRatings.setLayoutManager(lLayout);
 
+
+        RecyclerView.ItemDecoration itemDecoration = new
+                SimpleDividerItemDecoration(this, SimpleDividerItemDecoration.VERTICAL_LIST);
+
+
+        getRatings.addItemDecoration(itemDecoration);
 
 
         list = new ArrayList<>();
@@ -92,20 +116,14 @@ public class Rate_Review extends AppCompatActivity {
 
                 final Dialog dialog = new Dialog(Rate_Review.this);
                 dialog.setContentView(R.layout.comment_dialog);
-                dialog.setCancelable(false);
+                dialog.setCancelable(true);
                 dialog.show();
                 ImageButton tick = (ImageButton)dialog.findViewById(R.id.comment_dialog_right);
-                ImageButton cross = (ImageButton)dialog.findViewById(R.id.comment_dialog_close);
+                //ImageButton cross = (ImageButton)dialog.findViewById(R.id.comment_dialog_close);
                 final EditText comment = (EditText)dialog.findViewById(R.id.dialog_comment);
                 RatingBar raterr = (RatingBar)dialog.findViewById(R.id.comment_dialog_rating);
                 final TextView count = (TextView)dialog.findViewById(R.id.comment_dialog_count);
 
-                cross.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                    }
-                });
 
                 raterr.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                     @Override

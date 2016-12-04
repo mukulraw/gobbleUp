@@ -1,5 +1,6 @@
 package com.gobble.gobble_up;
 
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -14,6 +15,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
+import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -68,6 +70,9 @@ public class Compare2 extends AppCompatActivity {
     LinearLayoutManager layoutManager;
     ProgressBar bar;
     TextView empty;
+    LinearLayout tutorial;
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
     compareAdapter adapter;
 
     @Override
@@ -75,8 +80,49 @@ public class Compare2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.compare_layout2);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        toolbar.setTitleTextColor(getResources().getColor(R.color.colorPrimaryDark));
+
+        toolbar.setNavigationIcon(R.drawable.back);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         //listHeader = (LinearLayout)findViewById(R.id.header_list);
+
+        preferences = getSharedPreferences("prefer" , MODE_PRIVATE);
+
+
+
+        tutorial = (LinearLayout)findViewById(R.id.tutorial);
+
+        if (preferences.getBoolean("toast2" , false))
+        {
+            tutorial.setVisibility(View.GONE);
+        }
+
+        tutorial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                editor = preferences.edit();
+                editor.putBoolean("toast2" , true);
+                editor.apply();
+                tutorial.setVisibility(View.GONE);
+
+            }
+        });
+
+
+
 
 
         listview = (RecyclerView)findViewById(R.id.compare_layout_list);
@@ -96,6 +142,13 @@ public class Compare2 extends AppCompatActivity {
         adapter = new compareAdapter(getApplicationContext() , list);
         listview.setAdapter(adapter);
         listview.setLayoutManager(layoutManager);
+
+
+        RecyclerView.ItemDecoration itemDecoration = new
+                SimpleDividerItemDecoration(this, SimpleDividerItemDecoration.HORIZONTAL_LIST);
+
+
+        listview.addItemDecoration(itemDecoration);
 
 
         lLayout = new GridLayoutManager(this , 1);
@@ -279,6 +332,11 @@ public class Compare2 extends AppCompatActivity {
         {
 
             Toast.makeText(getApplicationContext() , "Only one item to compare" , Toast.LENGTH_SHORT).show();
+            finish();
+        }
+        else if (length == 0)
+        {
+            Toast.makeText(getApplicationContext() , "No item to compare" , Toast.LENGTH_SHORT).show();
             finish();
         }
 

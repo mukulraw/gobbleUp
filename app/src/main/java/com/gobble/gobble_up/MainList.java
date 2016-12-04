@@ -42,6 +42,8 @@ public class MainList extends AppCompatActivity {
     ArrayList<addListBean> list;
     String iidd;
 
+    private Button addinList;
+
     MainListAdapter adapter;
     private String GET_ALL_LIST = "http://nationproducts.in/global/api/alllists/userId/";
     private String DELETE_LIST = "http://nationproducts.in/global/api/deletelist/listId/";
@@ -57,14 +59,69 @@ public class MainList extends AppCompatActivity {
         setContentView(R.layout.activity_main_list);
 
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar11);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        toolbar.setTitleTextColor(getResources().getColor(R.color.colorPrimaryDark));
+
+        toolbar.setNavigationIcon(R.drawable.back);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        addinList = (Button)findViewById(R.id.create_new_list);
+
         handler = new DBHandler(this);
 
         cd = new ConnectionDetector(this);
+        final comparebean be = (comparebean)this.getApplicationContext();
+
+        addinList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar11);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+                final Dialog dialog = new Dialog(MainList.this);
+                dialog.setContentView(R.layout.create_list_dialog);
+                dialog.setCancelable(true);
+                dialog.show();
+
+                Button Create = (Button)dialog.findViewById(R.id.buttonncreate);
+                Button Cancel = (Button)dialog.findViewById(R.id.buttoncancel);
+                final EditText CreateName = (EditText)dialog.findViewById(R.id.create_list_name);
+
+                Create.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String nnaammee = CreateName.getText().toString();
+                        new login(be.user_id , nnaammee).execute();
+                        CreateName.setText("");
+                        dialog.dismiss();
+                        refresh();
+
+
+                    }
+                });
+
+                Cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                        refresh();
+                    }
+                });
+
+
+
+
+            }
+        });
 
 
 
@@ -76,7 +133,7 @@ public class MainList extends AppCompatActivity {
         if (lview != null) {
             lview.setDividerHeight(0);
         }
-        final comparebean be = (comparebean)this.getApplicationContext();
+
 
         iidd = be.user_id;
 
@@ -103,6 +160,8 @@ public class MainList extends AppCompatActivity {
         lview.setAdapter(adapter);
 
 
+        lview.setDividerHeight(1);
+
         refresh();
 
 
@@ -113,6 +172,79 @@ public class MainList extends AppCompatActivity {
         super.onResume();
 
     }
+
+
+    private class login extends AsyncTask<Void , Void , Void>
+    {
+
+        String userId , listName;
+        String result;
+        String name;
+        String idd;
+
+        login(String username, String password)
+        {
+            this.userId = username;
+            this.listName = password;
+        }
+
+
+
+
+
+
+
+
+
+
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            List<NameValuePair> data = new ArrayList<>();
+
+            data.add(new BasicNameValuePair("userId" , userId));
+            data.add(new BasicNameValuePair("listName" , listName));
+
+            RegisterUserClass ruc = new RegisterUserClass();
+            String CREATE_LIST = "http://nationproducts.in/global/api/createlist";
+            result = ruc.sendPostRequest(CREATE_LIST, data);
+
+
+            try {
+                JSONObject obj = new JSONObject(result);
+
+                idd = obj.getString("listId");
+            } catch (JSONException | NullPointerException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
+
+            final comparebean b = (comparebean)getBaseContext().getApplicationContext();
+
+
+            if (idd!=null)
+            {
+
+
+
+                refresh();
+
+
+
+            }
+
+
+            super.onPostExecute(aVoid);
+        }
+    }
+
 
     public void refresh()
     {

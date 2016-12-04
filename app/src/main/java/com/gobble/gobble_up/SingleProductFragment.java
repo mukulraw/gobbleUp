@@ -86,10 +86,11 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
     ImageView iv;
     private TextView title , siz;
     private Button add , compare;
-    private RelativeLayout clickRating;
+    private LinearLayout clickRating;
     private String iidd;
     RatingBar ratrr;
 
+    TextView margin;
 
     ShowcaseView showcaseView;
 
@@ -134,6 +135,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
 
 
+        margin = (TextView)view.findViewById(R.id.margin);
 
 
         add = (Button)view.findViewById(R.id.addtolist);
@@ -145,7 +147,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
         nutrition = new ArrayList<>();
 
 
-        clickRating = (RelativeLayout)view.findViewById(R.id.click_rating);
+        clickRating = (LinearLayout)view.findViewById(R.id.click_rating);
 
         ratrr = (RatingBar)view.findViewById(R.id.ratrrr);
 
@@ -229,9 +231,19 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                mBottomSheetBehavior.setPeekHeight(head.getHeight());
-                scroller.setPadding(0 , 0 , 0 , head.getHeight());
-                head.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+
+                ViewTreeObserver vto2 = margin.getViewTreeObserver();
+                vto2.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        mBottomSheetBehavior.setPeekHeight(head.getHeight() + margin.getHeight());
+                        scroller.setPadding(0 , 0 , 0 , head.getHeight() + margin.getHeight());
+                        head.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                        margin.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    }
+                });
+
+
             }
         });
 
@@ -523,20 +535,20 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
 
                 sliderName.setText(response.body().get(0).getName());
-                sliderBelowText.setText("There are "+ response.body().get(0).getNutration().get(0).getValue()+ " in a 100g serving of "+ response.body().get(0).getName()+".\n"+"Calorie breakdown: "+response.body().get(0).getNutration().get(1).getValue()+" fat, "+response.body().get(0).getNutration().get(2).getValue()+" carbs, "+response.body().get(0).getNutration().get(3).getValue()+" protein.");
+                sliderBelowText.setText("There are "+ response.body().get(0).getNutration().get(0).getValue()+ " in a 100g serving of "+ response.body().get(0).getName()+".\n"+"Calorie breakdown: "+response.body().get(0).getNutration().get(1).getValue() + " g" +" fat, "+response.body().get(0).getNutration().get(2).getValue()+" g carbs, "+response.body().get(0).getNutration().get(3).getValue()+" g protein.");
 
                 calories.setText(response.body().get(0).getNutration().get(0).getValue().toString());
-                fat.setText(response.body().get(0).getNutration().get(1).getValue().toString());
-                carbs.setText(response.body().get(0).getNutration().get(2).getValue().toString());
-                protein.setText(response.body().get(0).getNutration().get(3).getValue().toString());
-                sodium.setText(response.body().get(0).getNutration().get(4).getValue().toString());
-                potassium.setText(response.body().get(0).getNutration().get(5).getValue().toString());
-                fiber.setText(response.body().get(0).getNutration().get(6).getValue().toString());
-                sugar.setText(response.body().get(0).getNutration().get(7).getValue().toString());
-                vita.setText(response.body().get(0).getNutration().get(8).getValue().toString());
-                vitc.setText(response.body().get(0).getNutration().get(9).getValue().toString());
-                calcium.setText(response.body().get(0).getNutration().get(10).getValue().toString());
-                iron.setText(response.body().get(0).getNutration().get(11).getValue().toString());
+                fat.setText(response.body().get(0).getNutration().get(1).getValue().toString() + " g");
+                carbs.setText(response.body().get(0).getNutration().get(2).getValue().toString() + " g");
+                protein.setText(response.body().get(0).getNutration().get(3).getValue().toString() + " g");
+                sodium.setText(response.body().get(0).getNutration().get(4).getValue().toString() + " mg");
+                potassium.setText(response.body().get(0).getNutration().get(5).getValue().toString() + " mg");
+                fiber.setText(response.body().get(0).getNutration().get(6).getValue().toString() + " g");
+                sugar.setText(response.body().get(0).getNutration().get(7).getValue().toString() + " g");
+                vita.setText(response.body().get(0).getNutration().get(8).getValue().toString() + " %");
+                vitc.setText(response.body().get(0).getNutration().get(9).getValue().toString() + " %");
+                calcium.setText(response.body().get(0).getNutration().get(10).getValue().toString() + " %");
+                iron.setText(response.body().get(0).getNutration().get(11).getValue().toString() + " %");
 
 
 

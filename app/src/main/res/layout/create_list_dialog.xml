@@ -9,13 +9,10 @@
         android:layout_height="wrap_content"
         android:text="CREATE NEW LIST"
         android:gravity="center"
-        android:paddingTop="20dp"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:textSize="24sp"
+        android:padding="10dp"
         android:background="#D9FFA000"
         android:textColor="@color/white"
-        android:paddingBottom="5dp"
+
         android:layout_gravity="center_horizontal" />
 
     <EditText
@@ -23,8 +20,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/create_list_name"
         android:hint="List name"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
         android:layout_gravity="center_horizontal" />
 
 
@@ -37,8 +34,9 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/dilaog_button_background"
+            android:background="@drawable/dark"
             android:id="@+id/buttonncreate"
+            android:textColor="#fff"
             android:layout_alignParentStart="true"
             android:layout_marginTop="15dp"
             android:layout_marginStart="15dp"
@@ -50,8 +48,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/buttoncancel"
-            android:background="@drawable/dilaog_button_background"
+            android:background="@drawable/grey"
             android:layout_marginTop="15dp"
+            android:textColor="#fff"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="15dp"
             android:layout_marginBottom="20dp"

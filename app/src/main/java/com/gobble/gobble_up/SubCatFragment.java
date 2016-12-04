@@ -412,10 +412,10 @@ public class SubCatFragment extends Fragment {
 
                 final Dialog dialog = new Dialog(getActivity());
                 dialog.setContentView(R.layout.sort_dialog);
-                dialog.setCancelable(false);
+                dialog.setCancelable(true);
                 dialog.show();
 
-                ImageButton close = (ImageButton)dialog.findViewById(R.id.close_dialog);
+                //ImageButton close = (ImageButton)dialog.findViewById(R.id.close_dialog);
 
                 final RadioGroup rg = (RadioGroup)dialog.findViewById(R.id.radioGroup);
 
@@ -425,12 +425,7 @@ public class SubCatFragment extends Fragment {
 
 
 
-                close.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                    }
-                });
+
 
                 sort.setOnClickListener(new View.OnClickListener() {
                     @Override

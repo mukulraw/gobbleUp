@@ -23,6 +23,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.LruCache;
 import android.view.LayoutInflater;
@@ -100,6 +101,25 @@ public class SubList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub_list);
+
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        toolbar.setTitleTextColor(getResources().getColor(R.color.colorPrimaryDark));
+
+        toolbar.setNavigationIcon(R.drawable.back);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+
         handler = new DBHandler(this);
         cd = new ConnectionDetector(this);
 
@@ -290,6 +310,14 @@ public class SubList extends AppCompatActivity {
         lv.setAdapter(adapter);
         lv.setHasFixedSize(true);
         lv.setLayoutManager(lLayout);
+
+
+        RecyclerView.ItemDecoration itemDecoration = new
+                SimpleDividerItemDecoration(this, SimpleDividerItemDecoration.VERTICAL_LIST);
+
+
+        lv.addItemDecoration(itemDecoration);
+
 
         List<offlineSubListBean> ll = handler.getSubData(iidd);
 
