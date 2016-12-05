@@ -8,11 +8,48 @@
     tools:context="com.gobble.gobble_up.TempList">
 
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/save_my_list"
+        android:drawableEnd="@drawable/right"
+        android:gravity="center"
+        android:id="@+id/saveList"
+        android:background="@color/black"
+        android:layout_alignParentBottom="true"
+        android:paddingTop="10dp"
+        android:textColor="@color/white"
+        android:paddingBottom="10dp"
+        />
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        style="@android:style/Widget.ProgressBar.Small"
+        android:layout_centerVertical="true"
+        android:id="@+id/baarr"
+        android:visibility="gone"
+        />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="@string/sorry_no_items"
+        android:textStyle="bold"
+        android:id="@+id/tempEmptyMessage"
+        android:visibility="gone"
+        />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        >
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar2"
@@ -20,7 +57,7 @@
             android:layout_height="?attr/actionBarSize"
 
             android:gravity="top"
-
+            android:background="@color/colorPrimary"
             android:minHeight="?attr/actionBarSize"
             app:layout_collapseMode="pin"
             app:layout_scrollFlags="scroll|enterAlways"
@@ -31,8 +68,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:textSize="24sp"
+                android:textSize="18sp"
                 android:text="My Basket"
+                android:textColor="@color/colorAccent"
                 android:gravity="center_vertical"
                 />
 
@@ -59,7 +97,7 @@
                 android:textColor="#fff"
                 android:textSize="18sp"
                 android:layout_gravity="center_horizontal"
-                android:text="Swipe up to remove items"
+                android:text="Swipe to remove items"
                 />
 
             <TextView
@@ -105,42 +143,6 @@
 
 
     </LinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/save_my_list"
-        android:drawableEnd="@drawable/right"
-        android:gravity="center"
-        android:id="@+id/saveList"
-        android:background="@color/black"
-        android:layout_alignParentBottom="true"
-        android:paddingTop="10dp"
-        android:textColor="@color/white"
-        android:paddingBottom="10dp"
-        />
-
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        style="@android:style/Widget.ProgressBar.Small"
-        android:layout_centerVertical="true"
-        android:id="@+id/baarr"
-        android:visibility="gone"
-        />
-
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:text="@string/sorry_no_items"
-        android:textStyle="bold"
-        android:id="@+id/tempEmptyMessage"
-        android:visibility="gone"
-        />
 
 
 </RelativeLayout>

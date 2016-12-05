@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -89,7 +90,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
     private LinearLayout clickRating;
     private String iidd;
     RatingBar ratrr;
-
+    Typeface tf;
     TextView margin;
 
     ShowcaseView showcaseView;
@@ -133,7 +134,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
         final View view = inflater.inflate(R.layout.single_prod_main , container , false);
 
 
-
+        tf = Typeface.createFromAsset(getContext().getAssets(), "roboto.ttf");
 
         margin = (TextView)view.findViewById(R.id.margin);
 
@@ -520,35 +521,62 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
                 String carb = response.body().get(0).getNutration().get(2).getValue();
 
                 title.setText(response.body().get(0).getName());
+
+                TextView coordinatorLayout = (TextView)((MainActivity)getContext()).findViewById(R.id.heading);
+                coordinatorLayout.setText(response.body().get(0).getName());
+
                 siz.setText(response.body().get(0).getSize());
                 //list.add(new bean("price" , prie);
                 //list.add(new bean("description" , desc));
 
+                title.setTypeface(tf);
+                siz.setTypeface(tf);
 
 
 
                 calories_single.setText(response.body().get(0).getNutration().get(0).getValue());
+                calories_single.setTypeface(tf);
                 brand.setText(response.body().get(0).getBrand());
+                brand.setTypeface(tf);
                 description.setText(response.body().get(0).getDescription());
+                description.setTypeface(tf);
                 price_single.setText(response.body().get(0).getPrice());
+                price_single.setTypeface(tf);
+
+
 
 
 
                 sliderName.setText(response.body().get(0).getName());
+                sliderName.setTypeface(tf);
                 sliderBelowText.setText("There are "+ response.body().get(0).getNutration().get(0).getValue()+ " in a 100g serving of "+ response.body().get(0).getName()+".\n"+"Calorie breakdown: "+response.body().get(0).getNutration().get(1).getValue() + " g" +" fat, "+response.body().get(0).getNutration().get(2).getValue()+" g carbs, "+response.body().get(0).getNutration().get(3).getValue()+" g protein.");
 
+                sliderBelowText.setTypeface(tf);
+
                 calories.setText(response.body().get(0).getNutration().get(0).getValue().toString());
+                calories.setTypeface(tf);
                 fat.setText(response.body().get(0).getNutration().get(1).getValue().toString() + " g");
+                fat.setTypeface(tf);
                 carbs.setText(response.body().get(0).getNutration().get(2).getValue().toString() + " g");
+                carbs.setTypeface(tf);
                 protein.setText(response.body().get(0).getNutration().get(3).getValue().toString() + " g");
+                protein.setTypeface(tf);
                 sodium.setText(response.body().get(0).getNutration().get(4).getValue().toString() + " mg");
+                sodium.setTypeface(tf);
                 potassium.setText(response.body().get(0).getNutration().get(5).getValue().toString() + " mg");
+                potassium.setTypeface(tf);
                 fiber.setText(response.body().get(0).getNutration().get(6).getValue().toString() + " g");
+                fiber.setTypeface(tf);
                 sugar.setText(response.body().get(0).getNutration().get(7).getValue().toString() + " g");
+                sugar.setTypeface(tf);
                 vita.setText(response.body().get(0).getNutration().get(8).getValue().toString() + " %");
+                vita.setTypeface(tf);
                 vitc.setText(response.body().get(0).getNutration().get(9).getValue().toString() + " %");
+                vitc.setTypeface(tf);
                 calcium.setText(response.body().get(0).getNutration().get(10).getValue().toString() + " %");
+                calcium.setTypeface(tf);
                 iron.setText(response.body().get(0).getNutration().get(11).getValue().toString() + " %");
+                iron.setTypeface(tf);
 
 
 

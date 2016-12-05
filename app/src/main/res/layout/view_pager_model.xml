@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,6 +35,7 @@
                 android:text="SORT"
                 android:layout_centerInParent="true"
                 android:gravity="center"
+                android:textColor="#000"
                 android:drawablePadding="5dp"
                 android:drawableStart="@drawable/sort"
                 android:padding="5dp"
@@ -50,6 +56,7 @@
                 android:text="FILTER"
                 android:padding="5dp"
                 android:drawablePadding="5dp"
+                android:textColor="#000"
                 android:layout_centerInParent="true"
                 android:drawableStart="@drawable/filtrer"
                 android:gravity="center"
@@ -61,16 +68,26 @@
 
         </LinearLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#eeeeee"
+            />
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/sub_cat_grid"
-        android:paddingBottom="45dp"
+        android:paddingBottom="40dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
         android:clipToPadding="false"
         />
 
 
     </LinearLayout>
+
+
 
     <ProgressBar
         android:layout_width="wrap_content"

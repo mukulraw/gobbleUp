@@ -417,17 +417,12 @@ public class MainList extends AppCompatActivity {
                     if (cd.isConnectingToInternet()) {
                         final Dialog dialog1 = new Dialog(getContext());
                         dialog1.setContentView(R.layout.edit_dialog);
-                        dialog1.setCancelable(false);
+                        dialog1.setCancelable(true);
                         dialog1.show();
 
-                        ImageButton cross = (ImageButton) dialog1.findViewById(R.id.cancel_edit_dialog);
+                        //ImageButton cross = (ImageButton) dialog1.findViewById(R.id.cancel_edit_dialog);
 
-                        cross.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                dialog1.dismiss();
-                            }
-                        });
+
 
                         final EditText updatename = (EditText) dialog1.findViewById(R.id.new_name);
                         Button update = (Button) dialog1.findViewById(R.id.dialogipdate);
@@ -480,7 +475,7 @@ public class MainList extends AppCompatActivity {
 
                     final Dialog dialog = new Dialog(getContext());
                     dialog.setContentView(R.layout.delete_list_dialog);
-                    dialog.setCancelable(false);
+                    dialog.setCancelable(true);
                     dialog.show();
 
                     Button YES = (Button)dialog.findViewById(R.id.confirmDelete);

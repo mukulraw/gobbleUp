@@ -16,22 +16,14 @@
     android:orientation="vertical"
     android:layout_height="wrap_content">
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:id="@+id/cancel_edit_dialog"
-        android:layout_margin="5dp"
-        android:background="@drawable/cross"
-        android:backgroundTint="@color/white"
-        tools:ignore="ContentDescription,UnusedAttribute" />
+
 
 
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
+        android:padding="10dp"
 
         android:text="Enter new list name"
         android:textColor="@color/white"
@@ -65,9 +57,9 @@
             android:id="@+id/dialogipdate"
             android:layout_marginBottom="10dp"
             android:layout_marginEnd="10dp"
-            android:background="@drawable/dilaog_button_background"
+            android:background="@drawable/dark"
             android:text="UPDATE"
-
+            android:textColor="#fff"
             android:layout_alignParentEnd="true"
             />
 

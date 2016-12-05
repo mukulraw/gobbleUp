@@ -17,7 +17,7 @@
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"
-            android:layout_height="256dp"
+            android:layout_height="200dp"
             android:fitsSystemWindows="true"
             app:contentScrim="#00000000"
             android:background="#00000000"
@@ -81,20 +81,38 @@
         android:fillViewport="true"
         >
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/asd"
+            >
+
         <android.support.design.widget.TabLayout
             android:layout_width="match_parent"
             android:visibility="gone"
+            style="@style/MyCustomTabLayout"
             android:layout_height="?attr/actionBarSize"
+            android:background="#eeeeee"
             android:layout_alignParentTop="true"
-            android:background="@color/colorPrimary"
             android:id="@+id/cat_tabs"
-            app:tabIndicatorColor="@color/white"
-            app:tabTextColor="@color/white"
+
+
             />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#ededed"
+                />
+
+        </LinearLayout>
+
+
 
         <android.support.v4.view.ViewPager
             android:layout_width="match_parent"
-            android:layout_below="@+id/cat_tabs"
+            android:layout_below="@+id/asd"
             android:layout_height="match_parent"
             android:id="@+id/pagerId"
 

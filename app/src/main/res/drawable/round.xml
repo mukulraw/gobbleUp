@@ -13,6 +13,6 @@
         android:radius="5dp"/>
 
     <solid
-        android:color="@color/colorAccent"/>
+        android:color="#dc2828"/>
 
 </shape>

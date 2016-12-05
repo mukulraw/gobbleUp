@@ -10,9 +10,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:paddingBottom="45dp"
-        android:clipToPadding="false"
         android:id="@+id/scroller"
         android:visibility="gone"
+        android:clipToPadding="false"
         android:layout_height="match_parent">
 
 
@@ -29,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:fitsSystemWindows="true"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                android:layout_height="650dp">
+                android:layout_height="300dp">
 
 
                 <ImageView
@@ -49,16 +49,15 @@
                     android:gravity="bottom"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
-                    android:textColor="@color/white"
-                    android:textAllCaps="true"
                     android:paddingBottom="10dp"
                     android:layout_gravity="bottom"
+                    android:textColor="@color/white"
+                    android:textAllCaps="true"
                     android:textSize="16sp"
 
 
                     android:layout_alignParentTop="true"
                     android:layout_alignParentStart="true" />
-
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -76,6 +75,7 @@
 
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true" />
+
 
 
             </RelativeLayout>
@@ -132,18 +132,25 @@
 
                 </LinearLayout>
 
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     android:weightSum="3"
                     >
 
                     <TextView
                         android:layout_width="0dp"
-                        android:textSize="28sp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:paddingBottom="5dp"
+                        android:paddingStart="5dp"
+                        android:textColor="#000"
+                        android:paddingEnd="5dp"
+                        android:paddingTop="5dp"
                         android:text="BRAND"
                         />
 
@@ -153,8 +160,12 @@
                         android:background="@color/black"
                         />
                     <TextView
-                        android:textSize="28sp"
                         android:layout_width="0dp"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="5dp"
+                        android:textColor="#888888"
+                        android:paddingStart="5dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:id="@+id/brand"
@@ -173,6 +184,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     android:weightSum="3"
                     >
 
@@ -180,53 +193,65 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:paddingStart="5dp"
+                        android:textColor="#000"
+                        android:paddingEnd="5dp"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
                         android:layout_gravity="center_vertical"
-                        android:textSize="28sp"
                         android:text="RATING/REVIEW"
                         />
 
                     <TextView
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
+
                         android:background="@color/black"
                         />
 
-                    <RelativeLayout
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
+                        android:orientation="horizontal"
                         android:id="@+id/click_rating"
                         >
 
                         <RatingBar
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:numStars="5"
-                            android:focusable="true"
-
-                            android:id="@+id/ratrrr"
+                            android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:focusable="true"
+                            android:layout_margin="5dp"
+                            android:layout_gravity="center_vertical"
+                            android:id="@+id/ratrrr"
                             style="?android:attr/ratingBarStyleSmall"
-                            android:rating="3.5"
+
 
                             />
 
-                    </RelativeLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:id="@+id/rating"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center"
+                            android:textAllCaps="true"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:text="Rate"
+                            android:paddingBottom="5dp"
+                            android:paddingTop="5dp"
+                            android:paddingEnd="20dp"
+                            android:paddingStart="20dp"
+                            />
+
+                    </LinearLayout>
 
 
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textSize="28sp"
-                        android:id="@+id/rating"
-                        android:textAllCaps="true"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:text="Rate"
-                        android:paddingStart="20dp"
-                        android:paddingEnd="20dp"
-                        />
+
 
                 </LinearLayout>
                 <TextView
@@ -238,6 +263,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     android:weightSum="3"
                     >
 
@@ -245,7 +272,11 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textSize="28sp"
+                        android:paddingBottom="5dp"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="5dp"
+                        android:textColor="#000"
+                        android:paddingTop="5dp"
                         android:text="PRICE"
                         />
 
@@ -258,8 +289,12 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
-                        android:textSize="28sp"
                         android:id="@+id/price"
+                        android:textColor="#888888"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="5dp"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
                         />
 
                 </LinearLayout>
@@ -271,6 +306,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     android:orientation="horizontal"
                     android:weightSum="3"
                     >
@@ -279,8 +316,12 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="5dp"
+                        android:textColor="#000"
                         android:text="CALORIES"
-                        android:textSize="28sp"
                         />
 
                     <TextView
@@ -292,7 +333,11 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
-                        android:textSize="28sp"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:textColor="#888888"
+                        android:paddingEnd="5dp"
+                        android:paddingStart="5dp"
                         android:id="@+id/calories_single"
                         />
 
@@ -307,13 +352,19 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:weightSum="3"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     >
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:textSize="28sp"
                         android:layout_weight="1"
+                        android:paddingBottom="5dp"
+                        android:paddingEnd="5dp"
+                        android:paddingTop="5dp"
+                        android:paddingStart="5dp"
+                        android:textColor="#000"
                         android:text="DESCRIPTION"
                         />
 
@@ -326,11 +377,17 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
-                        android:textSize="28sp"
+                        android:paddingBottom="5dp"
+                        android:textColor="#888888"
+                        android:paddingTop="5dp"
                         android:id="@+id/description"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="5dp"
                         />
 
                 </LinearLayout>
+
+
 
 
 
@@ -368,20 +425,25 @@
                 android:id="@+id/bottom_bar_heading"
                 android:layout_marginBottom="10dp"
                 android:layout_height="wrap_content"
+                android:paddingStart="10dp"
                 android:text="NUTRITIONAL DETAILS"
                 android:gravity="center"
-                android:background="#f2f2f2"
-                android:paddingTop="15dp"
 
                 android:drawableEnd="@drawable/down"
-                android:paddingBottom="55dp"
+                android:background="@color/colorAccent"
                 android:paddingEnd="10dp"
+                android:paddingTop="15dp"
 
-                android:paddingStart="10dp"
-                android:textColor="@color/colorAccent"
+                android:paddingBottom="15dp"
+                android:textColor="#fff"
 
-                android:textSize="24sp"
-                android:textStyle="bold"
+                android:textSize="18sp"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:id="@+id/margin"
                 />
 
             <TextView
@@ -389,6 +451,8 @@
                 android:layout_height="30dp"
                 android:textStyle="bold"
                 android:textAllCaps="true"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:id="@+id/slider_name"
                 />
 
@@ -396,6 +460,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:text="Serving size 100g(100g)"
                 android:textStyle="bold"
                 />
@@ -411,6 +477,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableTop="#000000"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
                     android:layout_marginTop="5dp"
                     android:drawableBottom="#000000"
                     android:text="Amount per serving"
@@ -442,6 +510,11 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Calories"
+                        android:paddingStart="5dp"
+                        android:textColor="#000"
+                        android:paddingBottom="5dp"
+                        android:paddingEnd="5dp"
+                        android:paddingTop="5dp"
                         />
 
                     <TextView
@@ -454,6 +527,10 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:paddingEnd="5dp"
+                        android:paddingStart="5dp"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
                         android:id="@+id/calories"
                         />
 
@@ -474,6 +551,11 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:paddingEnd="5dp"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:textColor="#000"
+                        android:paddingStart="5dp"
                         android:text="Total Fat"
                         />
 
@@ -487,6 +569,10 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:paddingBottom="5dp"
+                        android:paddingEnd="5dp"
+                        android:paddingStart="5dp"
+                        android:paddingTop="5dp"
                         android:id="@+id/fat"
                         />
 
@@ -507,7 +593,12 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:paddingStart="5dp"
+                        android:textColor="#000"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
                         android:text="Carbohydrate"
+                        android:paddingEnd="5dp"
                         />
 
                     <TextView
@@ -521,6 +612,10 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:id="@+id/carbs"
+                        android:paddingBottom="5dp"
+                        android:paddingEnd="5dp"
+                        android:paddingStart="5dp"
+                        android:paddingTop="5dp"
                         />
 
                 </LinearLayout>
@@ -541,6 +636,11 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Protein"
+                        android:paddingStart="5dp"
+                        android:textColor="#000"
+                        android:paddingEnd="5dp"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
                         />
 
                     <TextView
@@ -554,6 +654,10 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:id="@+id/protein"
+                        android:paddingBottom="5dp"
+                        android:paddingEnd="5dp"
+                        android:paddingStart="5dp"
+                        android:paddingTop="5dp"
                         />
 
                 </LinearLayout>
@@ -573,6 +677,11 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:paddingEnd="5dp"
+                        android:paddingStart="5dp"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:textColor="#000"
                         android:text="Sodium"
                         />
 
@@ -586,7 +695,11 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="5dp"
                         android:id="@+id/sodium"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
                         />
 
                 </LinearLayout>
@@ -605,7 +718,12 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:paddingStart="5dp"
                         android:text="Potassium"
+                        android:paddingEnd="5dp"
+                        android:textColor="#000"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
                         />
 
                     <TextView
@@ -618,6 +736,10 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:paddingBottom="5dp"
+                        android:paddingStart="5dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="5dp"
                         android:id="@+id/potassium"
                         />
 
@@ -638,6 +760,11 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:paddingBottom="5dp"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="5dp"
+                        android:textColor="#000"
+                        android:paddingTop="5dp"
                         android:text="Fiber"
                         />
 
@@ -651,7 +778,11 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="5dp"
                         android:id="@+id/fiber"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
                         />
 
                 </LinearLayout>
@@ -668,7 +799,12 @@
                     >
                     <TextView
                         android:layout_width="0dp"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="5dp"
                         android:layout_height="wrap_content"
+                        android:paddingStart="5dp"
+                        android:textColor="#000"
                         android:layout_weight="1"
                         android:text="Sugar"
                         />
@@ -681,6 +817,10 @@
 
                     <TextView
                         android:layout_width="0dp"
+                        android:paddingBottom="5dp"
+                        android:paddingStart="5dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="5dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:id="@+id/sugar"
@@ -702,7 +842,12 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:textColor="#000"
                         android:text="Vitamin A"
+                        android:paddingBottom="5dp"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="5dp"
+                        android:paddingTop="5dp"
                         />
 
                     <TextView
@@ -716,6 +861,10 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:id="@+id/vita"
+                        android:paddingEnd="5dp"
+                        android:paddingStart="5dp"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
                         />
 
                 </LinearLayout>
@@ -733,7 +882,12 @@
                     >
                     <TextView
                         android:layout_width="0dp"
+                        android:paddingBottom="5dp"
+                        android:paddingStart="5dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="5dp"
                         android:layout_height="wrap_content"
+                        android:textColor="#000"
                         android:layout_weight="1"
                         android:text="Vitamin C"
                         />
@@ -748,7 +902,11 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:paddingEnd="5dp"
                         android:id="@+id/vitc"
+                        android:paddingStart="5dp"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
                         />
 
                 </LinearLayout>
@@ -768,6 +926,11 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:paddingEnd="5dp"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:paddingStart="5dp"
+                        android:textColor="#000"
                         android:text="Calcium"
                         />
 
@@ -781,6 +944,10 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:paddingBottom="5dp"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="5dp"
+                        android:paddingTop="5dp"
                         android:id="@+id/calcium"
                         />
 
@@ -803,6 +970,11 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Iron"
+                        android:textColor="#000"
+                        android:paddingBottom="5dp"
+                        android:paddingStart="5dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="5dp"
                         />
 
                     <TextView
@@ -815,6 +987,10 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:paddingBottom="5dp"
+                        android:paddingStart="5dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="5dp"
                         android:id="@+id/iron"
                         />
 
@@ -830,7 +1006,6 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/below_text"
                     />
-
 
 
 

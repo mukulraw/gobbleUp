@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextView countt , countsa;
     DBHandler handler;
     DrawerLayout drawer;
+    TextView heading;
 
 
     @Override
@@ -71,6 +72,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
+
+        heading = (TextView)findViewById(R.id.heading);
+
+
 
         CoordinatorLayout coordinatorLayout = (CoordinatorLayout) this.findViewById(R.id.coordinate);
 
@@ -644,5 +649,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             super.onBackPressed();
         }
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        heading.setText("Categories");
     }
 }

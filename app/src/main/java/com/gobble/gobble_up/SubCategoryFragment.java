@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -76,6 +77,10 @@ public class SubCategoryFragment extends Fragment {
         a = getArguments().getString("id");
 
         title.setText(getArguments().getString("name"));
+
+        TextView coordinatorLayout = (TextView) ((MainActivity)getContext()).findViewById(R.id.heading);
+
+        coordinatorLayout.setText(getArguments().getString("name"));
 
         String u = getArguments().getString("image");
 

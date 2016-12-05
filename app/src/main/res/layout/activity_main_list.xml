@@ -8,20 +8,29 @@
     tools:context="com.gobble.gobble_up.MainList">
 
 
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/main_list_progressbar"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
 
-        >
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/main_list_progressbar">
 
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar11"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-
+        android:background="@color/colorPrimary"
         android:fitsSystemWindows="true"
         app:popupTheme="@style/AppTheme.PopupOverlay"
         >
@@ -30,8 +39,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/my_grocery_list"
-
-            android:textSize="24sp"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"
 
             android:gravity="center_vertical"
 
@@ -79,16 +88,6 @@
         </android.support.v7.widget.CardView>
 
     </LinearLayout>
-
-
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/main_list_progressbar"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:visibility="gone"
-        />
 
 
 </RelativeLayout>

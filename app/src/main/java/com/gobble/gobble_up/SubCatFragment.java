@@ -118,6 +118,17 @@ public class SubCatFragment extends Fragment {
 
         grid.setHasFixedSize(true);
         grid.setLayoutManager(linearLayoutManager);
+
+
+        RecyclerView.ItemDecoration itemDecoration = new
+                SimpleDividerItemDecoration(getActivity(), SimpleDividerItemDecoration.VERTICAL_LIST);
+
+
+
+        grid.addItemDecoration(itemDecoration);
+
+
+
         CoordinatorLayout coordinatorLayout = (CoordinatorLayout)((MainActivity)getContext()).findViewById(R.id.coordinate);
         View vie = coordinatorLayout.findViewById(R.id.bottombar);
         BottomSheetBehavior bot = BottomSheetBehavior.from(vie);

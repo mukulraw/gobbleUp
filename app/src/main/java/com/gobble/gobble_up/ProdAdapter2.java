@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -62,7 +63,7 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
     private Context context;
     private String GET_REVIEWS = "http://nationproducts.in/global/api/productreviews/id/";
     private ArrayList<Model> list = new ArrayList<>();
-
+    Typeface tf;
     BottomSheetBehavior bar;
 
     float rat = 0;
@@ -99,9 +100,12 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
         final Model item = list.get(position);
      //   Log.d("asdasdasd" , "adapter2");
 
+        tf = Typeface.createFromAsset(context.getAssets(), "roboto.ttf");
+
         holder.setIsRecyclable(false);
 
         holder.titleTextView.setText(item.getName());
+        holder.titleTextView.setTypeface(tf);
         String price = "Price: " + item.getPrice();
 
 

@@ -49,6 +49,7 @@ public class CategoryFragment extends Fragment {
     private TextView bannerText;
     private CirclePageIndicator indi;
     private AppBarLayout appBarLayout;
+    TextView heading;
 
 
 
@@ -57,6 +58,9 @@ public class CategoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.category2,
                 container, false);
+
+        heading = (TextView)((MainActivity)getContext()).findViewById(R.id.heading);
+
 
         GridLayoutManager lLayout = new GridLayoutManager(getActivity(), 2);
 
@@ -307,7 +311,11 @@ public class CategoryFragment extends Fragment {
     }
 
 
+    @Override
+    public void onResume() {
+        super.onResume();
 
+        heading.setText("Categories");
 
-
+    }
 }
