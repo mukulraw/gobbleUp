@@ -63,16 +63,33 @@
             android:orientation="vertical"
             >
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="No list here, create one"
+                    />
 
-        android:visibility="gone"
 
-        android:id="@+id/main_list_listview"
-        />
+                <ListView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:visibility="gone"
+
+                    android:id="@+id/main_list_listview"
+                    />
+
+            </RelativeLayout>
+
+
+
 
         </LinearLayout>
 

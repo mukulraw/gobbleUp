@@ -19,8 +19,8 @@ android {
         applicationId "com.gobble.gobble_up"
         minSdkVersion 19
         targetSdkVersion 24
-        versionCode 5
-        versionName "2.0"
+        versionCode 6
+        versionName "2.1"
         multiDexEnabled true
         signingConfig signingConfigs.config
     }

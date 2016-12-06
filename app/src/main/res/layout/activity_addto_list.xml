@@ -67,14 +67,29 @@
 
 
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent">
 
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/add_to_list_listview"
-        android:dividerHeight="1dp"
-        />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:gravity="center"
+                android:text="No list here, create one"
+                />
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/add_to_list_listview"
+                android:dividerHeight="1dp"
+                />
+
+        </RelativeLayout>
+
+
 
     </LinearLayout>
     </android.support.v7.widget.CardView>
