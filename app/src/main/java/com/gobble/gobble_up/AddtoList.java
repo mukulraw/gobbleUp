@@ -7,10 +7,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -44,7 +46,7 @@ import java.util.List;
 public class AddtoList extends AppCompatActivity {
 
 
-    private Button addinList;
+    private FloatingActionButton addinList;
     private ListView addToListListview;
 
     private ProgressBar bar;
@@ -89,13 +91,15 @@ public class AddtoList extends AppCompatActivity {
         bar = (ProgressBar)findViewById(R.id.add_to_list_progress);
 
 
-        addinList = (Button)findViewById(R.id.create_new_list);
+        addinList = (FloatingActionButton) findViewById(R.id.create_new_list);
         addToListListview = (ListView)findViewById(R.id.add_to_list_listview);
 
         if (addToListListview != null) {
             addToListListview.setDividerHeight(0);
         }
 
+
+        addToListListview.setDividerHeight(1);
 
 
         final comparebean be = (comparebean)this.getApplicationContext();
@@ -777,9 +781,9 @@ public class AddtoList extends AppCompatActivity {
                 holder = (ViewHolder) row.getTag();
             }
             addListBean item = list.get(position);
-            holder.listtName.setText("Name: "+item.getListName());
+            holder.listtName.setText(Html.fromHtml("<b>Name: </b>"+item.getListName()));
             holder.listtCreatedTime.setText("Date: "+item.getCreatedTime());
-            holder.listttotal.setText(item.getTotalItem()+"items");
+            holder.listttotal.setText(item.getTotalItem());
             holder.listtidd.setText("Id: "+item.getListId());
 
 

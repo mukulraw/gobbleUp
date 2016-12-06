@@ -73,9 +73,7 @@ public class GetStartActivity extends AppCompatActivity {
         indi.setViewPager(slider);
         final comparebean be = (comparebean)this.getApplicationContext();
 
-        Boolean bool = pref.getBoolean("get" , false);
-        if (bool)
-        {
+
             Bundle b = getIntent().getExtras();
 
             be.user_id = b.getString("id");
@@ -95,13 +93,13 @@ public class GetStartActivity extends AppCompatActivity {
 
             startActivity(i);
             finish();
-        }
 
 
 
 
 
-        start = (Button)findViewById(R.id.bt_getstart);
+
+        /*start = (Button)findViewById(R.id.bt_getstart);
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,7 +127,7 @@ public class GetStartActivity extends AppCompatActivity {
                 finish();
             }
         });
-
+*/
     }
 
 

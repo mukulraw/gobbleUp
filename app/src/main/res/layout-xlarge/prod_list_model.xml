@@ -87,8 +87,7 @@
                 android:layout_below="@+id/rraatteerr"
 
                 android:layout_marginTop="5dp"
-                android:paddingEnd="5dp"
-                android:paddingStart="5dp"
+
                 android:textColor="#666666"
                 android:textAllCaps="true"
                 android:paddingBottom="10dp"
@@ -132,12 +131,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:focusable="false"
-                android:padding="10dp"
+                android:padding="8dp"
 
                 android:layout_below="@id/rraatteerr"
-                card_view:theme="@style/SwitchStyle"
-                android:id="@+id/switcher"
 
+                android:id="@+id/switcher"
+                android:layout_marginTop="5dp"
                 android:layout_alignParentEnd="true" />
 
 

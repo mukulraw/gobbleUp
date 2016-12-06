@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -42,7 +43,7 @@ public class MainList extends AppCompatActivity {
     ArrayList<addListBean> list;
     String iidd;
 
-    private Button addinList;
+    private FloatingActionButton addinList;
 
     MainListAdapter adapter;
     private String GET_ALL_LIST = "http://nationproducts.in/global/api/alllists/userId/";
@@ -75,7 +76,7 @@ public class MainList extends AppCompatActivity {
             }
         });
 
-        addinList = (Button)findViewById(R.id.create_new_list);
+        addinList = (FloatingActionButton) findViewById(R.id.create_new_list);
 
         handler = new DBHandler(this);
 

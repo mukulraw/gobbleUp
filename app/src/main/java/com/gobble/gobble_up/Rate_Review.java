@@ -50,7 +50,7 @@ public class Rate_Review extends AppCompatActivity {
     private String commenter;
     RatingBar rate;
     private String iidd;
-    FloatingActionButton fab;
+    TextView fab;
     private RecyclerView getRatings;
 
     @Override
@@ -86,7 +86,7 @@ public class Rate_Review extends AppCompatActivity {
 
         GridLayoutManager lLayout = new GridLayoutManager(this, 1);
 
-        fab = (FloatingActionButton)findViewById(R.id.fab);
+        fab = (TextView) findViewById(R.id.fab);
 
         getRatings.setHasFixedSize(true);
         getRatings.setLayoutManager(lLayout);
