@@ -95,6 +95,7 @@ public class SubList extends AppCompatActivity {
     ConnectionDetector cd;
     FloatingActionButton shareMyList;
     int height , wil;
+    Toast toast;
     Bitmap shareBitmap;
     View content;
 
@@ -103,6 +104,7 @@ public class SubList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub_list);
 
+        toast = Toast.makeText(this , null , Toast.LENGTH_SHORT);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
@@ -613,7 +615,9 @@ public class SubList extends AppCompatActivity {
                             }
                             else
                             {
-                                Toast.makeText(context , "No Internet Connection" , Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(context , "No Internet Connection" , Toast.LENGTH_SHORT).show();
+                                toast.setText("No internet connection");
+                                toast.show();
                             }
 
                         }

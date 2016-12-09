@@ -46,6 +46,8 @@ public class Rate_Review extends AppCompatActivity {
     ArrayList<RateBean> list;
     RateAdapter adapter;
 
+    Toast toast;
+
     private float rater;
     TextView rateCount;
     private String commenter;
@@ -60,6 +62,7 @@ public class Rate_Review extends AppCompatActivity {
         setContentView(R.layout.activity_rate__review);
         pId = getIntent().getExtras().getString("iidd");
 
+        toast = Toast.makeText(this , null , Toast.LENGTH_SHORT);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
@@ -148,7 +151,9 @@ public class Rate_Review extends AppCompatActivity {
                         }
                         else
                         {
-                            Toast.makeText(getBaseContext() , "Please add a rating" , Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getBaseContext() , "Please add a rating" , Toast.LENGTH_SHORT).show();
+                            toast.setText("Please add a Rating");
+                            toast.show();
                         }
                     }
                 });

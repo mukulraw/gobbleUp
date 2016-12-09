@@ -83,6 +83,7 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
     public static final int READ_TIMEOUT=15000;
     private Boolean fb_flag = false;
     private String imageUrl = null;
+    Toast toast;
     private String SIGN_UP = "http://nationproducts.in/global/api/register";
 
     Button goog;
@@ -99,6 +100,8 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(this);
         setContentView(R.layout.activity_register);
+
+        toast = Toast.makeText(this , null , Toast.LENGTH_SHORT);
 
         loading = (ProgressBar)findViewById(R.id.register_loading);
 
@@ -168,7 +171,11 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
                                         @Override
                                         public void onResponse(Call<loginBean> call, Response<loginBean> response) {
 
-                                            Toast.makeText(getApplicationContext() , "welcome "+response.body().getUserName() , Toast.LENGTH_SHORT).show();
+                                            //Toast.makeText(getApplicationContext() , "welcome "+response.body().getUserName() , Toast.LENGTH_SHORT).show();
+
+                                            toast.setText("welcome "+response.body().getUserName());
+                                            toast.show();
+
                                             Intent i = new Intent(getApplicationContext() , GetStartActivity.class);
 
 
@@ -221,7 +228,9 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
                                         @Override
                                         public void onResponse(Call<loginBean> call, Response<loginBean> response) {
 
-                                            Toast.makeText(getApplicationContext() , "welcome "+response.body().getUserName() , Toast.LENGTH_SHORT).show();
+                                            //Toast.makeText(getApplicationContext() , "welcome "+response.body().getUserName() , Toast.LENGTH_SHORT).show();
+                                            toast.setText("welcome "+response.body().getUserName());
+                                            toast.show();
                                             Intent i = new Intent(getApplicationContext() , GetStartActivity.class);
 
 
@@ -306,7 +315,9 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
                                 @Override
                                 public void onResponse(Call<loginBean> call, Response<loginBean> response) {
 
-                                    Toast.makeText(getApplicationContext() , "welcome "+response.body().getUserName() , Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(getApplicationContext() , "welcome "+response.body().getUserName() , Toast.LENGTH_SHORT).show();
+                                    toast.setText("welcome "+response.body().getUserName());
+                                    toast.show();
                                     Intent i = new Intent(getApplicationContext() , GetStartActivity.class);
 
 
@@ -358,7 +369,9 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
                                 @Override
                                 public void onResponse(Call<loginBean> call, Response<loginBean> response) {
 
-                                    Toast.makeText(getApplicationContext() , "welcome "+response.body().getUserName() , Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(getApplicationContext() , "welcome "+response.body().getUserName() , Toast.LENGTH_SHORT).show();
+                                    toast.setText("welcome "+response.body().getUserName());
+                                    toast.show();
                                     Intent i = new Intent(getApplicationContext() , GetStartActivity.class);
 
 
@@ -442,18 +455,28 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
                     String retpe = retype.getText().toString();
 
                     if(nam.length()==0){
-                        Toast.makeText(Register.this,"Please Enter Your Name",Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(Register.this,,Toast.LENGTH_SHORT).show();
+                        toast.setText("Please Enter Your Name");
+                        toast.show();
                     }else if(mail.length()==0){
-                        Toast.makeText(Register.this,"Please Enter Your Email.",Toast.LENGTH_SHORT).show();
+                        toast.setText("Please Enter Your Email.");
+                        toast.show();
+                        //Toast.makeText(Register.this,,Toast.LENGTH_SHORT).show();
                     }else if(!Util.emailValidater(mail)){
-                        Toast.makeText(Register.this,"Please Enter a Valid Email",Toast.LENGTH_SHORT).show();
+                        toast.setText("Please Enter a Valid Email");
+                        toast.show();
+                        //Toast.makeText(Register.this,,Toast.LENGTH_SHORT).show();
                     }else if(pass.length()==0){
-                        Toast.makeText(Register.this,"Please Enter Your Password",Toast.LENGTH_SHORT).show();
+                        toast.setText("Please Enter Your Password");
+                        toast.show();
+                        //Toast.makeText(Register.this,,Toast.LENGTH_SHORT).show();
                     }
 
                     else if(!pass.equals(retpe))
                     {
-                        Toast.makeText(getBaseContext() , "Passwords did not match" , Toast.LENGTH_SHORT).show();
+                       toast.setText("Passwords did not match");
+                        toast.show();
+                        //Toast.makeText(getBaseContext() ,  , Toast.LENGTH_SHORT).show();
 
                     }
                     else
@@ -464,7 +487,9 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
                 }
                 else
                 {
-                    Toast.makeText(getBaseContext() , "No internet Connection" , Toast.LENGTH_SHORT).show();
+                    toast.setText("No internet Connection");
+                    toast.show();
+                    //Toast.makeText(getBaseContext() ,  , Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -601,7 +626,9 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
                         @Override
                         public void onResponse(Call<loginBean> call, Response<loginBean> response) {
 
-                            Toast.makeText(getApplicationContext() , "welcome "+response.body().getUserName() , Toast.LENGTH_SHORT).show();
+
+                            toast.setText("welcome "+response.body().getUserName());
+                            //Toast.makeText(getApplicationContext() ,  , Toast.LENGTH_SHORT).show();
                             Intent i = new Intent(getApplicationContext() , GetStartActivity.class);
 
 
@@ -659,7 +686,9 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
                         @Override
                         public void onResponse(Call<loginBean> call, Response<loginBean> response) {
 
-                            Toast.makeText(getApplicationContext() , "welcome "+response.body().getUserName() , Toast.LENGTH_SHORT).show();
+                            toast.setText("welcome "+response.body().getUserName());
+                            toast.show();
+                            //Toast.makeText(getApplicationContext() ,  , Toast.LENGTH_SHORT).show();
                             Intent i = new Intent(getApplicationContext() , GetStartActivity.class);
 
 
@@ -874,8 +903,10 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
             if(name1!=null && email1!=null)
             {
 
+                toast.setText(name1+"\n"+"successfully registered\nPlease Login to continue");
+                toast.show();
 
-                Toast.makeText(getApplicationContext() , name1+"\n"+"successfully registered\nPlease Login to continue" , Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getApplicationContext() ,  , Toast.LENGTH_SHORT).show();
 
 
                 name.setText("");
@@ -902,7 +933,9 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
             {
 
                 loading.setVisibility(View.GONE);
-                Toast.makeText(getApplicationContext() , "already registered" , Toast.LENGTH_SHORT).show();
+                toast.setText("already registered");
+                toast.show();
+                //Toast.makeText(getApplicationContext() ,  , Toast.LENGTH_SHORT).show();
                 LoginManager.getInstance().logOut();
             }
 

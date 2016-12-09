@@ -44,6 +44,8 @@ public class MainList extends AppCompatActivity {
     ArrayList<addListBean> list;
     String iidd;
 
+    Toast toast;
+
     private FloatingActionButton addinList;
 
     MainListAdapter adapter;
@@ -60,6 +62,7 @@ public class MainList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_list);
 
+        toast = Toast.makeText(this , null , Toast.LENGTH_SHORT);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar11);
         setSupportActionBar(toolbar);
@@ -456,7 +459,9 @@ public class MainList extends AppCompatActivity {
                     }
                     else
                     {
-                        Toast.makeText(context , "No Internet Connection" , Toast.LENGTH_SHORT).show();
+                        toast.setText("No Internet Connection");
+                        toast.show();
+                        //Toast.makeText(context ,  , Toast.LENGTH_SHORT).show();
                     }
 
                 }
@@ -514,7 +519,9 @@ public class MainList extends AppCompatActivity {
                     }
                     else
                     {
-                        Toast.makeText(context , "No Internet Connection" , Toast.LENGTH_SHORT).show();
+                        toast.setText("No Internet Connection");
+                        toast.show();
+                        //Toast.makeText(context ,  , Toast.LENGTH_SHORT).show();
                     }
                 }
             });

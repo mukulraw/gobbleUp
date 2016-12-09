@@ -65,6 +65,7 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
     private ArrayList<Model> list = new ArrayList<>();
     Typeface tf;
     BottomSheetBehavior bar;
+    Toast toast;
 
     float rat = 0;
 
@@ -99,6 +100,8 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
         final comparebean b = (comparebean)context.getApplicationContext();
         final Model item = list.get(position);
      //   Log.d("asdasdasd" , "adapter2");
+
+        toast = Toast.makeText(context , null , Toast.LENGTH_SHORT);
 
         tf = Typeface.createFromAsset(context.getAssets(), "roboto.ttf");
 
@@ -180,6 +183,8 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
 
 
                     holder.addlist.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.minus , 0);
+                    toast.setText("Added in Basket");
+                    toast.show();
                 }
 
 
@@ -201,6 +206,8 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
                     b.comparecount--;
 
                     holder.addlist.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.plus3 , 0);
+                    toast.setText("Removed from basket");
+                    toast.show();
 
                     TextView comp = (TextView)((MainActivity)context).findViewById(R.id.textView5);
                     comp.setText(String.valueOf(b.tempList.size()));
@@ -262,6 +269,8 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
 
                         b.list.add(item);
                         b.comparecount++;
+                        toast.setText("Added to Compare");
+                        toast.show();
 
                         if (bar.getState() == BottomSheetBehavior.STATE_COLLAPSED)
                         {
@@ -285,7 +294,10 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
 
                     }
                     else {
-                        Toast.makeText(context , "Max. limit reached" , Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(context , "Max. limit reached" , Toast.LENGTH_SHORT).show();
+
+                        toast.setText("Max. limit reached");
+                        toast.show();
 
                         holder.switcher.setChecked(false);
                     }
@@ -334,6 +346,8 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
                     b.list.remove(index);
 
                     b.comparecount--;
+                    toast.setText("Removed from Compare");
+                    toast.show();
                     TextView comp = (TextView)((MainActivity)context).findViewById(R.id.textView4);
                     comp.setText(String.valueOf(b.list.size()));
                     //b.list.remove(item);

@@ -92,6 +92,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
     RatingBar ratrr;
     Typeface tf;
     TextView margin;
+    Toast toast;
 
     ShowcaseView showcaseView;
 
@@ -133,6 +134,8 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
         final View view = inflater.inflate(R.layout.single_prod_main , container , false);
 
+
+        toast = Toast.makeText(getContext() , null , Toast.LENGTH_SHORT);
 
         tf = Typeface.createFromAsset(getContext().getAssets(), "roboto.ttf");
 
@@ -394,8 +397,10 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
 
 
-                    Toast.makeText(getContext() , "Removed from compare" , Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext() , "Removed from compare" , Toast.LENGTH_SHORT).show();
 
+                    toast.setText("Removed from Compare");
+                    toast.show();
 
 
 
@@ -426,14 +431,20 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
                             comp.setText(String.valueOf(b.list.size()));
                         }
 
-                        Toast.makeText(getContext() , "Added to Compare" , Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getContext() , "Added to Compare" , Toast.LENGTH_SHORT).show();
+
+                        toast.setText("Added to Compare");
+                        toast.show();
 
                         //bar.animate().alpha(1.0f);
                         // b.bitmaps.add(LoadImageFromURL(item.getImage()));
                         //Log.d("asdasdasd" , String.valueOf(b.list.size()));
                     }
                     else {
-                        Toast.makeText(getContext() , "Max. limit reached" , Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getContext() , "Max. limit reached" , Toast.LENGTH_SHORT).show();
+
+                        toast.setText("Max. limit reached");
+                        toast.show();
 
                     }
 
@@ -825,7 +836,10 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
                     comp.setText(String.valueOf(b.tempList.size()));
                 }
 
-                Toast.makeText(getContext() , "Added in Basket" , Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext() , "Added in Basket" , Toast.LENGTH_SHORT).show();
+
+                toast.setText("Added in Basket");
+                toast.show();
 
             }
             else
@@ -874,8 +888,10 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
                 add.setText("ADD TO BASKET");
                 add.setBackground(getResources().getDrawable(R.drawable.grey));
 
-                Toast.makeText(getContext() , "Removed from Basket" , Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext() , "Removed from Basket" , Toast.LENGTH_SHORT).show();
 
+                toast.setText("Removed from Basket");
+                toast.show();
 
             }
 

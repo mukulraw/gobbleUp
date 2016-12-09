@@ -147,7 +147,7 @@ public class SearchResultActivity extends AppCompatActivity implements TextWatch
                         public void onResponse(Call<List<searchBean>> call, Response<List<searchBean>> response) {
 
 
-                            Log.d("asdasdasd" , String.valueOf(response.body().size()));
+                           // Log.d("asdasdasd" , String.valueOf(response.body().size()));
 
                            // adapter = new searchAdapter(getApplicationContext() , R.layout.search_model , response.body());
 

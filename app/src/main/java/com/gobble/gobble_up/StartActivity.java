@@ -74,6 +74,7 @@ public class StartActivity extends AppCompatActivity implements GoogleApiClient.
     public static final int CONNECTION_TIMEOUT=10000;
     public static final int READ_TIMEOUT=15000;
     String nn = null;
+    Toast toast;
     String pp = null;
     final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
     private GoogleApiClient mGoogleApiClient;
@@ -124,6 +125,8 @@ public class StartActivity extends AppCompatActivity implements GoogleApiClient.
         setContentView(R.layout.activity_start);
 
 
+
+        toast = Toast.makeText(this , null , Toast.LENGTH_SHORT);
 
         cd = new ConnectionDetector(this);
 
@@ -234,7 +237,9 @@ public class StartActivity extends AppCompatActivity implements GoogleApiClient.
                 else
                 {
 
-                    Toast.makeText(this , "Permission denied" , Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this , "Permission denied" , Toast.LENGTH_SHORT).show();
+                    toast.setText("Permission denied");
+                    toast.show();
 
                     finish();
                 }
@@ -483,7 +488,11 @@ public class StartActivity extends AppCompatActivity implements GoogleApiClient.
             {
 
 
-                Toast.makeText(getApplicationContext() , "welcome "+name , Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext() ,  , Toast.LENGTH_SHORT).show();
+
+                toast.setText("welcome "+name);
+                toast.show();
+
                 Intent i = new Intent(getApplicationContext() , GetStartActivity.class);
                 if (imageUrl!=null)
                 {
@@ -496,7 +505,9 @@ public class StartActivity extends AppCompatActivity implements GoogleApiClient.
             }
             else
             {
-                Toast.makeText(getApplicationContext() , "Invalid Email Id or Password" , Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext() , "Invalid Email Id or Password" , Toast.LENGTH_SHORT).show();
+                toast.setText("Invalid Email Id or Password");
+                toast.show();
             }
 
             super.onPostExecute(aVoid);

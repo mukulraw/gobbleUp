@@ -45,6 +45,7 @@ public class UpdateProfile extends AppCompatActivity implements AdapterView.OnIt
 
     ProgressBar loading;
 
+    Toast toast;
 
     String gend;
 
@@ -53,6 +54,8 @@ public class UpdateProfile extends AppCompatActivity implements AdapterView.OnIt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_profile);
+
+        toast = Toast.makeText(this , null , Toast.LENGTH_SHORT);
 
         loading = (ProgressBar)findViewById(R.id.update_loading);
 
@@ -345,7 +348,9 @@ public class UpdateProfile extends AppCompatActivity implements AdapterView.OnIt
                         }
                         else
                         {
-                            height.setError("Invalid Height");
+                            //height.setError("Invalid Height");
+                            toast.setText("Invalid Height");
+                            toast.show();
                         }
 
 
@@ -359,7 +364,9 @@ public class UpdateProfile extends AppCompatActivity implements AdapterView.OnIt
                     }
                     else
                     {
-                        weight.setError("Invalid Weight");
+                        //weight.setError("Invalid Weight");
+                        toast.setText("Invalid Weight");
+                        toast.show();
                     }
 
 
@@ -421,7 +428,9 @@ public class UpdateProfile extends AppCompatActivity implements AdapterView.OnIt
             --a;
         }
         if(a < 0)
-            Toast.makeText(getApplicationContext() , "Not a valid D.O.B." , Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext() , "Not a valid D.O.B." , Toast.LENGTH_SHORT).show();
+        toast.setText("Not a valid D.O.B.");
+        toast.show();
         return a;
     }
 
@@ -431,7 +440,9 @@ public class UpdateProfile extends AppCompatActivity implements AdapterView.OnIt
         if(phone2.length() < 6 || phone2.length() > 13)
         {
             check = false;
-            phone.setError("Not Valid Number");
+            //phone.setError("Not Valid Number");
+            toast.setText("Not a valid number");
+            toast.show();
         }
         else
         {

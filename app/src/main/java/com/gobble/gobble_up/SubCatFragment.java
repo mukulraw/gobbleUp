@@ -25,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gobble.gobble_up.POJO.Model;
 
@@ -66,6 +67,7 @@ public class SubCatFragment extends Fragment {
     private LinearLayout sortFilter;
     private ProgressBar bar;
     String name;
+    Toast toast;
     private boolean sort_flag = false;
 
     static SubCatFragment newInstance(int page, String id) {
@@ -85,6 +87,7 @@ public class SubCatFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
 
+        toast = Toast.makeText(getContext() , null , Toast.LENGTH_SHORT);
 
         this.page = getArguments().getInt("page");
         this.id = getArguments().getString("id");
@@ -264,7 +267,7 @@ public class SubCatFragment extends Fragment {
 
                             if (selectedId == R.id.price_under_h)
                             {
-                                Log.d("asdasdasdasd" , "selese");
+
 
                                 subList.clear();
 
@@ -272,7 +275,7 @@ public class SubCatFragment extends Fragment {
                                 {
                                     if (Float.parseFloat(list1.get(i).getPrice())<100)
                                     {
-                                        Log.d("asdasdasd" , "entered");
+
                                         subList.add(list1.get(i));
                                     }
                                 }

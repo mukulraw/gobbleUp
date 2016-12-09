@@ -83,6 +83,7 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
     private SignInButton google_signin;
     private GoogleApiClient mGoogleApiClient;
 
+    Toast toast;
 
 
 
@@ -103,6 +104,8 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
 
         setContentView(R.layout.activity_login);
 
+
+        toast = Toast.makeText(this , null , Toast.LENGTH_SHORT);
 
         loading = (ProgressBar)findViewById(R.id.login_progress);
 
@@ -165,7 +168,9 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
                         }
                         else
                         {
-                            Toast.makeText(getApplication() , "Not a valid Email Id" , Toast.LENGTH_SHORT).show();
+                            toast.setText("Not a valid Email Id");
+                            toast.show();
+                            //Toast.makeText(getApplication() ,  , Toast.LENGTH_SHORT).show();
                         }
 
 
@@ -234,7 +239,9 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
                                         @Override
                                         public void onResponse(Call<loginBean> call, Response<loginBean> response) {
 
-                                            Toast.makeText(getApplicationContext() , "welcome "+response.body().getUserName() , Toast.LENGTH_SHORT).show();
+                                            toast.setText("welcome "+response.body().getUserName());
+                                            toast.show();
+                                            //Toast.makeText(getApplicationContext() ,  , Toast.LENGTH_SHORT).show();
                                             Intent i = new Intent(getApplicationContext() , GetStartActivity.class);
 
 
@@ -289,7 +296,9 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
                                         @Override
                                         public void onResponse(Call<loginBean> call, Response<loginBean> response) {
 
-                                            Toast.makeText(getApplicationContext() , "welcome "+response.body().getUserName() , Toast.LENGTH_SHORT).show();
+                                            toast.setText("welcome "+response.body().getUserName());
+                                            toast.show();
+                                            //Toast.makeText(getApplicationContext() ,  , Toast.LENGTH_SHORT).show();
                                             Intent i = new Intent(getApplicationContext() , GetStartActivity.class);
 
 
@@ -373,7 +382,10 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
                                 @Override
                                 public void onResponse(Call<loginBean> call, Response<loginBean> response) {
 
-                                    Toast.makeText(getApplicationContext() , "welcome "+response.body().getUserName() , Toast.LENGTH_SHORT).show();
+                                    toast.setText("welcome "+response.body().getUserName());
+                                    toast.show();
+
+                                    //Toast.makeText(getApplicationContext() ,  , Toast.LENGTH_SHORT).show();
                                     Intent i = new Intent(getApplicationContext() , GetStartActivity.class);
 
 
@@ -425,7 +437,10 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
                                 @Override
                                 public void onResponse(Call<loginBean> call, Response<loginBean> response) {
 
-                                    Toast.makeText(getApplicationContext() , "welcome "+response.body().getUserName() , Toast.LENGTH_SHORT).show();
+                                    toast.setText("welcome "+response.body().getUserName());
+                                    toast.show();
+
+                                    //Toast.makeText(getApplicationContext() ,  , Toast.LENGTH_SHORT).show();
                                     Intent i = new Intent(getApplicationContext() , GetStartActivity.class);
 
 
@@ -511,7 +526,9 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
 
                         if (!Util.emailValidater(mail))
                         {
-                            Toast.makeText(getApplicationContext() , "Not a valid Email Id" , Toast.LENGTH_SHORT).show();
+                            toast.setText("Not a valid Email Id");
+                            toast.show();
+                            //Toast.makeText(getApplicationContext() ,  , Toast.LENGTH_SHORT).show();
                         }
                         else
                         {
@@ -530,13 +547,17 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
                     }
                     else
                     {
-                        Toast.makeText(getBaseContext() , "Invalid email or password", Toast.LENGTH_SHORT).show();
+                        toast.setText("Invalid email or password");
+                        toast.show();
+                        //Toast.makeText(getBaseContext() , , Toast.LENGTH_SHORT).show();
                     }
 
                 }
                 else
                 {
-                    Toast.makeText(getBaseContext() , "No internet Connection" , Toast.LENGTH_SHORT).show();
+                    toast.setText("No internet Connection");
+                    toast.show();
+                    //Toast.makeText(getBaseContext() ,  , Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -709,7 +730,10 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
                         @Override
                         public void onResponse(Call<loginBean> call, Response<loginBean> response) {
 
-                            Toast.makeText(getApplicationContext() , "welcome "+response.body().getUserName() , Toast.LENGTH_SHORT).show();
+                            toast.setText("welcome "+response.body().getUserName());
+                            toast.show();
+
+                            //Toast.makeText(getApplicationContext() ,  , Toast.LENGTH_SHORT).show();
                             Intent i = new Intent(getApplicationContext() , GetStartActivity.class);
 
 
@@ -767,7 +791,10 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
                         @Override
                         public void onResponse(Call<loginBean> call, Response<loginBean> response) {
 
-                            Toast.makeText(getApplicationContext() , "welcome "+response.body().getUserName() , Toast.LENGTH_SHORT).show();
+                            toast.setText("welcome "+response.body().getUserName());
+                            toast.show();
+
+                            //Toast.makeText(getApplicationContext() ,  , Toast.LENGTH_SHORT).show();
                             Intent i = new Intent(getApplicationContext() , GetStartActivity.class);
 
 
@@ -953,7 +980,10 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
                 loading.setVisibility(View.GONE);
 
 
-                Toast.makeText(getApplicationContext() , "welcome "+name , Toast.LENGTH_SHORT).show();
+                toast.setText("welcome "+name);
+                toast.show();
+
+                //Toast.makeText(getApplicationContext() ,  , Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(getApplicationContext() , GetStartActivity.class);
 
 
@@ -1012,7 +1042,9 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
                 {
                     sign_flag = false;
                     loading.setVisibility(View.GONE);
-                    Toast.makeText(getApplicationContext() , "Invalid Email Id or Password" , Toast.LENGTH_SHORT).show();
+                    toast.setText("Invalid Email Id or Password");
+                    toast.show();
+                    //Toast.makeText(getApplicationContext() , "" , Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -1111,11 +1143,15 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
 
             if (result.equals("{\"responce_code\":200,\"msg\":\"New password send to your email\"}"))
             {
-            Toast.makeText(getApplicationContext() , "A new password has been sent to your inbox" , Toast.LENGTH_SHORT).show();
+            toast.setText("A new password has been sent to your inbox");
+                toast.show();
+                //Toast.makeText(getApplicationContext() ,  , Toast.LENGTH_SHORT).show();
             }
             else
             {
-                Toast.makeText(getApplicationContext() , "Not a valid user" , Toast.LENGTH_SHORT).show();
+                toast.setText("Not a valid user");
+                toast.show();
+                //Toast.makeText(getApplicationContext() ,  , Toast.LENGTH_SHORT).show();
             }
 
 
