@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginStart="10dp"
     android:layout_marginEnd="10dp"
+    tools:context="com.gobble.gobble_up.LoginActivity"
+    android:orientation="vertical">
 
-    tools:context="com.gobble.gobble_up.LoginActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -39,20 +48,40 @@
         android:layout_margin="10dp"
         android:orientation="vertical">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp">
+
         <com.facebook.login.widget.LoginButton
             android:id="@+id/bt_facebook1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/sign_in_with_facebook"
-            android:paddingBottom="15dp"
-            android:paddingTop="15dp"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
             android:gravity="center"
             android:textColor="@color/white"
-            android:layout_marginBottom="10dp"
+
             android:background="@drawable/round_facebook"
              />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sign_in_with_facebook"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:gravity="center"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:drawableStart="@drawable/fb"
+                android:textColor="@color/white"
+                android:background="@drawable/round_facebook"
+                />
 
+
+        </RelativeLayout>
 <!--
         <Button
             android:id="@+id/bt_google1"
@@ -66,32 +95,58 @@
             />
 -->
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            >
 
         <com.google.android.gms.common.SignInButton
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:id="@+id/bt_google_sign"
 
-            android:layout_marginBottom="10dp"
+
             />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:gravity="center"
+                android:background="@drawable/round_google"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:drawableStart="@drawable/goog"
+                android:text="Sign in with Google"
+                android:textColor="@color/white"
+                />
 
-        <EditText
+
+
+        </RelativeLayout>
+        <com.andreabaccega.widget.FormEditText
             android:id="@+id/et_Email"
             android:layout_height="wrap_content"
             android:background="@drawable/gradient"
             android:layout_width="fill_parent"
             android:layout_gravity="center"
             android:textSize="13sp"
+            app:testType="email"
             android:textColorHint="#B6B6B4"
+            app:customRegexp="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
+            app:testErrorString="Not a valid Email"
+
             android:layout_marginBottom="10dp"
             android:textColor="#B6B6B4"
             android:hint="@string/your_mail"
             android:inputType="textEmailAddress"
             android:padding="15dp" />
 
-        <EditText
+        <com.andreabaccega.widget.FormEditText
             android:id="@+id/et_Password"
+
             android:layout_height="wrap_content"
             android:background="@drawable/gradient"
             android:layout_width="fill_parent"
@@ -127,8 +182,9 @@
             android:id="@+id/bt_signin"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/sign_in"
-            android:textColor="@color/white"
+            android:text="SIGN IN"
+            android:textSize="18sp"
+            android:textColor="@color/colorAccent"
             android:layout_gravity="center_horizontal"
             android:background="@color/colorPrimaryDark"/>
 
@@ -157,7 +213,16 @@
 
 
 
+    </LinearLayout>
 
 
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:id="@+id/login_progress"
+        android:visibility="gone"
+        />
 
-</LinearLayout>
+
+</RelativeLayout>

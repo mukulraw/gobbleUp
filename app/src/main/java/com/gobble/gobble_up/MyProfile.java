@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -41,6 +42,8 @@ public class MyProfile extends AppCompatActivity {
 
     TextView edit , name , age , phone , gender , height , weight , bmi;
 
+    ProgressBar laoding , imageLoading;
+
     CircleImageView profilePic;
     private final int PICK_IMAGE_REQUEST = 2;
     Bitmap bmp;
@@ -48,6 +51,10 @@ public class MyProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
+
+        laoding = (ProgressBar)findViewById(R.id.profile_loading);
+
+        imageLoading = (ProgressBar)findViewById(R.id.picture_loading);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
@@ -89,6 +96,8 @@ public class MyProfile extends AppCompatActivity {
 
             }
         });
+
+        laoding.setVisibility(View.VISIBLE);
 
         String SUB_CATEGORY = "http://nationproducts.in/";
         Retrofit retrofit = new Retrofit.Builder()
@@ -139,9 +148,14 @@ public class MyProfile extends AppCompatActivity {
                     loader.displayImage(response.body().getUserImage() , profilePic);
 
 
+                    laoding.setVisibility(View.GONE);
+
+
+
                 }catch (Exception e)
                 {
                     e.printStackTrace();
+                    laoding.setVisibility(View.GONE);
                 }
 
 
@@ -149,6 +163,8 @@ public class MyProfile extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<profileBean> call, Throwable t) {
+
+                laoding.setVisibility(View.GONE);
 
             }
         });
@@ -164,6 +180,8 @@ public class MyProfile extends AppCompatActivity {
 
         if (requestCode == 121)
         {
+            laoding.setVisibility(View.VISIBLE);
+
             String SUB_CATEGORY = "http://nationproducts.in/";
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(SUB_CATEGORY)
@@ -197,11 +215,15 @@ public class MyProfile extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
+                    laoding.setVisibility(View.GONE);
+
 
                 }
 
                 @Override
                 public void onFailure(Call<profileBean> call, Throwable t) {
+
+                    laoding.setVisibility(View.GONE);
 
                 }
             });
@@ -211,6 +233,9 @@ public class MyProfile extends AppCompatActivity {
 
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+
+            imageLoading.setVisibility(View.VISIBLE);
+
 
             try {
                 bmp = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.parse(String.valueOf(data.getData())));
@@ -240,7 +265,7 @@ public class MyProfile extends AppCompatActivity {
 
                 RequestBody reqFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
 
-                MultipartBody.Part body = MultipartBody.Part.createFormData("video", file.getName(), reqFile);
+                MultipartBody.Part body = MultipartBody.Part.createFormData("user_image", file.getName(), reqFile);
 
                 Call<String> call = request.updateImage(b.user_id , body);
 
@@ -266,28 +291,32 @@ public class MyProfile extends AppCompatActivity {
 
 
 
-                                try {
+                                //try {
                                     ImageLoader loader = ImageLoader.getInstance();
-                                    if (response.body().getUserImage().length()>0)
-                                    {
+                                    //if (response.body().getUserImage().length()>0)
+                                    //{
+
+                                    Log.d("asdasdasdasd" , response.body().getUserImage());
+
                                         loader.displayImage(response.body().getUserImage() , profilePic);
-                                    }
+                                    //}
 
 
 
 
 
-                                }catch (Exception e)
-                                {
-                                    e.printStackTrace();
-                                }
+                               // }catch (Exception e)
+                                //{
+                                 //   e.printStackTrace();
+                                //}
 
+                                imageLoading.setVisibility(View.GONE);
 
                             }
 
                             @Override
                             public void onFailure(Call<profileBean> call, Throwable t) {
-
+                                imageLoading.setVisibility(View.GONE);
                             }
                         });
 
@@ -297,6 +326,8 @@ public class MyProfile extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<String> call, Throwable t) {
+
+                        imageLoading.setVisibility(View.GONE);
 
                     }
                 });

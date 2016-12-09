@@ -1,6 +1,7 @@
 package com.gobble.gobble_up;
 
 import android.app.Dialog;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,6 +17,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -154,8 +157,14 @@ public class SubCatFragment extends Fragment {
 
                 final Dialog dialog = new Dialog(getActivity());
 
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
                 dialog.setContentView(R.layout.filter_dialog);
                 dialog.setCancelable(true);
+
+
+
 
                 dialog.show();
 
@@ -422,6 +431,7 @@ public class SubCatFragment extends Fragment {
             public void onClick(View view) {
 
                 final Dialog dialog = new Dialog(getActivity());
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.sort_dialog);
                 dialog.setCancelable(true);
                 dialog.show();

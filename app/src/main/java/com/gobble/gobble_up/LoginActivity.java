@@ -12,8 +12,10 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.facebook.CallbackManager;
@@ -61,6 +63,9 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class LoginActivity extends FragmentActivity implements GoogleApiClient.ConnectionCallbacks , GoogleApiClient.OnConnectionFailedListener  , View.OnClickListener {
     private static final int RC_SIGN_IN = 9001;
 
+
+    ProgressBar loading;
+
     private EditText email , password;
     private static final int CONNECTION_TIMEOUT=10000;
     private static final int READ_TIMEOUT=15000;
@@ -95,13 +100,22 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
 
 
 
+
         setContentView(R.layout.activity_login);
+
+
+        loading = (ProgressBar)findViewById(R.id.login_progress);
+
 
         SharedPreferences pref = getSharedPreferences("MySignin", Context.MODE_PRIVATE);
         edit = pref.edit();
 
         email = (EditText)findViewById(R.id.et_Email);
         password = (EditText)findViewById(R.id.et_Password);
+
+
+
+
 
         google_signin = (SignInButton) findViewById(R.id.bt_google_sign);
         LoginButton fb_signin = (LoginButton) findViewById(R.id.bt_facebook1);
@@ -119,7 +133,9 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
             @Override
             public void onClick(View view) {
                 final Dialog dialog = new Dialog(LoginActivity.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setCancelable(false);
+
                 dialog.setContentView(R.layout.forgot_dialog);
 
                 dialog.show();
@@ -141,9 +157,18 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
                     @Override
                     public void onClick(View view) {
 
-                        String as = asd.getText().toString();
-                        new login2(as).execute();
-                        dialog.dismiss();
+                        if (Util.emailValidater(asd.getText().toString()))
+                        {
+                            String as = asd.getText().toString();
+                            new login2(as).execute();
+                            dialog.dismiss();
+                        }
+                        else
+                        {
+                            Toast.makeText(getApplication() , "Not a valid Email Id" , Toast.LENGTH_SHORT).show();
+                        }
+
+
 
                     }
                 });
@@ -184,6 +209,8 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
                             fb_flag = true;
                             //new login(e , p).execute();
 
+                            loading.setVisibility(View.VISIBLE);
+
                             String SUB_CATEGORY = "http://nationproducts.in/";
                             Retrofit retrofit = new Retrofit.Builder()
                                     .baseUrl(SUB_CATEGORY)
@@ -211,6 +238,8 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
                                             Intent i = new Intent(getApplicationContext() , GetStartActivity.class);
 
 
+
+
                                             edit.putBoolean("fb" , true);
                                             edit.apply();
                                             i.putExtra("url" , imageUrl);
@@ -218,6 +247,9 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
                                             i.putExtra("id" , response.body().getUserId());
                                             i.putExtra("name" , response.body().getUserName());
                                             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                                            loading.setVisibility(View.GONE);
+
                                             startActivity(i);
                                             finish();
 
@@ -232,6 +264,7 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
                                         @Override
                                         public void onFailure(Call<loginBean> call, Throwable t) {
 
+                                            loading.setVisibility(View.GONE);
 
                                             LoginManager.getInstance().logOut();
                                             fb_flag = false;
@@ -267,6 +300,9 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
                                             i.putExtra("id" , response.body().getUserId());
                                             i.putExtra("name" , response.body().getUserName());
                                             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                                            loading.setVisibility(View.GONE);
+
                                             startActivity(i);
                                             finish();
 
@@ -281,7 +317,7 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
                                         @Override
                                         public void onFailure(Call<loginBean> call, Throwable t) {
 
-
+                                            loading.setVisibility(View.GONE);
                                             LoginManager.getInstance().logOut();
                                             fb_flag = false;
 
@@ -309,6 +345,11 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
                     String n = profile.getName();
                     imageUrl = String.valueOf(profile.getProfilePictureUri(70,70));
                     fb_flag = true;
+
+
+                    loading.setVisibility(View.VISIBLE);
+
+
                     String SUB_CATEGORY = "http://nationproducts.in/";
                     Retrofit retrofit = new Retrofit.Builder()
                             .baseUrl(SUB_CATEGORY)
@@ -343,6 +384,9 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
                                     i.putExtra("id" , response.body().getUserId());
                                     i.putExtra("name" , response.body().getUserName());
                                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                                    loading.setVisibility(View.GONE);
+
                                     startActivity(i);
                                     finish();
 
@@ -357,7 +401,7 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
                                 @Override
                                 public void onFailure(Call<loginBean> call, Throwable t) {
 
-
+                                    loading.setVisibility(View.GONE);
                                     LoginManager.getInstance().logOut();
                                     fb_flag = false;
 
@@ -392,6 +436,9 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
                                     i.putExtra("id" , response.body().getUserId());
                                     i.putExtra("name" , response.body().getUserName());
                                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                                    loading.setVisibility(View.GONE);
+
                                     startActivity(i);
                                     finish();
 
@@ -406,7 +453,7 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.C
                                 @Override
                                 public void onFailure(Call<loginBean> call, Throwable t) {
 
-
+                                    loading.setVisibility(View.GONE);
                                     LoginManager.getInstance().logOut();
                                     fb_flag = false;
 
@@ -456,9 +503,29 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
 
                 if(cd.isConnectingToInternet())
                 {
+
+
                     if (mail.length()>0 && pass.length()>0)
-                    { new login(mail , pass).execute();
-                        sign_flag = true;
+                    {
+
+
+                        if (!Util.emailValidater(mail))
+                        {
+                            Toast.makeText(getApplicationContext() , "Not a valid Email Id" , Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            loading.setVisibility(View.VISIBLE);
+                            new login(mail , pass).execute();
+                            sign_flag = true;
+
+                        }
+
+
+
+
+
+
 
                     }
                     else
@@ -593,6 +660,8 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
 
+            loading.setVisibility(View.VISIBLE);
+
                final String e = acct.getId();
 
             //Log.d("asdsd" , e);
@@ -651,6 +720,9 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
                             i.putExtra("id" , response.body().getUserId());
                             i.putExtra("name" , response.body().getUserName());
                             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                            loading.setVisibility(View.GONE);
+
                             startActivity(i);
                             finish();
 
@@ -667,6 +739,9 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
 
 
                             if (mGoogleApiClient.isConnected()) {
+
+                                loading.setVisibility(View.GONE);
+
                                 signOut();
                                 goog_flag = false;
                             }
@@ -703,6 +778,10 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
                             i.putExtra("id" , response.body().getUserId());
                             i.putExtra("name" , response.body().getUserName());
                             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                            loading.setVisibility(View.GONE);
+
+
                             startActivity(i);
                             finish();
 
@@ -719,6 +798,9 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
 
 
                             if (mGoogleApiClient.isConnected()) {
+
+                                loading.setVisibility(View.GONE);
+
                                 signOut();
                                 goog_flag = false;
                             }
@@ -868,7 +950,7 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
 
 
 
-
+                loading.setVisibility(View.GONE);
 
 
                 Toast.makeText(getApplicationContext() , "welcome "+name , Toast.LENGTH_SHORT).show();
@@ -906,6 +988,7 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
                     {
                         signOut();
                         goog_flag = false;
+                        loading.setVisibility(View.GONE);
                         Intent i = new Intent(getBaseContext() , Register.class);
                         startActivity(i);
                         Toast.makeText(getApplicationContext() , "You are an unregistered user, please register" , Toast.LENGTH_SHORT).show();
@@ -917,6 +1000,7 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
                 {
                     LoginManager.getInstance().logOut();
                     fb_flag = false;
+                    loading.setVisibility(View.GONE);
                     Intent i = new Intent(getBaseContext() , Register.class);
                     startActivity(i);
                     Toast.makeText(getApplicationContext() , "You are an unregistered user, please register" , Toast.LENGTH_SHORT).show();
@@ -927,6 +1011,7 @@ ConnectionDetector cd = new ConnectionDetector(getBaseContext());
                 if (sign_flag)
                 {
                     sign_flag = false;
+                    loading.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext() , "Invalid Email Id or Password" , Toast.LENGTH_SHORT).show();
                 }
 

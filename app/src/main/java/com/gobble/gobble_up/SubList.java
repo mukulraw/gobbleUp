@@ -29,6 +29,7 @@ import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -581,6 +582,7 @@ public class SubList extends AppCompatActivity {
 
 
                                 final Dialog dialog = new Dialog(SubList.this);
+                                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                                 dialog.setContentView(R.layout.delete_list_dialog);
                                 dialog.setCancelable(false);
                                 dialog.show();

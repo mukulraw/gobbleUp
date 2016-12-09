@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -112,6 +113,7 @@ public class AddtoList extends AppCompatActivity {
 
 
                 final Dialog dialog = new Dialog(AddtoList.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.create_list_dialog);
                 dialog.setCancelable(true);
                 dialog.show();
@@ -157,6 +159,7 @@ public class AddtoList extends AppCompatActivity {
                 final addListBean item = (addListBean)parent.getItemAtPosition(position);
                 final String idd = item.getListId();
                 final Dialog dialog = new Dialog(AddtoList.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.dialog_add);
                 dialog.setCancelable(true);
                 dialog.show();

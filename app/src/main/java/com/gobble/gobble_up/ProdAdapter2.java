@@ -200,7 +200,7 @@ class ProdAdapter2 extends RecyclerView.Adapter<ProdAdapter2.RecycleViewHolder>{
                     b.tempList.remove(index);
                     b.comparecount--;
 
-                    holder.addlist.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.plus2 , 0);
+                    holder.addlist.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.plus3 , 0);
 
                     TextView comp = (TextView)((MainActivity)context).findViewById(R.id.textView5);
                     comp.setText(String.valueOf(b.tempList.size()));

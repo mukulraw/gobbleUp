@@ -11,9 +11,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-/**
- * Created by hi on 02-06-2016.
- */
 public class compareListAdapter extends ArrayAdapter<compareListViewBean>{
 
     private Context context;

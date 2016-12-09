@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -89,6 +90,7 @@ public class MainList extends AppCompatActivity {
 
 
                 final Dialog dialog = new Dialog(MainList.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.create_list_dialog);
                 dialog.setCancelable(true);
                 dialog.show();
@@ -417,6 +419,7 @@ public class MainList extends AppCompatActivity {
 
                     if (cd.isConnectingToInternet()) {
                         final Dialog dialog1 = new Dialog(getContext());
+                        dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
                         dialog1.setContentView(R.layout.edit_dialog);
                         dialog1.setCancelable(true);
                         dialog1.show();
@@ -475,6 +478,7 @@ public class MainList extends AppCompatActivity {
                     final String idd = item.getListId();
 
                     final Dialog dialog = new Dialog(getContext());
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                     dialog.setContentView(R.layout.delete_list_dialog);
                     dialog.setCancelable(true);
                     dialog.show();

@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -77,6 +78,7 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
     private GoogleApiClient mGoogleApiClient;
     Button register;
     public static final int CONNECTION_TIMEOUT=10000;
+    ProgressBar loading;
     private Boolean goog_flag = false;
     public static final int READ_TIMEOUT=15000;
     private Boolean fb_flag = false;
@@ -97,6 +99,8 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(this);
         setContentView(R.layout.activity_register);
+
+        loading = (ProgressBar)findViewById(R.id.register_loading);
 
         SharedPreferences pref = getSharedPreferences("MySignin", Context.MODE_PRIVATE);
         edit = pref.edit();
@@ -138,6 +142,7 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
                             fb_flag = true;
                             //new login(e , n , p).execute();
 
+                            loading.setVisibility(View.VISIBLE);
 
 
                             String SUB_CATEGORY = "http://nationproducts.in/";
@@ -174,6 +179,9 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
                                             i.putExtra("id" , response.body().getUserId());
                                             i.putExtra("name" , response.body().getUserName());
                                             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                                            loading.setVisibility(View.GONE);
+
                                             startActivity(i);
                                             finish();
 
@@ -188,6 +196,7 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
                                         @Override
                                         public void onFailure(Call<loginBean> call, Throwable t) {
 
+                                            loading.setVisibility(View.GONE);
 
                                             LoginManager.getInstance().logOut();
                                             fb_flag = false;
@@ -223,6 +232,9 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
                                             i.putExtra("id" , response.body().getUserId());
                                             i.putExtra("name" , response.body().getUserName());
                                             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                                            loading.setVisibility(View.GONE);
+
                                             startActivity(i);
                                             finish();
 
@@ -237,7 +249,7 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
                                         @Override
                                         public void onFailure(Call<loginBean> call, Throwable t) {
 
-
+                                            loading.setVisibility(View.GONE);
                                             LoginManager.getInstance().logOut();
                                             fb_flag = false;
 
@@ -268,6 +280,7 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
                     fb_flag = true;
                     //new login(e , n , p).execute();
 
+                    loading.setVisibility(View.VISIBLE);
 
 
                     String SUB_CATEGORY = "http://nationproducts.in/";
@@ -304,6 +317,9 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
                                     i.putExtra("id" , response.body().getUserId());
                                     i.putExtra("name" , response.body().getUserName());
                                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                                    loading.setVisibility(View.GONE);
+
                                     startActivity(i);
                                     finish();
 
@@ -318,7 +334,7 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
                                 @Override
                                 public void onFailure(Call<loginBean> call, Throwable t) {
 
-
+                                    loading.setVisibility(View.GONE);
                                     LoginManager.getInstance().logOut();
                                     fb_flag = false;
 
@@ -353,6 +369,9 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
                                     i.putExtra("id" , response.body().getUserId());
                                     i.putExtra("name" , response.body().getUserName());
                                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                                    loading.setVisibility(View.GONE);
+
                                     startActivity(i);
                                     finish();
 
@@ -366,7 +385,7 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
 
                                 @Override
                                 public void onFailure(Call<loginBean> call, Throwable t) {
-
+                                    loading.setVisibility(View.GONE);
 
                                     LoginManager.getInstance().logOut();
                                     fb_flag = false;
@@ -439,6 +458,7 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
                     }
                     else
                     {
+                        loading.setVisibility(View.VISIBLE);
                         new login(mail , nam , pass).execute();
                     }
                 }
@@ -554,6 +574,8 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
 
             //new login(e , p).execute();
 
+            loading.setVisibility(View.VISIBLE);
+
             String SUB_CATEGORY = "http://nationproducts.in/";
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(SUB_CATEGORY)
@@ -590,6 +612,9 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
                             i.putExtra("id" , response.body().getUserId());
                             i.putExtra("name" , response.body().getUserName());
                             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                            loading.setVisibility(View.GONE);
+
                             startActivity(i);
                             finish();
 
@@ -606,6 +631,9 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
 
 
                             if (mGoogleApiClient.isConnected()) {
+
+                                loading.setVisibility(View.GONE);
+
                                 signOut();
                                 goog_flag = false;
                             }
@@ -642,6 +670,9 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
                             i.putExtra("id" , response.body().getUserId());
                             i.putExtra("name" , response.body().getUserName());
                             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                            loading.setVisibility(View.GONE);
+
                             startActivity(i);
                             finish();
 
@@ -658,6 +689,9 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
 
 
                             if (mGoogleApiClient.isConnected()) {
+
+                                loading.setVisibility(View.GONE);
+
                                 signOut();
                                 goog_flag = false;
                             }
@@ -853,6 +887,9 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
 
                 Intent i = new Intent(getApplicationContext() , LoginActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                loading.setVisibility(View.GONE);
+
                 startActivity(i);
                 finish();
 
@@ -863,6 +900,8 @@ public class Register extends AppCompatActivity implements GoogleApiClient.Conne
             }
             else
             {
+
+                loading.setVisibility(View.GONE);
                 Toast.makeText(getApplicationContext() , "already registered" , Toast.LENGTH_SHORT).show();
                 LoginManager.getInstance().logOut();
             }

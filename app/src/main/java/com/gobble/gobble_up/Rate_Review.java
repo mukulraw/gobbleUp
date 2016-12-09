@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -115,6 +116,7 @@ public class Rate_Review extends AppCompatActivity {
             public void onClick(View view) {
 
                 final Dialog dialog = new Dialog(Rate_Review.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.comment_dialog);
                 dialog.setCancelable(true);
                 dialog.show();
