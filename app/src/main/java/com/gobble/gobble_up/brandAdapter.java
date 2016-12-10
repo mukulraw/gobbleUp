@@ -8,10 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CheckedTextView;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+
+import com.gobble.gobble_up.POJO.Model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.zip.Inflater;
 
 
@@ -19,14 +23,21 @@ class brandAdapter extends RecyclerView.Adapter<brandAdapter.ViewHolder> {
 
     Context context;
     List<String> list = new ArrayList<>();
-    List<String> clist = new ArrayList<>();
+    List<Model> l2 = new ArrayList<>();
+    private List<String> clist = new ArrayList<>();
 
-    public brandAdapter(Context context , List<String> list)
+    brandAdapter(Context context, List<String> list , List<Model> l2)
     {
         this.context = context;
         this.list = list;
+        this.l2 = l2;
     }
 
+    public void setGridData(List<String> list)
+    {
+        this.list = list;
+        notifyDataSetChanged();
+    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -35,7 +46,7 @@ class brandAdapter extends RecyclerView.Adapter<brandAdapter.ViewHolder> {
     }
 
 
-    public List<String> getCheckedIds()
+    List<String> getCheckedIds()
     {
         return clist;
     }
@@ -43,23 +54,70 @@ class brandAdapter extends RecyclerView.Adapter<brandAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-        String brand = list.get(position);
+        String brand = list.get(holder.getAdapterPosition());
 
         holder.tv.setText(brand);
 
-        holder.tv.setOnClickListener(new View.OnClickListener() {
+        for (int i = 0 ; i < l2.size() ; i++)
+        {
+            if (Objects.equals(l2.get(i).getBrand(), brand))
+            {
+                holder.box.setChecked(true);
+                clist.add(list.get(holder.getAdapterPosition()));
+            }
+        }
+
+
+
+        holder.box.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
+                if (holder.box.isChecked())
+                {
+                    int flag = 0;
+
+                    for (int i = 0 ; i < clist.size() ; i++)
+                    {
+                        if (Objects.equals(list.get(holder.getAdapterPosition()), clist.get(i)))
+                        {
+                            flag++;
+                        }
+                    }
+
+                    if (flag == 0)
+                    {
+                        clist.add(list.get(holder.getAdapterPosition()));
+                    }
+
+
+
+                    //compoundButton.toggle();
+                }
+                else
+                {
+                    clist.remove(list.get(holder.getAdapterPosition()));
+                    //compoundButton.toggle();
+                }
+
+
+            }
+        });
+
+
+        /*holder.tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
 
                 if (holder.box.isChecked())
                 {
-                    clist.remove(list.get(position));
+                    clist.remove(list.get(position).getName());
                     holder.box.toggle();
                 }
                 if (!holder.box.isChecked())
                 {
-                    clist.add(list.get(position));
+                    clist.add(list.get(position).getName());
                     holder.box.toggle();
                 }
 
@@ -67,6 +125,10 @@ class brandAdapter extends RecyclerView.Adapter<brandAdapter.ViewHolder> {
 
             }
         });
+
+
+*/
+
 
 
 

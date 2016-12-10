@@ -182,6 +182,11 @@ public class SubCatFragment extends Fragment {
                 final RadioGroup rg2 = (RadioGroup)dialog.findViewById(R.id.radio_group_brand);
                 final RecyclerView brandList = (RecyclerView)dialog.findViewById(R.id.brand_list);
 
+
+
+
+
+
                 priceFilter.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -190,6 +195,8 @@ public class SubCatFragment extends Fragment {
                         {
                             rg2.setVisibility(View.GONE);
                             rg.setVisibility(View.VISIBLE);
+
+                            rg.clearCheck();
                         }
 
                     }
@@ -210,6 +217,13 @@ public class SubCatFragment extends Fragment {
 
                             for ( int i = 0 ; i < list1.size() ; i++)
                             {
+
+//                                item.setName(list1.get(i).getBrand());
+
+
+
+
+
                                 blist.add(list1.get(i).getBrand());
                             }
 
@@ -217,8 +231,10 @@ public class SubCatFragment extends Fragment {
                             blist.clear();
                             blist.addAll(s);
 
-                            adapter1[0] = new brandAdapter(getContext() , blist);
+                            adapter1[0] = new brandAdapter(getContext() , blist , subList);
                             brandList.setAdapter(adapter1[0]);
+
+
 
 
                         }
@@ -242,6 +258,10 @@ public class SubCatFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         sort_flag = false;
+
+
+                        subList.clear();
+
 
                         adapter.setGridData(list1);
                         adapter.notifyDataSetChanged();
@@ -368,10 +388,12 @@ public class SubCatFragment extends Fragment {
 
 
 
-                            subList.clear();
+
 
                             if (checkedList.size()>0)
                             {
+                                subList.clear();
+
                                 for (int i = 0 ; i<list1.size() ; i++)
                                 {
 
@@ -384,6 +406,16 @@ public class SubCatFragment extends Fragment {
                                     }
 
                                 }
+
+
+                                adapter.setGridData(subList);
+                                adapter.notifyDataSetChanged();
+
+
+                                sort_flag = true;
+
+
+
                                 dialog.dismiss();
                             }
                             else
@@ -400,11 +432,6 @@ public class SubCatFragment extends Fragment {
 
 
 
-                            adapter.setGridData(subList);
-                            adapter.notifyDataSetChanged();
-
-
-                            sort_flag = true;
 
 
 
