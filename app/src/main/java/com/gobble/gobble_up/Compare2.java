@@ -138,10 +138,14 @@ public class Compare2 extends AppCompatActivity {
 
                layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 
+        comparebean b = (comparebean)getApplicationContext();
+
+
         list = new ArrayList<>();
-        adapter = new compareAdapter(getApplicationContext() , list);
-        listview.setAdapter(adapter);
-        listview.setLayoutManager(layoutManager);
+
+        ArrayList<Model> l2 = new ArrayList<>();
+
+
 
 
         RecyclerView.ItemDecoration itemDecoration = new
@@ -152,7 +156,7 @@ public class Compare2 extends AppCompatActivity {
 
 
         lLayout = new GridLayoutManager(this , 1);
-        final comparebean b = (comparebean)this.getApplicationContext();
+        //final comparebean b = (comparebean)this.getApplicationContext();
 
        /* LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.compare_model , null);
@@ -193,13 +197,13 @@ public class Compare2 extends AppCompatActivity {
 */
 
 
-        if (b.list.size() > 1)
-        {
-            Toast.makeText(this , "Swipe Up to Remove Items" , Toast.LENGTH_LONG).show();
+        //if (b.list.size() > 1)
+      //  {
+      //      Toast.makeText(this , "Swipe Up to Remove Items" , Toast.LENGTH_LONG).show();
 
 
 
-        }
+      //  }
 
 
 
@@ -276,7 +280,7 @@ public class Compare2 extends AppCompatActivity {
 
 
 
-        list.clear();
+        //list.clear();
 
         refresh();
 
@@ -315,18 +319,24 @@ public class Compare2 extends AppCompatActivity {
 
         if (length>1)
         {
-            for (int i = 0 ; i<length ; i++)
-        {
-            String id = String.valueOf(b.list.get(i).getId());
+
+
+            //String id = String.valueOf(b.list.get(i).getId());
+
+            adapter = new compareAdapter(getApplicationContext() , b.list);
+            listview.setAdapter(adapter);
+            listview.setLayoutManager(layoutManager);
+
+            //adapter.setGridData(b.list);
 
 
 
-            String GET_PRODUCT = "http://nationproducts.in/global/api/product/id/";
+            //String GET_PRODUCT = "http://nationproducts.in/global/api/product/id/";
 
-            fetch(id);
+            //fetch(id);
 
 
-        }
+
 
         }else if (length ==1)
         {

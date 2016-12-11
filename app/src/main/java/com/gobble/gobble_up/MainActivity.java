@@ -1,17 +1,23 @@
 package com.gobble.gobble_up;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.annotation.IntegerRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -26,6 +32,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -65,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DBHandler handler;
     DrawerLayout drawer;
     TextView heading;
+    CircleImageView profile;
 
 
     @Override
@@ -72,6 +80,117 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
+
+
+
+
+
+
+        pref = getSharedPreferences("counter" , Context.MODE_PRIVATE);
+
+        final int[] counter = {pref.getInt("count", 1)};
+
+        if (counter[0]%5 == 0)
+        {
+
+            Log.d("asdasdasdasdasdasd" , String.valueOf(counter[0]));
+
+
+            String SUB_CATEGORY = "https://data.42matters.com/";
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(SUB_CATEGORY)
+                    .addConverterFactory(ScalarsConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            final catAPI request = retrofit.create(catAPI.class);
+
+            Call<updateNotificationBean> call = request.getUpdateNotofied();
+
+            call.enqueue(new Callback<updateNotificationBean>() {
+                @Override
+                public void onResponse(Call<updateNotificationBean> call, Response<updateNotificationBean> response) {
+
+
+                    try {
+                        PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName() , 0);
+                        String vresionName = packageInfo.versionName;
+
+
+
+                        if (Float.parseFloat(vresionName) < Float.parseFloat(response.body().getVersion()))
+                        {
+
+
+                            final Dialog dialog = new Dialog(MainActivity.this);
+                            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                            dialog.setCancelable(true);
+                            dialog.setContentView(R.layout.show_update_dialog);
+
+                            dialog.show();
+
+                            TextView text = (TextView)dialog.findViewById(R.id.update_text);
+                            TextView button = (TextView)dialog.findViewById(R.id.update_button);
+
+                            text.setText("A new version "+ response.body().getVersion() + " is available for download.");
+
+
+
+
+                            button.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+
+                                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                                    intent.setData(Uri.parse("market://details?id=com.gobble.gobble_up"));
+                                    startActivity(intent);
+
+                                    dialog.dismiss();
+
+                                }
+                            });
+
+
+
+
+                        }
+
+
+
+
+                    } catch (PackageManager.NameNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+
+
+
+
+                }
+
+                @Override
+                public void onFailure(Call<updateNotificationBean> call, Throwable t) {
+
+                }
+            });
+
+
+
+        }
+        counter[0]++;
+        SharedPreferences.Editor e = pref.edit();
+        e.putInt("count" , counter[0]);
+        e.apply();
+
+
+
+
+
+
+
+
+
+
+
 
         heading = (TextView)findViewById(R.id.heading);
 
@@ -126,8 +245,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         try {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        } catch (NullPointerException e) {
-            e.printStackTrace();
+        } catch (NullPointerException e1) {
+            e1.printStackTrace();
         }
 
 
@@ -138,7 +257,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             b = getIntent().getExtras();
         }
 
-        final CircleImageView profile = (CircleImageView) header.findViewById(R.id.headerProfile);
+        profile = (CircleImageView) header.findViewById(R.id.headerProfile);
         final TextView head_name = (TextView) header.findViewById(R.id.headertitle);
 
 
@@ -272,9 +391,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-            }catch (Exception e)
+            }catch (Exception e1)
             {
-                e.printStackTrace();
+                e1.printStackTrace();
             }
         }
 
@@ -495,6 +614,57 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onStart() {
         super.onStart();
+
+        comparebean be = (comparebean)getApplicationContext();
+
+        String SUB_CATEGORY = "http://nationproducts.in/";
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(SUB_CATEGORY)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        final CompareAPI request = retrofit.create(CompareAPI.class);
+
+        Call<profileBean> call = request.getProfile(be.user_id);
+
+        Log.d("asduserId" , be.user_id);
+
+        call.enqueue(new Callback<profileBean>() {
+            @Override
+            public void onResponse(Call<profileBean> call, Response<profileBean> response) {
+
+
+
+                try {
+
+                    ImageLoader loader = ImageLoader.getInstance();
+
+                    if (response.body().getUserImage().length()>0)
+                    {
+                        loader.displayImage(response.body().getUserImage() , profile);
+                    }
+
+
+
+
+
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<profileBean> call, Throwable t) {
+
+            }
+        });
+
+
+
+
         mGoogleApiClient.connect();
     }
 
