@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -405,9 +406,9 @@ public class MainList extends AppCompatActivity {
                 holder = (ViewHolder) row.getTag();
             }
             final addListBean item = list.get(position);
-            holder.listtName.setText("Name: "+item.getListName());
-            holder.listtCreatedTime.setText("Date: "+item.getCreatedTime());
-            holder.listttotal.setText("Total: "+item.getTotalItem());
+            holder.listtName.setText(Html.fromHtml("<b>Name:</b> "+item.getListName()));
+            holder.listtCreatedTime.setVisibility(View.GONE);
+            holder.listttotal.setVisibility(View.GONE);
             holder.listtidd.setText("Id: "+item.getListId());
 
 

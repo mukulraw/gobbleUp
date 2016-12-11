@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'gobble'
             keyPassword 'Zedistark1@'
-            storeFile file('C:/Users/mukul/Desktop/KeyStore.jks')
+            storeFile file('E:/mukul_important/Dont_delete_this_folder/android_keystore/KeyStore.jks')
             storePassword 'Zedistark1@'
         }
     }
@@ -65,8 +65,7 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-scalars:2.1.0'
     compile 'com.github.amlcurran.showcaseview:library:5.4.3'
     compile 'com.jakewharton:butterknife:8.2.1'
-    compile ('com.andreabaccega:android-form-edittext:1.3.+')
-
+    compile 'com.andreabaccega:android-form-edittext:1.3.+'
     apt 'com.jakewharton:butterknife-compiler:8.2.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha4'
     testCompile 'junit:junit:4.12'

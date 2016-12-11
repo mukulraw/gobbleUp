@@ -12,19 +12,40 @@
         android:orientation="vertical"
         >
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/search_box_back"
+            >
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="18dp"
+        android:paddingTop="18dp"
+        android:paddingBottom="18dp"
+        android:paddingStart="18dp"
+        android:paddingEnd="10dp"
+        android:layout_marginEnd="34dp"
         android:hint="@string/gobble_search"
 
-        android:background="@drawable/search_box_back"
+
         android:id="@+id/searchBar"
         android:inputType="text"
         tools:ignore="LabelFor" />
 
 
+            <ImageButton
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:id="@+id/clear_search"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="10dp"
+                android:background="@drawable/cross2"
+                android:layout_gravity="center_vertical|end"
+                android:contentDescription="Clear" />
 
+        </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"

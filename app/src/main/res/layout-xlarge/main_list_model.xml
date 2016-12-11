@@ -6,7 +6,7 @@
     card_view:cardUseCompatPadding="true"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
 
-    android:minHeight="?attr/listPreferredItemHeight"
+
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -36,9 +36,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:paddingTop="5dp"
+
                 android:textSize="24sp"
-                android:paddingBottom="5dp"
+                android:padding="18dp"
                 android:layout_marginTop="10dp"
                 android:text="New Text"
                 android:id="@+id/addlistlistName" />

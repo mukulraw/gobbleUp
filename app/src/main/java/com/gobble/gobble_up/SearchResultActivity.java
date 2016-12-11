@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -48,6 +49,7 @@ public class SearchResultActivity extends AppCompatActivity implements TextWatch
     SearchAdapter adapter;
     private RecyclerView lv;
 
+    ImageButton clear;
     GridLayoutManager manager;
 
     @Override
@@ -55,6 +57,7 @@ public class SearchResultActivity extends AppCompatActivity implements TextWatch
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result);
 
+        clear = (ImageButton)findViewById(R.id.clear_search);
 
         original = new ArrayList<>();
         original.clear();
@@ -62,7 +65,7 @@ public class SearchResultActivity extends AppCompatActivity implements TextWatch
         String GET_ALL = "http://nationproducts.in/global/api/searchproduct";
         //new connect(GET_ALL).execute();
 
-        EditText searchbar = (EditText) findViewById(R.id.searchBar);
+        final EditText searchbar = (EditText) findViewById(R.id.searchBar);
 
         lv = (RecyclerView) findViewById(R.id.search_list);
 
@@ -104,6 +107,18 @@ public class SearchResultActivity extends AppCompatActivity implements TextWatch
             }
         });
 */
+
+        clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                searchbar.setText("");
+                handleIntent(null);
+
+
+            }
+        });
+
         searchbar.addTextChangedListener(this);
 
     }
@@ -209,7 +224,7 @@ public class SearchResultActivity extends AppCompatActivity implements TextWatch
     @Override
     public void afterTextChanged(Editable s) {
 
-        handleIntent(null);
+        handleIntent(s.toString());
 
     }
 

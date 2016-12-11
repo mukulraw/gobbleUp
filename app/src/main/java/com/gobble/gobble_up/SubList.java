@@ -585,7 +585,7 @@ public class SubList extends AppCompatActivity {
 
                                 final Dialog dialog = new Dialog(SubList.this);
                                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                                dialog.setContentView(R.layout.delete_list_dialog);
+                                dialog.setContentView(R.layout.delete_item_dialog);
                                 dialog.setCancelable(false);
                                 dialog.show();
 
