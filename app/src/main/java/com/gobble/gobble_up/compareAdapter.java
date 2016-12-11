@@ -46,7 +46,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 class compareAdapter extends RecyclerView.Adapter<compareAdapter.RecycleViewHolder> implements ItemTouchHelperAdapter{
     private final Context context;
     ArrayList<Model> list = new ArrayList<>();
-
+    Toast toast;
     TextView a;
 
     compareAdapter(Context context, ArrayList<Model> list)
@@ -65,12 +65,14 @@ class compareAdapter extends RecyclerView.Adapter<compareAdapter.RecycleViewHold
 
     @Override
     public compareAdapter.RecycleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        @SuppressLint("InflateParams") View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.compare_model, null);
+        View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.compare_model, null);
         return new RecycleViewHolder(layoutView);
     }
 
     @Override
     public void onBindViewHolder(final RecycleViewHolder holder, int position) {
+
+        toast = Toast.makeText(context , null , Toast.LENGTH_SHORT);
 
         final Model model = list.get(position);
         holder.setIsRecyclable(false);
@@ -148,7 +150,9 @@ class compareAdapter extends RecyclerView.Adapter<compareAdapter.RecycleViewHold
                             b.comparecount++;
 
                             holder.add.setTextColor(context.getResources().getColor(R.color.colorAccent));
-                            Toast.makeText(context , "Added in Basket" , Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(context , "Added in Basket" , Toast.LENGTH_SHORT).show();
+                            toast.setText("Added in Basket");
+                            toast.show();
                         }
                         else
                         {
@@ -173,7 +177,10 @@ class compareAdapter extends RecyclerView.Adapter<compareAdapter.RecycleViewHold
 
                             holder.add.setTextColor(context.getResources().getColor(R.color.grey));
 
-                            Toast.makeText(context , "Removed from Basket" , Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(context , "Removed from Basket" , Toast.LENGTH_SHORT).show();
+
+                            toast.setText("Removed from Basket");
+                            toast.show();
 
                         }
 

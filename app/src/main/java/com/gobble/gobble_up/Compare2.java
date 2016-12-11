@@ -327,6 +327,10 @@ public class Compare2 extends AppCompatActivity {
             listview.setAdapter(adapter);
             listview.setLayoutManager(layoutManager);
 
+            bar.setVisibility(View.GONE);
+
+            listview.setVisibility(View.VISIBLE);
+
             //adapter.setGridData(b.list);
 
 

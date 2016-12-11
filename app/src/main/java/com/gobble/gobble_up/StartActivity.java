@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -76,6 +77,7 @@ public class StartActivity extends AppCompatActivity implements GoogleApiClient.
     String nn = null;
     Toast toast;
     String pp = null;
+    ProgressBar loading;
     final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
     private GoogleApiClient mGoogleApiClient;
     private AccessTokenTracker accessTokenTracker;
@@ -105,6 +107,7 @@ public class StartActivity extends AppCompatActivity implements GoogleApiClient.
 
 
 
+                        loading.setVisibility(View.VISIBLE);
 
                         new login(e , p).execute();
 
@@ -124,6 +127,9 @@ public class StartActivity extends AppCompatActivity implements GoogleApiClient.
 
         setContentView(R.layout.activity_start);
 
+
+
+        loading = (ProgressBar)findViewById(R.id.first_loading);
 
 
         toast = Toast.makeText(this , null , Toast.LENGTH_SHORT);
@@ -296,6 +302,7 @@ public class StartActivity extends AppCompatActivity implements GoogleApiClient.
 
 
 
+            loading.setVisibility(View.VISIBLE);
 
             new login(e , p).execute();
 
@@ -500,6 +507,9 @@ public class StartActivity extends AppCompatActivity implements GoogleApiClient.
                 }
                 i.putExtra("id" , idd);
                 i.putExtra("name" , name);
+
+                loading.setVisibility(View.GONE);
+
                 startActivity(i);
                 finish();
             }
@@ -508,6 +518,7 @@ public class StartActivity extends AppCompatActivity implements GoogleApiClient.
                 //Toast.makeText(getApplicationContext() , "Invalid Email Id or Password" , Toast.LENGTH_SHORT).show();
                 toast.setText("Invalid Email Id or Password");
                 toast.show();
+                loading.setVisibility(View.GONE);
             }
 
             super.onPostExecute(aVoid);
