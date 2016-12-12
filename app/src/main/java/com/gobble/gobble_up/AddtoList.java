@@ -54,6 +54,13 @@ public class AddtoList extends AppCompatActivity {
 
     ArrayList<addListBean> list;
 
+
+
+
+    Dialog addDialog;
+
+
+
     DBHandler handler;
 
     ConnectionDetector cd;
@@ -68,6 +75,11 @@ public class AddtoList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addto_list);
+
+        addDialog = new Dialog(this);
+        addDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        addDialog.setCancelable(false);
+        addDialog.setContentView(R.layout.adding_dialog);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
@@ -181,8 +193,10 @@ public class AddtoList extends AppCompatActivity {
 
 
                         bar.setVisibility(View.VISIBLE);
-                        Toast.makeText(getApplicationContext() , "Adding..." , Toast.LENGTH_SHORT).show();
-                        Toast.makeText(getApplicationContext() , "Please Wait" , Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext() , "Adding..." , Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext() , "Please Wait" , Toast.LENGTH_SHORT).show();
+
+                        addDialog.show();
 
                         dialog.dismiss();
 
@@ -278,6 +292,8 @@ public class AddtoList extends AppCompatActivity {
 
             if (idd!=null)
             {
+                addDialog.show();
+
                 for (int i = 0 ; i<b.tempList.size() ; i++)
                 {
                     new addToList(idd , String.valueOf(b.tempList.get(i).getId()) , "1").execute();
@@ -286,8 +302,10 @@ public class AddtoList extends AppCompatActivity {
 
 
                 bar.setVisibility(View.VISIBLE);
-                Toast.makeText(getApplicationContext() , "Adding..." , Toast.LENGTH_SHORT).show();
-                Toast.makeText(getApplicationContext() , "Please Wait" , Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext() , "Adding..." , Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext() , "Please Wait" , Toast.LENGTH_SHORT).show();
+
+
 
             }
 
@@ -723,13 +741,16 @@ public class AddtoList extends AppCompatActivity {
             //refresh();
 
 
-            Toast.makeText(getApplicationContext() , "Added Successfully" , Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext() , "Added Successfully" , Toast.LENGTH_SHORT).show();
 
             bar.setVisibility(View.GONE);
 
             Intent resultIntent = getIntent();
             resultIntent.putExtra("result","result");
             setResult(RESULT_OK , resultIntent);
+
+            addDialog.dismiss();
+
             finish();
 
             //adapter.setGridData(list);

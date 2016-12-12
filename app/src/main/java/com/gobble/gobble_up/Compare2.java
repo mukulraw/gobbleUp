@@ -288,7 +288,8 @@ public class Compare2 extends AppCompatActivity {
 
     private void checkList()
     {
-        if (list.size() < 1)
+        comparebean b = (comparebean)getApplicationContext();
+        if (b.list.size() < 1)
         {
             finish();
         }

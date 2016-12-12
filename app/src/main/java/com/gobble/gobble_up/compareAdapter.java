@@ -72,6 +72,8 @@ class compareAdapter extends RecyclerView.Adapter<compareAdapter.RecycleViewHold
     @Override
     public void onBindViewHolder(final RecycleViewHolder holder, int position) {
 
+        holder.setIsRecyclable(false);
+
         toast = Toast.makeText(context , null , Toast.LENGTH_SHORT);
 
         final Model model = list.get(position);
@@ -84,109 +86,135 @@ class compareAdapter extends RecyclerView.Adapter<compareAdapter.RecycleViewHold
 
 
 
+        String SUB_CATEGORY = "http://nationproducts.in/";
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(SUB_CATEGORY)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        final CompareAPI request = retrofit.create(CompareAPI.class);
 
 
+
+        Call<ArrayList<CompareModel>> call = request.getBooks(model.getId());
+
+        call.enqueue(new Callback<ArrayList<CompareModel>>() {
+            @Override
+            public void onResponse(Call<ArrayList<CompareModel>> call, Response<ArrayList<CompareModel>> response) {
+
+                // Log.d("asdasdasd" , response.body().toString());
                 ImageLoader imageLoader = ImageLoader.getInstance();
 
+                final CompareModel item = response.body().get(0);
 
                 //final CompareModel model = response.body().get(0);
 
 
                 a = holder.add;
 
-                imageLoader.displayImage(model.getImage() , holder.image , options);
+                imageLoader.displayImage(item.getImage() , holder.image , options);
                 Animation animation = AnimationUtils.loadAnimation(context , R.anim.fade);
                 holder.image.startAnimation(animation);
 
-                holder.price.setText(model.getPrice());
-                holder.name.setText(model.getName());
-                holder.calories.setText(Html.fromHtml(model.getNutration().get(0).getValue()));
+                holder.price.setText(item.getPrice());
+                holder.name.setText(item.getName());
+                holder.calories.setText(Html.fromHtml(item.getNutration().get(0).getValue()));
                 //holder.calories.setText("<b>Calories:   </b>"+item.getCalories());
-                holder.fat.setText(Html.fromHtml(model.getNutration().get(1).getValue() + " g"));
-                holder.carbs.setText(Html.fromHtml(model.getNutration().get(2).getValue() + " g"));
-                holder.protein.setText(Html.fromHtml(model.getNutration().get(3).getValue() + " g"));
-                holder.sodium.setText(Html.fromHtml(model.getNutration().get(4).getValue() + " mg"));
-                holder.potassium.setText(Html.fromHtml(model.getNutration().get(5).getValue() + " mg"));
-                holder.fiber.setText(Html.fromHtml(model.getNutration().get(6).getValue() + " g"));
-                holder.sugar.setText(Html.fromHtml(model.getNutration().get(7).getValue() + " g"));
-                holder.vita.setText(Html.fromHtml(model.getNutration().get(8).getValue() + " %"));
-                holder.vitc.setText(Html.fromHtml(model.getNutration().get(9).getValue() + " %"));
-                holder.calcium.setText(Html.fromHtml(model.getNutration().get(10).getValue()));
-                holder.iron.setText(Html.fromHtml(model.getNutration().get(11).getValue() + " %"));
+                holder.fat.setText(Html.fromHtml(item.getNutration().get(1).getValue() + " g"));
+                holder.carbs.setText(Html.fromHtml(item.getNutration().get(2).getValue() + " g"));
+                holder.protein.setText(Html.fromHtml(item.getNutration().get(3).getValue() + " g"));
+                holder.sodium.setText(Html.fromHtml(item.getNutration().get(4).getValue() + " mg"));
+                holder.potassium.setText(Html.fromHtml(item.getNutration().get(5).getValue() + " mg"));
+                holder.fiber.setText(Html.fromHtml(item.getNutration().get(6).getValue() + " g"));
+                holder.sugar.setText(Html.fromHtml(item.getNutration().get(7).getValue() + " g"));
+                holder.vita.setText(Html.fromHtml(item.getNutration().get(8).getValue() + " %"));
+                holder.vitc.setText(Html.fromHtml(item.getNutration().get(9).getValue() + " %"));
+                holder.calcium.setText(Html.fromHtml(item.getNutration().get(10).getValue()));
+                holder.iron.setText(Html.fromHtml(item.getNutration().get(11).getValue() + " %"));
 
 
-                final comparebean b = (comparebean)context.getApplicationContext();
+
+
+
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<CompareModel>> call, Throwable t) {
+                //Log.d("Error",t.getMessage());
+            }
+        });
+
+
+
+        final comparebean b = (comparebean)context.getApplicationContext();
+        for (int i = 0 ; i<b.tempList.size() ; i++)
+        {
+            if (Objects.equals(model.getId(), b.tempList.get(i).getId()))
+            {
+                holder.add.setTextColor(context.getResources().getColor(R.color.colorAccent));
+            }
+        }
+
+
+        holder.add.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                int flag = 0;
+
+
                 for (int i = 0 ; i<b.tempList.size() ; i++)
                 {
                     if (Objects.equals(model.getId(), b.tempList.get(i).getId()))
                     {
-                        holder.add.setTextColor(context.getResources().getColor(R.color.colorAccent));
+                        flag++;
                     }
                 }
 
 
-                holder.add.setOnClickListener(new View.OnClickListener() {
+                if (flag <1)
+                {
+                    Model item1 = new Model();
+                    item1.setId(model.getId());
+                    b.tempList.add(item1);
+                    b.comparecount++;
 
-                    @Override
-                    public void onClick(View v) {
+                    holder.add.setTextColor(context.getResources().getColor(R.color.colorAccent));
+                    //Toast.makeText(context , "Added in Basket" , Toast.LENGTH_SHORT).show();
+                    toast.setText("Added in Basket");
+                    toast.show();
+                }
+                else
+                {
+                    //Toast.makeText(context , "Already in list" , Toast.LENGTH_SHORT).show();
 
-                        int flag = 0;
 
 
-                        for (int i = 0 ; i<b.tempList.size() ; i++)
+                    int index = 0;
+                    int l = b.tempList.size();
+                    for (int i = 0 ; i<l ; i++)
+                    {
+                        if (Objects.equals(model.getId(), b.tempList.get(i).getId()))
                         {
-                            if (Objects.equals(model.getId(), b.tempList.get(i).getId()))
-                            {
-                                flag++;
-                            }
+                            index = i;
                         }
-
-
-                        if (flag <1)
-                        {
-                            Model item1 = new Model();
-                            item1.setId(model.getId());
-                            b.tempList.add(item1);
-                            b.comparecount++;
-
-                            holder.add.setTextColor(context.getResources().getColor(R.color.colorAccent));
-                            //Toast.makeText(context , "Added in Basket" , Toast.LENGTH_SHORT).show();
-                            toast.setText("Added in Basket");
-                            toast.show();
-                        }
-                        else
-                        {
-                            //Toast.makeText(context , "Already in list" , Toast.LENGTH_SHORT).show();
-
-
-
-                            int index = 0;
-                            int l = b.tempList.size();
-                            for (int i = 0 ; i<l ; i++)
-                            {
-                                if (Objects.equals(model.getId(), b.tempList.get(i).getId()))
-                                {
-                                    index = i;
-                                }
-                            }
-
-
-                            b.tempList.remove(index);
-                            b.comparecount--;
-
-
-                            holder.add.setTextColor(context.getResources().getColor(R.color.grey));
-
-                            //Toast.makeText(context , "Removed from Basket" , Toast.LENGTH_SHORT).show();
-
-                            toast.setText("Removed from Basket");
-                            toast.show();
-
-                        }
-
                     }
 
 
+                    b.tempList.remove(index);
+                    b.comparecount--;
+
+
+                    holder.add.setTextColor(context.getResources().getColor(R.color.grey));
+
+                    //Toast.makeText(context , "Removed from Basket" , Toast.LENGTH_SHORT).show();
+
+                    toast.setText("Removed from Basket");
+                    toast.show();
+
+                }
+
+            }
 
 
 
@@ -201,7 +229,20 @@ class compareAdapter extends RecyclerView.Adapter<compareAdapter.RecycleViewHold
 
 
 
-                });
+
+
+        });
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -260,7 +301,7 @@ class compareAdapter extends RecyclerView.Adapter<compareAdapter.RecycleViewHold
 
         comparebean b = (comparebean)context.getApplicationContext();
         b.list.remove(position);
-        list.remove(position);
+        //list.remove(position);
         notifyItemRemoved(position);
         notifyDataSetChanged();
 

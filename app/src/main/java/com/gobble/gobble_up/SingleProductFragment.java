@@ -106,7 +106,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
 
     private TextView brand , price_single , calories_single , description ;
     private String GET_REVIEWS = "http://nationproducts.in/global/api/productreviews/id/";
-    private BarChart barChart;
+    private HorizontalBarChart barChart;
     String pId;
     ProgressBar barr;
 
@@ -158,7 +158,7 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
         barr = (ProgressBar)view.findViewById(R.id.bbaarr);
 
         compare = (Button)view.findViewById(R.id.addtocompare);
-        barChart = (BarChart)view.findViewById(R.id.bar_chart);
+        barChart = (HorizontalBarChart) view.findViewById(R.id.bar_chart);
 
 
 
@@ -412,6 +412,11 @@ public class SingleProductFragment extends Fragment implements View.OnClickListe
                     if (b.list.size() < 4)
                     {
                         item.setId(iidd);
+
+
+
+
+
                         b.list.add(item);
                         b.comparecount++;
                         compare.setBackground(getResources().getDrawable(R.drawable.dark));
