@@ -69,6 +69,7 @@ public class SubCatFragment extends Fragment {
     String name;
     Toast toast;
     private boolean sort_flag = false;
+    boolean isBrand = false;
 
     static SubCatFragment newInstance(int page, String id) {
         Bundle args = new Bundle();
@@ -176,14 +177,14 @@ public class SubCatFragment extends Fragment {
                 TextView brandFilter = (TextView)dialog.findViewById(R.id.brand_filter);
 
                 final List<String> blist = new ArrayList<String>();
-                final brandAdapter[] adapter1 = new brandAdapter[1];
+                final brandAdapter adapter1;
                 final Set<String> s = new HashSet<String>();
                 final RadioGroup rg = (RadioGroup)dialog.findViewById(R.id.radio_group_pricer);
                 final RadioGroup rg2 = (RadioGroup)dialog.findViewById(R.id.radio_group_brand);
                 final RecyclerView brandList = (RecyclerView)dialog.findViewById(R.id.brand_list);
 
 
-
+                adapter1 = new brandAdapter(getContext() , blist , subList);
 
 
 
@@ -213,26 +214,35 @@ public class SubCatFragment extends Fragment {
 
                             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
                             brandList.setLayoutManager(layoutManager);
-
+                            brandList.setAdapter(adapter1);
+                            blist.clear();
 
                             for ( int i = 0 ; i < list1.size() ; i++)
                             {
 
 //                                item.setName(list1.get(i).getBrand());
 
-
-
-
-
                                 blist.add(list1.get(i).getBrand());
+
                             }
 
                             s.addAll(blist);
                             blist.clear();
                             blist.addAll(s);
 
-                            adapter1[0] = new brandAdapter(getContext() , blist , subList);
-                            brandList.setAdapter(adapter1[0]);
+                            if (isBrand)
+                            {
+                                //adapter1 = new brandAdapter(getContext() , blist , subList);
+                                adapter1.setGridData(blist);
+                            }
+                            else
+                            {
+
+                                //adapter1 = new brandAdapter(getContext() , blist , new ArrayList<Model>());
+                                adapter1.setGridData(blist);
+                            }
+
+
 
 
 
@@ -379,16 +389,17 @@ public class SubCatFragment extends Fragment {
                             }
 
 
+                            isBrand = false;
+
                         }
 
                         if (rg2.getVisibility() == View.VISIBLE)
                         {
-                            List<String> checkedList = adapter1[0].getCheckedIds();
 
 
+                            List<String> checkedList = adapter1.getCheckedIds();
 
-
-
+                            Log.d("asdasdasdasdasd" , String.valueOf(checkedList.size()));
 
                             if (checkedList.size()>0)
                             {
@@ -429,6 +440,7 @@ public class SubCatFragment extends Fragment {
                             }
 
 
+                            isBrand = true;
 
 
 
@@ -436,12 +448,6 @@ public class SubCatFragment extends Fragment {
 
 
                         }
-
-
-
-
-
-
                     }
                 });
 

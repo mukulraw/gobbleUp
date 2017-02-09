@@ -157,12 +157,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-                    } catch (PackageManager.NameNotFoundException e) {
+                    } catch (PackageManager.NameNotFoundException | NullPointerException e) {
                         e.printStackTrace();
                     }
-
-
-
 
 
                 }

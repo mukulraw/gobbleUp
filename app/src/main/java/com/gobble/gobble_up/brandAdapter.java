@@ -58,12 +58,34 @@ class brandAdapter extends RecyclerView.Adapter<brandAdapter.ViewHolder> {
 
         holder.tv.setText(brand);
 
+        clist.clear();
+
         for (int i = 0 ; i < l2.size() ; i++)
         {
             if (Objects.equals(l2.get(i).getBrand(), brand))
             {
                 holder.box.setChecked(true);
-                clist.add(list.get(holder.getAdapterPosition()));
+
+                int flash = 0;
+
+                for (int j = 0 ; j < clist.size() ; j++)
+                {
+                    if (Objects.equals(clist.get(j), brand))
+                    {
+                        flash++;
+                    }
+                }
+
+                if (flash == 0)
+                {
+                    clist.add(list.get(holder.getAdapterPosition()));
+                }
+
+            }
+            else
+            {
+                holder.box.setChecked(false);
+                //clist.remove(list.get(holder.getAdapterPosition()));
             }
         }
 
@@ -94,7 +116,7 @@ class brandAdapter extends RecyclerView.Adapter<brandAdapter.ViewHolder> {
 
                     //compoundButton.toggle();
                 }
-                else
+                if (!holder.box.isChecked())
                 {
                     clist.remove(list.get(holder.getAdapterPosition()));
                     //compoundButton.toggle();
